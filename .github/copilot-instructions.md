@@ -1,3 +1,3 @@
 # pt-ekklesia-docs
 
-Platform documentation site. Content lives in this repo and is published to the developer portal.
+Platform documentation site published via GitBook. Content follows GitBook syntax, which may differ from standard Markdown — do not apply standard Markdown linting rules to this repo.
