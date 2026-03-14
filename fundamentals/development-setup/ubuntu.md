@@ -18,10 +18,10 @@ This is optional but will allow for `sudo` access without entering a password.
 echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo EDITOR='tee -a' visudo
 ```
 
-This script is in the [osinfra-io/local-development-setup](https://github.com/osinfra-io/local-development-setup) repo.
+This script is in the [pt-techne-development-setup](https://github.com/osinfra-io/pt-techne-development-setup) repo.
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/osinfra-io/local-development-setup/main/ubuntu/setup.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/osinfra-io/pt-techne-development-setup/main/ubuntu/setup.sh)"
 ```
 
 Change your default shell to Zsh exit and restart.

@@ -26,16 +26,16 @@ A block is a container for other content.
 
 #### Block types should be in the following order and grouped with like types.
 
-* [Providers](https://www.terraform.io/language/providers): OpenTofu relies on " providers " plugins to interact with cloud providers, SaaS providers, and other APIs.
-* [Data Sources](https://www.terraform.io/language/data-sources): _Data sources_ allow OpenTofu to use the information defined outside of OpenTofu, defined by another separate OpenTofu configuration, or modified by functions.
-* [Modules](https://www.terraform.io/language/modules): _Modules_ are containers for multiple resources that are used together. A module consists of a collection of `.tf` files in a directory.
-* [Resources](https://www.terraform.io/language/resources): _Resources_ are the most crucial element in the OpenTofu language. Each resource block describes one or more infrastructure objects, such as virtual networks, compute instances, or higher-level components, such as DNS records.
+* [Providers](https://opentofu.org/docs/language/providers/): OpenTofu relies on "providers" plugins to interact with cloud providers, SaaS providers, and other APIs.
+* [Data Sources](https://opentofu.org/docs/language/data-sources/): _Data sources_ allow OpenTofu to use the information defined outside of OpenTofu, defined by another separate OpenTofu configuration, or modified by functions.
+* [Modules](https://opentofu.org/docs/language/modules/): _Modules_ are containers for multiple resources that are used together. A module consists of a collection of `.tofu` files in a directory.
+* [Resources](https://opentofu.org/docs/language/resources/): _Resources_ are the most crucial element in the OpenTofu language. Each resource block describes one or more infrastructure objects, such as virtual networks, compute instances, or higher-level components, such as DNS records.
 
 ### Variables
 
-[Variables ](https://developer.hashicorp.com/terraform/language/values/variables)in OpenTofu define reusable and configurable values to parameterize your configuration.
+[Variables](https://opentofu.org/docs/language/values/variables/) in OpenTofu define reusable and configurable values to parameterize your configuration.
 
-#### Variables should be in alphabetical order. Keeping Terraform variables in alphabetical order has a few practical benefits:
+#### Variables should be in alphabetical order. Keeping OpenTofu variables in alphabetical order has a few practical benefits:
 
 * **More straightforward Navigation**: Finding variables becomes much faster, especially in large files, as they are easier to locate when sorted alphabetically.
 * **Improved Readability**: A consistent structure enhances readability for others working on the same code, making it easier to understand and maintain.

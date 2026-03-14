@@ -11,7 +11,7 @@ description: >-
 [GitHub Codespaces](https://github.com/features/codespaces) provides cloud-hosted development environments for any activity - whether a long-term project or a short-term task like reviewing a pull request. You can connect to Codespaces from Visual Studio Code or a browser-based editor accessible anywhere.
 
 {% hint style="info" %}
-This [repository](https://github.com/osinfra-io/github-terraform-codespace) has an example GitHub Codespace for Infrastructure as Code (IaC) development. We recommend forking the repository for use. Its purpose is to be a baseline, something you can maintain and modify to fit your organization's needs.
+The [pt-techne-opentofu-codespace](https://github.com/osinfra-io/pt-techne-opentofu-codespace) repository provides a GitHub Codespace for Infrastructure as Code (IaC) development. We recommend forking the repository for use. Its purpose is to be a baseline, something you can maintain and modify to fit your organization's needs.
 {% endhint %}
 
 ## Install the GitHub Codespaces Extension
