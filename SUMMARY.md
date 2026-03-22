@@ -3,7 +3,6 @@
 ## Overview
 
 * [Welcome!](README.md)
-  * [Overview](overview/readme/fundamentals.md)
   * [Team Norms](overview/readme/team-norms.md)
   * [Language](overview/readme/language.md)
 
