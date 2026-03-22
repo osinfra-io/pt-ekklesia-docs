@@ -23,11 +23,6 @@
     * [Coding Conventions](fundamentals/tools/opentofu/coding-conventions.md)
     * [Testing](fundamentals/tools/opentofu/testing.md)
 
-## Collaboration
-
-* [Platform Engineers](collaboration/platform-engineers.md)
-* [Software Engineers](collaboration/software-engineers.md)
-
 ## Teams
 
 * [Logos](teams/logos.md)
