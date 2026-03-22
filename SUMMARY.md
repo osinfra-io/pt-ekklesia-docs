@@ -19,7 +19,6 @@
 * [Tools](fundamentals/tools/README.md)
   * [GitHub](fundamentals/tools/github.md)
   * [OpenTofu](fundamentals/tools/opentofu/README.md)
-    * [Child Modules](fundamentals/tools/opentofu/child-modules.md)
     * [Coding Conventions](fundamentals/tools/opentofu/coding-conventions.md)
     * [Testing](fundamentals/tools/opentofu/testing.md)
 
@@ -44,6 +43,7 @@
   * [Istio](teams/pneuma/istio.md)
   * [Datadog Operator](teams/pneuma/datadog-operator.md)
   * [Gatekeeper](teams/pneuma/gatekeeper.md)
-* [Arche](teams/arche.md)
+* [Arche](teams/arche/README.md)
+  * [OpenTofu Child Modules](teams/arche/opentofu-child-modules.md)
 * [Ekklesia](teams/ekklesia.md)
 * [Techne](teams/techne.md)
