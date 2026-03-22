@@ -9,10 +9,6 @@ icon: cubes
 
 Arche provides the reusable OpenTofu child modules that Corpus, Pneuma, and Ekklesia build upon. The `pt-arche-core-helpers` module is foundational — it provides environment detection, resource labels, workspace parsing, and team naming for every module that consumes it.
 
-{% hint style="warning" %}
-We do not recommend consuming these child modules like you might a [public module](https://search.opentofu.org/). They aim to be a baseline, something you can fork, potentially maintain, and modify to fit your organization's needs. See [ADR-0003](../../fundamentals/architecture-decision-records/adr-0003.md) for the drivers behind this decision.
-{% endhint %}
-
 ## Catalog
 
 ### Core
