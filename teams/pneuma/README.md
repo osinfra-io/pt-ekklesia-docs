@@ -12,43 +12,6 @@ icon: wind
 
 Pneuma deploys and operates the Kubernetes runtime layer across multiple zones for high availability. It is the layer that brings the platform to life — running the workloads, enforcing policy, and providing the service mesh fabric that enables secure service-to-service communication.
 
-## Service Interfaces 🔩
-
-* [Add or update Kubernetes namespaces](https://github.com/osinfra-io/pt-pneuma/issues/new/choose)
-* [Other](https://github.com/osinfra-io/pt-pneuma/issues/new)
-
-## Response Times 🕙
-
-* Responsible team: [Platform - Pneuma](https://github.com/orgs/osinfra-io/teams/pt-pneuma)
-* Response time for incidents: `60 minutes`
-* Response time for other incidents: `120 minutes`
-* Response time for support: `60 minutes`
-* Response time for feedback: `30 minutes`
-
-## Roadmap 🗺️
-
-* Link to the roadmap: [GitHub Project](https://github.com/orgs/osinfra-io/projects/1/views/7)
-
-## Communication Channels 🗨️
-
-{% tabs %}
-{% tab title="Possible incident" %}
-Contact exclusively via:
-
-* Discord: [Platform - Pneuma](https://discord.gg/YPg4AmMDvF)
-* Phone number:
-{% endtab %}
-
-{% tab title="Support or provide feedback" %}
-Contact via any of these:
-
-* Discord: [Platform - Pneuma](https://discord.gg/YPg4AmMDvF)
-* Email address: [platform-pneuma@osinfra.io](mailto:platform-pneuma@osinfra.io)
-* Phone number:
-* Office hours (EST): `Weekdays 5:00PM - 10:00PM` `Weekends 8:00AM - 5:00PM`
-{% endtab %}
-{% endtabs %}
-
 ## Platform Repositories 🏗️
 
 <table data-card-size="large" data-view="cards" data-full-width="false"><thead><tr><th align="center"></th><th></th><th data-hidden data-card-cover data-type="files"></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td align="center">Pneuma</td><td>This repository manages GKE clusters, Istio service mesh, cert-manager, Datadog monitoring, OPA Gatekeeper, and namespace onboarding.</td><td><a href="../../.gitbook/assets/kubernetes-engine-card.png">kubernetes-engine-card.png</a></td><td><a href="https://github.com/osinfra-io/pt-pneuma">https://github.com/osinfra-io/pt-pneuma</a></td></tr></tbody></table>

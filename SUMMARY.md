@@ -11,6 +11,7 @@
 * [Architecture Decision Records](fundamentals/architecture-decision-records/README.md)
   * [ADR-0001](fundamentals/architecture-decision-records/adr-0001.md)
   * [ADR-0002](fundamentals/architecture-decision-records/adr-0001-1.md)
+* [Contributors](fundamentals/contributors.md)
 * [Development Setup](fundamentals/development-setup/README.md)
   * [Docker](fundamentals/development-setup/docker.md)
   * [GitHub Codespaces](fundamentals/development-setup/github-codespaces.md)
@@ -24,7 +25,6 @@
 
 ## Collaboration
 
-* [Contributors](collaboration/contributors.md)
 * [Platform Engineers](collaboration/platform-engineers.md)
 * [Software Engineers](collaboration/software-engineers.md)
 
