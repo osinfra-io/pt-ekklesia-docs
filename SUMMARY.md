@@ -21,7 +21,7 @@
   * [OpenTofu](fundamentals/tools/opentofu/README.md)
     * [Child Modules](fundamentals/tools/opentofu/child-modules.md)
     * [Coding Conventions](fundamentals/tools/opentofu/coding-conventions.md)
-  * [Testing](fundamentals/tools/testing/README.md)
+    * [Testing](fundamentals/tools/opentofu/testing.md)
 
 ## Collaboration
 
@@ -29,21 +29,21 @@
 * [Platform Engineers](collaboration/platform-engineers.md)
 * [Software Engineers](collaboration/software-engineers.md)
 
-## Product Guides
+## Teams
 
-* [Logos](product-guides/logos/README.md)
-* [Corpus](product-guides/corpus/README.md)
-  * [Resource Hierarchy and IAM](product-guides/corpus/resource-hierarchy-and-iam.md)
-  * [Networking](product-guides/corpus/networking.md)
-  * [Workload Identity](product-guides/corpus/workload-identity.md)
-  * [Audit Logging](product-guides/corpus/audit-logging.md)
-  * [State Backend](product-guides/corpus/state-backend.md)
-* [Pneuma](product-guides/pneuma/README.md)
-  * [Kubernetes Engine](product-guides/pneuma/kubernetes-engine.md)
-  * [cert-manager](product-guides/pneuma/cert-manager.md)
-  * [Istio](product-guides/pneuma/istio.md)
-  * [Datadog Operator](product-guides/pneuma/datadog-operator.md)
-  * [Gatekeeper](product-guides/pneuma/gatekeeper.md)
-* [Arche](product-guides/arche/README.md)
-* [Ekklesia](product-guides/ekklesia/README.md)
-* [Techne](product-guides/techne/README.md)
+* [Logos](teams/logos.md)
+* [Corpus](teams/corpus/README.md)
+  * [Resource Hierarchy and IAM](teams/corpus/resource-hierarchy-and-iam.md)
+  * [Networking](teams/corpus/networking.md)
+  * [Workload Identity](teams/corpus/workload-identity.md)
+  * [Audit Logging](teams/corpus/audit-logging.md)
+  * [State Backend](teams/corpus/state-backend.md)
+* [Pneuma](teams/pneuma/README.md)
+  * [Kubernetes Engine](teams/pneuma/kubernetes-engine.md)
+  * [cert-manager](teams/pneuma/cert-manager.md)
+  * [Istio](teams/pneuma/istio.md)
+  * [Datadog Operator](teams/pneuma/datadog-operator.md)
+  * [Gatekeeper](teams/pneuma/gatekeeper.md)
+* [Arche](teams/arche.md)
+* [Ekklesia](teams/ekklesia.md)
+* [Techne](teams/techne.md)
