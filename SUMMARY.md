@@ -44,6 +44,5 @@
   * [Datadog Operator](teams/pneuma/datadog-operator.md)
   * [Gatekeeper](teams/pneuma/gatekeeper.md)
 * [Arche](teams/arche/README.md)
-  * [OpenTofu Child Modules](teams/arche/opentofu-child-modules.md)
 * [Ekklesia](teams/ekklesia.md)
 * [Techne](teams/techne.md)
