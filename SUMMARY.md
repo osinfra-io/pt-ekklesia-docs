@@ -3,8 +3,6 @@
 ## Overview
 
 * [Welcome!](README.md)
-  * [Team Norms](overview/readme/team-norms.md)
-  * [Language](overview/readme/language.md)
 
 ## Fundamentals
 
@@ -25,6 +23,8 @@
 
 ## Teams
 
+* [Team Norms](teams/team-norms.md)
+* [Language](teams/language.md)
 * [Logos](teams/logos.md)
 * [Corpus](teams/corpus/README.md)
   * [Resource Hierarchy and IAM](teams/corpus/resource-hierarchy-and-iam.md)
