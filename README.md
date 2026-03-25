@@ -2,6 +2,7 @@
 description: Welcome to your team’s developer platform
 icon: book-skull
 coverY: 0
+coverHeight: 150
 layout:
   width: wide
   cover:
@@ -28,8 +29,6 @@ layout:
 <h2 align="center">Platform Teams</h2>
 
 <p align="center">A grouping of other team types that provide a compelling internal product to accelerate delivery by Stream-aligned teams</p>
-
-<p align="center"><a href="http://app.gitbook.com/join" class="button primary">Sign up</a> <a href="http://app.gitbook.com/join" class="button secondary">Log in</a></p>
 
 <table data-view="cards"><thead><tr><th></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><h4><i class="fa-hand-holding-skull">:hand-holding-skull:</i></h4></td><td><strong>Logos</strong></td><td>As the grounding stratum of the platform hierarchy, Logos encodes the organizational logic itself: the clear lines of access, the governance boundaries that restrain chaos, and the stable standards that enable higher-level systems to flourish.</td><td><a href="https://github.com/orgs/osinfra-io/teams/pt-logos">https://github.com/orgs/osinfra-io/teams/pt-logos</a></td></tr><tr><td><h4><i class="fa-skull">:skull:</i></h4></td><td><strong>Corpus</strong></td><td>Corpus is where structure becomes real, where governance becomes flesh, and where the platform’s foundational energies are harnessed so teams can build, act, and create within a world made stable enough for meaningful work.</td><td><a href="https://github.com/orgs/osinfra-io/teams/pt-corpus">https://github.com/orgs/osinfra-io/teams/pt-corpus</a></td></tr><tr><td><i class="fa-skull-crossbones">:skull-crossbones:</i></td><td><strong>Pneuma</strong></td><td>Pneuma is where infrastructure breathes — where the static order established by Logos and the tangible form given by Corpus are joined by living workloads. It is the atmosphere within which application teams move, build, and ship.</td><td><a href="https://github.com/orgs/osinfra-io/teams/pt-pneuma">https://github.com/orgs/osinfra-io/teams/pt-pneuma</a></td></tr><tr><td><i class="fa-skull-cow">:skull-cow:</i></td><td><strong>Arche</strong></td><td>The origin and first cause — the primordial source from which all platform foundations draw their initial form and essential nature.</td><td><a href="https://github.com/orgs/osinfra-io/teams/pt-arche">https://github.com/orgs/osinfra-io/teams/pt-arche</a></td></tr></tbody></table>
 

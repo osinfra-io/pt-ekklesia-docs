@@ -1,7 +1,7 @@
 ---
 description: >-
-  Reusable OpenTofu child modules consumed by all platform teams. They aim to be a baseline you can maintain and modify to fit your organization's needs.
-icon: cubes
+  Reusable OpenTofu child modules consumed by all platform teams. They aim to be
+  a baseline you can maintain and modify to fit your organization's needs.
 ---
 
 # OpenTofu Child Module Catalog
