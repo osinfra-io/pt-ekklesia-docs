@@ -1,7 +1,24 @@
 # pt-ekklesia-docs
 
-Platform documentation site published via GitBook. Content follows GitBook syntax, which may differ from standard Markdown — do not apply standard Markdown linting rules to this repo.
+Platform documentation site built with [Docusaurus](https://docusaurus.io) and deployed via GitHub Pages.
 
 ## Branching
 
-Commit directly to `main`. No pull requests or feature branches are needed for documentation changes.
+Follow standard GitHub Flow: branch off `main`, open a PR, merge after the test-deploy check passes.
+
+## Local Development
+
+```bash
+npm ci
+npm run start   # dev server at http://localhost:3000
+npm run build   # production build to verify before pushing
+```
+
+## Project Structure
+
+- `docs/` — Markdown documentation pages
+- `src/` — Custom pages and React components
+- `static/` — Static assets copied to build root (includes `CNAME` for custom domain)
+- `docusaurus.config.js` — Site configuration
+- `sidebars.js` — Docs sidebar structure
+
