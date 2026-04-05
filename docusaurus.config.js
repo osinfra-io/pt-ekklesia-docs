@@ -33,6 +33,7 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          routeBasePath: 'home',
           sidebarPath: './sidebars.js',
           editUrl:
             'https://github.com/osinfra-io/pt-ekklesia-docs/tree/main/',
@@ -72,7 +73,7 @@ const config = {
             items: [
               {
                 label: 'Getting Started',
-                to: '/docs/intro',
+                to: '/home/intro',
               },
             ],
           },
