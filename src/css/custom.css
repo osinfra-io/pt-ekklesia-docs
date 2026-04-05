@@ -1,21 +1,40 @@
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-color-primary: #ffb400;
+  --ifm-color-primary-dark: #e6a200;
+  --ifm-color-primary-darker: #d99900;
+  --ifm-color-primary-darkest: #b37e00;
+  --ifm-color-primary-light: #ffc233;
+  --ifm-color-primary-lighter: #ffc840;
+  --ifm-color-primary-lightest: #ffd873;
+  --ifm-background-color: #1e1e1e;
+  --ifm-background-surface-color: #232323;
+  --ifm-navbar-background-color: #232323;
+  --ifm-footer-background-color: #232323;
+  --ifm-toc-border-color: #353535;
+  --ifm-color-emphasis-300: #353535;
+  --ifm-font-color-base: #e0e0e0;
+  --ifm-heading-color: #ffffff;
+  --ifm-link-color: #ffb400;
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --docusaurus-highlighted-code-line-bg: rgba(255, 180, 0, 0.15);
 }
 
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-lighter: #29d5b0;
-  --ifm-color-primary-lightest: #32d8b4;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-color-primary: #ffb400;
+  --ifm-color-primary-dark: #e6a200;
+  --ifm-color-primary-darker: #d99900;
+  --ifm-color-primary-darkest: #b37e00;
+  --ifm-color-primary-light: #ffc233;
+  --ifm-color-primary-lighter: #ffc840;
+  --ifm-color-primary-lightest: #ffd873;
+  --ifm-background-color: #1e1e1e;
+  --ifm-background-surface-color: #232323;
+  --ifm-navbar-background-color: #232323;
+  --ifm-footer-background-color: #232323;
+  --ifm-toc-border-color: #353535;
+  --ifm-color-emphasis-300: #353535;
+  --ifm-font-color-base: #e0e0e0;
+  --ifm-heading-color: #ffffff;
+  --ifm-link-color: #ffb400;
+  --docusaurus-highlighted-code-line-bg: rgba(255, 180, 0, 0.2);
 }
