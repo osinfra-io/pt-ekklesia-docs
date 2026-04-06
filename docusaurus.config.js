@@ -17,6 +17,7 @@ const config = {
   onBrokenLinks: 'throw',
 
   markdown: {
+    mermaid: true,
     hooks: {
       onBrokenMarkdownLinks: 'warn',
     },
@@ -46,6 +47,19 @@ const config = {
     ],
   ],
 
+  themes: [
+    '@docusaurus/theme-mermaid',
+    [
+      '@easyops-cn/docusaurus-search-local',
+      /** @type {import("@easyops-cn/docusaurus-search-local").PluginOptions} */
+      ({
+        hashed: true,
+        docsRouteBasePath: '/home',
+        highlightSearchTermsOnTargetPage: true,
+      }),
+    ],
+  ],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -58,40 +72,43 @@ const config = {
         title: 'osinfra.io',
         items: [
           {
-            type: 'docSidebar',
-            sidebarId: 'docs',
+            to: '/',
+            label: 'Home',
             position: 'left',
-            label: 'Docs',
+            activeBaseRegex: '^/$',
+          },
+          {
+            type: 'dropdown',
+            label: 'Platform Teams',
+            position: 'left',
+            items: [
+              {label: 'Logos — Organization', to: '/home/platform-teams/logos'},
+              {label: 'Corpus — Infrastructure', to: '/home/platform-teams/corpus'},
+              {label: 'Pneuma — Kubernetes', to: '/home/platform-teams/pneuma'},
+              {label: 'Arche — Modules', to: '/home/platform-teams/arche'},
+              {label: 'Techne — Tooling', to: '/home/platform-teams/techne'},
+              {label: 'Ekklesia — Documentation', to: '/home/platform-teams/ekklesia'},
+            ],
+          },
+          {
+            type: 'dropdown',
+            label: 'Resources',
+            position: 'left',
+            items: [
+              {label: 'GitHub Organization', href: 'https://github.com/osinfra-io'},
+              {label: 'OpenTofu Docs', href: 'https://opentofu.org/docs/'},
+            ],
           },
           {
             href: 'https://github.com/osinfra-io',
-            label: 'GitHub',
             position: 'right',
+            className: 'header-github-link',
+            'aria-label': 'GitHub Organization',
           },
         ],
       },
       footer: {
         style: 'dark',
-        links: [
-          {
-            title: 'Docs',
-            items: [
-              {
-                label: 'Getting Started',
-                to: '/home/intro',
-              },
-            ],
-          },
-          {
-            title: 'Community',
-            items: [
-              {
-                label: 'GitHub',
-                href: 'https://github.com/osinfra-io',
-              },
-            ],
-          },
-        ],
         copyright: `Copyright © ${new Date().getFullYear()} osinfra.io`,
       },
       prism: {

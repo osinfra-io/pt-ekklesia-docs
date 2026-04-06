@@ -1,14 +1,100 @@
-.heroBanner {
-  padding: 4rem 0;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  background-color: #232323;
-  color: #e0e0e0;
+/* Hero */
+
+.hero {
+  padding: 5rem 2rem 4rem;
+  background-color: #1e1e1e;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
+.heroInner {
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.heroTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+}
+
+.heroTagline {
+  font-size: 1.4rem;
+  color: #ffb400;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.heroSubtitle {
+  font-size: 1.1rem;
+  color: #a0a0a0;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Features */
+
+.features {
+  padding: 4rem 0;
+  background-color: #232323;
+}
+
+.featureGrid {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.featureItem {
+  flex: 1;
+  max-width: 20rem;
+}
+
+.featureIcon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.featureTitle {
+  font-size: 1.1rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.featureDescription {
+  color: #a0a0a0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Call to Action */
+
+.cta {
+  padding: 3rem 0 5rem;
+  background-color: #1e1e1e;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 3rem 1.5rem;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroTagline {
+    font-size: 1.1rem;
+  }
+
+  .featureGrid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .featureItem {
+    max-width: none;
   }
 }
