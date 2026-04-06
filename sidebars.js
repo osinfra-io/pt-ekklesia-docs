@@ -16,6 +16,13 @@ const sidebars = {
         'platform-teams/ekklesia',
       ],
     },
+    {
+      type: 'category',
+      label: 'Stream-Aligned Teams',
+      items: [
+        'stream-aligned-teams/ethos',
+      ],
+    },
   ],
 };
 

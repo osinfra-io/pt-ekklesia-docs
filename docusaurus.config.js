@@ -70,6 +70,10 @@ const config = {
       },
       navbar: {
         title: 'osinfra.io',
+        logo: {
+          alt: 'osinfra.io logo',
+          src: 'img/logo.png',
+        },
         items: [
           {
             to: '/',
@@ -92,11 +96,10 @@ const config = {
           },
           {
             type: 'dropdown',
-            label: 'Resources',
+            label: 'Stream-Aligned Teams',
             position: 'left',
             items: [
-              {label: 'GitHub Organization', href: 'https://github.com/osinfra-io'},
-              {label: 'OpenTofu Docs', href: 'https://opentofu.org/docs/'},
+              {label: 'Ethos — Philosophy', to: '/home/stream-aligned-teams/ethos'},
             ],
           },
           {
@@ -108,7 +111,6 @@ const config = {
         ],
       },
       footer: {
-        style: 'dark',
         copyright: `Copyright © ${new Date().getFullYear()} osinfra.io`,
       },
       prism: {
