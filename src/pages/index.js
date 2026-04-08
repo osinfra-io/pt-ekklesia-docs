@@ -31,7 +31,7 @@ const cards = [
     icon: '🗺️',
     title: 'Explore the Platform',
     note: 'Understand the team topology — how the platform is organized, what each team owns, and how the layers fit together.',
-    link: '/teams',
+    link: '/platform-teams',
     linkText: 'See the teams →',
   },
   {
