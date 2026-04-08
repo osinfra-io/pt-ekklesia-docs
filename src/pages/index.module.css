@@ -8,6 +8,13 @@
 .heroInner {
   max-width: 48rem;
   margin: 0 auto;
+  text-align: center;
+}
+
+.heroLogo {
+  max-width: 22rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
 }
 
 .heroTitle {

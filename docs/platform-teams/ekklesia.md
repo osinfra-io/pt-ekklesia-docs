@@ -1,34 +1,10 @@
 ---
-sidebar_label: Ekklesia — Documentation
-description: Platform documentation powered by Docusaurus and deployed via GitHub Pages.
+sidebar_label: Ekklesia
+description: The assembly of the called-out — where distinct capabilities are gathered into a unified body, deliberating and acting in concert toward shared platform purpose.
 ---
 
-# Ekklesia — Documentation
+# Ekklesia
 
-Ekklesia manages the platform documentation:
+Ekklesia is the assembly of the called-out — where distinct capabilities are gathered into a unified body, deliberating and acting in concert toward shared platform purpose. This is that assembly.
 
-- **Docusaurus** — Static site generator for modern documentation
-- **GitHub Pages** — Hosting at [docs.osinfra.io](https://docs.osinfra.io)
-- **GitHub Actions** — Automated build and deployment on push to `main`
-- **Dark theme** — Custom dark color scheme with amber accents
-
-## Repository
-
-- [pt-ekklesia-docs](https://github.com/osinfra-io/pt-ekklesia-docs)
-
-## Local Development
-
-```bash
-npm ci
-npm run start
-```
-
-This starts a local development server at `http://localhost:3000`.
-
-## Build
-
-```bash
-npm run build
-```
-
-This generates the static site in the `build/` directory.
+- **[pt-ekklesia-docs](https://github.com/osinfra-io/pt-ekklesia-docs)** — Platform documentation powered by Docusaurus and deployed via GitHub Pages

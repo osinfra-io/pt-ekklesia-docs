@@ -15,12 +15,10 @@ const config = {
   trailingSlash: false,
 
   onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
 
   markdown: {
     mermaid: true,
-    hooks: {
-      onBrokenMarkdownLinks: 'warn',
-    },
   },
 
   i18n: {
@@ -34,7 +32,7 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          routeBasePath: 'home',
+          routeBasePath: '/',
           sidebarPath: './sidebars.js',
           editUrl:
             'https://github.com/osinfra-io/pt-ekklesia-docs/tree/main/',
@@ -54,7 +52,7 @@ const config = {
       /** @type {import("@easyops-cn/docusaurus-search-local").PluginOptions} */
       ({
         hashed: true,
-        docsRouteBasePath: '/home',
+        docsRouteBasePath: '/',
         highlightSearchTermsOnTargetPage: true,
       }),
     ],
@@ -76,37 +74,21 @@ const config = {
         },
         items: [
           {
-            to: '/',
-            label: 'Home',
+            to: '/platform-teams',
+            label: 'Teams',
             position: 'left',
-            activeBaseRegex: '^/$',
           },
           {
-            type: 'dropdown',
-            label: 'Platform Teams',
+            to: '/ecosystem',
+            label: 'Ecosystem',
             position: 'left',
-            items: [
-              {label: 'Logos — Organization', to: '/home/platform-teams/logos'},
-              {label: 'Corpus — Infrastructure', to: '/home/platform-teams/corpus'},
-              {label: 'Pneuma — Kubernetes', to: '/home/platform-teams/pneuma'},
-              {label: 'Arche — Modules', to: '/home/platform-teams/arche'},
-              {label: 'Techne — Tooling', to: '/home/platform-teams/techne'},
-              {label: 'Ekklesia — Documentation', to: '/home/platform-teams/ekklesia'},
-            ],
           },
           {
-            type: 'dropdown',
-            label: 'Stream-Aligned Teams',
-            position: 'left',
-            items: [
-              {label: 'Ethos — Philosophy', to: '/home/stream-aligned-teams/ethos'},
-            ],
-          },
-          {
-            href: 'https://github.com/osinfra-io',
+            href: 'https://github.com/sponsors/osinfra-io?frequency=one-time',
             position: 'right',
-            className: 'header-github-link',
-            'aria-label': 'GitHub Organization',
+            className: 'header-sponsor-link',
+            'aria-label': 'Sponsor osinfra.io',
+            label: 'Sponsor',
           },
         ],
       },

@@ -2,16 +2,15 @@
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
-  background-color: #232323;
-  border: 1px solid #353535;
-  border-radius: 0.5rem;
+  background-color: var(--ifm-background-surface-color);
+  border: none;
+  border-radius: var(--ifm-card-border-radius);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .card:hover {
   transform: translateY(-0.125rem);
   box-shadow: 0 0.25rem 0.75rem rgba(255, 180, 0, 0.1);
-  border-color: #ffb400;
 }
 
 .header {
@@ -29,19 +28,19 @@
   margin: 0;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--ifm-heading-color);
 }
 
 .note {
   margin: 0 0 1rem;
-  color: #a0a0a0;
+  color: var(--ifm-color-emphasis-700);
   font-size: 0.9rem;
   flex: 1;
 }
 
 .link {
   margin-top: auto;
-  color: #ffb400;
+  color: var(--ifm-color-primary);
   text-decoration: none;
   font-weight: 500;
   font-size: 0.9rem;
@@ -49,5 +48,5 @@
 
 .link:hover {
   text-decoration: underline;
-  color: #ffc840;
+  color: var(--ifm-color-primary-light);
 }

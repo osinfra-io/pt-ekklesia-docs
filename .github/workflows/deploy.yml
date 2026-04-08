@@ -5,10 +5,16 @@ on:
     branches:
       - main
 
+permissions: {}
+
 jobs:
   build:
     name: Build Docusaurus
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -16,14 +22,14 @@ jobs:
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          node-version: 20
-          cache: npm
+          node-version: 22
+          cache: yarn
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: Build website
-        run: npm run build
+        run: yarn build
 
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
@@ -35,8 +41,8 @@ jobs:
     needs: build
 
     permissions:
-      pages: write
       id-token: write
+      pages: write
 
     environment:
       name: github-pages
