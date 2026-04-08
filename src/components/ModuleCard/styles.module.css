@@ -42,7 +42,8 @@
   font-size: 0.85rem;
   font-weight: 600;
   margin-bottom: 0.4rem;
-  word-break: break-word;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .description {
