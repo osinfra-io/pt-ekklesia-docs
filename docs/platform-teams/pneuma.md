@@ -15,6 +15,7 @@ Pneuma is the breath of life animating the platform via Kubernetes — orchestra
 
 Pneuma consumes Corpus networking and Logos team data to create fully operational Kubernetes environments.
 
-## Repository
+## Repositories
 
 - [pt-pneuma](https://github.com/osinfra-io/pt-pneuma)
+- [pt-pneuma-istio-test](https://github.com/osinfra-io/pt-pneuma-istio-test) — Example Istio test application that displays GKE cluster information; deployed as a container image to Google Artifact Registry and run on GKE clusters managed by pt-pneuma

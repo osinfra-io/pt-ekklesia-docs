@@ -12,8 +12,8 @@ const sidebars = {
         'platform-teams/corpus',
         'platform-teams/pneuma',
         'platform-teams/arche',
-        'platform-teams/techne',
         'platform-teams/ekklesia',
+        'platform-teams/techne',
       ],
     },
     {

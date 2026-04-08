@@ -98,4 +98,12 @@ Arche is the origin and first cause — the primordial source from which all pla
       href="https://github.com/osinfra-io/pt-arche-datadog-google-integration"
     />
   </div>
+  <div className="col col--4 margin-bottom--lg">
+    <ModuleCard
+      image="/img/mirko-transparent.png"
+      title="pt-arche-child-module-template"
+      description="Cookiecutter skeleton and Copilot agent for creating new pt-arche-* OpenTofu child module repositories — collects module details, creates the GitHub repo, pushes skeleton files, and opens a PR on pt-logos to register the repo"
+      href="https://github.com/osinfra-io/pt-arche-child-module-template"
+    />
+  </div>
 </div>

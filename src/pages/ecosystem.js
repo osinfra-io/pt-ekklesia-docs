@@ -69,13 +69,19 @@ const categories = [
   },
   {
     id: 'observability',
-    label: 'Observability',
+    label: 'Observability & Security',
     tools: [
       {
         name: 'Datadog',
         logo: '/img/datadog.png',
         description: 'Unified observability — logs, metrics, APM, synthetic monitoring, CSPM, application security, and cloud cost management.',
         href: 'https://datadoghq.com',
+      },
+      {
+        name: 'Nuclei',
+        logo: '/img/nuclei.svg',
+        description: 'Fast, template-based vulnerability scanner used for scheduled security scanning of platform endpoints and APIs.',
+        href: 'https://projectdiscovery.io/nuclei',
       },
     ],
   },
@@ -85,13 +91,13 @@ const categories = [
     tools: [
       {
         name: 'GitHub Actions',
-        logo: '/img/github.svg',
+        logo: '/img/githubactions.png',
         description: 'All 151 deployment pipelines run on a single reusable called workflow — consistent, auditable, and secure via OIDC.',
         href: 'https://github.com/features/actions',
       },
       {
         name: 'Dependabot',
-        logo: '/img/github.svg',
+        logo: '/img/dependabot.png',
         description: 'Automated dependency updates across all repositories — keeping modules, providers, and Actions pinned to current versions.',
         href: 'https://docs.github.com/en/code-security/dependabot',
       },
@@ -102,16 +108,22 @@ const categories = [
     label: 'Developer Tooling',
     tools: [
       {
-        name: 'GitHub Codespaces',
-        logo: '/img/github.svg',
-        description: 'Standardized cloud development environment with all platform tooling pre-installed — productive from first launch.',
-        href: 'https://github.com/features/codespaces',
-      },
-      {
         name: 'pre-commit',
         logo: '/img/pre-commit.svg',
         description: 'Enforces formatting, validation, documentation generation, and security checks before every commit.',
         href: 'https://pre-commit.com',
+      },
+      {
+        name: 'Docker',
+        logo: '/img/docker.png',
+        description: 'Used to containerize platform applications and build standardized development environments. Container images are pushed to Google Artifact Registry.',
+        href: 'https://www.docker.com',
+      },
+      {
+        name: 'GitHub Copilot',
+        logo: '/img/githubcopilot-white.svg',
+        description: 'AI-assisted development across the platform — team-level agents automate module scaffolding, repo creation, and PR workflows.',
+        href: 'https://github.com/features/copilot',
       },
       {
         name: 'Docusaurus',
