@@ -1,4 +1,3 @@
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import Card from '@site/src/components/Card';
@@ -8,62 +7,62 @@ import styles from './index.module.css';
 
 const features = [
   {
-    title: 'Infrastructure as Code',
+    title: 'Security by default, not bolt-on',
     description:
-      'OpenTofu modules and reusable patterns for GCP projects, networking, storage, and identity — all version-controlled and tested.',
-    icon: '🏗️',
+      'Every GCP project is automatically CIS GCP Foundation Benchmark compliant. Audit logging, encrypted log sinks, KMS-encrypted state, zero default VPCs — making the right things the easiest things to do.',
+    icon: '🔐',
   },
   {
-    title: 'Kubernetes Platform',
+    title: 'Built on open standards',
     description:
-      'Production-grade GKE clusters with Istio service mesh, cert-manager, OPA Gatekeeper, and Datadog observability built in.',
-    icon: '☸️',
+      'Every layer of the stack uses CNCF and open-source projects — Kubernetes, Istio, cert-manager, OPA Gatekeeper, OpenTofu. No proprietary abstractions, no lock-in, no black boxes.',
+    icon: '📦',
   },
   {
-    title: 'Developer Experience',
+    title: 'Team onboarding in minutes',
     description:
-      'Shared GitHub Actions workflows, pre-commit hooks, Codespaces, and standardized CI/CD so teams ship faster with less friction.',
-    icon: '🚀',
+      'AI-assisted onboarding creates GCP projects, identity groups, GitHub repos, and Kubernetes namespaces from a single conversation — producing a reviewed pull request, not a support ticket.',
+    icon: '🤖',
   },
 ];
 
 const cards = [
   {
-    icon: '📖',
-    title: 'Documentation',
-    note: 'Learn about the platform architecture, team structure, and how everything fits together.',
-    link: '/home/intro',
-    linkText: 'Read the docs →',
+    icon: '🗺️',
+    title: 'Explore the Platform',
+    note: 'Understand the team topology — how the platform is organized, what each team owns, and how the layers fit together.',
+    link: '/teams',
+    linkText: 'See the teams →',
+  },
+  {
+    icon: '🧩',
+    title: 'Browse the Modules',
+    note: 'Eleven reusable OpenTofu modules covering GCP projects, networking, GKE, Istio, cert-manager, OPA Gatekeeper, and more.',
+    link: '/platform-teams/arche',
+    linkText: 'View the modules →',
   },
   {
     icon: '💻',
-    title: 'GitHub',
-    note: 'Explore the source code, open issues, and contribute to the platform modules.',
+    title: 'View the Source',
+    note: 'Everything is open source. Explore the repositories, open issues, and contribute to the platform.',
     link: 'https://github.com/osinfra-io',
-    linkText: 'View on GitHub →',
-  },
-  {
-    icon: '⚡',
-    title: 'Getting Started',
-    note: 'Set up your development environment and start working with the platform.',
-    link: '/home/intro',
-    linkText: 'Get started →',
+    linkText: 'Browse on GitHub →',
   },
 ];
 
 function Hero() {
-  const {siteConfig} = useDocusaurusContext();
   return (
     <header className={styles.hero}>
       <div className={styles.heroInner}>
-        <Heading as="h1" className={styles.heroTitle}>
-          {siteConfig.title}
-        </Heading>
-        <p className={styles.heroTagline}>{siteConfig.tagline}</p>
+        <img
+          src="/img/osinfra-logo-full.png"
+          alt="osinfra.io"
+          className={styles.heroLogo}
+        />
         <p className={styles.heroSubtitle}>
           A team-first, open source reference implementation for building and
-          managing cloud infrastructure on Google Cloud Platform using OpenTofu,
-          Kubernetes, and GitHub Actions.
+          managing cloud infrastructure — built on vendor-light, open-source
+          tooling.
         </p>
       </div>
     </header>
@@ -108,7 +107,7 @@ function CallToAction() {
 
 export default function Home() {
   return (
-    <Layout description="Open Source Infrastructure as Code reference implementation">
+    <Layout description="A team-first, open source reference implementation for building and managing cloud infrastructure — built on vendor-light, open-source tooling.">
       <Hero />
       <main>
         <Features />

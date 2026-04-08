@@ -1,11 +1,11 @@
 ---
-sidebar_label: Pneuma — Kubernetes
-description: GKE clusters, service mesh, certificates, policy enforcement, and monitoring.
+sidebar_label: Pneuma
+description: The breath of life animating the platform via Kubernetes, orchestrating dynamic, self-healing, and scalable services atop the Logos foundation.
 ---
 
-# Pneuma — Kubernetes
+# Pneuma
 
-Pneuma animates infrastructure into production-grade workload environments:
+Pneuma is the breath of life animating the platform via Kubernetes — orchestrating dynamic, self-healing, and scalable services atop the Logos foundation. Where Corpus gives form, Pneuma gives life, transforming infrastructure into workload environments capable of receiving and running application teams.
 
 - **GKE clusters** — Multi-zone Kubernetes clusters with node auto-provisioning
 - **Istio service mesh** — Traffic management, mTLS, and observability

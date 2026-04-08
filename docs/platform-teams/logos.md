@@ -1,11 +1,11 @@
 ---
-sidebar_label: Logos — Organization
-description: Organizational structure, identity groups, GitHub teams, and Datadog teams.
+sidebar_label: Logos
+description: The foundational principle of order across systems, integrating multi-provider infrastructure, establishing boundaries, governance, and stable standards for teams to operate autonomously.
 ---
 
-# Logos — Organization
+# Logos
 
-Logos defines the organizational structure for the platform. It creates and manages:
+Logos is the foundational principle of order across systems — integrating multi-provider infrastructure, establishing boundaries, governance, and stable standards for teams to operate autonomously. It is the platform's primordial principle from which all other structure emerges.
 
 - **GCP folder hierarchy** — Environment-scoped folders for sandbox, non-production, and production
 - **Google Identity groups** — Team-based access control groups

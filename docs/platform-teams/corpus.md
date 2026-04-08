@@ -1,11 +1,11 @@
 ---
-sidebar_label: Corpus — Infrastructure
-description: GCP projects, networking, DNS, service accounts, and state management.
+sidebar_label: Corpus
+description: The embodiment of that order — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate.
 ---
 
-# Corpus — Infrastructure
+# Corpus
 
-Corpus translates organizational structure into real cloud infrastructure:
+Corpus is the embodiment of that order — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate. The abstract principles of Logos are translated here into tangible, reliable infrastructure.
 
 - **GCP projects** — CIS-compliant project creation with standard labels
 - **Shared VPC and networking** — Subnets, firewall rules, and network peering

@@ -3,7 +3,7 @@
   flex-direction: column;
   padding: 1.5rem;
   background-color: #232323;
-  border: 1px solid #353535;
+  border: none;
   border-radius: 0.5rem;
   transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -11,7 +11,6 @@
 .card:hover {
   transform: translateY(-0.125rem);
   box-shadow: 0 0.25rem 0.75rem rgba(255, 180, 0, 0.1);
-  border-color: #ffb400;
 }
 
 .header {

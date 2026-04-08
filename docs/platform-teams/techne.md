@@ -1,11 +1,11 @@
 ---
-sidebar_label: Techne — Tooling
-description: Shared GitHub Actions workflows, pre-commit hooks, and developer environments.
+sidebar_label: Techne
+description: The practiced art of making — the disciplined craft through which raw materials of infrastructure are shaped into purposeful, refined platform instruments.
 ---
 
-# Techne — Tooling
+# Techne
 
-Techne provides the shared tooling that enables consistent development and deployment:
+Techne is the practiced art of making — the disciplined craft through which raw materials of infrastructure are shaped into purposeful, refined platform instruments.
 
 - **[pt-techne-opentofu-workflows](https://github.com/osinfra-io/pt-techne-opentofu-workflows)** — Reusable GitHub Actions called workflows for OpenTofu deployments (OIDC auth, state encryption, job summaries)
 - **[pt-techne-pre-commit-hooks](https://github.com/osinfra-io/pt-techne-pre-commit-hooks)** — Custom pre-commit hooks for IaC validation
