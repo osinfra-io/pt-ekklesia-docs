@@ -4,7 +4,7 @@
 const config = {
   title: 'osinfra.io',
   tagline: 'Open Source Infrastructure as Code',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/mirko-transparent.png',
 
   url: 'https://docs.osinfra.io',
   baseUrl: '/',
