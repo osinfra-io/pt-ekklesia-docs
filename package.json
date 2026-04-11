@@ -42,5 +42,8 @@
   },
   "engines": {
     "node": ">=20.0"
+  },
+  "resolutions": {
+    "webpack": "5.105.4"
   }
 }
