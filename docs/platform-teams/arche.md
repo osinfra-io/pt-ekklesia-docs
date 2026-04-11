@@ -107,3 +107,9 @@ Arche is the origin and first cause — the primordial source from which all pla
     />
   </div>
 </div>
+
+## Repositories
+
+### AI Context
+
+- **[pt-arche-ai-context](https://github.com/osinfra-io/pt-arche-ai-context)**: Team-level Copilot instructions for `pt-arche-*` repositories
