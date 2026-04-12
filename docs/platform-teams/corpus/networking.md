@@ -134,7 +134,7 @@ This block is available for future use.
     <tr><th>Status</th><th>Date</th><th>Deciders</th></tr>
   </thead>
   <tbody>
-    <tr><td>Accepted ✅</td><td>April 2026</td><td>Corpus team</td></tr>
+    <tr><td>Accepted ✅</td><td>April 2026</td><td>Corpus</td></tr>
   </tbody>
 </table>
 
