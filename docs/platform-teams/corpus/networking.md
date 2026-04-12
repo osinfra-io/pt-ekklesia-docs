@@ -25,7 +25,9 @@ The `10.0.0.0/8` RFC 1918 space is divided into four `/10` blocks. Each `/10` is
 
 ### 10.0.0.0/10 — standard-shared
 
-This VPC uses the same sandbox, non-production, and production ranges. Each environment has a project and operates independently. It uses the GKE default subnet sizes: `/20` for the primary node range, `/24` per-node alias IP range for Pods, and `/20` for the Services range.
+This VPC uses the same address space across sandbox, non-production, and production environments. Each environment has its own project and operates independently.
+
+Subnet sizes follow GKE defaults: `/20` for the primary node range and `/20` for the Services range. GKE allocates a `/24` alias IP range to each node for Pods by default, supporting up to 110 pods per node. The cluster-level Pod secondary range is `/15` — a capacity choice derived from the [GKE IPAM calculator](https://googlecloudplatform.github.io/gke-ip-address-management) that supports up to 510 nodes per cluster (not a GKE default).
 
 The `10.0.0.0/10` block is planned using the [GKE IPAM calculator](https://googlecloudplatform.github.io/gke-ip-address-management). A Kubernetes [VPC-native cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips) uses [secondary ranges](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips#cluster_sizing_secondary_range_pods) for Pods & Services.
 
