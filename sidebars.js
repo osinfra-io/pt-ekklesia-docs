@@ -53,7 +53,12 @@ const sidebars = {
       label: 'Stream-Aligned Teams',
       link: { type: 'doc', id: 'stream-aligned-teams/index' },
       items: [
-        'stream-aligned-teams/ethos',
+        {
+          type: 'category',
+          label: 'Ethos',
+          link: { type: 'doc', id: 'stream-aligned-teams/ethos/index' },
+          items: [],
+        },
       ],
     },
   ],

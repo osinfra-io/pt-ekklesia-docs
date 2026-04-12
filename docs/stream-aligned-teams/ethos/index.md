@@ -1,5 +1,5 @@
 ---
-sidebar_label: Ethos
+sidebar_label: Overview
 description: The guiding philosophy that shapes platform principles.
 ---
 
