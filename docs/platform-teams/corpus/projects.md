@@ -1,8 +1,8 @@
 ---
-sidebar_label: Project Factory
+sidebar_label: Projects
 ---
 
-# Project Factory
+# Projects
 
 The project factory provisions and governs all GCP projects in the platform. Every project is created with a consistent structure, CIS-aligned security controls, and standard labels derived from [pt-logos](https://github.com/osinfra-io/pt-logos) team data.
 

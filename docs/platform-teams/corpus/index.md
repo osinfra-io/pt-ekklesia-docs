@@ -7,7 +7,7 @@ description: The embodiment of that order — the structural form where networks
 
 Corpus is the embodiment of that order — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate. The abstract principles of Logos are translated here into tangible, reliable infrastructure.
 
-- **[Project Factory](./project-factory)**: CIS-compliant GCP project creation with standard labels
+- **[Projects](./projects)**: CIS-compliant GCP project creation with standard labels
 - **[Networking](./networking)**: Shared VPC, subnets, firewall rules, DNS zones
 - **[CI/CD](./ci-cd)**: GitHub Actions workload identity, Artifact Registry, encrypted OpenTofu state buckets
 
