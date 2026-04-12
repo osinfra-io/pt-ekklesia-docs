@@ -141,7 +141,7 @@ This block is available for future use.
 
 ## Architecture Decision Record
 
-### ADR-0001 — GKE IP Address Management for Shared VPC
+### GKE IP Address Management for Shared VPC
 
 <table>
   <thead>
