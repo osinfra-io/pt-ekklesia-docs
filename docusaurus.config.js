@@ -58,30 +58,6 @@ const config = {
     ],
   ],
 
-  scripts: [
-    {
-      src: 'https://tluma.ai/widget.js',
-      async: true,
-    },
-  ],
-
-  headTags: [
-    {
-      tagName: 'script',
-      attributes: {},
-      innerHTML: `window.tlumaConfig = {
-  source: "osinfra-io/pt-ekklesia-docs",
-  theme: "auto",
-  brandColor: "blue",
-  button: "bottom-right",
-  welcomePulse: true,
-  edgePadding: "1rem",
-  autoOpen: false,
-  desktopFullscreenByDefault: false
-};`,
-    },
-  ],
-
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
