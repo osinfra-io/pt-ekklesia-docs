@@ -87,8 +87,13 @@
   line-height: 1.35;
 }
 
-/* Override default blue tint on <details> elements */
+/* Override Docusaurus alert--info blue tint applied to all <details> elements */
 details {
+  --docusaurus-details-decoration-color: var(--ifm-color-emphasis-500);
+  --ifm-alert-background-color: var(--ifm-background-surface-color);
+  --ifm-alert-background-color-highlight: rgba(255, 255, 255, 0.05);
+  --ifm-alert-border-color: var(--ifm-color-emphasis-300);
+  --ifm-alert-foreground-color: var(--ifm-font-color-base);
   background-color: var(--ifm-background-surface-color) !important;
   border-color: var(--ifm-color-emphasis-300) !important;
 }
