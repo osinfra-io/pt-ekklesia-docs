@@ -14,7 +14,7 @@ This layer provides platform teams with common networking resources like VPCs, s
 
 :::tip Architecture Decision Records
 
-This page includes an [Architecture Decision Records](#architecture-decision-records) documenting the key design decisions behind the networking CIDR layout.
+This page includes [Architecture Decision Records](#architecture-decision-records) documenting the key design decisions behind the networking CIDR layout.
 
 :::
 
