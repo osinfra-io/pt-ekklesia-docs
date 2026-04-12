@@ -16,7 +16,7 @@ This layer provides platform teams with common networking resources like VPCs, s
 
 The `10.0.0.0/8` RFC 1918 space is divided into four `/10` blocks. Each `/10` is large enough to host up to 30 isolated GKE clusters.
 
-Subnet sizes follow GKE defaults: `/20` for the primary node range and `/20` for the Services range. GKE allocates a `/24` alias IP range to each node for Pods by default, supporting up to 110 pods per node. The cluster-level Pod secondary range is `/15` — a capacity choice derived from the [GKE IPAM calculator](https://googlecloudplatform.github.io/gke-ip-address-management) that supports up to 510 nodes per cluster (not a GKE default).
+Subnet sizes follow GKE defaults: `/20` for the primary node range and `/20` for the Services range. GKE allocates a `/24` alias IP range to each node for Pods by default, supporting up to 110 pods per node. The cluster-level Pod secondary range is `/15` — a deliberate departure from GKE's automatic sizing, chosen to maximize the number of clusters per `/10`. A `/14` would roughly double per-cluster node capacity (~1,022 nodes) but would cut the cluster count per `/10` from 30 to ~15, with nearly identical total node capacity across the block. The platform's one-cluster-per-zone model benefits more from cluster count than from raw cluster size.
 
 A Kubernetes [VPC-native cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips) uses [secondary ranges](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips#cluster_sizing_secondary_range_pods) for Pods & Services.
 
@@ -138,3 +138,63 @@ This block is available for future use.
 
   </TabItem>
 </Tabs>
+
+## Architecture Decision Record
+
+### ADR-0001 — GKE IP Address Management for Shared VPC
+
+<table>
+  <thead>
+    <tr><th>Status</th><th>Date</th><th>Deciders</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Accepted ✅</td><td>April 2026</td><td>Corpus team</td></tr>
+  </tbody>
+</table>
+
+#### Context and Problem Statement
+
+GKE VPC-native clusters using Shared VPC require all IP address ranges — primary node subnets, pod secondary ranges, service secondary ranges, and control plane ranges — to be pre-created and user-managed. GKE cannot auto-manage these ranges in a Shared VPC. This forces upfront address planning before any cluster can be created and means every range must be tracked centrally.
+
+The platform uses a one-cluster-per-zone model (e.g., `pt-pneuma-us-east1-b`, `pt-pneuma-us-east4-a`), so the number of clusters scales with zone coverage rather than workload size. Address space must accommodate growth across multiple regions and zones without requiring re-addressing.
+
+The guiding principle throughout: **use GKE defaults unless there is a clear reason not to.**
+
+#### Decisions
+
+1. **Carve `10.0.0.0/8` into four `/10` blocks.** Each `/10` is large enough for 30 clusters. Four blocks give the platform room to grow across independent address spaces without redesign.
+
+2. **Follow GKE defaults for all subnet sizes where possible.**
+   - `/20` primary node range — GKE default
+   - `/24` per-node pod alias range — GKE default, supports 110 pods per node
+   - `/20` service range — GKE default, supports 4,096 services per cluster
+   - `/28` control plane range — GKE default for private cluster masters
+
+3. **Use `/15` for the cluster-level pod secondary range.** This is the one deliberate deviation from defaults. A `/14` would roughly double per-cluster node capacity (~1,022 nodes) but would halve the number of clusters per `/10` (~15 vs 30) with nearly identical total node capacity across the block. The one-cluster-per-zone model benefits more from cluster count than cluster size, so `/15` was chosen.
+
+4. **Use the GKE IPAM calculator for address planning.** This ensures ranges are correctly sized, non-overlapping, and documented reproducibly.
+
+5. **Define all ranges centrally in `pt-logos`.** All CIDRs — primary, pod, service, and master — are defined in the `google_subnets` map in [pt-logos](https://github.com/osinfra-io/pt-logos) and flow through [pt-corpus](https://github.com/osinfra-io/pt-corpus) to [pt-pneuma](https://github.com/osinfra-io/pt-pneuma). This keeps all network addressing consolidated and visible in one place.
+
+6. **Use the same address space across sandbox, non-production, and production.** Each environment has its own project for isolation. Keeping ranges consistent across environments reduces cognitive overhead and eliminates environment-specific address planning.
+
+#### Alternatives Considered
+
+- **`/14` cluster pod CIDR** — ~1,022 nodes per cluster, but only ~15 clusters per `/10`. Total node capacity across the block is nearly identical. Rejected in favour of more clusters at a still-generous 510 nodes each.
+- **Auto-managed secondary ranges** — Not possible with Shared VPC. GKE requires user-managed secondary ranges when using a host project.
+- **Separate address spaces per environment** — Rejected. Project-level isolation is sufficient; duplicating the address plan per environment adds complexity with no benefit.
+
+#### Consequences
+
+- 30 cluster slots available per `/10` block
+- 510 nodes per cluster maximum
+- 4,096 services per cluster maximum
+- 110 pods per node maximum
+- All IP address ranges must be defined in `pt-logos` before any cluster can be created
+- Adding a new cluster requires claiming an available slot from the IPAM plan
+
+#### Links
+
+- [GKE IPAM Calculator](https://googlecloudplatform.github.io/gke-ip-address-management)
+- [VPC-native clusters](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips)
+- [Cluster sizing — secondary range for Pods](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips#cluster_sizing_secondary_range_pods)
