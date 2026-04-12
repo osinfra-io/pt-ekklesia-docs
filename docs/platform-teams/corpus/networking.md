@@ -12,9 +12,9 @@ import TabItem from '@theme/TabItem';
 
 This layer provides platform teams with common networking resources like VPCs, subnets, DNS, and NATs. It is managed as code in [pt-corpus](https://github.com/osinfra-io/pt-corpus) and provides a consistent foundation for all workloads.
 
-:::tip Architecture Decision Record
+:::tip Architecture Decision Records
 
-This page includes an [Architecture Decision Record](#architecture-decision-record) documenting the key design decisions behind the networking CIDR layout.
+This page includes an [Architecture Decision Records](#architecture-decision-records) documenting the key design decisions behind the networking CIDR layout.
 
 :::
 
@@ -125,7 +125,7 @@ This block is available for future use.
   </TabItem>
 </Tabs>
 
-## Architecture Decision Record
+## Architecture Decision Records
 
 ### GKE IP Address Management for Shared VPC
 
