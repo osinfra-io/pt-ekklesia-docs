@@ -87,8 +87,10 @@
   line-height: 1.35;
 }
 
-/* Override Docusaurus alert--info blue tint applied to all <details> elements */
-details {
+/* Override Docusaurus alert--info blue tint applied to all <details> elements.
+   Use details.alert--info (specificity 0-1-1) to beat .alert--info (0-1-0)
+   since CSS custom properties do not support !important. */
+details.alert--info {
   --docusaurus-details-decoration-color: var(--ifm-color-emphasis-500);
   --ifm-alert-background-color: var(--ifm-background-surface-color);
   --ifm-alert-background-color-highlight: rgba(255, 255, 255, 0.05);
@@ -98,6 +100,6 @@ details {
   border-color: var(--ifm-color-emphasis-300) !important;
 }
 
-details summary {
+details.alert--info summary {
   color: var(--ifm-font-color-base);
 }
