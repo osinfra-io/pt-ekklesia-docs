@@ -12,7 +12,7 @@ import TabItem from '@theme/TabItem';
 
 This layer provides platform teams with common networking resources like VPCs, subnets, DNS, and NATs. It is managed as code in [pt-corpus](https://github.com/osinfra-io/pt-corpus) and provides a consistent foundation for all workloads.
 
-## CIDR Blocks
+## IP Address Management
 
 The `10.0.0.0/8` RFC 1918 space is divided into four `/10` blocks. Each `/10` is large enough to host up to 30 isolated GKE clusters.
 
