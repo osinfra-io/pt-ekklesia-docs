@@ -16,20 +16,16 @@ This layer provides platform teams with common networking resources like VPCs, s
 
 The `10.0.0.0/8` RFC 1918 space is divided into four `/10` blocks. Each `/10` is large enough to host up to 30 isolated GKE clusters.
 
-<CardGrid>
-  <Card item={{ icon: '🌐', title: '10.0.0.0/10', note: 'standard-shared VPC' }} />
-  <Card item={{ icon: '⬜', title: '10.64.0.0/10', note: 'Available' }} />
-  <Card item={{ icon: '⬜', title: '10.128.0.0/10', note: 'Available' }} />
-  <Card item={{ icon: '⬜', title: '10.192.0.0/10', note: 'Available' }} />
-</CardGrid>
+<Tabs>
+  <TabItem value="10-0" label="10.0.0.0/10" default>
 
-### 10.0.0.0/10 — standard-shared
+**standard-shared VPC**
 
 This VPC uses the same address space across sandbox, non-production, and production environments. Each environment has its own project and operates independently.
 
 Subnet sizes follow GKE defaults: `/20` for the primary node range and `/20` for the Services range. GKE allocates a `/24` alias IP range to each node for Pods by default, supporting up to 110 pods per node. The cluster-level Pod secondary range is `/15` — a capacity choice derived from the [GKE IPAM calculator](https://googlecloudplatform.github.io/gke-ip-address-management) that supports up to 510 nodes per cluster (not a GKE default).
 
-The `10.0.0.0/10` block is planned using the [GKE IPAM calculator](https://googlecloudplatform.github.io/gke-ip-address-management). A Kubernetes [VPC-native cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips) uses [secondary ranges](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips#cluster_sizing_secondary_range_pods) for Pods & Services.
+A Kubernetes [VPC-native cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips) uses [secondary ranges](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips#cluster_sizing_secondary_range_pods) for Pods & Services.
 
 :::note
 
@@ -48,7 +44,7 @@ All subnet CIDRs — primary, pod, service, and master — are defined together 
 <details>
   <summary>IPAM calculator configuration</summary>
 
-  We break up the `10.0.0.0/10` CIDR block with the above calculator using the following inputs:
+  We break up the `10.0.0.0/10` CIDR block with the [GKE IPAM calculator](https://googlecloudplatform.github.io/gke-ip-address-management) using the following inputs:
 
   ```json
   {
@@ -121,6 +117,24 @@ All subnet CIDRs — primary, pod, service, and master — are defined together 
       <Card item={{ icon: '⬜', title: '10.63.208.0/20', note: '10.63.208.0 – 10.63.223.255' }} />
       <Card item={{ icon: '⬜', title: '10.63.224.0/19', note: '10.63.224.0 – 10.63.255.255' }} />
     </CardGrid>
+
+  </TabItem>
+</Tabs>
+
+  </TabItem>
+  <TabItem value="10-64" label="10.64.0.0/10">
+
+This block is available for future use.
+
+  </TabItem>
+  <TabItem value="10-128" label="10.128.0.0/10">
+
+This block is available for future use.
+
+  </TabItem>
+  <TabItem value="10-192" label="10.192.0.0/10">
+
+This block is available for future use.
 
   </TabItem>
 </Tabs>
