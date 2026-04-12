@@ -32,17 +32,6 @@ The following CIDR blocks are available:
   <Card item={{ icon: '🌐', title: '10.0.0.0/10', note: 'standard-shared VPC' }} />
 </CardGrid>
 
-<details>
-  <summary>Free subnets (3 available /10 blocks)</summary>
-
-  <CardGrid>
-    <Card item={{ icon: '⬜', title: '10.64.0.0/10', note: 'Available' }} />
-    <Card item={{ icon: '⬜', title: '10.128.0.0/10', note: 'Available' }} />
-    <Card item={{ icon: '⬜', title: '10.192.0.0/10', note: 'Available' }} />
-  </CardGrid>
-
-</details>
-
 #### VPC Name: `standard-shared`
 
 This VPC uses the same sandbox, non-production, and production ranges. Each environment has a project and operates independently from each other. It uses the GKE default subnet sizes: `/20` for the primary node range, `/24` per-node alias IP range for Pods, and `/20` for the Services range.
@@ -118,6 +107,17 @@ All subnet CIDRs — primary, pod, service, and master — are defined together 
     <NetworkCard cluster="Available – Slot 28" primary="10.61.176.0/20" pods="10.54.0.0/15" services="10.63.144.0/20" master="10.63.193.176/28" />
     <NetworkCard cluster="Available – Slot 29" primary="10.61.192.0/20" pods="10.56.0.0/15" services="10.63.160.0/20" master="10.63.193.192/28" />
     <NetworkCard cluster="Available – Slot 30" primary="10.61.208.0/20" pods="10.58.0.0/15" services="10.63.176.0/20" master="10.63.193.208/28" />
+  </CardGrid>
+
+</details>
+
+<details>
+  <summary>Free subnets (3 available /10 blocks)</summary>
+
+  <CardGrid>
+    <Card item={{ icon: '⬜', title: '10.64.0.0/10', note: 'Available' }} />
+    <Card item={{ icon: '⬜', title: '10.128.0.0/10', note: 'Available' }} />
+    <Card item={{ icon: '⬜', title: '10.192.0.0/10', note: 'Available' }} />
   </CardGrid>
 
 </details>
