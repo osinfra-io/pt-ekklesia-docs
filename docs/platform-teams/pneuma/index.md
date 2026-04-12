@@ -7,11 +7,11 @@ description: The breath of life animating the platform via Kubernetes, orchestra
 
 Pneuma is the breath of life animating the platform via Kubernetes — orchestrating dynamic, self-healing, and scalable services atop the Logos foundation. Where Corpus gives form, Pneuma gives life, transforming infrastructure into workload environments capable of receiving and running application teams.
 
-- **[Cluster Management](./cluster-management)**: GKE clusters with node auto-provisioning, Workload Identity, and Fleet enrollment
-- **[Service Mesh](./service-mesh)**: Istio with mTLS, traffic management, and Cloud Armor-backed ingress
-- **[Certificate Management](./certificate-management)**: Automated TLS provisioning via cert-manager and Let's Encrypt
-- **[Policy Enforcement](./policy-enforcement)**: OPA Gatekeeper constraint templates and audit mode
-- **[Observability](./observability)**: Datadog Operator for cluster metrics, traces, and log collection
+- **[Cluster Management](./cluster-management.md)**: GKE clusters with node auto-provisioning, Workload Identity, and Fleet enrollment
+- **[Service Mesh](./service-mesh.md)**: Istio with mTLS, traffic management, and Cloud Armor-backed ingress
+- **[Certificate Management](./certificate-management.md)**: Automated TLS provisioning via cert-manager and Let's Encrypt
+- **[Policy Enforcement](./policy-enforcement.md)**: OPA Gatekeeper constraint templates and audit mode
+- **[Observability](./observability.md)**: Datadog Operator for cluster metrics, traces, and log collection
 
 Pneuma consumes Corpus networking and Logos team data to create fully operational Kubernetes environments.
 
@@ -48,11 +48,11 @@ The platform also needs a clear scaling model for clusters. Sizing a single larg
 
 | Context | Tool | Concern |
 |---|---|---|
-| [Cluster Management](./cluster-management) | GKE | Compute, networking attachment, Workload Identity, Fleet enrollment |
-| [Service Mesh](./service-mesh) | Istio | mTLS, traffic management, ingress, WAF |
-| [Certificate Management](./certificate-management) | cert-manager | TLS issuance and renewal via Let's Encrypt |
-| [Policy Enforcement](./policy-enforcement) | OPA Gatekeeper | Kubernetes admission control and audit |
-| [Observability](./observability) | Datadog Operator | Metrics, logs, and traces from all workloads |
+| [Cluster Management](./cluster-management.md) | GKE | Compute, networking attachment, Workload Identity, Fleet enrollment |
+| [Service Mesh](./service-mesh.md) | Istio | mTLS, traffic management, ingress, WAF |
+| [Certificate Management](./certificate-management.md) | cert-manager | TLS issuance and renewal via Let's Encrypt |
+| [Policy Enforcement](./policy-enforcement.md) | OPA Gatekeeper | Kubernetes admission control and audit |
+| [Observability](./observability.md) | Datadog Operator | Metrics, logs, and traces from all workloads |
 
 Each context maps to a dedicated subdirectory workspace in `pt-pneuma`, deployed in the correct order via GitHub Actions `needs` dependencies.
 

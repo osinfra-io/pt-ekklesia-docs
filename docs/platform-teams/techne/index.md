@@ -9,8 +9,8 @@ Techne is the practiced art of making — the disciplined craft through which ra
 
 ## Repositories
 
-- **[Deployment Automation](./deployment-automation)**: Reusable GitHub Actions workflows for OpenTofu deployments and common repository tasks
-- **[Developer Experience](./developer-experience)**: Codespace, pre-commit hooks, and local development setup
+- **[Deployment Automation](./deployment-automation.md)**: Reusable GitHub Actions workflows for OpenTofu deployments and common repository tasks
+- **[Developer Experience](./developer-experience.md)**: Codespace, pre-commit hooks, and local development setup
 
 ### AI Context
 

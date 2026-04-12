@@ -11,8 +11,8 @@ Arche is the origin and first cause — the primordial source from which all pla
 
 Arche operates as an inner-source shared kernel: versioned OpenTofu modules published on GitHub, consumed by Logos, Corpus, and Pneuma as pinned dependencies. All modules build on `pt-arche-core-helpers` for environment detection, standard labels, and team data. See the [shared kernel ADR](#arche-as-an-inner-source-shared-kernel) for the rationale behind this design.
 
-- **[Google Cloud](./google-cloud)**: GCP infrastructure modules — projects, networking, GKE, storage, Cloud SQL, and Datadog integration
-- **[Kubernetes](./kubernetes)**: Kubernetes add-on modules — Istio, cert-manager, Datadog Operator, and OPA Gatekeeper
+- **[Google Cloud](./google-cloud.md)**: GCP infrastructure modules — projects, networking, GKE, storage, Cloud SQL, and Datadog integration
+- **[Kubernetes](./kubernetes.md)**: Kubernetes add-on modules — Istio, cert-manager, Datadog Operator, and OPA Gatekeeper
 
 :::tip Architecture Decision Records
 
