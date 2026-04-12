@@ -31,7 +31,7 @@ Add a `:::tip` admonition near the top of the page (after the intro paragraph) t
 ```md
 :::tip Architecture Decision Records
 
-This page includes [Architecture Decision Records](#architecture-decision-records) documenting the key design decisions behind <topic>.
+This page includes [Architecture Decision Records](#architecture-decision-records) documenting the key design decisions.
 
 :::
 ```
