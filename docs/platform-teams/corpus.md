@@ -74,12 +74,12 @@ This will give us up to 15 clusters (in each /10), and each cluster will support
 All subnet CIDRs — primary, pod, service, and master — are defined together in the `google_subnets` map in [pt-logos](https://github.com/osinfra-io/pt-logos) and flow through [pt-corpus](https://github.com/osinfra-io/pt-corpus) to [pt-pneuma](https://github.com/osinfra-io/pt-pneuma). This keeps all network addressing consolidated in one place.
 
 <CardGrid>
-  <NetworkCard cluster="pt-pneuma-us-east1-b" primary="10.62.0.0/20" pods="10.0.0.0/15" services="10.63.0.0/20" master="10.63.240.0/28" />
-  <NetworkCard cluster="pt-pneuma-us-east1-c" primary="10.62.16.0/20" pods="10.2.0.0/15" services="10.63.16.0/20" master="10.63.240.16/28" />
-  <NetworkCard cluster="pt-pneuma-us-east1-d" primary="10.62.32.0/20" pods="10.4.0.0/15" services="10.63.32.0/20" master="10.63.240.32/28" />
-  <NetworkCard cluster="pt-pneuma-us-east4-a" primary="10.62.48.0/20" pods="10.6.0.0/15" services="10.63.48.0/20" master="10.63.240.48/28" />
-  <NetworkCard cluster="pt-pneuma-us-east4-b" primary="10.62.64.0/20" pods="10.8.0.0/15" services="10.63.64.0/20" master="10.63.240.64/28" />
-  <NetworkCard cluster="pt-pneuma-us-east4-c" primary="10.62.80.0/20" pods="10.10.0.0/15" services="10.63.80.0/20" master="10.63.240.80/28" />
+  <NetworkCard cluster="pt-pneuma-us-east1-b" logo="/img/gke.svg" primary="10.62.0.0/20" pods="10.0.0.0/15" services="10.63.0.0/20" master="10.63.240.0/28" />
+  <NetworkCard cluster="pt-pneuma-us-east1-c" logo="/img/gke.svg" primary="10.62.16.0/20" pods="10.2.0.0/15" services="10.63.16.0/20" master="10.63.240.16/28" />
+  <NetworkCard cluster="pt-pneuma-us-east1-d" logo="/img/gke.svg" primary="10.62.32.0/20" pods="10.4.0.0/15" services="10.63.32.0/20" master="10.63.240.32/28" />
+  <NetworkCard cluster="pt-pneuma-us-east4-a" logo="/img/gke.svg" primary="10.62.48.0/20" pods="10.6.0.0/15" services="10.63.48.0/20" master="10.63.240.48/28" />
+  <NetworkCard cluster="pt-pneuma-us-east4-b" logo="/img/gke.svg" primary="10.62.64.0/20" pods="10.8.0.0/15" services="10.63.64.0/20" master="10.63.240.64/28" />
+  <NetworkCard cluster="pt-pneuma-us-east4-c" logo="/img/gke.svg" primary="10.62.80.0/20" pods="10.10.0.0/15" services="10.63.80.0/20" master="10.63.240.80/28" />
 </CardGrid>
 
 ## Repositories

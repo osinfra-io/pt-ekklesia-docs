@@ -1,10 +1,13 @@
 import React from 'react';
 import styles from './styles.module.css';
 
-export default function NetworkCard({ cluster, primary, pods, services, master }) {
+export default function NetworkCard({ cluster, logo, primary, pods, services, master }) {
   return (
     <div className={styles.card}>
-      <h3 className={styles.title}>{cluster}</h3>
+      <div className={styles.header}>
+        {logo && <img src={logo} alt="" className={styles.logo} />}
+        <h3 className={styles.title}>{cluster}</h3>
+      </div>
       <dl className={styles.fields}>
         <div className={styles.field}>
           <dt className={styles.label}>Primary</dt>
