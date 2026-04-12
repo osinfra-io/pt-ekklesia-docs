@@ -9,7 +9,7 @@ Corpus is the embodiment of that order — the structural form where networks, s
 
 - **[Projects](./projects)**: CIS-compliant GCP project creation with standard labels
 - **[Networking](./networking)**: Shared VPC, subnets, firewall rules, DNS zones
-- **[CD Enablement](./cd-enablement)**: GitHub Actions workload identity, Artifact Registry, encrypted OpenTofu state buckets
+- **[CI/CD Enablement](./ci-cd-enablement)**: GitHub Actions workload identity, Artifact Registry, encrypted OpenTofu state buckets
 
 Corpus consumes Logos outputs and provides the foundation for Pneuma workload environments.
 

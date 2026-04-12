@@ -1,8 +1,8 @@
 ---
-sidebar_label: CD Enablement
+sidebar_label: CI/CD Enablement
 ---
 
-# CD Enablement
+# CI/CD Enablement
 
 Corpus provisions the shared infrastructure that enables continuous delivery across the platform — keyless authentication for pipelines, a central registry for built artifacts, and encrypted remote state storage for OpenTofu.
 
