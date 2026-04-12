@@ -19,7 +19,7 @@ The `10.0.0.0/8` RFC 1918 space is divided into four `/10` blocks. Each `/10` is
 <Tabs>
   <TabItem value="10-0" label="10.0.0.0/10" default>
 
-**standard-shared VPC**
+**VPC: standard-shared**
 
 This VPC uses the same address space across sandbox, non-production, and production environments. Each environment has its own project and operates independently.
 
