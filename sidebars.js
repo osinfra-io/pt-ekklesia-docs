@@ -16,7 +16,7 @@ const sidebars = {
           items: [
             'platform-teams/corpus/projects',
             'platform-teams/corpus/networking',
-            'platform-teams/corpus/ci-cd',
+            'platform-teams/corpus/cd-enablement',
           ],
         },
         'platform-teams/pneuma/index',
