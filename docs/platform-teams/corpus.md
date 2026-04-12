@@ -37,7 +37,7 @@ The following CIDR blocks are available:
 
 #### VPC Name: `standard-shared`
 
-This VPC uses the same sandbox, non-production, and production ranges. Each environment has a project and operates independently from each other. It uses the default size for the subnet's primary IP range, the subnet's secondary IP range for Pods, and the subnet's secondary IP range for Services.
+This VPC uses the same sandbox, non-production, and production ranges. Each environment has a project and operates independently from each other. It uses the GKE default subnet sizes: `/20` for the primary node range, `/24` per-node alias IP range for Pods, and `/20` for the Services range.
 
 [GKE IPAM calculator](https://googlecloudplatform.github.io/gke-ip-address-management)
 
@@ -47,9 +47,9 @@ We break up the `10.0.0.0/10` CIDR block with the above calculator using the fol
 {
   "network": "10.0.0.0",
   "netmask": 10,
-  "nodeNetmask": 21,
+  "nodeNetmask": 20,
   "clusterNetmask": 15,
-  "serviceNetmask": 21,
+  "serviceNetmask": 20,
   "nodePodNetmask": "24",
   "masterNetwork": "UNIQUE",
   "locationType": "REGIONAL",
@@ -65,21 +65,21 @@ The size of the cluster's secondary ranges determines the maximum number of Pods
 
 :::
 
-This will give us up to 31 clusters (in each /10), and each cluster will support the following:
+This will give us up to 15 clusters (in each /10), and each cluster will support the following:
 
 - Up to 510 nodes per cluster
-- Up to 2048 services per cluster
+- Up to 4,096 services per cluster
 - Up to 110 pods per node
 
 All subnet CIDRs — primary, pod, service, and master — are defined together in the `google_subnets` map in [pt-logos](https://github.com/osinfra-io/pt-logos) and flow through [pt-corpus](https://github.com/osinfra-io/pt-corpus) to [pt-pneuma](https://github.com/osinfra-io/pt-pneuma). This keeps all network addressing consolidated in one place.
 
 <CardGrid>
-  <NetworkCard cluster="pt-pneuma-us-east1-b" primary="10.62.0.0/21" pods="10.0.0.0/15" services="10.63.0.0/21" master="10.63.240.0/28" />
-  <NetworkCard cluster="pt-pneuma-us-east1-c" primary="10.62.8.0/21" pods="10.2.0.0/15" services="10.63.8.0/21" master="10.63.240.16/28" />
-  <NetworkCard cluster="pt-pneuma-us-east1-d" primary="10.62.16.0/21" pods="10.4.0.0/15" services="10.63.40.0/21" master="10.63.240.32/28" />
-  <NetworkCard cluster="pt-pneuma-us-east4-a" primary="10.62.24.0/21" pods="10.6.0.0/15" services="10.63.16.0/21" master="10.63.240.48/28" />
-  <NetworkCard cluster="pt-pneuma-us-east4-b" primary="10.62.32.0/21" pods="10.8.0.0/15" services="10.63.24.0/21" master="10.63.240.64/28" />
-  <NetworkCard cluster="pt-pneuma-us-east4-c" primary="10.62.40.0/21" pods="10.10.0.0/15" services="10.63.32.0/21" master="10.63.240.80/28" />
+  <NetworkCard cluster="pt-pneuma-us-east1-b" primary="10.62.0.0/20" pods="10.0.0.0/15" services="10.63.0.0/20" master="10.63.240.0/28" />
+  <NetworkCard cluster="pt-pneuma-us-east1-c" primary="10.62.16.0/20" pods="10.2.0.0/15" services="10.63.16.0/20" master="10.63.240.16/28" />
+  <NetworkCard cluster="pt-pneuma-us-east1-d" primary="10.62.32.0/20" pods="10.4.0.0/15" services="10.63.32.0/20" master="10.63.240.32/28" />
+  <NetworkCard cluster="pt-pneuma-us-east4-a" primary="10.62.48.0/20" pods="10.6.0.0/15" services="10.63.48.0/20" master="10.63.240.48/28" />
+  <NetworkCard cluster="pt-pneuma-us-east4-b" primary="10.62.64.0/20" pods="10.8.0.0/15" services="10.63.64.0/20" master="10.63.240.64/28" />
+  <NetworkCard cluster="pt-pneuma-us-east4-c" primary="10.62.80.0/20" pods="10.10.0.0/15" services="10.63.80.0/20" master="10.63.240.80/28" />
 </CardGrid>
 
 ## Repositories
