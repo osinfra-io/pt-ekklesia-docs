@@ -14,7 +14,7 @@ This layer provides platform teams with common networking resources like VPCs, s
 
 ## CIDR Blocks
 
-The following top-level blocks are carved from the `10.0.0.0/8` RFC 1918 space. Each `/10` is large enough to host up to 30 isolated GKE clusters.
+The `10.0.0.0/8` RFC 1918 space is divided into four `/10` blocks. Each `/10` is large enough to host up to 30 isolated GKE clusters.
 
 <CardGrid>
   <Card item={{ icon: '🌐', title: '10.0.0.0/10', note: 'standard-shared VPC' }} />
@@ -23,22 +23,11 @@ The following top-level blocks are carved from the `10.0.0.0/8` RFC 1918 space. 
   <Card item={{ icon: '⬜', title: '10.192.0.0/10', note: 'Available' }} />
 </CardGrid>
 
-## 10.0.0.0/10 — standard-shared
+### 10.0.0.0/10 — standard-shared
 
 This VPC uses the same sandbox, non-production, and production ranges. Each environment has a project and operates independently. It uses the GKE default subnet sizes: `/20` for the primary node range, `/24` per-node alias IP range for Pods, and `/20` for the Services range.
 
-The `10.0.0.0/10` block is planned using the [GKE IPAM calculator](https://googlecloudplatform.github.io/gke-ip-address-management) and allocated as follows:
-
-```mermaid
-flowchart LR
-    A["10.0.0.0/10"] --> B["Pod Ranges · 30 × /15\n10.0.0.0 – 10.59.255.255"]
-    A --> C["Node Subnets · 30 × /20\n10.60.0.0 – 10.61.223.255"]
-    A --> D["Service Ranges · 30 × /20\n10.61.224.0 – 10.63.191.255"]
-    A --> E["Control Plane · 30 × /28\n10.63.192.0 – 10.63.193.223"]
-    A --> F["Free Space\n10.63.193.224 – 10.63.255.255"]
-```
-
-A Kubernetes [VPC-native cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips) uses [secondary ranges](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips#cluster_sizing_secondary_range_pods) for Pods & Services.
+The `10.0.0.0/10` block is planned using the [GKE IPAM calculator](https://googlecloudplatform.github.io/gke-ip-address-management). A Kubernetes [VPC-native cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips) uses [secondary ranges](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips#cluster_sizing_secondary_range_pods) for Pods & Services.
 
 :::note
 
