@@ -26,19 +26,25 @@ yarn build      # production build to verify before pushing
 
 Every team (platform or stream-aligned) gets a folder, not a flat page. This allows child pages to be added later without restructuring.
 
-1. Create `docs/<section>/<team>/index.md` with `sidebar_label: Overview` and a `description` in the frontmatter.
-2. Add a category entry to `sidebars.js` under the appropriate section:
+1. Create `docs/<section>/<team>/index.md` with `sidebar_label` set to the team name and a `description` in the frontmatter.
+2. Add a plain doc reference to `sidebars.js` under the appropriate section:
+
+```js
+'<section>/<team>/index',
+```
+
+3. When a team gets its first child page, convert it to a category in `sidebars.js`, change `sidebar_label` in `index.md` to `Overview`, and register child pages in `items: []`:
 
 ```js
 {
   type: 'category',
   label: '<Team>',
   link: { type: 'doc', id: '<section>/<team>/index' },
-  items: [],
+  items: [
+    '<section>/<team>/<page>',
+  ],
 },
 ```
-
-3. Add child pages as `docs/<section>/<team>/<page>.md` and register them in `items: []`.
 
 ## Architecture Decision Records
 

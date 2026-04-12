@@ -1,5 +1,5 @@
 ---
-sidebar_label: Overview
+sidebar_label: Pneuma
 description: The breath of life animating the platform via Kubernetes, orchestrating dynamic, self-healing, and scalable services atop the Logos foundation.
 ---
 

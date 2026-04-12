@@ -1,5 +1,5 @@
 ---
-sidebar_label: Overview
+sidebar_label: Techne
 description: The practiced art of making — the disciplined craft through which raw materials of infrastructure are shaped into purposeful, refined platform instruments.
 ---
 

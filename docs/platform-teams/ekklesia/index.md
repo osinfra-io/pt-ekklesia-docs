@@ -1,5 +1,5 @@
 ---
-sidebar_label: Overview
+sidebar_label: Ekklesia
 description: The assembly of the called-out — where distinct capabilities are gathered into a unified body, deliberating and acting in concert toward shared platform purpose.
 ---
 

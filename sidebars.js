@@ -8,12 +8,7 @@ const sidebars = {
       label: 'Platform Teams',
       link: { type: 'doc', id: 'platform-teams/index' },
       items: [
-        {
-          type: 'category',
-          label: 'Logos',
-          link: { type: 'doc', id: 'platform-teams/logos/index' },
-          items: [],
-        },
+        'platform-teams/logos/index',
         {
           type: 'category',
           label: 'Corpus',
@@ -22,30 +17,10 @@ const sidebars = {
             'platform-teams/corpus/networking',
           ],
         },
-        {
-          type: 'category',
-          label: 'Pneuma',
-          link: { type: 'doc', id: 'platform-teams/pneuma/index' },
-          items: [],
-        },
-        {
-          type: 'category',
-          label: 'Arche',
-          link: { type: 'doc', id: 'platform-teams/arche/index' },
-          items: [],
-        },
-        {
-          type: 'category',
-          label: 'Ekklesia',
-          link: { type: 'doc', id: 'platform-teams/ekklesia/index' },
-          items: [],
-        },
-        {
-          type: 'category',
-          label: 'Techne',
-          link: { type: 'doc', id: 'platform-teams/techne/index' },
-          items: [],
-        },
+        'platform-teams/pneuma/index',
+        'platform-teams/arche/index',
+        'platform-teams/ekklesia/index',
+        'platform-teams/techne/index',
       ],
     },
     {
@@ -53,12 +28,7 @@ const sidebars = {
       label: 'Stream-Aligned Teams',
       link: { type: 'doc', id: 'stream-aligned-teams/index' },
       items: [
-        {
-          type: 'category',
-          label: 'Ethos',
-          link: { type: 'doc', id: 'stream-aligned-teams/ethos/index' },
-          items: [],
-        },
+        'stream-aligned-teams/ethos/index',
       ],
     },
   ],
