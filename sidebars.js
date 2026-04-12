@@ -9,7 +9,14 @@ const sidebars = {
       link: { type: 'doc', id: 'platform-teams/index' },
       items: [
         'platform-teams/logos',
-        'platform-teams/corpus',
+        {
+          type: 'category',
+          label: 'Corpus',
+          link: { type: 'doc', id: 'platform-teams/corpus/index' },
+          items: [
+            'platform-teams/corpus/networking',
+          ],
+        },
         'platform-teams/pneuma',
         'platform-teams/arche',
         'platform-teams/ekklesia',
