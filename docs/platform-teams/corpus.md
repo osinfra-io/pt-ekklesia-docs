@@ -3,6 +3,10 @@ sidebar_label: Corpus
 description: The embodiment of that order — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate.
 ---
 
+import Card from '@site/src/components/Card';
+import CardGrid from '@site/src/components/CardGrid';
+import NetworkCard from '@site/src/components/NetworkCard';
+
 # Corpus
 
 Corpus is the embodiment of that order — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate. The abstract principles of Logos are translated here into tangible, reliable infrastructure.
@@ -24,12 +28,12 @@ This layer provides platform teams with common networking resources like VPCs, s
 
 The following CIDR blocks are available:
 
-| CIDRs | VPC |
-|---|---|
-| 10.0.0.0/10 | standard-shared |
-| 10.64.0.0/10 | free |
-| 10.128.0.0/10 | free |
-| 10.192.0.0/10 | free |
+<CardGrid>
+  <Card item={{ icon: '🌐', title: '10.0.0.0/10', note: 'standard-shared VPC' }} />
+  <Card item={{ icon: '⬜', title: '10.64.0.0/10', note: 'Available' }} />
+  <Card item={{ icon: '⬜', title: '10.128.0.0/10', note: 'Available' }} />
+  <Card item={{ icon: '⬜', title: '10.192.0.0/10', note: 'Available' }} />
+</CardGrid>
 
 #### VPC Name: `standard-shared`
 
@@ -69,14 +73,14 @@ This will give us up to 31 clusters (in each /10), and each cluster will support
 
 All subnet CIDRs — primary, pod, service, and master — are defined together in the `google_subnets` map in [pt-logos](https://github.com/osinfra-io/pt-logos) and flow through [pt-corpus](https://github.com/osinfra-io/pt-corpus) to [pt-pneuma](https://github.com/osinfra-io/pt-pneuma). This keeps all network addressing consolidated in one place.
 
-| Cluster | Primary CIDRs | Secondary PODs CIDRs | Secondary Services CIDRs | Master CIDRs |
-|---|---|---|---|---|
-| pt-pneuma-us-east1-b | 10.62.0.0/21 | 10.0.0.0/15 | 10.63.0.0/21 | 10.63.240.0/28 |
-| pt-pneuma-us-east1-c | 10.62.8.0/21 | 10.2.0.0/15 | 10.63.8.0/21 | 10.63.240.16/28 |
-| pt-pneuma-us-east1-d | 10.62.16.0/21 | 10.4.0.0/15 | 10.63.40.0/21 | 10.63.240.32/28 |
-| pt-pneuma-us-east4-a | 10.62.24.0/21 | 10.6.0.0/15 | 10.63.16.0/21 | 10.63.240.48/28 |
-| pt-pneuma-us-east4-b | 10.62.32.0/21 | 10.8.0.0/15 | 10.63.24.0/21 | 10.63.240.64/28 |
-| pt-pneuma-us-east4-c | 10.62.40.0/21 | 10.10.0.0/15 | 10.63.32.0/21 | 10.63.240.80/28 |
+<CardGrid>
+  <NetworkCard cluster="pt-pneuma-us-east1-b" primary="10.62.0.0/21" pods="10.0.0.0/15" services="10.63.0.0/21" master="10.63.240.0/28" />
+  <NetworkCard cluster="pt-pneuma-us-east1-c" primary="10.62.8.0/21" pods="10.2.0.0/15" services="10.63.8.0/21" master="10.63.240.16/28" />
+  <NetworkCard cluster="pt-pneuma-us-east1-d" primary="10.62.16.0/21" pods="10.4.0.0/15" services="10.63.40.0/21" master="10.63.240.32/28" />
+  <NetworkCard cluster="pt-pneuma-us-east4-a" primary="10.62.24.0/21" pods="10.6.0.0/15" services="10.63.16.0/21" master="10.63.240.48/28" />
+  <NetworkCard cluster="pt-pneuma-us-east4-b" primary="10.62.32.0/21" pods="10.8.0.0/15" services="10.63.24.0/21" master="10.63.240.64/28" />
+  <NetworkCard cluster="pt-pneuma-us-east4-c" primary="10.62.40.0/21" pods="10.10.0.0/15" services="10.63.32.0/21" master="10.63.240.80/28" />
+</CardGrid>
 
 ## Repositories
 
