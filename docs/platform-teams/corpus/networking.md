@@ -26,6 +26,8 @@ The size of the cluster's secondary ranges determines the maximum number of Pods
 
 :::
 
+VPCs use the same address space across sandbox, non-production, and production environments. Each environment has its own project and operates independently.
+
 Each `/10` supports up to **30 clusters**, each with:
 
 - Up to 510 nodes per cluster
@@ -38,8 +40,6 @@ All subnet CIDRs — primary, pod, service, and master — are defined together 
   <TabItem value="10-0" label="10.0.0.0/10" default>
 
 **VPC: standard-shared**
-
-This VPC uses the same address space across sandbox, non-production, and production environments. Each environment has its own project and operates independently.
 
 <details>
   <summary>IPAM calculator configuration</summary>
