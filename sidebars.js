@@ -14,7 +14,9 @@ const sidebars = {
           label: 'Corpus',
           link: { type: 'doc', id: 'platform-teams/corpus/index' },
           items: [
+            'platform-teams/corpus/project-factory',
             'platform-teams/corpus/networking',
+            'platform-teams/corpus/ci-cd',
           ],
         },
         'platform-teams/pneuma/index',
