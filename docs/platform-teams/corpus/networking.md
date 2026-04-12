@@ -16,13 +16,6 @@ This layer provides platform teams with common networking resources like VPCs, s
 
 The `10.0.0.0/8` RFC 1918 space is divided into four `/10` blocks. Each `/10` is large enough to host up to 30 isolated GKE clusters.
 
-<Tabs>
-  <TabItem value="10-0" label="10.0.0.0/10" default>
-
-**VPC: standard-shared**
-
-This VPC uses the same address space across sandbox, non-production, and production environments. Each environment has its own project and operates independently.
-
 Subnet sizes follow GKE defaults: `/20` for the primary node range and `/20` for the Services range. GKE allocates a `/24` alias IP range to each node for Pods by default, supporting up to 110 pods per node. The cluster-level Pod secondary range is `/15` — a capacity choice derived from the [GKE IPAM calculator](https://googlecloudplatform.github.io/gke-ip-address-management) that supports up to 510 nodes per cluster (not a GKE default).
 
 A Kubernetes [VPC-native cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips) uses [secondary ranges](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips#cluster_sizing_secondary_range_pods) for Pods & Services.
@@ -33,13 +26,20 @@ The size of the cluster's secondary ranges determines the maximum number of Pods
 
 :::
 
-This gives us up to **30 clusters**, each supporting:
+Each `/10` supports up to **30 clusters**, each with:
 
 - Up to 510 nodes per cluster
 - Up to 4,096 services per cluster
 - Up to 110 pods per node
 
 All subnet CIDRs — primary, pod, service, and master — are defined together in the `google_subnets` map in [pt-logos](https://github.com/osinfra-io/pt-logos) and flow through [pt-corpus](https://github.com/osinfra-io/pt-corpus) to [pt-pneuma](https://github.com/osinfra-io/pt-pneuma). This keeps all network addressing consolidated in one place.
+
+<Tabs>
+  <TabItem value="10-0" label="10.0.0.0/10" default>
+
+**VPC: standard-shared**
+
+This VPC uses the same address space across sandbox, non-production, and production environments. Each environment has its own project and operates independently.
 
 <details>
   <summary>IPAM calculator configuration</summary>
