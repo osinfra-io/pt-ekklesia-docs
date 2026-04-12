@@ -1,5 +1,5 @@
 ---
-sidebar_label: Corpus
+sidebar_label: Overview
 description: The embodiment of that order — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate.
 ---
 

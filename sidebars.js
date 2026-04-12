@@ -8,12 +8,19 @@ const sidebars = {
       label: 'Platform Teams',
       link: { type: 'doc', id: 'platform-teams/index' },
       items: [
-        'platform-teams/logos',
-        'platform-teams/corpus',
-        'platform-teams/pneuma',
-        'platform-teams/arche',
-        'platform-teams/ekklesia',
-        'platform-teams/techne',
+        'platform-teams/logos/index',
+        {
+          type: 'category',
+          label: 'Corpus',
+          link: { type: 'doc', id: 'platform-teams/corpus/index' },
+          items: [
+            'platform-teams/corpus/networking',
+          ],
+        },
+        'platform-teams/pneuma/index',
+        'platform-teams/arche/index',
+        'platform-teams/ekklesia/index',
+        'platform-teams/techne/index',
       ],
     },
     {
@@ -21,7 +28,7 @@ const sidebars = {
       label: 'Stream-Aligned Teams',
       link: { type: 'doc', id: 'stream-aligned-teams/index' },
       items: [
-        'stream-aligned-teams/ethos',
+        'stream-aligned-teams/ethos/index',
       ],
     },
   ],
