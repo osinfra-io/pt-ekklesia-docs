@@ -75,7 +75,7 @@ The size of the cluster's secondary ranges determines the maximum number of Pods
 
 This will give us up to 30 clusters (in each /10), and each cluster will support the following:
 
-- Up to 512 nodes per cluster
+- Up to 510 nodes per cluster
 - Up to 4,096 services per cluster
 - Up to 110 pods per node
 
