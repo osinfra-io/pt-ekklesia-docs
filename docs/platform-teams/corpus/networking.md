@@ -25,7 +25,7 @@ The `10.0.0.0/8` RFC 1918 space is divided into four `/10` blocks, each supporti
 <Tabs>
   <TabItem value="10-0" label="10.0.0.0/10" default>
 
-**VPC: standard-shared**
+VPC: standard-shared
 
 <details>
   <summary>IPAM calculator configuration</summary>
