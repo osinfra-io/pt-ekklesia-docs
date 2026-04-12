@@ -22,6 +22,24 @@ yarn build      # production build to verify before pushing
 - `docusaurus.config.js` — Site configuration
 - `sidebars.js` — Docs sidebar structure
 
+## Adding a New Team
+
+Every team (platform or stream-aligned) gets a folder, not a flat page. This allows child pages to be added later without restructuring.
+
+1. Create `docs/<section>/<team>/index.md` with `sidebar_label: Overview` and a `description` in the frontmatter.
+2. Add a category entry to `sidebars.js` under the appropriate section:
+
+```js
+{
+  type: 'category',
+  label: '<Team>',
+  link: { type: 'doc', id: '<section>/<team>/index' },
+  items: [],
+},
+```
+
+3. Add child pages as `docs/<section>/<team>/<page>.md` and register them in `items: []`.
+
 ## Architecture Decision Records
 
 ADRs live at the bottom of the relevant documentation page under a `## Architecture Decision Records` heading — not in separate files. Each ADR is a `###` subsection with a descriptive title.
