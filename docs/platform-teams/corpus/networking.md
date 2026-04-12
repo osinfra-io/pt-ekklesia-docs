@@ -20,27 +20,7 @@ This page includes an [Architecture Decision Record](#architecture-decision-reco
 
 ## IP Address Management
 
-The `10.0.0.0/8` RFC 1918 space is divided into four `/10` blocks. Each `/10` is large enough to host up to 30 isolated GKE clusters.
-
-Subnet sizes follow GKE defaults: `/20` for the primary node range and `/20` for the Services range. GKE allocates a `/24` alias IP range to each node for Pods by default, supporting up to 110 pods per node. The cluster-level Pod secondary range is `/15` — a deliberate departure from GKE's automatic sizing, chosen to maximize the number of clusters per `/10`. A `/14` would roughly double per-cluster node capacity (~1,022 nodes) but would cut the cluster count per `/10` from 30 to ~15, with nearly identical total node capacity across the block. The platform's one-cluster-per-zone model benefits more from cluster count than from raw cluster size.
-
-A Kubernetes [VPC-native cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips) uses [secondary ranges](https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips#cluster_sizing_secondary_range_pods) for Pods & Services.
-
-:::note
-
-The size of the cluster's secondary ranges determines the maximum number of Pods and Services for a given GKE cluster. The maximum number of nodes in the cluster is limited by the size of the cluster's subnet's primary IP address range and the cluster's Pod address range.
-
-:::
-
-VPCs use the same address space across sandbox, non-production, and production environments. Each environment has its own project and operates independently.
-
-Each `/10` supports up to **30 clusters**, each with:
-
-- Up to 510 nodes per cluster
-- Up to 4,096 services per cluster
-- Up to 110 pods per node
-
-All subnet CIDRs — primary, pod, service, and master — are defined together in the `google_subnets` map in [pt-logos](https://github.com/osinfra-io/pt-logos) and flow through [pt-corpus](https://github.com/osinfra-io/pt-corpus) to [pt-pneuma](https://github.com/osinfra-io/pt-pneuma). This keeps all network addressing consolidated in one place.
+The `10.0.0.0/8` RFC 1918 space is divided into four `/10` blocks, each supporting up to 30 isolated GKE clusters. VPCs use the same address space across sandbox, non-production, and production environments, with each environment isolated to its own project. All CIDR ranges are defined in [pt-logos](https://github.com/osinfra-io/pt-logos) and flow through [pt-corpus](https://github.com/osinfra-io/pt-corpus) to [pt-pneuma](https://github.com/osinfra-io/pt-pneuma).
 
 <Tabs>
   <TabItem value="10-0" label="10.0.0.0/10" default>
