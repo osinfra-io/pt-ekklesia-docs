@@ -8,7 +8,12 @@ const sidebars = {
       label: 'Platform Teams',
       link: { type: 'doc', id: 'platform-teams/index' },
       items: [
-        'platform-teams/logos',
+        {
+          type: 'category',
+          label: 'Logos',
+          link: { type: 'doc', id: 'platform-teams/logos/index' },
+          items: [],
+        },
         {
           type: 'category',
           label: 'Corpus',
@@ -17,10 +22,30 @@ const sidebars = {
             'platform-teams/corpus/networking',
           ],
         },
-        'platform-teams/pneuma',
-        'platform-teams/arche',
-        'platform-teams/ekklesia',
-        'platform-teams/techne',
+        {
+          type: 'category',
+          label: 'Pneuma',
+          link: { type: 'doc', id: 'platform-teams/pneuma/index' },
+          items: [],
+        },
+        {
+          type: 'category',
+          label: 'Arche',
+          link: { type: 'doc', id: 'platform-teams/arche/index' },
+          items: [],
+        },
+        {
+          type: 'category',
+          label: 'Ekklesia',
+          link: { type: 'doc', id: 'platform-teams/ekklesia/index' },
+          items: [],
+        },
+        {
+          type: 'category',
+          label: 'Techne',
+          link: { type: 'doc', id: 'platform-teams/techne/index' },
+          items: [],
+        },
       ],
     },
     {

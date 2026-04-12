@@ -1,5 +1,5 @@
 ---
-sidebar_label: Arche
+sidebar_label: Overview
 description: The origin and first cause — the primordial source from which all platform foundations draw their initial form and essential nature.
 ---
 

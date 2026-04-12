@@ -1,5 +1,5 @@
 ---
-sidebar_label: Logos
+sidebar_label: Overview
 description: The foundational principle of order across systems, integrating multi-provider infrastructure, establishing boundaries, governance, and stable standards for teams to operate autonomously.
 ---
 
