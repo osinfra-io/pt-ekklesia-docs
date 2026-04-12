@@ -86,3 +86,13 @@
 .menu__link {
   line-height: 1.35;
 }
+
+/* Override default blue tint on <details> elements */
+details {
+  background-color: var(--ifm-background-surface-color) !important;
+  border-color: var(--ifm-color-emphasis-300) !important;
+}
+
+details summary {
+  color: var(--ifm-font-color-base);
+}
