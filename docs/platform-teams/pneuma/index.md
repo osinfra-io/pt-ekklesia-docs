@@ -7,11 +7,11 @@ description: The breath of life animating the platform via Kubernetes, orchestra
 
 Pneuma is the breath of life animating the platform via Kubernetes — orchestrating dynamic, self-healing, and scalable services atop the Logos foundation. Where Corpus gives form, Pneuma gives life, transforming infrastructure into workload environments capable of receiving and running application teams.
 
-- **GKE clusters**: Multi-zone Kubernetes clusters with node auto-provisioning
-- **Istio service mesh**: Traffic management, mTLS, and observability
-- **cert-manager**: Automated TLS certificate provisioning via Let's Encrypt
-- **OPA Gatekeeper**: Policy enforcement for Kubernetes resources
-- **Datadog Operator**: Cluster-level monitoring and log collection
+- **[Cluster Management](./cluster-management)**: GKE clusters with node auto-provisioning, Workload Identity, and Fleet enrollment
+- **[Service Mesh](./service-mesh)**: Istio with mTLS, traffic management, and Cloud Armor-backed ingress
+- **[Certificate Management](./certificate-management)**: Automated TLS provisioning via cert-manager and Let's Encrypt
+- **[Policy Enforcement](./policy-enforcement)**: OPA Gatekeeper constraint templates and audit mode
+- **[Observability](./observability)**: Datadog Operator for cluster metrics, traces, and log collection
 
 Pneuma consumes Corpus networking and Logos team data to create fully operational Kubernetes environments.
 

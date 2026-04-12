@@ -8,7 +8,16 @@ const sidebars = {
       label: 'Platform Teams',
       link: { type: 'doc', id: 'platform-teams/index' },
       items: [
-        'platform-teams/logos/index',
+        {
+          type: 'category',
+          label: 'Logos',
+          link: { type: 'doc', id: 'platform-teams/logos/index' },
+          items: [
+            'platform-teams/logos/resource-hierarchy',
+            'platform-teams/logos/identity-access',
+            'platform-teams/logos/team-topology',
+          ],
+        },
         {
           type: 'category',
           label: 'Corpus',
@@ -19,10 +28,37 @@ const sidebars = {
             'platform-teams/corpus/ci-cd-enablement',
           ],
         },
-        'platform-teams/pneuma/index',
-        'platform-teams/arche/index',
+        {
+          type: 'category',
+          label: 'Pneuma',
+          link: { type: 'doc', id: 'platform-teams/pneuma/index' },
+          items: [
+            'platform-teams/pneuma/cluster-management',
+            'platform-teams/pneuma/service-mesh',
+            'platform-teams/pneuma/certificate-management',
+            'platform-teams/pneuma/policy-enforcement',
+            'platform-teams/pneuma/observability',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Arche',
+          link: { type: 'doc', id: 'platform-teams/arche/index' },
+          items: [
+            'platform-teams/arche/google-cloud',
+            'platform-teams/arche/kubernetes',
+          ],
+        },
         'platform-teams/ekklesia/index',
-        'platform-teams/techne/index',
+        {
+          type: 'category',
+          label: 'Techne',
+          link: { type: 'doc', id: 'platform-teams/techne/index' },
+          items: [
+            'platform-teams/techne/deployment-automation',
+            'platform-teams/techne/developer-experience',
+          ],
+        },
       ],
     },
     {
