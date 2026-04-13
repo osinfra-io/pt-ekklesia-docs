@@ -44,6 +44,11 @@ Organize all shared platform tooling as an inner-source shared kernel under the 
 
 The scope of consumers is broader than Arche — every platform repository uses Techne tooling, not just the three infrastructure domains.
 
+#### Alternatives Considered
+
+- **Inline workflows and hooks per repo** — Rejected. Each repo would implement its own deployment pipeline and validation hooks independently, leading to drift and security gaps that must be fixed in dozens of places.
+- **A shared monorepo for all tooling** — Rejected. Couples unrelated tools (deployment workflows, pre-commit hooks, Codespace config) to the same release cycle. Independent repositories allow each tool to evolve and be versioned separately.
+
 #### Consequences
 
 - Deployment pipeline improvements (new inputs, job summary changes) propagate to all consumers on their next workflow ref bump

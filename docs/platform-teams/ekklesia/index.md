@@ -42,6 +42,11 @@ Operate a single Docusaurus site (`pt-ekklesia-docs`) as the canonical platform 
 - Automatically built on pull requests and deployed to [docs.osinfra.io](https://docs.osinfra.io) on merge to `main`
 - Open for contribution from any platform team via GitHub Flow
 
+#### Alternatives Considered
+
+- **Per-repo README files** — Rejected. Scattered across dozens of repositories; no single place to understand how the platform fits together. Engineers must know which repo to look in before they can find anything.
+- **Per-team wikis (GitHub Wiki / Confluence)** — Rejected. Edited outside of Git, bypassing the PR review process. Content drifts from reality with no mechanism to catch it.
+
 #### Consequences
 
 - Platform knowledge has a single discoverable home for engineers and stakeholders
