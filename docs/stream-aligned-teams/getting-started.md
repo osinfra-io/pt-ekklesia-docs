@@ -21,6 +21,18 @@ Open [GitHub Copilot](https://github.com/copilot), type `/agent`, and select **L
 
 The agent will look up your identity, check whether you already exist on the platform, and walk you through the rest.
 
+:::tip Using the GitHub Copilot CLI
+
+Clone the repo and run the Copilot CLI from within it — then type `/agent` and select **Logos Agent** from the menu:
+
+```none
+git clone https://github.com/osinfra-io/pt-logos
+cd pt-logos
+gh copilot
+```
+
+:::
+
 :::warning GitHub MCP — write permissions required
 
 The agent opens pull requests and reads repository state using the [GitHub MCP server](https://github.com/github/github-mcp-server). It must be enabled with **write** toolsets — read-only MCP will allow the agent to inspect state but it will not be able to create branches or open pull requests.

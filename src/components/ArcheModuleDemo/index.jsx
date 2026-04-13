@@ -5,7 +5,7 @@ import styles from '@site/src/components/AgentDemo/styles.module.css';
 const messages = [
   {
     role: 'user',
-    text: '/agent → Arche Module Agent',
+    text: 'Use the Arche Module Agent in osinfra-io/pt-arche-child-module-template to create a new module.',
   },
   {
     role: 'agent',
