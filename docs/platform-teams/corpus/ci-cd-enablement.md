@@ -33,7 +33,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 GitHub Actions workflows need to authenticate to GCP to deploy infrastructure, push container images to Artifact Registry, and read and write OpenTofu state in GCS. The conventional approach is to create a service account key, store it as a GitHub Actions secret, and pass it to the workflow. Service account keys are long-lived credentials — they do not expire, cannot be scoped to a single job, and represent a persistent attack surface if leaked.
 
-The platform manages 29 repositories across three environments. Each repository needs its own identity for least-privilege enforcement. Storing and rotating service account keys at that scale is operationally unsustainable and creates significant credential leak risk.
+The platform manages repositories across three environments. Each repository needs its own identity for least-privilege enforcement. Storing and rotating service account keys at that scale is operationally unsustainable and creates significant credential leak risk.
 
 #### Decision
 

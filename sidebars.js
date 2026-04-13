@@ -16,6 +16,7 @@ const sidebars = {
             'platform-teams/logos/resource-hierarchy',
             'platform-teams/logos/identity-access',
             'platform-teams/logos/team-topology',
+            'platform-teams/logos/saas-governance',
           ],
         },
         {
@@ -45,11 +46,20 @@ const sidebars = {
           label: 'Arche',
           link: { type: 'doc', id: 'platform-teams/arche/index' },
           items: [
+            'platform-teams/arche/core-helpers',
+            'platform-teams/arche/module-development',
             'platform-teams/arche/google-cloud',
             'platform-teams/arche/kubernetes',
           ],
         },
-        'platform-teams/ekklesia/index',
+        {
+          type: 'category',
+          label: 'Ekklesia',
+          link: { type: 'doc', id: 'platform-teams/ekklesia/index' },
+          items: [
+            'platform-teams/ekklesia/documentation',
+          ],
+        },
         {
           type: 'category',
           label: 'Techne',
@@ -66,6 +76,7 @@ const sidebars = {
       label: 'Stream-Aligned Teams',
       link: { type: 'doc', id: 'stream-aligned-teams/index' },
       items: [
+        'stream-aligned-teams/getting-started',
         'stream-aligned-teams/ethos/index',
       ],
     },

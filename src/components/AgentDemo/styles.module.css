@@ -1,0 +1,113 @@
+.window {
+  background-color: #1a1a1a;
+  border: 1px solid #353535;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 2rem 0;
+  font-size: 0.9rem;
+}
+
+.titleBar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.6rem 1rem;
+  background-color: #2a2a2a;
+  border-bottom: 1px solid #353535;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #353535;
+}
+
+.titleLabel {
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+  color: #707070;
+  font-family: var(--ifm-font-family-monospace);
+}
+
+.messages {
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Agent row: avatar left, bubble right */
+
+.agentRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.avatar {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.agentBubble {
+  background-color: #242424;
+  border: 1px solid #353535;
+  border-radius: 0 8px 8px 8px;
+  padding: 0.75rem 1rem;
+  color: #e0e0e0;
+  max-width: 85%;
+  line-height: 1.6;
+}
+
+.agentBubble p {
+  margin: 0 0 0.5rem;
+}
+
+.agentBubble p:last-child {
+  margin-bottom: 0;
+}
+
+.agentBubble ul {
+  margin: 0.25rem 0 0.5rem 1.25rem;
+  padding: 0;
+}
+
+.agentBubble li {
+  margin-bottom: 0.25rem;
+}
+
+.agentBubble code {
+  font-size: 0.85em;
+  background-color: #1e1e1e;
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  color: #ffb400;
+}
+
+/* User row: bubble right-aligned */
+
+.userRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.userBubble {
+  background-color: #2e2e2e;
+  border: 1px solid #444444;
+  border-radius: 8px 0 8px 8px;
+  padding: 0.65rem 1rem;
+  color: #e0e0e0;
+  max-width: 75%;
+  line-height: 1.6;
+}
+
+/* Meta/status line inside agent bubble */
+
+.meta {
+  font-size: 0.8rem;
+  color: #5a9a5a;
+  font-family: var(--ifm-font-family-monospace);
+  margin: 0.25rem 0 0.5rem !important;
+}

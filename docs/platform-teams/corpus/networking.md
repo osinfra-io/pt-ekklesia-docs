@@ -10,7 +10,13 @@ import TabItem from '@theme/TabItem';
 
 # Networking
 
-This layer provides platform teams with common networking resources like VPCs, subnets, DNS, and NATs. It is managed as code in [pt-corpus](https://github.com/osinfra-io/pt-corpus) and provides a consistent foundation for all workloads.
+This layer provides platform teams with common networking resources. It is managed as code in [pt-corpus](https://github.com/osinfra-io/pt-corpus) and provides a consistent foundation for all workloads.
+
+- **Shared VPC**: A single host project VPC is shared across team service projects, centralizing network control while allowing teams to run workloads in isolated projects
+- **Subnets**: Per-zone node subnets and master subnets with secondary ranges for GKE pods and services, with Private Google Access enabled; IAM bindings grant GKE service accounts the network user role on each subnet
+- **Cloud NAT**: Regional Cloud NAT gateways provide outbound internet access for private cluster nodes without exposing them to inbound traffic
+- **DNS zones**: A public `osinfra.io` zone, a private zone for internal resolution, and per-team subdomain zones with NS delegation records in the parent zone
+- **Private service networking**: A reserved IP range and service networking connection enable private connectivity to managed services (e.g., Cloud SQL)
 
 :::tip Architecture Decision Records
 

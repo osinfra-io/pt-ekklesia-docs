@@ -8,6 +8,7 @@ Corpus provisions and governs all GCP projects in the platform. Every project is
 
 - **CIS-compliant project creation**: Projects are created with CIS benchmark controls applied by default, including audit logging, OS Login enforcement, and uniform bucket-level access
 - **Standard labels**: All projects inherit a consistent label set from `module.core_helpers.labels`, ensuring cost attribution, environment tagging, and team ownership are always present
+- **Datadog monitoring**: All GCP projects are registered with Datadog via the Google Cloud integration, enabling metrics and log collection without per-team configuration
 
 :::tip Architecture Decision Records
 

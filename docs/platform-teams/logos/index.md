@@ -10,6 +10,7 @@ Logos is the foundational principle of order across systems — integrating mult
 - **[Resource Hierarchy](./resource-hierarchy.md)**: GCP folder structure with environment-scoped folders for sandbox, non-production, and production
 - **[Identity & Access](./identity-access.md)**: Google Identity groups and centralized user management
 - **[Team Topology](./team-topology.md)**: GitHub teams and repositories, Datadog teams, and branch protection
+- **[SaaS Governance](./saas-governance.md)**: GitHub and Datadog organization-level settings and policies
 
 All downstream platform teams depend on Logos outputs for folder IDs, team data, and identity group references.
 

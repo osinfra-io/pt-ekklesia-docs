@@ -3,14 +3,14 @@ sidebar_label: Arche
 description: The origin and first cause — the primordial source from which all platform foundations draw their initial form and essential nature.
 ---
 
-import ModuleCard from '@site/src/components/ModuleCard';
-
 # Arche
 
 Arche is the origin and first cause — the primordial source from which all platform foundations draw their initial form and essential nature. Nothing above it exists without it.
 
 Arche operates as an inner-source shared kernel: versioned OpenTofu modules published on GitHub, consumed by Logos, Corpus, and Pneuma as pinned dependencies. All modules build on `pt-arche-core-helpers` for environment detection, standard labels, and team data. See the [shared kernel ADR](#arche-as-an-inner-source-shared-kernel) for the rationale behind this design.
 
+- **[Core Helpers](./core-helpers.md)**: Foundational module providing workspace parsing, standard labels, and Logos integration — consumed by every other `pt-arche-*` module
+- **[Module Development](./module-development.md)**: Copilot agent and skeleton template for creating new `pt-arche-*` modules
 - **[Google Cloud](./google-cloud.md)**: GCP infrastructure modules — projects, networking, GKE, storage, Cloud SQL, and Datadog integration
 - **[Kubernetes](./kubernetes.md)**: Kubernetes add-on modules — Istio, cert-manager, Datadog Operator, and OPA Gatekeeper
 
@@ -19,25 +19,6 @@ Arche operates as an inner-source shared kernel: versioned OpenTofu modules publ
 This page includes [Architecture Decision Records](#architecture-decision-records) documenting the key design decisions.
 
 :::
-
-<div className="row">
-  <div className="col col--4 margin-bottom--lg">
-    <ModuleCard
-      image="/img/administration.svg"
-      title="pt-arche-core-helpers"
-      description="OpenTofu module for helpers providing core platform functionality including workspace parsing, resource labeling, and logos integration for team and project management"
-      href="https://github.com/osinfra-io/pt-arche-core-helpers"
-    />
-  </div>
-  <div className="col col--4 margin-bottom--lg">
-    <ModuleCard
-      image="/img/mirko-transparent.png"
-      title="pt-arche-child-module-template"
-      description="Cookiecutter skeleton and Copilot agent for creating new pt-arche-* OpenTofu child module repositories — collects module details, creates the GitHub repo, pushes skeleton files, and opens a PR on pt-logos to register the repo"
-      href="https://github.com/osinfra-io/pt-arche-child-module-template"
-    />
-  </div>
-</div>
 
 ## Architecture Decision Records
 
@@ -72,6 +53,8 @@ Modules are decomposed into two bounded contexts reflecting their infrastructure
 - **Kubernetes** — Cluster add-ons that run on GKE (Istio, cert-manager, Datadog Operator, OPA Gatekeeper)
 
 This decomposition maps directly to the deployment layers in Corpus (GCP) and Pneuma (Kubernetes), making it clear which modules each domain consumes.
+
+The same pattern is applied in [Techne's shared kernel](/platform-teams/techne#techne-as-an-inner-source-shared-kernel) for shared platform tooling and [Ekklesia's shared kernel](/platform-teams/ekklesia#ekklesia-as-an-inner-source-shared-kernel) for platform documentation — the difference is artifact type. Arche shares OpenTofu modules; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration; Ekklesia shares documentation.
 
 #### Alternatives Considered
 
