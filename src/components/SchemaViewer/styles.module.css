@@ -1,0 +1,144 @@
+.viewer {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  font-size: 0.875rem;
+}
+
+.title {
+  background: var(--ifm-color-emphasis-200);
+  padding: 0.5rem 1rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ifm-color-content-secondary);
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.property {
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.property:last-child {
+  border-bottom: none;
+}
+
+.header {
+  padding: 0.7rem 1rem 0.7rem 0;
+}
+
+.expandable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.expandable:hover {
+  background: var(--ifm-color-emphasis-100);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.chevron {
+  width: 1rem;
+  flex-shrink: 0;
+  color: var(--ifm-color-content-secondary);
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--ifm-color-content);
+}
+
+.typeBadge {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.72rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+/* Type colors — light */
+.typeString  { background: #dbeafe; color: #1e40af; }
+.typeBoolean { background: #ede9fe; color: #5b21b6; }
+.typeNumber  { background: #ffedd5; color: #9a3412; }
+.typeArray   { background: #d1fae5; color: #065f46; }
+.typeObject  { background: #fef9c3; color: #854d0e; }
+.typeMap     { background: #e0f2fe; color: #075985; }
+
+/* Type colors — dark */
+:global([data-theme='dark']) .typeString  { background: #1e3a5f; color: #93c5fd; }
+:global([data-theme='dark']) .typeBoolean { background: #2e1d4a; color: #c4b5fd; }
+:global([data-theme='dark']) .typeNumber  { background: #3b1e0a; color: #fdba74; }
+:global([data-theme='dark']) .typeArray   { background: #063f2a; color: #6ee7b7; }
+:global([data-theme='dark']) .typeObject  { background: #3b2f00; color: #fde68a; }
+:global([data-theme='dark']) .typeMap     { background: #0c2a3b; color: #7dd3fc; }
+
+.required {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #15803d;
+  background: #dcfce7;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+.optional {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ifm-color-content-secondary);
+  background: var(--ifm-color-emphasis-200);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+:global([data-theme='dark']) .required {
+  color: #86efac;
+  background: #052e16;
+}
+
+.description {
+  margin: 0.3rem 0 0;
+  color: var(--ifm-color-content-secondary);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  padding-left: 1.45rem;
+}
+
+.enums {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.35rem;
+  padding-left: 1.45rem;
+}
+
+.enumVal {
+  font-size: 0.78rem;
+  background: var(--ifm-color-emphasis-200);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  color: var(--ifm-color-content);
+  border: none;
+}
+
+.children {
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-color-emphasis-100);
+}

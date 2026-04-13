@@ -39,7 +39,7 @@ Check the [Docusaurus changelog](https://github.com/facebook/docusaurus/blob/mai
 yarn build
 ```
 
-## Upgrading Dependencies
+## Upgrading All Dependencies
 
 Upgrade all dependencies to their latest versions:
 

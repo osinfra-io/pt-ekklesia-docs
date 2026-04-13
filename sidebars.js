@@ -76,7 +76,6 @@ const sidebars = {
       label: 'Stream-Aligned Teams',
       link: { type: 'doc', id: 'stream-aligned-teams/index' },
       items: [
-        'stream-aligned-teams/getting-started',
         'stream-aligned-teams/ethos/index',
       ],
     },
