@@ -48,6 +48,13 @@ const cards = [
     link: 'https://github.com/osinfra-io',
     linkText: 'Browse on GitHub →',
   },
+  {
+    icon: '🚀',
+    title: 'Get Started',
+    note: 'New to the platform? Use the Logos Agent to onboard your team — GCP projects, GitHub repos, and identity groups in minutes.',
+    link: '/stream-aligned-teams/getting-started',
+    linkText: 'Onboard your team →',
+  },
 ];
 
 function Hero() {
