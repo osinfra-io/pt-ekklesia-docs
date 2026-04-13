@@ -21,7 +21,16 @@ function SchemaProperty({ name, prop, depth = 0 }) {
       <div
         className={`${styles.header} ${hasChildren ? styles.expandable : ''}`}
         style={{ paddingLeft: `${depth * 1.5 + 1}rem` }}
+        role={hasChildren ? 'button' : undefined}
+        tabIndex={hasChildren ? 0 : undefined}
+        aria-expanded={hasChildren ? expanded : undefined}
         onClick={hasChildren ? () => setExpanded((v) => !v) : undefined}
+        onKeyDown={hasChildren ? (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setExpanded((v) => !v);
+          }
+        } : undefined}
       >
         <div className={styles.meta}>
           <span className={styles.chevron}>
