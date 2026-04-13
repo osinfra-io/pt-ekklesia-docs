@@ -1,5 +1,7 @@
+import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
+import AgentDemo from '@site/src/components/AgentDemo';
 import Card from '@site/src/components/Card';
 import CardGrid from '@site/src/components/CardGrid';
 
@@ -48,13 +50,6 @@ const cards = [
     link: 'https://github.com/osinfra-io',
     linkText: 'Browse on GitHub →',
   },
-  {
-    icon: '🚀',
-    title: 'Get Started',
-    note: 'New to the platform? Use the Logos Agent to onboard your team — GCP projects, GitHub repos, and identity groups in minutes.',
-    link: '/stream-aligned-teams/getting-started',
-    linkText: 'Onboard your team →',
-  },
 ];
 
 function Hero() {
@@ -98,6 +93,32 @@ function Features() {
   );
 }
 
+function GettingStarted() {
+  return (
+    <section className={styles.gettingStarted}>
+      <div className={styles.gettingStartedInner}>
+        <div className={styles.gettingStartedLeft}>
+          <Heading as="h2" className={styles.gettingStartedHeading}>
+            Your team, on the platform in minutes
+          </Heading>
+          <p className={styles.gettingStartedBody}>
+            The <strong>Logos Agent</strong> handles the full onboarding conversation and opens a pull request with every change — GCP folder hierarchy, identity groups, GitHub teams, Datadog team, and repositories. No YAML to write by hand, no support ticket to file.
+          </p>
+          <Link
+            to="/stream-aligned-teams#onboarding"
+            className={styles.gettingStartedCta}
+          >
+            Onboard your team →
+          </Link>
+        </div>
+        <div className={styles.gettingStartedRight}>
+          <AgentDemo />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CallToAction() {
   return (
     <section className={styles.cta}>
@@ -118,6 +139,7 @@ export default function Home() {
       <Hero />
       <main>
         <Features />
+        <GettingStarted />
         <CallToAction />
       </main>
     </Layout>
