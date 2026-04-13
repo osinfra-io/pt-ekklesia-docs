@@ -59,19 +59,19 @@ export default function AgentDemo({ messages = defaultMessages, title = defaultT
     <div className={styles.window}>
       <div className={styles.titleBar}>
         <div className={styles.windowButtons}>
-          <span className={styles.btn}>✕</span>
+          <span className={styles.btn} aria-hidden="true">✕</span>
         </div>
       </div>
       <div className={styles.messages}>
         {messages.map((msg, i) => (
           msg.role === 'user' ? (
             <div key={i} className={styles.userRow}>
-              <span className={styles.prompt}>❯</span>
+              <span className={styles.prompt} aria-hidden="true">❯</span>
               <span className={styles.userText}>{msg.text}</span>
             </div>
           ) : (
             <div key={i} className={styles.agentRow}>
-              <span className={styles.avatar}>🤖</span>
+              <span className={styles.avatar} aria-hidden="true">🤖</span>
               <div className={styles.agentOutput}>{msg.content}</div>
             </div>
           )
