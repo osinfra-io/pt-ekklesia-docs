@@ -6,7 +6,7 @@ const defaultTitle = 'GitHub Copilot — Logos Agent';
 const defaultMessages = [
   {
     role: 'user',
-    text: '/agent osinfra-io/pt-logos',
+    text: '/agent → Logos Agent',
   },
   {
     role: 'agent',
