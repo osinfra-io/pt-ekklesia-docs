@@ -24,7 +24,7 @@ Use the Arche Module Agent in osinfra-io/pt-arche-child-module-template to creat
 
 The agent takes it from there.
 
-:::tip Using the GitHub Copilot CLI
+:::tip Prefer the CLI
 
 Clone the template repo and run the Copilot CLI from within it — then type `/agent` and select **Arche Module Agent** from the menu:
 
