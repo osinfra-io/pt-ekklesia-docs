@@ -16,7 +16,11 @@ The **Arche Module Agent** is a GitHub Copilot coding agent that creates new `pt
 
 ### How to invoke it
 
-Open [GitHub Copilot](https://github.com/copilot), type `/agent`, and select **Arche Module Agent** from the menu.
+Open [GitHub Copilot](https://github.com/copilot) and ask it to use the Arche Module Agent from the `pt-arche-child-module-template` repository:
+
+```none
+Use the Arche Module Agent in osinfra-io/pt-arche-child-module-template to create a new module.
+```
 
 The agent takes it from there.
 

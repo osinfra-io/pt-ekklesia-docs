@@ -17,7 +17,11 @@ The Logos Agent manages everything a stream-aligned team needs on the platform: 
 
 ### How to invoke it
 
-Open [GitHub Copilot](https://github.com/copilot), type `/agent`, and select **Logos Agent** from the menu.
+Open [GitHub Copilot](https://github.com/copilot) and ask it to use the Logos Agent from the `pt-logos` repository:
+
+```none
+Use the Logos Agent in osinfra-io/pt-logos to onboard my team.
+```
 
 The agent will look up your identity, check whether you already exist on the platform, and walk you through the rest.
 
