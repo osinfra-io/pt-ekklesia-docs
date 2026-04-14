@@ -60,6 +60,7 @@ const sidebars = {
             'platform-teams/ekklesia/documentation',
           ],
         },
+        'platform-teams/kryptos/index',
         {
           type: 'category',
           label: 'Techne',
