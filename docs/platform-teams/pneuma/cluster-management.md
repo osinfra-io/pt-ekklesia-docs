@@ -20,7 +20,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 | Entity | Description |
 |---|---|
-| `gke-cluster` | A regional GKE cluster (regional control plane with zone-scoped node pools, e.g., `pt-pneuma-us-east1`) with KMS encryption, Workload Identity, and CIS hardening — regional control planes with zone-scoped node pools reduce Istio control plane hotspots |
+| `gke-cluster` | A regional GKE cluster (regional control plane with zone-scoped node pools, e.g., `pt-pneuma-us-east1-b`) with KMS encryption, Workload Identity, and CIS hardening — regional control planes with zone-scoped node pools reduce Istio control plane hotspots |
 | `node-pool` | A managed node pool with auto-provisioning, node auto-repair, and auto-upgrade |
 | `fleet` | A GKE Fleet registration enabling multi-cluster service discovery and ingress across zones |
 | `workload-identity` | Kubernetes-to-GCP service account mapping, allowing pods to authenticate to GCP without keys |
