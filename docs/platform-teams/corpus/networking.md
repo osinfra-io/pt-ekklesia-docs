@@ -24,16 +24,6 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
-## Domain
-
-| Entity | Description |
-|---|---|
-| `shared-vpc` | A VPC host project network shared across all team projects in an environment |
-| `subnet` | A regional subnetwork with primary node CIDR, pod secondary range, and service secondary range |
-| `firewall-rule` | Network-level traffic controls applied to the shared VPC |
-| `dns-zone` | A Cloud DNS managed zone for a platform domain (e.g., `osinfra.io`) |
-| `cloud-nat` | Managed NAT for private nodes to reach the internet without public IPs |
-
 ## IP Address Management
 
 The `10.0.0.0/8` RFC 1918 space is divided into four `/10` blocks, each supporting up to 30 isolated GKE clusters. VPCs use the same address space across sandbox, non-production, and production environments, with each environment isolated to its own project. All CIDR ranges are defined in [pt-logos](https://github.com/osinfra-io/pt-logos) and flow through [pt-corpus](https://github.com/osinfra-io/pt-corpus) to [pt-pneuma](https://github.com/osinfra-io/pt-pneuma).
@@ -140,6 +130,16 @@ This block is available for future use.
 
   </TabItem>
 </Tabs>
+
+## Domain
+
+| Entity | Description |
+|---|---|
+| `shared-vpc` | A VPC host project network shared across all team projects in an environment |
+| `subnet` | A regional subnetwork with primary node CIDR, pod secondary range, and service secondary range |
+| `firewall-rule` | Network-level traffic controls applied to the shared VPC |
+| `dns-zone` | A Cloud DNS managed zone for a platform domain (e.g., `osinfra.io`) |
+| `cloud-nat` | Managed NAT for private nodes to reach the internet without public IPs |
 
 ## Architecture Decision Records
 

@@ -81,6 +81,22 @@ tests/
 
 The `helpers.tofu` in the skeleton is pre-pinned to the current `pt-arche-core-helpers` SHA so the new module starts with an up-to-date foundational dependency.
 
+## Repository naming convention
+
+| Infrastructure type | Pattern | Example |
+|---|---|---|
+| GCP resource | `pt-arche-google-{resource}` | `pt-arche-google-cloud-run` |
+| Kubernetes add-on | `pt-arche-kubernetes-{addon}` | `pt-arche-kubernetes-cert-manager` |
+| Datadog integration | `pt-arche-datadog-{service}` | `pt-arche-datadog-google-integration` |
+
+## After creation
+
+Once the scaffold is pushed:
+
+1. Add your resource code to `main.tofu`, `locals.tofu`, `variables.tofu`, and `outputs.tofu`
+2. Update `tests/default.tftest.hcl` with any `mock_resource` overrides for computed attributes
+3. Tag a `v0.1.0` release once the initial code is merged — the release workflow generates notes and publishes automatically
+
 ## Domain
 
 Arche modules follow a two-sided contract between module authors and consumers.
@@ -101,18 +117,3 @@ module "google_project" {
 
 The SHA must come from after the squash merge lands on `main`, not from the PR branch tip. Branch SHAs are unstable and can be rewritten; `main` SHAs are permanent.
 
-## Repository naming convention
-
-| Infrastructure type | Pattern | Example |
-|---|---|---|
-| GCP resource | `pt-arche-google-{resource}` | `pt-arche-google-cloud-run` |
-| Kubernetes add-on | `pt-arche-kubernetes-{addon}` | `pt-arche-kubernetes-cert-manager` |
-| Datadog integration | `pt-arche-datadog-{service}` | `pt-arche-datadog-google-integration` |
-
-## After creation
-
-Once the scaffold is pushed:
-
-1. Add your resource code to `main.tofu`, `locals.tofu`, `variables.tofu`, and `outputs.tofu`
-2. Update `tests/default.tftest.hcl` with any `mock_resource` overrides for computed attributes
-3. Tag a `v0.1.0` release once the initial code is merged — the release workflow generates notes and publishes automatically

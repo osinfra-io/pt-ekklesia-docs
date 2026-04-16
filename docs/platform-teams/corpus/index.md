@@ -13,6 +13,14 @@ Corpus is the embodiment of that order — the structural form where networks, s
 
 Corpus consumes Logos outputs and provides the foundation for Pneuma workload environments.
 
+## Repositories
+
+- **[pt-corpus](https://github.com/osinfra-io/pt-corpus)**: OpenTofu configuration for GCP projects, shared VPC and networking, GitHub Actions service accounts, and encrypted state buckets
+
+### AI Context
+
+- **[pt-corpus-ai-context](https://github.com/osinfra-io/pt-corpus-ai-context)**: Team-level Copilot instructions for `pt-corpus-*` repositories
+
 ## Domain
 
 Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream supplier to Pneuma in the platform's [context map](/platform-teams#context-map).
@@ -31,10 +39,3 @@ Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream 
 
 Every GCP project is CIS-compliant at creation — there is no non-compliant state.
 
-## Repositories
-
-- **[pt-corpus](https://github.com/osinfra-io/pt-corpus)**: OpenTofu configuration for GCP projects, shared VPC and networking, GitHub Actions service accounts, and encrypted state buckets
-
-### AI Context
-
-- **[pt-corpus-ai-context](https://github.com/osinfra-io/pt-corpus-ai-context)**: Team-level Copilot instructions for `pt-corpus-*` repositories

@@ -15,6 +15,12 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
+## Policies
+
+| Constraint | Enforcement | Description |
+|---|---|---|
+| `K8sBlockIngress` | deny | Blocks creation of Kubernetes `Ingress` resources cluster-wide, except in the `istio-ingress` namespace, ensuring all external traffic flows through the Istio ingress gateway |
+
 ## Domain
 
 | Entity | Description |
@@ -23,12 +29,6 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 | `constraint` | An instance of a `constraint-template` with specific parameters (e.g., required label keys) |
 | `rego-policy` | The Rego logic embedded in a `constraint-template` that defines what is and is not admitted |
 | `audit-result` | A violation record produced when an existing resource fails a constraint in audit mode |
-
-## Policies
-
-| Constraint | Enforcement | Description |
-|---|---|---|
-| `K8sBlockIngress` | deny | Blocks creation of Kubernetes `Ingress` resources cluster-wide, except in the `istio-ingress` namespace, ensuring all external traffic flows through the Istio ingress gateway |
 
 ## Architecture Decision Records
 

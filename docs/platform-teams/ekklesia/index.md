@@ -15,6 +15,14 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
+## Repositories
+
+- **[pt-ekklesia-docs](https://github.com/osinfra-io/pt-ekklesia-docs)**: Platform documentation site powered by Docusaurus, published at [docs.osinfra.io](https://docs.osinfra.io) — see [Documentation](./documentation.md)
+
+### AI Context
+
+- **[pt-ekklesia-ai-context](https://github.com/osinfra-io/pt-ekklesia-ai-context)**: Team-level Copilot instructions for `pt-ekklesia-*` repositories
+
 ## Domain
 
 Ekklesia operates as the platform's **Shared Knowledge Domain** in the [context map](/platform-teams#context-map) — all teams contribute documentation here and consume it as the canonical reference for platform knowledge.
@@ -24,14 +32,6 @@ Ekklesia operates as the platform's **Shared Knowledge Domain** in the [context 
 ### Core Invariant
 
 When platform behaviour changes, the relevant doc page is updated in the same PR.
-
-## Repositories
-
-- **[pt-ekklesia-docs](https://github.com/osinfra-io/pt-ekklesia-docs)**: Platform documentation site powered by Docusaurus, published at [docs.osinfra.io](https://docs.osinfra.io) — see [Documentation](./documentation.md)
-
-### AI Context
-
-- **[pt-ekklesia-ai-context](https://github.com/osinfra-io/pt-ekklesia-ai-context)**: Team-level Copilot instructions for `pt-ekklesia-*` repositories
 
 ## Architecture Decision Records
 

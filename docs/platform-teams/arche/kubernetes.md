@@ -8,17 +8,6 @@ import ModuleCard from '@site/src/components/ModuleCard';
 
 Kubernetes add-on modules for service mesh, certificate management, policy enforcement, and cluster-level observability. These modules run on the GKE clusters provisioned by Pneuma.
 
-## Domain
-
-These modules form the **Kubernetes** bounded context within Arche. All are deployed by Pneuma onto GKE clusters.
-
-| Module | Domain Served | Purpose |
-|---|---|---|
-| `pt-arche-kubernetes-istio` | Pneuma | Istio service mesh with ingress gateway and Cloud Armor WAF |
-| `pt-arche-kubernetes-cert-manager` | Pneuma | cert-manager with Let's Encrypt ACME issuance |
-| `pt-arche-kubernetes-datadog-operator` | Pneuma | Datadog Operator and Agent DaemonSet |
-| `pt-arche-kubernetes-opa-gatekeeper` | Pneuma | OPA Gatekeeper with constraint templates |
-
 ## Modules
 
 <div className="row">
@@ -55,3 +44,14 @@ These modules form the **Kubernetes** bounded context within Arche. All are depl
     />
   </div>
 </div>
+
+## Domain
+
+These modules form the **Kubernetes** bounded context within Arche. All are deployed by Pneuma onto GKE clusters.
+
+| Module | Domain Served | Purpose |
+|---|---|---|
+| `pt-arche-kubernetes-istio` | Pneuma | Istio service mesh with ingress gateway and Cloud Armor WAF |
+| `pt-arche-kubernetes-cert-manager` | Pneuma | cert-manager with Let's Encrypt ACME issuance |
+| `pt-arche-kubernetes-datadog-operator` | Pneuma | Datadog Operator and Agent DaemonSet |
+| `pt-arche-kubernetes-opa-gatekeeper` | Pneuma | OPA Gatekeeper with constraint templates |

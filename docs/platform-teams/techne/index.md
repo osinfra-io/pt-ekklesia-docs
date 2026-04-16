@@ -15,6 +15,18 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
+## Repositories
+
+- **[pt-techne-opentofu-workflows](https://github.com/osinfra-io/pt-techne-opentofu-workflows)**: Reusable GitHub Actions called workflows for OpenTofu deployments — see [Deployment Automation](./deployment-automation.md)
+- **[pt-techne-misc-workflows](https://github.com/osinfra-io/pt-techne-misc-workflows)**: Reusable GitHub Actions called workflows for common repository tasks
+- **[pt-techne-pre-commit-hooks](https://github.com/osinfra-io/pt-techne-pre-commit-hooks)**: Pre-commit hooks for IaC validation and formatting — see [Developer Experience](./developer-experience.md)
+- **[pt-techne-opentofu-codespace](https://github.com/osinfra-io/pt-techne-opentofu-codespace)**: GitHub Codespace configuration for standardized OpenTofu development environments
+- **[pt-techne-development-setup](https://github.com/osinfra-io/pt-techne-development-setup)**: Local development setup and tooling configuration
+
+### AI Context
+
+- **[pt-techne-ai-context](https://github.com/osinfra-io/pt-techne-ai-context)**: Team-level Copilot instructions for `pt-techne-*` repositories
+
 ## Domain
 
 Techne operates using a **Conformist** pattern in the [context map](/platform-teams#context-map) — all platform teams adopt its workflows, hooks, and tooling as-is. There is no negotiation of interfaces.
@@ -31,18 +43,6 @@ Techne operates using a **Conformist** pattern in the [context map](/platform-te
 ### Core Invariant
 
 All deployments use short-lived OIDC tokens — no static credentials exist anywhere on the platform.
-
-## Repositories
-
-- **[pt-techne-opentofu-workflows](https://github.com/osinfra-io/pt-techne-opentofu-workflows)**: Reusable GitHub Actions called workflows for OpenTofu deployments — see [Deployment Automation](./deployment-automation.md)
-- **[pt-techne-misc-workflows](https://github.com/osinfra-io/pt-techne-misc-workflows)**: Reusable GitHub Actions called workflows for common repository tasks
-- **[pt-techne-pre-commit-hooks](https://github.com/osinfra-io/pt-techne-pre-commit-hooks)**: Pre-commit hooks for IaC validation and formatting — see [Developer Experience](./developer-experience.md)
-- **[pt-techne-opentofu-codespace](https://github.com/osinfra-io/pt-techne-opentofu-codespace)**: GitHub Codespace configuration for standardized OpenTofu development environments
-- **[pt-techne-development-setup](https://github.com/osinfra-io/pt-techne-development-setup)**: Local development setup and tooling configuration
-
-### AI Context
-
-- **[pt-techne-ai-context](https://github.com/osinfra-io/pt-techne-ai-context)**: Team-level Copilot instructions for `pt-techne-*` repositories
 
 ## Architecture Decision Records
 

@@ -20,6 +20,12 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
+## Repositories
+
+### AI Context
+
+- **[pt-arche-ai-context](https://github.com/osinfra-io/pt-arche-ai-context)**: Team-level Copilot instructions for `pt-arche-*` repositories
+
 ## Domain
 
 Arche operates as the platform's **Shared Kernel** in the [context map](/platform-teams#context-map) — versioned OpenTofu modules consumed by all teams as pinned dependencies.
@@ -42,12 +48,6 @@ Arche is decomposed into two bounded contexts that map directly to the infrastru
 ### Core Invariant
 
 Every module `ref` must point to a post-merge commit SHA on `main` — never a branch name or semver tag. This makes every deployment reproducible and auditable.
-
-## Repositories
-
-### AI Context
-
-- **[pt-arche-ai-context](https://github.com/osinfra-io/pt-arche-ai-context)**: Team-level Copilot instructions for `pt-arche-*` repositories
 
 ## Architecture Decision Records
 

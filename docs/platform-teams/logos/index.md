@@ -14,6 +14,15 @@ Logos is the foundational principle of order across systems — integrating mult
 
 Corpus depends directly on Logos outputs. All other infrastructure domains consume Logos data transitively via the [Arche Shared Kernel](/platform-teams/arche).
 
+## Repositories
+
+- **[pt-logos](https://github.com/osinfra-io/pt-logos)**: OpenTofu configuration for GCP folder hierarchy, Google Identity groups, GitHub teams and repositories, and Datadog teams
+
+### AI Context
+
+- **[pt-ai-context](https://github.com/osinfra-io/pt-ai-context)**: Platform-level Copilot instructions applying universally to all `pt-*` repositories
+- **[pt-logos-ai-context](https://github.com/osinfra-io/pt-logos-ai-context)**: Team-level Copilot instructions for `pt-logos-*` repositories
+
 ## Domain
 
 Logos is the upstream **Customer/Supplier** to Corpus in the platform's [context map](/platform-teams#context-map).
@@ -31,11 +40,3 @@ Logos is the upstream **Customer/Supplier** to Corpus in the platform's [context
 
 Every team definition produces exactly one set of GCP, GitHub, and Datadog resources.
 
-## Repositories
-
-- **[pt-logos](https://github.com/osinfra-io/pt-logos)**: OpenTofu configuration for GCP folder hierarchy, Google Identity groups, GitHub teams and repositories, and Datadog teams
-
-### AI Context
-
-- **[pt-ai-context](https://github.com/osinfra-io/pt-ai-context)**: Platform-level Copilot instructions applying universally to all `pt-*` repositories
-- **[pt-logos-ai-context](https://github.com/osinfra-io/pt-logos-ai-context)**: Team-level Copilot instructions for `pt-logos-*` repositories

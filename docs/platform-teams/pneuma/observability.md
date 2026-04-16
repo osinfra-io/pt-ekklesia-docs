@@ -6,16 +6,6 @@ sidebar_label: Observability
 
 The Datadog Operator runs on every GKE cluster and manages the Datadog Agent DaemonSet via a `DatadogAgent` custom resource. The operator authenticates using per-team API and app keys provisioned by Logos and injected as GitHub Actions secrets.
 
-## Domain
-
-| Entity | Description |
-|---|---|
-| `datadog-operator` | The Kubernetes operator that manages the lifecycle of Datadog Agent deployments |
-| `datadog-agent` | A cluster-level CRD defining the desired state of the Datadog Agent (features, log collection, APM) |
-| `daemon-set` | The underlying Kubernetes DaemonSet that runs a Datadog Agent pod on every node |
-| `cluster-agent` | A single-instance Datadog Cluster Agent that aggregates cluster-level metrics and forwards them to Datadog |
-| `metrics-config` | Configuration enabling specific metric collection (container, Kubernetes state, network) |
-
 ## Always-on features
 
 These features are hardcoded enabled in the `DatadogAgent` spec:
@@ -51,3 +41,14 @@ These features are disabled by default and carry additional per-host cost when e
 - **Software Composition Analysis (SCA)**: Identifies vulnerable open-source dependencies in deployed container images
 - **Cloud Security Posture Management (CSPM)**: Evaluates cloud resource configurations against security benchmarks (CIS, PCI-DSS, etc.)
 - **Cloud Workload Security (CWS)**: Detects runtime threats at the OS level using eBPF kernel event monitoring
+
+## Domain
+
+| Entity | Description |
+|---|---|
+| `datadog-operator` | The Kubernetes operator that manages the lifecycle of Datadog Agent deployments |
+| `datadog-agent` | A cluster-level CRD defining the desired state of the Datadog Agent (features, log collection, APM) |
+| `daemon-set` | The underlying Kubernetes DaemonSet that runs a Datadog Agent pod on every node |
+| `cluster-agent` | A single-instance Datadog Cluster Agent that aggregates cluster-level metrics and forwards them to Datadog |
+| `metrics-config` | Configuration enabling specific metric collection (container, Kubernetes state, network) |
+

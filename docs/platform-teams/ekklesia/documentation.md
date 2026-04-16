@@ -6,14 +6,6 @@ sidebar_label: Documentation
 
 [`pt-ekklesia-docs`](https://github.com/osinfra-io/pt-ekklesia-docs) is the platform documentation site, published at **[docs.osinfra.io](https://docs.osinfra.io)**.
 
-## Domain
-
-| Entity | Description |
-|---|---|
-| `doc-page` | A Markdown page in the Docusaurus site, organized by team and bounded context |
-| `adr` | An Architecture Decision Record embedded in a doc page, capturing context, decision, alternatives, and consequences |
-| `sidebar` | The Docusaurus navigation structure reflecting the domain model |
-
 ## Tech stack
 
 Built on [Docusaurus 3](https://docusaurus.io/) with the following features enabled:
@@ -37,3 +29,12 @@ When adding a new page:
 1. Create the Markdown file under `docs/`
 2. Register it in `sidebars.js` — the page will not appear in navigation until it is added there
 3. Open a pull request — the test build will validate there are no broken links before merge
+
+## Domain
+
+| Entity | Description |
+|---|---|
+| `doc-page` | A Markdown page in the Docusaurus site, organized by team and bounded context |
+| `adr` | An Architecture Decision Record embedded in a doc page, capturing context, decision, alternatives, and consequences |
+| `sidebar` | The Docusaurus navigation structure reflecting the domain model |
+
