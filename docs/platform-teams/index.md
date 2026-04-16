@@ -10,6 +10,8 @@ import CardGrid from '@site/src/components/CardGrid';
 
 Platform teams provide the foundational infrastructure and tooling that stream-aligned teams depend on. Each team owns a distinct bounded domain within the platform.
 
+## Teams
+
 <CardGrid>
   <Card item={{ icon: '🏛️', title: 'Logos', note: 'The foundational principle of order across systems — integrating multi-provider infrastructure, establishing boundaries, governance, and stable standards for teams to operate autonomously.', link: '/platform-teams/logos', linkText: 'Learn more →' }} />
   <Card item={{ icon: '🌐', title: 'Corpus', note: 'The embodiment of that order — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate.', link: '/platform-teams/corpus', linkText: 'Learn more →' }} />
