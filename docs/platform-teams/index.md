@@ -45,6 +45,7 @@ flowchart TD
     Techne -.->|"Conformist"| sc
     Ekklesia -.->|"Knowledge"| sc
 
+    Pneuma -->|"Customer/Supplier"| Kryptos
     Pneuma -->|"Customer/Supplier"| AllTeams
     Kryptos -->|"Customer/Supplier"| AllTeams
 ```
