@@ -16,6 +16,15 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
+## Domain-Driven Design
+
+| Entity | Description |
+|---|---|
+| `gke-cluster` | A zonal GKE cluster (e.g., `pt-pneuma-us-east1-b`) with KMS encryption, Workload Identity, and CIS hardening |
+| `node-pool` | A managed node pool with auto-provisioning, node auto-repair, and auto-upgrade |
+| `fleet` | A GKE Fleet registration enabling multi-cluster service discovery and ingress across zones |
+| `workload-identity` | Kubernetes-to-GCP service account mapping, allowing pods to authenticate to GCP without keys |
+
 ## Architecture Decision Records
 
 ### One Cluster Per Zone with Five Bounded Contexts

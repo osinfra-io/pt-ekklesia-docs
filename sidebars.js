@@ -80,6 +80,15 @@ const sidebars = {
         'stream-aligned-teams/ethos/index',
       ],
     },
+    {
+      type: 'category',
+      label: 'Enabling Teams',
+      link: { type: 'doc', id: 'enabling-teams/index' },
+      items: [
+        'enabling-teams/soteria/index',
+        'enabling-teams/sophrosyne/index',
+      ],
+    },
   ],
 };
 

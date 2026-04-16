@@ -15,6 +15,15 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
+## Domain-Driven Design
+
+| Entity | Description |
+|---|---|
+| `constraint-template` | A reusable policy definition written in Rego — parameterizable and cluster-scoped |
+| `constraint` | An instance of a `constraint-template` with specific parameters (e.g., required label keys) |
+| `rego-policy` | The Rego logic embedded in a `constraint-template` that defines what is and is not admitted |
+| `audit-result` | A violation record produced when an existing resource fails a constraint in audit mode |
+
 ## Policies
 
 | Constraint | Enforcement | Description |

@@ -16,6 +16,16 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
+## Domain-Driven Design
+
+| Entity | Description |
+|---|---|
+| `service-account` | A GCP service account created per repository and environment for GitHub Actions workloads |
+| `workload-identity-pool` | A Workload Identity Federation pool that maps GitHub OIDC tokens to GCP service accounts — no static credentials |
+| `workload-identity-provider` | An OIDC provider within the pool, scoped to a specific GitHub org and repository |
+| `artifact-registry` | A container image and package registry scoped per team, consumed by GKE workloads |
+| `state-bucket` | An encrypted GCS bucket per repository per environment used as the OpenTofu remote backend, protected by a per-environment KMS key |
+
 ## Architecture Decision Records
 
 ### Keyless Authentication via Workload Identity Federation
