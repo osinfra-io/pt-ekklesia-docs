@@ -13,6 +13,16 @@ Logos codifies the team structure that all platform tooling — GitHub, GCP, and
 - **GitHub repositories**: Repositories are registered in pt-logos and provisioned with standard settings — squash-only merges, repository rulesets enforcing PR reviews and signed commits, Datadog webhooks, and standard repository files (release notes config, security policy)
 - **Datadog teams**: Observability team structure mirrors GitHub teams; each team gets a service account with a per-team API key and app key stored as GitHub Actions secrets in that team's repositories
 
+## Domain-Driven Design
+
+| Entity | Description |
+|---|---|
+| `team` | A platform or stream-aligned team with a name, type, and member list |
+| `github-team` | A GitHub team mirroring the Logos team — controls repo access |
+| `repository` | A GitHub repository registered in Logos with standard settings and branch protection |
+| `branch-protection` | Rules applied to default branch: required reviews, status checks, no force push |
+| `datadog-team` | An observability team in Datadog mirroring the Logos team — owns dashboards and monitors |
+
 ## Team Configuration Schema
 
 Each team is defined as an entry in the `teams` map inside a `.tfvars` file under `teams/`. The schema below documents every available field — click any object or map to expand its properties.

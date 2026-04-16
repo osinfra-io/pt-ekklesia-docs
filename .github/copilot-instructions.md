@@ -48,9 +48,9 @@ Every team (platform or stream-aligned) gets a folder, not a flat page. This all
 
 ## Architecture Decision Records
 
-ADRs live at the bottom of the relevant documentation page under a `## Architecture Decision Records` heading — not in separate files. Each ADR is a `###` subsection with a descriptive title.
+ADRs live at the bottom of the relevant documentation page under a `## Architecture Decision Records` heading — not in separate files. This must always be the **last `##` heading on the page** — no sections follow it. Each ADR is a `###` subsection with a descriptive title.
 
-Add a `:::tip` admonition near the top of the page (after the intro paragraph) to signal that ADRs are present:
+If a page contains ADRs, add a `:::tip` admonition immediately after the opening intro content (paragraphs and any bullet list), before the first `##` section heading:
 
 ```md
 :::tip Architecture Decision Records

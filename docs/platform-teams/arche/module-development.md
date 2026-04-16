@@ -81,6 +81,26 @@ tests/
 
 The `helpers.tofu` in the skeleton is pre-pinned to the current `pt-arche-core-helpers` SHA so the new module starts with an up-to-date foundational dependency.
 
+## Domain-Driven Design
+
+Arche modules follow a two-sided contract between module authors and consumers.
+
+**Authors** tag releases with semver after merging to `main`. The release workflow generates notes and publishes automatically:
+
+```none
+git tag v1.2.3 && git push origin v1.2.3
+```
+
+**Consumers** never reference semver tags or branch names as `ref` values — they always pin to the post-merge commit SHA on `main` with an inline version comment:
+
+```hcl
+module "google_project" {
+  source = "github.com/osinfra-io/pt-arche-google-project?ref=<40-char-sha>"  # v1.2.3
+}
+```
+
+The SHA must come from after the squash merge lands on `main`, not from the PR branch tip. Branch SHAs are unstable and can be rewritten; `main` SHAs are permanent.
+
 ## Repository naming convention
 
 | Infrastructure type | Pattern | Example |

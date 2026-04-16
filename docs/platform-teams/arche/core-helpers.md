@@ -8,6 +8,10 @@ sidebar_label: Core Helpers
 
 Without it, every module would need to independently parse the OpenTofu workspace name, compute environment labels, read Logos remote state, and validate cost center and data classification. Core helpers does all of that once, in one place.
 
+## Domain-Driven Design
+
+In DDD terms, `pt-arche-core-helpers` is the platform's **Anti-Corruption Layer (ACL)**. It stands between raw OpenTofu workspace state and every module that needs deployment context. All environment strings, labels, team data, and folder IDs flow through it — no module accesses these values independently. This boundary prevents environment-specific logic from leaking into module implementations and ensures that adding a new environment or team requires no changes outside Logos and core-helpers.
+
 ## Two variants
 
 The module ships two variants consumed via different source paths:

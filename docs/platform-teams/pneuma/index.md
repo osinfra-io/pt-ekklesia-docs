@@ -15,6 +15,24 @@ Pneuma is the breath of life animating the platform via Kubernetes — orchestra
 
 Pneuma consumes Corpus networking and Logos team data to create fully operational Kubernetes environments.
 
+## Domain-Driven Design
+
+Pneuma is a downstream **Customer/Supplier** consumer of Corpus (networking and project infrastructure) and the Arche Shared Kernel (team data originating in Logos). It is an upstream supplier of Kubernetes clusters to all teams that need one — including Kryptos, which runs OpenBao on a Pneuma-managed cluster. See the [context map](/platform-teams#context-map).
+
+**Ubiquitous Language:** cluster, zone, node pool, fleet, workload identity, service mesh, certificate, constraint, policy, operator
+
+### Downstream Interfaces
+
+| Output | Consumed By | Via | Description |
+|---|---|---|---|
+| GKE cluster | All teams | Direct cluster provisioning | Kubernetes environment for workload deployment |
+| Kubernetes namespace | All teams | Logos team provisioning | Isolated namespace per team per cluster |
+| GKE cluster | Kryptos | Direct cluster provisioning | Dedicated cluster for OpenBao secrets infrastructure |
+
+### Core Invariant
+
+Every cluster has mTLS enforced, policy enforcement active, and observability running.
+
 ## Repositories
 
 - **[pt-pneuma](https://github.com/osinfra-io/pt-pneuma)**: OpenTofu configuration for GKE clusters and Kubernetes add-ons (cert-manager, Istio, OPA Gatekeeper, Datadog Operator)

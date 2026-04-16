@@ -12,7 +12,24 @@ Logos is the foundational principle of order across systems — integrating mult
 - **[Team Topology](./team-topology.md)**: GitHub teams and repositories, Datadog teams, and branch protection
 - **[SaaS Governance](./saas-governance.md)**: GitHub and Datadog organization-level settings and policies
 
-All downstream platform teams depend on Logos outputs for folder IDs, team data, and identity group references.
+Corpus depends directly on Logos outputs. All other infrastructure domains consume Logos data transitively via the [Arche Shared Kernel](/platform-teams/arche).
+
+## Domain-Driven Design
+
+Logos is the upstream **Customer/Supplier** to Corpus in the platform's [context map](/platform-teams#context-map).
+
+**Ubiquitous Language:** organization, environment, folder, identity group, team, repository, membership, branch protection
+
+### Downstream Interfaces
+
+| Output | Consumed By | Via | Description |
+|---|---|---|---|
+| `environment_folder_id` | Corpus | `module.core_helpers` | Places projects in the correct environment folder |
+| `teams` | Corpus | `module.core_helpers.teams` | Team data map — project names, folder IDs, and group emails |
+
+### Core Invariant
+
+Every team definition produces exactly one set of GCP, GitHub, and Datadog resources.
 
 ## Repositories
 

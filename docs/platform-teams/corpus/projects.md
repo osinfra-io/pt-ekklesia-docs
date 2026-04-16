@@ -16,6 +16,16 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
+## Domain-Driven Design
+
+| Entity | Description |
+|---|---|
+| `gcp-project` | A GCP project created under the correct environment folder with billing and APIs enabled |
+| `cis-policy` | A set of CIS GCP Foundation Benchmark controls applied at project creation (audit logging, OS Login, no default VPC) |
+| `billing-budget` | Automatic spending alerts at 50%, 75%, and 100% of threshold on every project |
+| `labels` | Standard label set derived from `module.core_helpers.labels` — always includes `env`, `team`, `managed-by` |
+| `monitoring-channel` | Cloud Monitoring notification channels for budget and infrastructure change alerts |
+
 ## Architecture Decision Records
 
 ### CIS GCP Foundation Benchmark Compliance by Default
