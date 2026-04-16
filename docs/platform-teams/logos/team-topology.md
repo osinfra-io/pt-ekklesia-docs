@@ -13,7 +13,7 @@ Logos codifies the team structure that all platform tooling — GitHub, GCP, and
 - **GitHub repositories**: Repositories are registered in pt-logos and provisioned with standard settings — squash-only merges, repository rulesets enforcing PR reviews and signed commits, Datadog webhooks, and standard repository files (release notes config, security policy)
 - **Datadog teams**: Observability team structure mirrors GitHub teams; each team gets a service account with a per-team API key and app key stored as GitHub Actions secrets in that team's repositories
 
-## Domain-Driven Design
+## Domain
 
 | Entity | Description |
 |---|---|

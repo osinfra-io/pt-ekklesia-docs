@@ -20,9 +20,9 @@ Platform teams provide the foundational infrastructure and tooling that stream-a
   <Card item={{ icon: '🛠️', title: 'Techne', note: 'The practiced art of making — the disciplined craft through which raw materials of infrastructure are shaped into purposeful, refined platform instruments.', link: '/platform-teams/techne', linkText: 'Learn more →' }} />
 </CardGrid>
 
-## Domain-Driven Design
+## Domain
 
-The platform is modeled using [Domain-Driven Design](https://martinfowler.com/bliki/DomainDrivenDesign.html) — each team owns a bounded domain with explicit upstream/downstream relationships.
+The platform is organized into bounded domains — each team owns one with explicit upstream/downstream relationships.
 
 ### Context Map
 

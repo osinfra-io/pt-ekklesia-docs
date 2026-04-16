@@ -13,7 +13,7 @@ Corpus is the embodiment of that order — the structural form where networks, s
 
 Corpus consumes Logos outputs and provides the foundation for Pneuma workload environments.
 
-## Domain-Driven Design
+## Domain
 
 Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream supplier to Pneuma in the platform's [context map](/platform-teams#context-map).
 

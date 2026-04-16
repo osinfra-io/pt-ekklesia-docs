@@ -20,7 +20,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
-## Domain-Driven Design
+## Domain
 
 Arche operates as the platform's **Shared Kernel** in the [context map](/platform-teams#context-map) — versioned OpenTofu modules consumed by all teams as pinned dependencies.
 
@@ -83,7 +83,7 @@ Modules are decomposed into two bounded contexts reflecting their infrastructure
 
 This decomposition maps directly to the deployment layers in Corpus (GCP) and Pneuma (Kubernetes), making it clear which modules each domain consumes.
 
-A similar inner-source contribution model is used by [Techne](/platform-teams/techne#techne-as-a-conformist-platform-tooling-layer) and [Ekklesia](/platform-teams/ekklesia#ekklesia-as-the-platforms-shared-knowledge-domain) — the difference is artifact type and DDD relationship pattern. Arche shares OpenTofu modules as a Shared Kernel; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration as a Conformist; Ekklesia shares documentation as a Shared Knowledge Domain.
+A similar inner-source contribution model is used by [Techne](/platform-teams/techne#techne-as-a-conformist-platform-tooling-layer) and [Ekklesia](/platform-teams/ekklesia#ekklesia-as-the-platforms-shared-knowledge-domain) — the difference is artifact type and domain relationship pattern. Arche shares OpenTofu modules as a Shared Kernel; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration as a Conformist; Ekklesia shares documentation as a Shared Knowledge Domain.
 
 #### Alternatives Considered
 

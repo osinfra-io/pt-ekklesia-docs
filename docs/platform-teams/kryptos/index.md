@@ -7,7 +7,7 @@ description: The hidden foundation of platform security — managing cryptograph
 
 The hidden foundation of platform security — managing cryptographic primitives, secrets infrastructure, and security controls that underpin all teams on the platform.
 
-## Domain-Driven Design
+## Domain
 
 Kryptos is a downstream **Customer/Supplier** consumer of Pneuma (runs OpenBao on Pneuma-managed clusters) and an upstream supplier of secrets management to all teams in the [context map](/platform-teams#context-map).
 

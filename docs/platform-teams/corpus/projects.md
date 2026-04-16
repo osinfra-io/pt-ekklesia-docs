@@ -16,7 +16,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
-## Domain-Driven Design
+## Domain
 
 | Entity | Description |
 |---|---|

@@ -8,7 +8,7 @@ import ModuleCard from '@site/src/components/ModuleCard';
 
 GCP infrastructure modules covering project governance, networking, compute, storage, and Datadog observability integration. All modules consume `pt-arche-core-helpers` for environment detection, labels, and team data.
 
-## Domain-Driven Design
+## Domain
 
 These modules form the **Google Cloud** bounded context within Arche. The **Domain Served** column identifies which platform domain primarily consumes each module.
 

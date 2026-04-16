@@ -14,7 +14,7 @@ Logos is the foundational principle of order across systems — integrating mult
 
 Corpus depends directly on Logos outputs. All other infrastructure domains consume Logos data transitively via the [Arche Shared Kernel](/platform-teams/arche).
 
-## Domain-Driven Design
+## Domain
 
 Logos is the upstream **Customer/Supplier** to Corpus in the platform's [context map](/platform-teams#context-map).
 

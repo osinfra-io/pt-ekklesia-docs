@@ -15,7 +15,7 @@ Pneuma is the breath of life animating the platform via Kubernetes — orchestra
 
 Pneuma consumes Corpus networking and Logos team data to create fully operational Kubernetes environments.
 
-## Domain-Driven Design
+## Domain
 
 Pneuma is a downstream **Customer/Supplier** consumer of Corpus (networking and project infrastructure) and the Arche Shared Kernel (team data originating in Logos). It is an upstream supplier of Kubernetes clusters to all teams that need one — including Kryptos, which runs OpenBao on a Pneuma-managed cluster. See the [context map](/platform-teams#context-map).
 

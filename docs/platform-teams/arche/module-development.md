@@ -81,7 +81,7 @@ tests/
 
 The `helpers.tofu` in the skeleton is pre-pinned to the current `pt-arche-core-helpers` SHA so the new module starts with an up-to-date foundational dependency.
 
-## Domain-Driven Design
+## Domain
 
 Arche modules follow a two-sided contract between module authors and consumers.
 

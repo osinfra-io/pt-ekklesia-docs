@@ -10,7 +10,7 @@ cert-manager manages all certificate issuance within the platform, acting as the
 - **istio-csr**: The cert-manager Istio Certificate Signing Request agent replaces istiod's built-in Citadel CA — the component responsible for signing certificate signing requests (CSRs) from Envoy sidecars. All workload mTLS certificates are signed by cert-manager through this integration; istiod continues to handle config distribution, service discovery, and sidecar injection as normal.
 - **Automatic rotation**: cert-manager handles certificate issuance and rotation for all mesh workloads without manual intervention
 
-## Domain-Driven Design
+## Domain
 
 | Entity | Description |
 |---|---|

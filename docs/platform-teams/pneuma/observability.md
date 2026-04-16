@@ -6,7 +6,7 @@ sidebar_label: Observability
 
 The Datadog Operator runs on every GKE cluster and manages the Datadog Agent DaemonSet via a `DatadogAgent` custom resource. The operator authenticates using per-team API and app keys provisioned by Logos and injected as GitHub Actions secrets.
 
-## Domain-Driven Design
+## Domain
 
 | Entity | Description |
 |---|---|

@@ -11,7 +11,7 @@ Logos defines the GCP folder hierarchy that organizes all platform infrastructur
 - **Billing budgets**: A monthly budget with threshold alerts is created per team folder
 - **Folder IDs**: Exposed as outputs and consumed downstream by Corpus via `module.core_helpers.environment_folder_id`
 
-## Domain-Driven Design
+## Domain
 
 | Entity | Description |
 |---|---|

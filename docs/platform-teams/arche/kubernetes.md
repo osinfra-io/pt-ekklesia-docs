@@ -8,7 +8,7 @@ import ModuleCard from '@site/src/components/ModuleCard';
 
 Kubernetes add-on modules for service mesh, certificate management, policy enforcement, and cluster-level observability. These modules run on the GKE clusters provisioned by Pneuma.
 
-## Domain-Driven Design
+## Domain
 
 These modules form the **Kubernetes** bounded context within Arche. All are deployed by Pneuma onto GKE clusters.
 

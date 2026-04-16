@@ -15,7 +15,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
-## Domain-Driven Design
+## Domain
 
 Techne operates using a **Conformist** pattern in the [context map](/platform-teams#context-map) — all platform teams adopt its workflows, hooks, and tooling as-is. There is no negotiation of interfaces.
 
@@ -61,7 +61,7 @@ All deployments use short-lived OIDC tokens — no static credentials exist anyw
 
 Every platform repository needs the same foundational tooling: consistent OpenTofu deployment pipelines (OIDC auth, KMS-encrypted state, job summaries), pre-commit validation hooks, and a standardized developer environment. Without a shared approach, each repo would implement these independently, leading to drift and duplicated maintenance across dozens of repositories.
 
-This follows a similar inner-source contribution model to [Arche](/platform-teams/arche#arche-as-an-inner-source-shared-kernel) and [Ekklesia](/platform-teams/ekklesia#ekklesia-as-the-platforms-shared-knowledge-domain) — the difference is artifact type and DDD relationship pattern. Arche shares OpenTofu modules as a Shared Kernel; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration as a Conformist; Ekklesia shares documentation as a Shared Knowledge Domain.
+This follows a similar inner-source contribution model to [Arche](/platform-teams/arche#arche-as-an-inner-source-shared-kernel) and [Ekklesia](/platform-teams/ekklesia#ekklesia-as-the-platforms-shared-knowledge-domain) — the difference is artifact type and domain relationship pattern. Arche shares OpenTofu modules as a Shared Kernel; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration as a Conformist; Ekklesia shares documentation as a Shared Knowledge Domain.
 
 #### Decision
 

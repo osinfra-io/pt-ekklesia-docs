@@ -6,13 +6,13 @@ sidebar_label: Documentation
 
 [`pt-ekklesia-docs`](https://github.com/osinfra-io/pt-ekklesia-docs) is the platform documentation site, published at **[docs.osinfra.io](https://docs.osinfra.io)**.
 
-## Domain-Driven Design
+## Domain
 
 | Entity | Description |
 |---|---|
 | `doc-page` | A Markdown page in the Docusaurus site, organized by team and bounded context |
 | `adr` | An Architecture Decision Record embedded in a doc page, capturing context, decision, alternatives, and consequences |
-| `sidebar` | The Docusaurus navigation structure reflecting the DDD model |
+| `sidebar` | The Docusaurus navigation structure reflecting the domain model |
 
 ## Tech stack
 
