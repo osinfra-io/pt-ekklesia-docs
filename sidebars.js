@@ -77,7 +77,12 @@ const sidebars = {
       label: 'Stream-Aligned Teams',
       link: { type: 'doc', id: 'stream-aligned-teams/index' },
       items: [
-        'stream-aligned-teams/ethos/index',
+        {
+          type: 'category',
+          label: 'Ethos',
+          link: { type: 'doc', id: 'stream-aligned-teams/ethos/index' },
+          items: [],
+        },
       ],
     },
     {
@@ -85,8 +90,18 @@ const sidebars = {
       label: 'Enabling Teams',
       link: { type: 'doc', id: 'enabling-teams/index' },
       items: [
-        'enabling-teams/soteria/index',
-        'enabling-teams/sophrosyne/index',
+        {
+          type: 'category',
+          label: 'Sophrosyne',
+          link: { type: 'doc', id: 'enabling-teams/sophrosyne/index' },
+          items: [],
+        },
+        {
+          type: 'category',
+          label: 'Soteria',
+          link: { type: 'doc', id: 'enabling-teams/soteria/index' },
+          items: [],
+        },
       ],
     },
   ],
