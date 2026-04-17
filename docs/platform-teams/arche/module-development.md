@@ -24,9 +24,19 @@ cd pt-arche-child-module-template
 gh copilot
 ```
 
-:::warning GitHub MCP — write permissions required
+:::warning GitHub MCP — configuration required
 
 The agent opens pull requests and pushes files using the [GitHub MCP server](https://github.com/github/github-mcp-server). It must be enabled with **write** toolsets — read-only MCP will allow the agent to inspect state but it will not be able to create branches, push commits, or open pull requests.
+
+The GitHub MCP server must be configured with a **fine-grained Personal Access Token** scoped to the `osinfra-io` organization with the following permissions:
+
+| Permission | Access |
+|---|---|
+| Contents | Read and write |
+| Pull requests | Read and write |
+| Workflows | Read and write |
+
+Fine-grained PATs must be created through the GitHub web UI at [github.com/settings/personal-access-tokens/new](https://github.com/settings/personal-access-tokens/new).
 
 :::
 
