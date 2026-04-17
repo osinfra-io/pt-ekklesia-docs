@@ -92,13 +92,13 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Complicated Subsystems Teams',
-      link: { type: 'doc', id: 'complicated-subsystems-teams/index' },
+      label: 'Complicated Subsystem Teams',
+      link: { type: 'doc', id: 'complicated-subsystem-teams/index' },
       items: [
         {
           type: 'category',
           label: 'Mysterion',
-          link: { type: 'doc', id: 'complicated-subsystems-teams/mysterion/index' },
+          link: { type: 'doc', id: 'complicated-subsystem-teams/mysterion/index' },
           items: [],
         },
       ],

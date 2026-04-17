@@ -13,5 +13,5 @@ Complicated subsystems teams own areas of the system whose complexity demands su
 ## Teams
 
 <CardGrid>
-  <Card item={{ icon: '🔮', title: 'Mysterion', note: 'The keeper of hidden complexity — owning and evolving subsystems too intricate for any stream to hold, and revealing their inner workings through deep specialist knowledge.', link: '/complicated-subsystems-teams/mysterion', linkText: 'Learn more →' }} />
+  <Card item={{ icon: '🔮', title: 'Mysterion', note: 'The keeper of hidden complexity — owning and evolving subsystems too intricate for any stream to hold, and revealing their inner workings through deep specialist knowledge.', link: '/complicated-subsystem-teams/mysterion', linkText: 'Learn more →' }} />
 </CardGrid>
