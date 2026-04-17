@@ -13,6 +13,7 @@ Enabling teams provide specialist expertise on a temporary, collaborative basis 
 ## Teams
 
 <CardGrid>
+  <Card item={{ icon: '🔧', title: 'Foo', note: 'The Foo enabling team provides temporary, focused guidance to help other teams quickly adopt new tools and practices.', link: '/enabling-teams/foo', linkText: 'Learn more →' }} />
   <Card item={{ icon: '🛡️', title: 'Soteria', note: 'The keeper of safety and preservation — embedding security practices, threat modeling, and compliance into the flow of every team rather than treating security as a gate.', link: '/enabling-teams/soteria', linkText: 'Learn more →' }} />
   <Card item={{ icon: '⚖️', title: 'Sophrosyne', note: 'The virtue of soundness and self-discipline — helping teams define reliability targets, build observability, and sustain the health of the platform through SLOs and incident response.', link: '/enabling-teams/sophrosyne', linkText: 'Learn more →' }} />
 </CardGrid>
