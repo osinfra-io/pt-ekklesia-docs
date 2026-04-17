@@ -60,7 +60,12 @@ const sidebars = {
             'platform-teams/ekklesia/documentation',
           ],
         },
-        'platform-teams/kryptos/index',
+        {
+          type: 'category',
+          label: 'Kryptos',
+          link: { type: 'doc', id: 'platform-teams/kryptos/index' },
+          items: [],
+        },
         {
           type: 'category',
           label: 'Techne',
