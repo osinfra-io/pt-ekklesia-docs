@@ -85,6 +85,12 @@ const sidebars = {
       label: 'Enabling Teams',
       link: { type: 'doc', id: 'enabling-teams/index' },
       items: [
+        {
+          type: 'category',
+          label: 'Foo',
+          link: { type: 'doc', id: 'enabling-teams/foo/index' },
+          items: [],
+        },
         'enabling-teams/soteria/index',
         'enabling-teams/sophrosyne/index',
       ],
