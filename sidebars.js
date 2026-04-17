@@ -87,6 +87,19 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Complicated Subsystems Teams',
+      link: { type: 'doc', id: 'complicated-subsystems-teams/index' },
+      items: [
+        {
+          type: 'category',
+          label: 'Mysterion',
+          link: { type: 'doc', id: 'complicated-subsystems-teams/mysterion/index' },
+          items: [],
+        },
+      ],
+    },
+    {
+      type: 'category',
       label: 'Enabling Teams',
       link: { type: 'doc', id: 'enabling-teams/index' },
       items: [
