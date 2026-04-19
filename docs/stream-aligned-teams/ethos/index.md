@@ -1,8 +1,8 @@
 ---
 sidebar_label: Ethos
-description: The guiding philosophy that shapes platform principles.
+description: The lived moral character that customers experience — the trustworthiness, transparency, and integrity through which the business earns and keeps their confidence.
 ---
 
 # Ethos
 
-Ethos is the guiding philosophy that shapes platform principles.
+Ethos is the lived moral character that customers experience — the trustworthiness, transparency, and integrity through which the business earns and keeps their confidence.
