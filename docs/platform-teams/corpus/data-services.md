@@ -15,15 +15,6 @@ Corpus owns the VPC-level prerequisites that allow stream-aligned teams to consu
 
 **Key rule:** Managed data service VPC prerequisites are provisioned once per environment by Corpus. Stream-aligned teams provision their own instances after this foundation exists.
 
-## Responsibilities by Team
-
-| Work | Owner | Scope |
-|---|---|---|
-| Private Services Access peering + reserved IP range in host VPC | **Corpus** | One-time per environment; covers both Cloud SQL and Memorystore |
-| `pt-arche-google-cloud-sql` module | **Arche** | Existing module |
-| `pt-arche-google-memorystore-redis` module | **Arche** | New module, same pattern as `pt-arche-google-cloud-sql` |
-| Instance declarations, Pub/Sub topics/subscriptions, IAM bindings | **Stream-aligned teams** | Self-service, consumed from Arche modules |
-
 ## Pub/Sub
 
 Pub/Sub requires no platform prerequisites beyond what already exists. Private Google Access is enabled on all Shared VPC subnets, meaning pods reach `pubsub.googleapis.com` without NAT or additional configuration. Stream-aligned teams declare their own topics and subscriptions in their own repositories.
