@@ -278,12 +278,12 @@ const logosTeamSchema = {
     type: 'object',
     required: false,
     description:
-      'Platform-managed project configuration. Presence of this block drives creation of a shared GCP project in pt-corpus that hosts GKE clusters, managed data services (Cloud SQL, Redis), and other platform workloads. Omit entirely if the team needs neither GKE nor managed data services.',
+      'Platform-managed project configuration. Presence of this block drives creation of a shared GCP project in pt-corpus that hosts GKE clusters or managed data services (Cloud SQL, Redis, etc.). Omit entirely if the team needs neither.',
     properties: {
       enable_datadog: {
         type: 'boolean',
         required: false,
-        description: "Enables Datadog Google Cloud integration for the team's platform-managed project. Applies to all workloads in the project — GKE clusters, data services, and other resources.",
+        description: "Enables Datadog Google Cloud integration for the team's platform-managed project. Applies to all workloads in the project — GKE clusters and managed data services.",
       },
       kubernetes_engine: {
         type: 'object',
