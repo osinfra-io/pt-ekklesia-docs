@@ -288,7 +288,7 @@ const logosTeamSchema = {
       kubernetes_engine: {
         type: 'object',
         required: false,
-        description: 'GKE cluster configuration, DNS zones, and Artifact Registry. Omit this block if the team needs only managed data services with no GKE.',
+        description: 'GKE cluster configuration, DNS zones, and Artifact Registry. Omit this block if the team needs only managed data services (Cloud SQL, Redis, etc.) with no GKE.',
         properties: {
           dns_subdomain: {
             type: 'string',
