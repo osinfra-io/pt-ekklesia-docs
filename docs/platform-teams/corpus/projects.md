@@ -33,7 +33,7 @@ Corpus creates up to two distinct GCP projects per team, driven entirely by team
 | Type | Logos field | Label | Purpose |
 |---|---|---|---|
 | **Team project** | `enable_google_project: true` | `project-type: team` | Ad-hoc team workloads, additional APIs, team-specific resources |
-| **Platform-managed project** | `platform_managed_project: { ... }` | `project-type: platform-managed` | GKE clusters, managed data services (Cloud SQL, Redis), Artifact Registry |
+| **Platform-managed project** | `platform_managed_project: { ... }` | `project-type: platform-managed` | GKE clusters, managed data services (Cloud SQL, Redis, etc.) |
 
 The **platform-managed project** is the shared workload project for a team. Its presence is declared in pt-logos and the project is created by pt-corpus. Its contents — GKE clusters, data services — are provisioned by pt-pneuma and stream-aligned team repositories consuming Arche modules.
 
