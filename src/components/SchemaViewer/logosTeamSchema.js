@@ -274,109 +274,116 @@ const logosTeamSchema = {
     },
   },
 
-  google_kubernetes_engine_clusters: {
+  platform_managed_project: {
     type: 'object',
     required: false,
     description:
-      'GKE cluster configuration, DNS zones, and Artifact Registry. Only specify if the team needs Kubernetes clusters.',
+      'Platform-managed project configuration. Presence of this block drives creation of a shared GCP project in pt-corpus that hosts GKE clusters, managed data services (Cloud SQL, Redis), and other platform workloads. Omit entirely if the team needs neither GKE nor managed data services.',
     properties: {
-      dns_subdomain: {
-        type: 'string',
-        required: false,
-        description:
-          'DNS subdomain for team services. Defaults to the team key with prefix removed. Creates zones: {subdomain}.osinfra.io, {subdomain}.nonprod.osinfra.io, {subdomain}.sb.osinfra.io.',
-      },
       enable_datadog: {
         type: 'boolean',
         required: false,
-        description: "Enables Datadog Google Cloud integration for the team's Kubernetes project.",
+        description: "Enables Datadog Google Cloud integration for the team's platform-managed project. Applies to all workloads in the project — GKE clusters, data services, and other resources.",
       },
-      artifact_registry_groups_memberships: {
+      kubernetes_engine: {
         type: 'object',
         required: false,
-        description: 'Container registry access control groups.',
+        description: 'GKE cluster configuration, DNS zones, and Artifact Registry. Omit this block if the team needs only managed data services with no GKE.',
         properties: {
-          readers: {
-            type: 'object',
-            required: false,
-            description: 'Can pull container images (roles/artifactregistry.reader).',
-            properties: {
-              owners: { type: 'string[]', required: false, description: 'Email addresses.' },
-              managers: { type: 'string[]', required: false, description: 'Email addresses.' },
-              members: { type: 'string[]', required: false, description: 'Email addresses.' },
-            },
-          },
-          writers: {
-            type: 'object',
-            required: false,
-            description: 'Can push container images (roles/artifactregistry.writer).',
-            properties: {
-              owners: { type: 'string[]', required: false, description: 'Email addresses.' },
-              managers: { type: 'string[]', required: false, description: 'Email addresses.' },
-              members: { type: 'string[]', required: false, description: 'Email addresses.' },
-            },
-          },
-        },
-      },
-      locations: {
-        type: 'map',
-        required: true,
-        description:
-          'GKE cluster locations keyed by GCP zone (e.g., "us-east1-b"). Only us-east1 and us-east4 zones are supported.',
-        properties: {
-          enable_gke_hub_host: {
-            type: 'boolean',
+          dns_subdomain: {
+            type: 'string',
             required: false,
             description:
-              'Set true for exactly one cluster to act as the fleet host for multi-cluster service discovery and cross-cluster ingress.',
+              'DNS subdomain for team services. Defaults to the team key with prefix removed. Creates zones: {subdomain}.osinfra.io, {subdomain}.nonprod.osinfra.io, {subdomain}.sb.osinfra.io.',
           },
-          node_pools: {
+          artifact_registry_groups_memberships: {
+            type: 'object',
+            required: false,
+            description: 'Container registry access control groups.',
+            properties: {
+              readers: {
+                type: 'object',
+                required: false,
+                description: 'Can pull container images (roles/artifactregistry.reader).',
+                properties: {
+                  owners: { type: 'string[]', required: false, description: 'Email addresses.' },
+                  managers: { type: 'string[]', required: false, description: 'Email addresses.' },
+                  members: { type: 'string[]', required: false, description: 'Email addresses.' },
+                },
+              },
+              writers: {
+                type: 'object',
+                required: false,
+                description: 'Can push container images (roles/artifactregistry.writer).',
+                properties: {
+                  owners: { type: 'string[]', required: false, description: 'Email addresses.' },
+                  managers: { type: 'string[]', required: false, description: 'Email addresses.' },
+                  members: { type: 'string[]', required: false, description: 'Email addresses.' },
+                },
+              },
+            },
+          },
+          locations: {
             type: 'map',
             required: true,
-            description: 'Node pool configurations. At least one pool named "default-pool" must be defined.',
-            properties: {
-              machine_type: {
-                type: 'string',
-                required: true,
-                description: 'GCE machine type (e.g., "e2-standard-2").',
-              },
-              min_node_count: {
-                type: 'number',
-                required: true,
-                description: 'Minimum nodes for autoscaling. Can be 0 for cost savings.',
-              },
-              max_node_count: {
-                type: 'number',
-                required: true,
-                description: 'Maximum nodes for autoscaling.',
-              },
-            },
-          },
-          subnet: {
-            type: 'object',
-            required: true,
             description:
-              "IP ranges for this cluster's VPC subnet. All ranges must be non-overlapping across all teams and environments.",
+              'GKE cluster locations keyed by GCP zone (e.g., "us-east1-b"). Only us-east1 and us-east4 zones are supported.',
             properties: {
-              ip_cidr_range: {
-                type: 'string',
-                required: true,
-                description: 'Primary IP range for cluster nodes. Must be /20 or larger.',
+              enable_gke_hub_host: {
+                type: 'boolean',
+                required: false,
+                description:
+                  'Set true for exactly one cluster to act as the fleet host for multi-cluster service discovery and cross-cluster ingress.',
               },
-              master_ipv4_cidr_block: {
-                type: 'string',
+              node_pools: {
+                type: 'map',
                 required: true,
-                description: 'Control plane IP range. Must be /28.',
+                description: 'Node pool configurations. At least one pool named "default-pool" must be defined.',
+                properties: {
+                  machine_type: {
+                    type: 'string',
+                    required: true,
+                    description: 'GCE machine type (e.g., "e2-standard-2").',
+                  },
+                  min_node_count: {
+                    type: 'number',
+                    required: true,
+                    description: 'Minimum nodes for autoscaling. Can be 0 for cost savings.',
+                  },
+                  max_node_count: {
+                    type: 'number',
+                    required: true,
+                    description: 'Maximum nodes for autoscaling.',
+                  },
+                },
               },
-              pod_ip_cidr_range: {
-                type: 'string',
+              subnet: {
+                type: 'object',
                 required: true,
-                description: 'Secondary IP range for pods. Must be /15 or larger.',
-              },
-              services_ip_cidr_range: {
-                type: 'string',
-                required: true,
-                description: 'Secondary IP range for Kubernetes Services.',
+                description:
+                  "IP ranges for this cluster's VPC subnet. All ranges must be non-overlapping across all teams and environments.",
+                properties: {
+                  ip_cidr_range: {
+                    type: 'string',
+                    required: true,
+                    description: 'Primary IP range for cluster nodes. Must be /20 or larger.',
+                  },
+                  master_ipv4_cidr_block: {
+                    type: 'string',
+                    required: true,
+                    description: 'Control plane IP range. Must be /28.',
+                  },
+                  pod_ip_cidr_range: {
+                    type: 'string',
+                    required: true,
+                    description: 'Secondary IP range for pods. Must be /15 or larger.',
+                  },
+                  services_ip_cidr_range: {
+                    type: 'string',
+                    required: true,
+                    description: 'Secondary IP range for Kubernetes Services.',
+                  },
+                },
               },
             },
           },

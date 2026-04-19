@@ -26,7 +26,24 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 | `labels` | Standard label set derived from `module.core_helpers.labels` — always includes `env`, `team`, `managed-by` |
 | `monitoring-channel` | Cloud Monitoring notification channels for budget and infrastructure change alerts |
 
-## Architecture Decision Records
+## Project Types
+
+Corpus creates up to two distinct GCP projects per team, driven entirely by team configuration in [pt-logos](https://github.com/osinfra-io/pt-logos):
+
+| Type | Logos field | Label | Purpose |
+|---|---|---|---|
+| **Team project** | `enable_google_project: true` | `project-type: team` | Ad-hoc team workloads, additional APIs, team-specific resources |
+| **Platform-managed project** | `platform_managed_project: { ... }` | `project-type: platform-managed` | GKE clusters, managed data services (Cloud SQL, Redis), Artifact Registry |
+
+The **platform-managed project** is the shared workload project for a team. Its presence is declared in pt-logos and the project is created by pt-corpus. Its contents — GKE clusters, data services — are provisioned by pt-pneuma and stream-aligned team repositories consuming Arche modules.
+
+A team declares a platform-managed project by adding a `platform_managed_project` block to their `.tfvars` entry. Within that block, `kubernetes_engine` is optional — a team may have:
+
+- **GKE only** — `platform_managed_project.kubernetes_engine` with `locations`; no data services
+- **Data services only** — `platform_managed_project` block present, `kubernetes_engine` omitted
+- **Both** — `platform_managed_project.kubernetes_engine` with `locations` and data service configuration in the project
+
+
 
 ### CIS GCP Foundation Benchmark Compliance by Default
 
