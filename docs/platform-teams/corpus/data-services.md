@@ -1,8 +1,8 @@
 ---
-sidebar_label: Managed Data Services
+sidebar_label: Data Services
 ---
 
-# Managed Data Services
+# Data Services
 
 Corpus owns the VPC-level prerequisites that allow stream-aligned teams to consume Google managed data services — Cloud SQL and Memorystore (Redis) — from within the Shared VPC. It does not own the instances themselves; those belong to the teams that run them.
 
