@@ -9,6 +9,7 @@ Corpus is the embodiment of that order — the structural form where networks, s
 
 - **[Projects](./projects.md)**: CIS-compliant GCP project creation with standard labels
 - **[Networking](./networking.md)**: Shared VPC, subnets, DNS zones, Cloud NAT
+- **[Managed Data Services](./data-services.md)**: Private Services Access peering for Cloud SQL and Memorystore; Corpus owns the VPC prerequisites, teams own their instances
 - **[CI/CD Enablement](./ci-cd-enablement.md)**: GitHub Actions workload identity, Artifact Registry, encrypted OpenTofu state buckets
 
 Corpus consumes Logos outputs and provides the foundation for Pneuma workload environments.
@@ -25,7 +26,7 @@ Corpus consumes Logos outputs and provides the foundation for Pneuma workload en
 
 Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream supplier to Pneuma in the platform's [context map](/platform-teams#context-map).
 
-**Ubiquitous Language:** project, CIS benchmark, subnet, shared VPC, firewall rule, DNS zone, workload identity, artifact registry, state bucket
+**Ubiquitous Language:** project, CIS benchmark, subnet, shared VPC, firewall rule, DNS zone, workload identity, artifact registry, state bucket, managed-services-ip-range, service-networking-connection
 
 ### Downstream Interfaces
 
