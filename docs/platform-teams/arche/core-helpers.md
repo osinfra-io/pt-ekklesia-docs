@@ -74,4 +74,3 @@ Consumed outputs include the GCP environment folder ID for the current team (use
 ## Domain
 
 In domain terms, `pt-arche-core-helpers` is the platform's **Anti-Corruption Layer (ACL)**. It stands between raw OpenTofu workspace state and every module that needs deployment context. All environment strings, labels, team data, and folder IDs flow through it — no module accesses these values independently. This boundary prevents environment-specific logic from leaking into module implementations and ensures that adding a new environment or team requires no changes outside Logos and core-helpers.
-

@@ -18,4 +18,3 @@ The hidden foundation of platform security — managing cryptographic primitives
 ## Domain
 
 Kryptos is a downstream **Customer/Supplier** consumer of Pneuma (runs OpenBao on Pneuma-managed clusters) and an upstream supplier of secrets management to all teams in the [context map](/platform-teams#context-map).
-

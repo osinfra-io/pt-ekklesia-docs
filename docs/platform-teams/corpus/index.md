@@ -39,4 +39,3 @@ Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream 
 ### Core Invariant
 
 Every GCP project is CIS-compliant at creation — there is no non-compliant state.
-
