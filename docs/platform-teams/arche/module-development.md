@@ -126,4 +126,3 @@ module "google_project" {
 ```
 
 The SHA must come from after the squash merge lands on `main`, not from the PR branch tip. Branch SHAs are unstable and can be rewritten; `main` SHAs are permanent.
-

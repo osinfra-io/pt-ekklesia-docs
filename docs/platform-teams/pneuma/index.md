@@ -41,4 +41,3 @@ Pneuma is a downstream **Customer/Supplier** consumer of Corpus (networking and 
 ### Core Invariant
 
 Every cluster has mTLS enforced, policy enforcement active, and observability running.
-

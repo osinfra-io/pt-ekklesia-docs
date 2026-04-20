@@ -2,6 +2,15 @@
 
 Platform documentation site built with [Docusaurus](https://docusaurus.io) and deployed via GitHub Pages.
 
+## Markdown Lint
+
+In addition to the platform-wide disabled rules (`MD013`, `MD033`, `MD045`), this Docusaurus site also disables:
+
+| Rule | Reason |
+| --- | --- |
+| `MD041` (first line should be a top-level heading) | Pages start with YAML front matter, not a heading |
+| `MD046` (consistent code block style) | Docusaurus admonitions and MDX mix fenced and indented code blocks |
+
 ## Branching
 
 Follow standard GitHub Flow: branch off `main`, open a PR, merge after the test-deploy check passes.

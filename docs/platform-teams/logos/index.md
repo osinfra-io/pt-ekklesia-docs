@@ -39,4 +39,3 @@ Logos is the upstream **Customer/Supplier** to Corpus in the platform's [context
 ### Core Invariant
 
 Every team definition produces exactly one set of GCP, GitHub, and Datadog resources.
-
