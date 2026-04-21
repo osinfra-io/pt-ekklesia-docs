@@ -7,7 +7,7 @@ description: The assembly of the called-out — where distinct capabilities are 
 
 Ekklesia is the assembly of the called-out — where distinct capabilities are gathered into a unified body, deliberating and acting in concert toward shared platform purpose. This is that assembly.
 
-Ekklesia operates as the platform's shared knowledge domain: a single centralized documentation site where every platform team contributes, rather than maintaining scattered per-repo READMEs or per-team wikis. See the [knowledge domain ADR](#ekklesia-as-the-platforms-shared-knowledge-domain) for the rationale.
+Ekklesia operates as the platform's shared knowledge domain: a single centralized documentation site where any team member can contribute, rather than maintaining scattered per-repo READMEs or per-team wikis. See the [knowledge domain ADR](#ekklesia-as-the-platforms-shared-knowledge-domain) for the rationale.
 
 :::tip Architecture Decision Records
 
@@ -25,13 +25,59 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 ## Domain
 
-Ekklesia operates as the platform's **Shared Knowledge Domain** in the [context map](/platform-teams#context-map) — all teams contribute documentation here and consume it as the canonical reference for platform knowledge.
+Ekklesia operates as the platform's **Shared Knowledge Domain** in the [context map](/platform-teams#context-map) — all teams contribute documentation here and consume it as the canonical reference for platform knowledge. Because documentation lives in version control and goes through the same PR process as code, it is subject to the same quality standards. Every team owns their section; Ekklesia owns the structure and tooling that makes contribution frictionless.
 
-**Ubiquitous Language:** page, architecture decision record, sidebar, contributor
+### Ubiquitous Language
 
-### Core Invariant
+| Term | Meaning in this domain |
+|---|---|
+| Architecture decision record | A structured record of a significant design decision — context, decision, alternatives considered, and consequences |
+| Contributor | Any team member who opens a PR to add or update documentation |
+| Page | A Markdown file in `pt-ekklesia-docs` that renders as a documentation page in the Docusaurus site |
+| Sidebar | The Docusaurus navigation tree defined in `sidebars.js` that organizes pages into sections |
 
-When platform behaviour changes, the relevant doc page is updated in the same PR.
+### Downstream Interfaces
+
+| Output | Consumed By | Via | Description |
+|---|---|---|---|
+| Documentation site | All teams and stakeholders | [docs.osinfra.io](https://docs.osinfra.io) | Canonical reference for platform architecture, module usage, deployment patterns, and operational guides |
+| Architecture decision records | All teams | [docs.osinfra.io](https://docs.osinfra.io) | Structured records of design decisions that inform how teams build and operate on the platform |
+
+### Cognitive Load
+
+Ekklesia carries the lightest operational load of any platform team — its domain is documentation tooling, which is low inherent complexity. The real challenge is breadth of knowledge: contributing meaningfully to platform docs requires understanding every other team's domain.
+
+| Working Domains | High Intrinsic Domains |
+|---|---|
+| 🟢 1 / 4 | 🟢 0 / 3 |
+
+Cognitive load by domain:
+
+| Domain | Intrinsic | Extraneous Reduced By | Germane Expertise |
+|---|---|---|---|
+| Documentation | 🟢 Low | Docusaurus + GitHub Pages | Technical writing, platform-wide context |
+
+**Capacity**: 0 high-complexity domains (Team Topologies guideline: 2–3); team members hold 1 active domain — well within the ~4 working-knowledge limit.
+
+**Extraneous load is minimized by:**
+
+- Docusaurus and GitHub Pages handle all build and hosting automatically
+- All teams contribute via standard GitHub Flow — no separate wiki system or access model
+- Documentation lives in version control alongside the code it describes
+
+**Germane load is built through:**
+
+- Technical writing: structuring complex infrastructure concepts for different audiences
+- Information architecture: organizing platform knowledge so engineers can find what they need quickly
+- Platform-wide context: Ekklesia contributors develop a uniquely broad understanding of how all domains fit together
+
+### Team Capacity
+
+| | |
+|---|---|
+| **Headcount** | Inner source — no dedicated engineer |
+| **Contribution model** | Every team updates their section as part of their own PRs; Ekklesia owns the site structure and tooling, not the content |
+| **Scale signal** | No scaling expected — documentation is a distributed responsibility by design |
 
 ## Architecture Decision Records
 
@@ -58,7 +104,7 @@ Operate a single Docusaurus site (`pt-ekklesia-docs`) as the canonical platform 
 
 - Version-controlled alongside the code it documents
 - Automatically built on pull requests and deployed to [docs.osinfra.io](https://docs.osinfra.io) on merge to `main`
-- Open for contribution from any platform team via GitHub Flow
+- Open for contribution from any team member via GitHub Flow
 
 #### Alternatives Considered
 

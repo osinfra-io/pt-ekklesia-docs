@@ -7,7 +7,7 @@ description: The practiced art of making — the disciplined craft through which
 
 Techne is the practiced art of making — the disciplined craft through which raw materials of infrastructure are shaped into purposeful, refined platform instruments.
 
-Techne operates as the platform's conformist tooling layer: versioned GitHub Actions called workflows, pre-commit hooks, and developer tooling published on GitHub and consumed by every platform repo as pinned dependencies. See the [conformist tooling ADR](#techne-as-a-conformist-platform-tooling-layer) for the rationale.
+Techne operates as the platform's shared kernel tooling layer: versioned GitHub Actions called workflows, pre-commit hooks, and developer tooling published on GitHub and consumed by platform and stream-aligned repositories as pinned dependencies. Any team can contribute improvements — changes to shared interfaces are coordinated with consumers. See the [shared kernel ADR](#techne-as-a-shared-kernel-platform-tooling-layer) for the rationale.
 
 :::tip Architecture Decision Records
 
@@ -29,24 +29,70 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 ## Domain
 
-Techne operates using a **Conformist** pattern in the [context map](/platform-teams#context-map) — all platform teams adopt its workflows, hooks, and tooling as-is. There is no negotiation of interfaces.
+Techne operates using a **Shared Kernel** pattern in the [context map](/platform-teams#context-map) — all teams share its workflows, hooks, and tooling as a jointly maintained foundation. Unlike a pure Conformist, interface changes are coordinated with consumers, and any team can contribute improvements via pull request. The Platform Lead holds final approval authority on interface changes due to the blast radius across all consumers.
 
-**Ubiquitous Language:** workflow, job, OIDC, pre-commit hook, codespace, toolchain
+### Ubiquitous Language
+
+| Term | Meaning in this domain |
+|---|---|
+| Codespace | A GitHub-hosted development environment defined in `pt-techne-opentofu-codespace` |
+| Job | A single GitHub Actions execution unit within a workflow (e.g., sandbox, non-production, production) |
+| OIDC | OpenID Connect — the token-based authentication protocol that eliminates static credentials from CI |
+| Pre-commit hook | A script in `pt-techne-pre-commit-hooks` that runs automatically before every git commit |
+| Toolchain | The complete set of CLIs and tools (tofu, pre-commit, gh) standardized across all repositories |
+| Workflow | A GitHub Actions called workflow in `pt-techne-opentofu-workflows` consumed via `workflow_call` |
 
 ### Bounded Contexts
 
 | Bounded Context | Artifacts | Consumed By |
 |---|---|---|
 | [Deployment Automation](./deployment-automation.md) | Called workflows, OIDC auth, state config, job summaries | All platform teams |
-| [Developer Experience](./developer-experience.md) | Codespace, pre-commit hooks, development setup | All platform teams |
+| [Developer Experience](./developer-experience.md) | Codespace, pre-commit hooks, development setup | All platform and stream-aligned teams |
 
 ### Core Invariant
 
 All deployments use short-lived OIDC tokens — no static credentials exist anywhere on the platform.
 
+### Cognitive Load
+
+Techne's domains are medium and low complexity individually — the craft is in designing tooling that reliably reduces extraneous load for every other team on the platform. A bug in a Techne called workflow or hook can affect all consumers simultaneously.
+
+| Working Domains | High Intrinsic Domains |
+|---|---|
+| 🟢 2 / 4 | 🟢 0 / 3 |
+
+Cognitive load by domain:
+
+| Domain | Intrinsic | Extraneous Reduced By | Germane Expertise |
+|---|---|---|---|
+| Deployment Automation | 🟡 Medium | Reusable called workflows | GitHub Actions, OIDC patterns |
+| Developer Experience | 🟢 Low | Pre-commit automation | DevX & productivity design |
+
+**Capacity**: 0 high-complexity domains (Team Topologies guideline: 2–3); team members hold 2 active domains — well within the ~4 working-knowledge limit.
+
+**Extraneous load is minimized by:**
+
+- Reusable called workflows mean no platform team implements its own deployment pipeline
+- Pre-commit hooks enforce standards automatically across all repos on every commit
+- OIDC authentication eliminates static credentials entirely — no rotation burden on any team
+
+**Germane load is built through:**
+
+- GitHub Actions ecosystem: called workflow design, input/output contracts, and backward compatibility
+- CI/CD security patterns: OIDC federation, least-privilege service accounts, and short-lived tokens
+- Developer productivity: understanding what friction platform and stream-aligned engineers actually encounter and systematically removing it
+
+### Team Capacity
+
+| | |
+|---|---|
+| **Headcount** | Inner source — no dedicated engineer |
+| **Contribution model** | Any team can contribute improvements; the Platform Lead holds final approval on interface changes due to blast radius across all consumers |
+| **Scale signal** | Stable once built — the platform lead or a senior engineer handles occasional updates |
+
 ## Architecture Decision Records
 
-### Techne as a Conformist Platform Tooling Layer
+### Techne as a Shared Kernel Platform Tooling Layer
 
 <table>
   <thead>
@@ -59,19 +105,19 @@ All deployments use short-lived OIDC tokens — no static credentials exist anyw
 
 #### Context and Problem Statement
 
-Every platform repository needs the same foundational tooling: consistent OpenTofu deployment pipelines (OIDC auth, KMS-encrypted state, job summaries), pre-commit validation hooks, and a standardized developer environment. Without a shared approach, each repo would implement these independently, leading to drift and duplicated maintenance across dozens of repositories.
+Every platform repository needs consistent OpenTofu deployment pipelines (OIDC auth, KMS-encrypted state, job summaries) and pre-commit validation hooks. All repositories — platform and stream-aligned — benefit from a standardized developer environment and shared toolchain. Without a shared approach, each repository would implement these independently, leading to drift and duplicated maintenance.
 
-This follows a similar inner-source contribution model to [Arche](/platform-teams/arche#arche-as-an-inner-source-shared-kernel) and [Ekklesia](/platform-teams/ekklesia#ekklesia-as-the-platforms-shared-knowledge-domain) — the difference is artifact type and domain relationship pattern. Arche shares OpenTofu modules as a Shared Kernel; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration as a Conformist; Ekklesia shares documentation as a Shared Knowledge Domain.
+This follows a similar inner-source contribution model to [Arche](/platform-teams/arche#arche-as-an-inner-source-shared-kernel) and [Ekklesia](/platform-teams/ekklesia#ekklesia-as-the-platforms-shared-knowledge-domain) — the difference is artifact type. Arche shares OpenTofu modules as a Shared Kernel; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration as a Shared Kernel; Ekklesia shares documentation as a Shared Knowledge Domain.
 
 #### Decision
 
-Organize all shared platform tooling as a conformist platform layer under the `pt-techne-*` namespace. Each repository is:
+Organize all shared tooling as a shared kernel layer under the `pt-techne-*` namespace. Each repository is:
 
 - A standalone GitHub repository with its own versioning and release pipeline
 - Consumed by callers via pinned references (commit SHAs for actions, tagged versions for hooks)
-- Owned by the Techne team and open for contribution from any platform team
+- Owned by the Techne team and open for contribution from any team
 
-The scope of consumers is broader than Arche — every platform repository uses Techne tooling, not just the three infrastructure domains.
+The scope of consumers is broader than Arche — Techne developer experience tooling (Codespace, pre-commit hooks, development setup) is consumed by all platform and stream-aligned teams, not just the infrastructure domains. Deployment automation is platform-team scoped.
 
 #### Alternatives Considered
 

@@ -30,7 +30,18 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 Arche operates as the platform's **Shared Kernel** in the [context map](/platform-teams#context-map) — versioned OpenTofu modules consumed by all teams as pinned dependencies.
 
-**Ubiquitous Language:** module, source, ref, version, label, environment, workspace, helpers
+### Ubiquitous Language
+
+| Term | Meaning in this domain |
+|---|---|
+| Environment | The deployment tier (sandbox, non-production, production) detected from the OpenTofu workspace name |
+| Helpers | The `pt-arche-core-helpers` module output struct providing env, labels, region, team, and teams data |
+| Label | A standard map of GCP resource tags applied to all resources (env, team, managed-by) |
+| Module | A versioned OpenTofu child module published in a `pt-arche-*` GitHub repository |
+| Ref | A 40-character commit SHA pinning a module to a specific post-merge state on `main` |
+| Source | The GitHub URL referencing a module, including the pinned commit SHA ref |
+| Version | A semver tag (e.g., v1.2.3) associated with a module release — documented as a comment alongside the ref |
+| Workspace | An OpenTofu workspace name encoding environment and optionally region or zone |
 
 ### Bounded Contexts
 
@@ -48,6 +59,44 @@ Arche is decomposed into two bounded contexts that map directly to the infrastru
 ### Core Invariant
 
 Every module `ref` must point to a post-merge commit SHA on `main` — never a branch name or semver tag. This makes every deployment reproducible and auditable.
+
+### Cognitive Load
+
+Arche's cognitive load centers on module design — building well-abstracted, versioned infrastructure primitives that reduce load for every team that consumes them. The Google Cloud context is medium complexity; the Kubernetes context is high, given the inherent complexity of the add-ons it packages.
+
+| Working Domains | High Intrinsic Domains |
+|---|---|
+| 🟢 3 / 4 | 🟢 1 / 3 |
+
+Cognitive load by domain:
+
+| Domain | Intrinsic | Extraneous Reduced By | Germane Expertise |
+|---|---|---|---|
+| Module Design & Versioning | 🟡 Medium | Template + Copilot agent | API design, semver strategy |
+| Google Cloud Patterns | 🟡 Medium | Pre-commit, mocked tests | GCP provider APIs |
+| Kubernetes Patterns | 🔴 High | Mocked provider tests | Helm, add-on internals |
+
+**Capacity**: 1 high-complexity domain (Team Topologies guideline: 2–3); team members hold 3 active domains — within the ~4 working-knowledge limit.
+
+**Extraneous load is minimized by:**
+
+- `pt-arche-child-module-template` and a Copilot agent scaffold new modules to the correct structure
+- Pre-commit hooks run `tofu fmt`, `tofu validate`, and `tofu test` automatically on every change
+- Mocked provider tests require no real GCP resources or credentials
+
+**Germane load is built through:**
+
+- IaC module design: API surface decisions, backward compatibility, and the cost of premature abstraction
+- Provider API mastery: understanding GCP and Kubernetes provider internals to build reliable, idiomatic modules
+- Versioning strategy: semver signalling, SHA pinning discipline, and coordinating the upgrade order across consumers
+
+### Team Capacity
+
+| | |
+|---|---|
+| **Headcount** | Inner source — no dedicated engineer |
+| **Contribution model** | Modules are built when a consuming team needs them and owned by whoever builds them; the child module template and Copilot agent make new module creation frictionless |
+| **Scale signal** | Scales with contributor interest — Arche is a domain standard and a set of versioned artifacts, not a team roster |
 
 ## Architecture Decision Records
 

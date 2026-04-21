@@ -65,7 +65,9 @@ const sidebars = {
           type: 'category',
           label: 'Kryptos',
           link: { type: 'doc', id: 'platform-teams/kryptos/index' },
-          items: [],
+          items: [
+            'platform-teams/kryptos/open-bao',
+          ],
         },
         {
           type: 'category',

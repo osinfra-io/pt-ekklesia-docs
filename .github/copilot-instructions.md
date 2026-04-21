@@ -59,6 +59,24 @@ Every team (platform or stream-aligned) gets a folder, not a flat page. This all
 
 If a page has a `## Domain` section, it must always be the **second-to-last `##` heading on the page** — immediately before `## Architecture Decision Records` if ADRs exist, or the **last `##` heading** if there are no ADRs.
 
+Platform team pages follow this standard `###` subheading order within `## Domain`:
+
+1. **`### Ubiquitous Language`** — a `| Term | Meaning in this domain |` table sorted alphabetically. Establishes shared vocabulary before anything else.
+2. **`### Downstream Interfaces`** or **`### Bounded Contexts`** — a table mapping bounded contexts or artifacts to their consumers. Use `Downstream Interfaces` for teams with explicit customer/supplier relationships; use `Bounded Contexts` for shared kernel teams (Arche, Techne).
+3. **`### Core Invariant`** — a single sentence stating the one rule this domain must never violate. Omit only if there is no enforceable invariant (see Ekklesia).
+4. **`### Cognitive Load`** — Team Topologies cognitive load analysis: summary paragraph, working/high-intrinsic heat table, domain-by-domain table, capacity statement, extraneous load mitigations, germane load.
+5. **`### Team Capacity`** — a 3-row definition-style table (no header labels on columns):
+
+```md
+| | |
+|---|---|
+| **Headcount** | `1 domain engineer` / `1–2 domain engineers` / `Inner source — no dedicated engineer` |
+| **Day-to-day work** or **Contribution model** | What the work actually looks like day-to-day |
+| **Scale signal** | When (or whether) to add headcount |
+```
+
+Use `**Day-to-day work**` for staffed teams; use `**Contribution model**` for inner source teams.
+
 ## Architecture Decision Records
 
 ADRs live at the bottom of the relevant documentation page under a `## Architecture Decision Records` heading — not in separate files. This must always be the **last `##` heading on the page** — no sections follow it. Each ADR is a `###` subsection with a descriptive title.

@@ -18,6 +18,6 @@ Istio is deployed on every GKE cluster, providing mTLS between services, fine-gr
 | `istio-control-plane` | The Istio control plane deployed via Helm, managing traffic policy across the mesh |
 | `ingress-gateway` | A managed ingress gateway exposed via a GCP load balancer |
 | `waf-policy` | A Cloud Armor security policy attached to the ingress gateway (OWASP rules, rate limiting, adaptive DDoS) |
-| `virtual-service` | An Istio routing rule defining traffic behaviour for a service (retries, timeouts, fault injection) |
+| `virtual-service` | An Istio routing rule defining traffic behavior for a service (retries, timeouts, fault injection) |
 | `destination-rule` | An Istio policy defining connection pool and circuit breaker settings for a destination |
 | `peer-authentication` | A mesh-wide policy enforcing strict mTLS between all services |
