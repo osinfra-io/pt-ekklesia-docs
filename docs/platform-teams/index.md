@@ -72,7 +72,7 @@ _🟢 within limit · 🟡 approaching · 🟠 at limit · 🔴 over limit_
 
 ### Team Capacity
 
-Headcount is derived from the cognitive load analysis above. Teams operating within capacity require one domain engineer to maintain and evolve their domain. Teams approaching or at their limit are candidates for additional capacity or domain reduction. Teams flagged 🔴 over limit are the highest priority for intervention — either a second engineer, scope reduction, or tooling investment to lower extraneous load.
+Headcount is derived from the cognitive load analysis above. When operating within capacity, a team requires one domain engineer to maintain and evolve its domain. A team approaching or at its limit is a candidate for additional capacity or scope reduction. Any team flagged 🔴 over limit is the highest priority for intervention — either a second engineer, scope reduction, or tooling investment to lower extraneous load.
 
 #### Platform Lead
 
