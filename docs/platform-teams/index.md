@@ -33,21 +33,86 @@ The primary flow is a **Customer/Supplier** chain — Logos supplies team and id
 ```mermaid
 flowchart TD
     Arche["🧱 Arche (Shared Kernel)"]
-    Techne["🛠️ Techne (Conformist)"]
+    Techne["🛠️ Techne (Shared Kernel)"]
     Ekklesia["📖 Ekklesia (Knowledge)"]
     Kryptos["🔐 Kryptos"]
     AllTeams(["All Teams"])
 
     subgraph sc ["Infrastructure Supply Chain"]
+        direction LR
         Logos["🏛️ Logos"] -->|"Customer/Supplier"| Corpus["🌐 Corpus"]
         Corpus -->|"Customer/Supplier"| Pneuma["☸️ Pneuma"]
     end
 
     Arche ==>|"Shared Kernel"| sc
-    Techne -.->|"Conformist"| sc
     Ekklesia -.->|"Knowledge"| sc
+    Techne ==>|"Shared Kernel"| sc
+    Techne ==>|"Shared Kernel"| AllTeams
 
     Pneuma -->|"Customer/Supplier"| Kryptos
     Pneuma -->|"Customer/Supplier"| AllTeams
     Kryptos -->|"Customer/Supplier"| AllTeams
 ```
+
+### Cognitive Load
+
+Team Topologies distinguishes three types of cognitive load — **intrinsic** (inherent domain complexity), **extraneous** (friction from poor tooling), and **germane** (productive expertise-building). The platform is designed to eliminate extraneous load through shared automation (Arche, Techne), so each team's cognitive budget is spent entirely on intrinsic and germane load.
+
+| Team | Working Domains | High Intrinsic Domains |
+|---|---|---|
+| Ekklesia | 🟢 1 / 4 | 🟢 0 / 3 |
+| Techne | 🟢 2 / 4 | 🟢 0 / 3 |
+| Arche | 🟢 3 / 4 | 🟢 1 / 3 |
+| Kryptos | 🟢 2 / 4 | 🟡 2 / 3 |
+| Logos | 🟠 4 / 4 | 🟢 0 / 3 |
+| Corpus | 🟠 4 / 4 | 🟢 1 / 3 |
+| Pneuma | 🔴 5 / 4 | 🟠 3 / 3 |
+
+_🟢 within limit · 🟡 approaching · 🟠 at limit · 🔴 over limit_
+
+### Team Capacity
+
+Headcount is derived from the cognitive load analysis above. When operating within capacity, a team requires one domain engineer to maintain and evolve its domain. A team approaching or at its limit is a candidate for additional capacity or scope reduction. Any team flagged 🔴 over limit is the highest priority for intervention — either a second engineer, scope reduction, or tooling investment to lower extraneous load.
+
+#### Platform Lead
+
+A single **Platform Lead** spans all seven teams. This role does not belong to any one team — it exists above them.
+
+Responsibilities:
+
+- Sets the platform's technical direction and architectural standards
+- Owns cross-team dependency sequencing (Logos → Corpus → Pneuma)
+- Reviews and ratifies Architecture Decision Records (ADRs) across all teams
+- Interfaces with stream-aligned team leads and engineering leadership
+- Unblocks cross-team decisions that no single domain engineer can resolve
+- Allocates capacity across staffed teams based on platform demand
+
+#### Domain Engineers
+
+Each staffed team has one domain engineer who owns that domain end-to-end. Pneuma is the exception — its operational surface scales with the number of clusters and stream-aligned teams consuming it.
+
+| Team | Engineers | Role |
+|---|---|---|
+| Logos | 1 | Owns org structure, identity, GitHub, and Datadog team management |
+| Corpus | 1 | Owns GCP projects, shared VPC, state buckets, and workload identity |
+| Pneuma | 1–2 | Owns GKE clusters, service mesh, policy enforcement, and cluster add-ons |
+| Kryptos | 1 | Owns secrets infrastructure, PKI, and cryptographic controls |
+| Arche | — | Inner source — no dedicated engineer |
+| Ekklesia | — | Inner source — no dedicated engineer |
+| Techne | — | Inner source — no dedicated engineer |
+
+**Total: 5–6 engineers + 1 Platform Lead**
+
+#### Inner Source Model
+
+Arche, Ekklesia, and Techne operate without dedicated engineers. Instead, they run as **inner source** repositories — open for contribution from any engineer on the platform or from stream-aligned teams.
+
+How it works:
+
+- Any engineer may open a pull request to an inner source repo
+- Domain engineers from staffed teams (Logos, Corpus, Pneuma, Kryptos) serve as code owners and reviewers
+- The Platform Lead has final approval authority on structural or architectural changes
+- Stream-aligned teams can unblock themselves by contributing fixes or enhancements directly, rather than filing tickets and waiting
+
+This model distributes platform knowledge across the organization, reduces bottlenecks on the staffed teams, and ensures inner source repos evolve with the needs of their consumers rather than on a centralized backlog.
+
