@@ -131,6 +131,22 @@ This block is available for future use.
   </TabItem>
 </Tabs>
 
+## Consumer Contract
+
+A new GKE cluster is always guaranteed a pre-allocated CIDR slot — no IP conflict is possible because every range is defined in [pt-logos](https://github.com/osinfra-io/pt-logos) before any cluster is created. **22 more clusters can be provisioned from the active `10.0.0.0/10` block before the next block must be activated; 112 more before the entire IPAM plan requires redesign.**
+
+| Metric | Value |
+|---|---|
+| Active block | `10.0.0.0/10` |
+| Slots in use | 8 of 30 |
+| Slots remaining (active block) | 22 |
+| Total capacity (all 4 blocks) | 120 clusters |
+| Capacity review threshold | 25 of 30 slots claimed in the active block |
+
+When the active block reaches 25 claimed slots, the Corpus team initiates a capacity review to activate the next `/10` block before the remaining 5 slots are exhausted.
+
+To provision a new cluster, open a pull request in [pt-logos](https://github.com/osinfra-io/pt-logos) assigning the next available CIDR slot to the new cluster. The Corpus team owns IPAM monitoring and approves all slot allocations.
+
 ## Domain
 
 | Entity | Description |
