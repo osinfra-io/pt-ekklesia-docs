@@ -51,6 +51,8 @@ Logos is the upstream **Customer/Supplier** to Corpus in the platform's [context
 
 Every team definition produces exactly one set of GCP, GitHub, and Datadog resources.
 
+## Team Topologies
+
 ### Cognitive Load
 
 Logos spans four domains across three SaaS providers — all driven from a single OpenTofu configuration. The cross-provider synchronization (GitHub + GCP + Datadog from one tfvars change) is the primary source of inherent complexity.

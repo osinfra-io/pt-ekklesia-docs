@@ -60,6 +60,8 @@ Arche is decomposed into two bounded contexts that map directly to the infrastru
 
 Every module `ref` must point to a post-merge commit SHA on `main` — never a branch name or semver tag. This makes every deployment reproducible and auditable.
 
+## Team Topologies
+
 ### Cognitive Load
 
 Arche's cognitive load centers on module design — building well-abstracted, versioned infrastructure primitives that reduce load for every team that consumes them. The Google Cloud context is medium complexity; the Kubernetes context is high, given the inherent complexity of the add-ons it packages.

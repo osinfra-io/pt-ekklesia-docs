@@ -43,6 +43,8 @@ Ekklesia operates using a **Shared Kernel** pattern in the [context map](/platfo
 | Documentation site | All teams and stakeholders | [docs.osinfra.io](https://docs.osinfra.io) | Canonical reference for platform architecture, module usage, deployment patterns, and operational guides |
 | Architecture decision records | All teams | [docs.osinfra.io](https://docs.osinfra.io) | Structured records of design decisions that inform how teams build and operate on the platform |
 
+## Team Topologies
+
 ### Cognitive Load
 
 Ekklesia carries the lightest operational load of any platform team — its bounded context is documentation tooling, which is low inherent complexity. The real challenge is breadth of knowledge: contributing meaningfully to platform docs requires understanding every other team's bounded context.

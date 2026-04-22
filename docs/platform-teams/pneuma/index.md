@@ -61,6 +61,8 @@ Pneuma is a downstream **Customer/Supplier** consumer of Corpus (networking and 
 
 Every cluster has mTLS enforced, policy enforcement active, and observability running.
 
+## Team Topologies
+
 ### Cognitive Load
 
 Pneuma is the most cognitively demanding platform team. It operates three domains of high inherent complexity simultaneously — Kubernetes clusters, an Istio service mesh, and a full PKI chain for workload certificates — alongside policy enforcement and observability. This is by design: these domains are inseparable at the cluster layer, and Arche modules carry the implementation weight so Pneuma engineers focus on orchestration and configuration rather than raw tooling.

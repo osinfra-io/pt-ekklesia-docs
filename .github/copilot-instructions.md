@@ -68,19 +68,24 @@ The platform documentation uses DDD concepts at two levels:
 | **Bounded Context** | Each team's implementation boundary — the `index.md` page documents this |
 | **Aggregate / Capability** | A sub-page within a team (e.g., `certificate-management.md`, `cluster-management.md`) |
 
-The `## Bounded Context` section documents the team's bounded context: its ubiquitous language, interfaces, invariants, cognitive load, and team capacity.
+The `## Bounded Context` section documents the team's DDD bounded context: its ubiquitous language, interfaces, and invariants. The `## Team Topologies` section documents the team's cognitive load and capacity.
 
 Sub-pages document **aggregates or capabilities** within that bounded context. They share the team's boundary and ubiquitous language but do not have their own cognitive load or team capacity — those belong to the bounded context (team index page) only.
 
 ### Team Index Pages (`index.md`)
 
-If a page has a `## Bounded Context` section, it must always be the **second-to-last `##` heading on the page** — immediately before `## Architecture Decision Records` if ADRs exist, or the **last `##` heading** if there are no ADRs.
+Team index pages use two top-level sections for team context, in this order:
 
-Team index pages follow this standard `###` subheading order within `## Bounded Context`:
+**`## Bounded Context`** → **`## Team Topologies`** → **`## Architecture Decision Records`** (last, if ADRs exist)
+
+`## Bounded Context` contains only the DDD subsections, in this order:
 
 1. **`### Ubiquitous Language`** — a `| Term | Meaning in this context |` table sorted alphabetically. Establishes shared vocabulary before anything else.
 2. **`### Downstream Interfaces`** or **`### Bounded Contexts`** — a table mapping bounded contexts or artifacts to their consumers. Use `Downstream Interfaces` for teams with explicit customer/supplier relationships; use `Bounded Contexts` for shared kernel teams (Arche, Techne).
 3. **`### Core Invariant`** — a single sentence stating the one rule this context must never violate. Omit only if there is no enforceable invariant (see Ekklesia).
+
+`## Team Topologies` is a separate section immediately after `## Bounded Context`, containing:
+
 4. **`### Cognitive Load`** — Team Topologies cognitive load analysis: summary paragraph, working/high-intrinsic heat table, domain-by-domain table, capacity statement, extraneous load mitigations, germane load.
 5. **`### Team Capacity`** — a 3-row definition-style table (no header labels on columns):
 

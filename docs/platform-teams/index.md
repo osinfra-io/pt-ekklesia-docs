@@ -55,6 +55,8 @@ flowchart TD
     Kryptos --> AllTeams
 ```
 
+## Team Topologies
+
 ### Cognitive Load
 
 Team Topologies distinguishes three types of cognitive load — **intrinsic** (inherent domain complexity), **extraneous** (friction from poor tooling), and **germane** (productive expertise-building). The platform is designed to eliminate extraneous load through shared automation (Arche, Techne), so each team's cognitive budget is spent entirely on intrinsic and germane load.

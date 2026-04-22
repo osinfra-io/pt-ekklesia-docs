@@ -47,6 +47,8 @@ Kryptos is a downstream **Customer/Supplier** consumer of Pneuma (runs OpenBao o
 
 All secrets distributed to consumers are dynamic or short-lived — no static credentials are stored in consumer repositories or CI environments.
 
+## Team Topologies
+
 ### Cognitive Load
 
 Kryptos owns two domains of high inherent complexity — secrets infrastructure and cryptographic primitives. The scope is deliberately narrow: depth over breadth, with no cluster operations burden (Pneuma handles that) and no deployment pipeline overhead (Techne handles that).

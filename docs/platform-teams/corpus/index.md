@@ -54,6 +54,8 @@ Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream 
 
 Every GCP project is CIS-compliant at creation — there is no non-compliant state.
 
+## Team Topologies
+
 ### Cognitive Load
 
 Corpus translates Logos abstractions into concrete GCP infrastructure — projects, networks, and CI/CD foundations. Networking is the domain of highest inherent complexity here, spanning VPC design, multi-region subnets, DNS, NAT, and Private Services Access.

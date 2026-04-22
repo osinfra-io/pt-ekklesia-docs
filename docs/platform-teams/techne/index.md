@@ -53,6 +53,8 @@ Techne operates using a **Shared Kernel** pattern in the [context map](/platform
 
 All deployments use short-lived OIDC tokens — no static credentials exist anywhere on the platform.
 
+## Team Topologies
+
 ### Cognitive Load
 
 Techne's domains are medium and low complexity individually — the craft is in designing tooling that reliably reduces extraneous load for every other team on the platform. A bug in a Techne called workflow or hook can affect all consumers simultaneously.
