@@ -133,17 +133,7 @@ This block is available for future use.
 
 ## Consumer Contract
 
-A new GKE cluster is always guaranteed a pre-allocated CIDR slot — no IP conflict is possible because every range is defined in [pt-logos](https://github.com/osinfra-io/pt-logos) before any cluster is created. **22 more clusters can be provisioned from the active `10.0.0.0/10` block before the IPAM plan must be expanded; 112 more before the entire plan requires redesign.**
-
-| Metric | Value |
-|---|---|
-| Active block | `10.0.0.0/10` |
-| Slots in use | 8 of 30 |
-| Slots remaining (active block) | 22 |
-| Total capacity (all 4 blocks) | 120 clusters |
-| Plan expansion required at | 30 of 30 slots claimed in the active block |
-
-When all 30 slots in the active block are claimed, the Logos Agent's IPAM sequences must be extended to cover the next `/10` block before any additional clusters can be provisioned.
+A new GKE cluster is always guaranteed a pre-allocated CIDR slot — no IP conflict is possible because every range is defined in [pt-logos](https://github.com/osinfra-io/pt-logos) before any cluster is created. The plan supports up to 30 clusters per `/10` block and 120 clusters total across all four blocks. When all 30 slots in the active block are claimed, the Logos Agent's IPAM sequences must be extended to cover the next `/10` block before any additional clusters can be provisioned.
 
 To provision a new cluster, use the [Logos Agent](https://github.com/osinfra-io/pt-logos/blob/main/.github/agents/logos.agent.md) in [pt-logos](https://github.com/osinfra-io/pt-logos). The agent reads all existing CIDR allocations from `teams/*.tfvars`, assigns the next available slot automatically, and opens the necessary pull requests — no manual CIDR selection required.
 
