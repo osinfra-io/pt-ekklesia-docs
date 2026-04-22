@@ -21,7 +21,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 |---|---|---|
 | `K8sBlockIngress` | deny | Blocks creation of Kubernetes `Ingress` resources cluster-wide, except in the `istio-ingress` namespace, ensuring all external traffic flows through the Istio ingress gateway |
 
-## Domain
+## Bounded Context
 
 | Entity | Description |
 |---|---|

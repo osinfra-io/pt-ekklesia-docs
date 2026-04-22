@@ -55,7 +55,7 @@ Every team (platform or stream-aligned) gets a folder, not a flat page. This all
 },
 ```
 
-## Domain Section
+## Bounded Context Section
 
 ### DDD Mapping
 
@@ -68,19 +68,19 @@ The platform documentation uses DDD concepts at two levels:
 | **Bounded Context** | Each team's implementation boundary — the `index.md` page documents this |
 | **Aggregate / Capability** | A sub-page within a team (e.g., `certificate-management.md`, `cluster-management.md`) |
 
-The `## Domain` heading on a team page documents the **bounded context**: its ubiquitous language, interfaces, invariants, cognitive load, and team capacity. The heading reads "Domain" for accessibility, but the mental model is bounded context.
+The `## Bounded Context` section documents the team's bounded context: its ubiquitous language, interfaces, invariants, cognitive load, and team capacity.
 
 Sub-pages document **aggregates or capabilities** within that bounded context. They share the team's boundary and ubiquitous language but do not have their own cognitive load or team capacity — those belong to the bounded context (team index page) only.
 
 ### Team Index Pages (`index.md`)
 
-If a page has a `## Domain` section, it must always be the **second-to-last `##` heading on the page** — immediately before `## Architecture Decision Records` if ADRs exist, or the **last `##` heading** if there are no ADRs.
+If a page has a `## Bounded Context` section, it must always be the **second-to-last `##` heading on the page** — immediately before `## Architecture Decision Records` if ADRs exist, or the **last `##` heading** if there are no ADRs.
 
-Team index pages follow this standard `###` subheading order within `## Domain`:
+Team index pages follow this standard `###` subheading order within `## Bounded Context`:
 
-1. **`### Ubiquitous Language`** — a `| Term | Meaning in this domain |` table sorted alphabetically. Establishes shared vocabulary before anything else.
+1. **`### Ubiquitous Language`** — a `| Term | Meaning in this context |` table sorted alphabetically. Establishes shared vocabulary before anything else.
 2. **`### Downstream Interfaces`** or **`### Bounded Contexts`** — a table mapping bounded contexts or artifacts to their consumers. Use `Downstream Interfaces` for teams with explicit customer/supplier relationships; use `Bounded Contexts` for shared kernel teams (Arche, Techne).
-3. **`### Core Invariant`** — a single sentence stating the one rule this domain must never violate. Omit only if there is no enforceable invariant (see Ekklesia).
+3. **`### Core Invariant`** — a single sentence stating the one rule this context must never violate. Omit only if there is no enforceable invariant (see Ekklesia).
 4. **`### Cognitive Load`** — Team Topologies cognitive load analysis: summary paragraph, working/high-intrinsic heat table, domain-by-domain table, capacity statement, extraneous load mitigations, germane load.
 5. **`### Team Capacity`** — a 3-row definition-style table (no header labels on columns):
 
@@ -96,9 +96,9 @@ Use `**Day-to-day work**` for staffed teams; use `**Contribution model**` for in
 
 ### Sub-Pages (Aggregates / Capabilities)
 
-Sub-pages may include a `## Domain` section scoped to their aggregate. The allowed subsections are:
+Sub-pages may include a `## Bounded Context` section scoped to their aggregate. The allowed subsections are:
 
-1. **`### Ubiquitous Language`** — terms specific to this aggregate, using the same `| Term | Meaning in this domain |` format sorted alphabetically.
+1. **`### Ubiquitous Language`** — terms specific to this aggregate, using the same `| Term | Meaning in this context |` format sorted alphabetically.
 2. **`### Downstream Interfaces`** — if this aggregate exposes a concrete interface consumed elsewhere within the bounded context or externally.
 3. **`### Core Invariant`** — if this aggregate has an enforceable invariant distinct from the team's.
 

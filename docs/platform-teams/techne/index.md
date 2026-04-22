@@ -27,13 +27,13 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 - **[pt-techne-ai-context](https://github.com/osinfra-io/pt-techne-ai-context)**: Team-level Copilot instructions for `pt-techne-*` repositories
 
-## Domain
+## Bounded Context
 
 Techne operates using a **Shared Kernel** pattern in the [context map](/platform-teams#context-map) — all teams share its workflows, hooks, and tooling as a jointly maintained foundation. Unlike a pure Conformist, interface changes are coordinated with consumers, and any team can contribute improvements via pull request. The Platform Lead holds final approval authority on interface changes due to the blast radius across all consumers.
 
 ### Ubiquitous Language
 
-| Term | Meaning in this domain |
+| Term | Meaning in this context |
 |---|---|
 | Codespace | A GitHub-hosted development environment defined in `pt-techne-opentofu-codespace` |
 | Job | A single GitHub Actions execution unit within a workflow (e.g., sandbox, non-production, production) |

@@ -42,7 +42,7 @@ These features are disabled by default and carry additional per-host cost when e
 - **Cloud Security Posture Management (CSPM)**: Evaluates cloud resource configurations against security benchmarks (CIS, PCI-DSS, etc.)
 - **Cloud Workload Security (CWS)**: Detects runtime threats at the OS level using eBPF kernel event monitoring
 
-## Domain
+## Bounded Context
 
 | Entity | Description |
 |---|---|

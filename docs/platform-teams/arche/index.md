@@ -26,13 +26,13 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 - **[pt-arche-ai-context](https://github.com/osinfra-io/pt-arche-ai-context)**: Team-level Copilot instructions for `pt-arche-*` repositories
 
-## Domain
+## Bounded Context
 
 Arche operates as the platform's **Shared Kernel** in the [context map](/platform-teams#context-map) — versioned OpenTofu modules consumed by all teams as pinned dependencies.
 
 ### Ubiquitous Language
 
-| Term | Meaning in this domain |
+| Term | Meaning in this context |
 |---|---|
 | Environment | The deployment tier (sandbox, non-production, production) detected from the OpenTofu workspace name |
 | Helpers | The `pt-arche-core-helpers` module output struct providing env, labels, region, team, and teams data |
@@ -115,7 +115,7 @@ Cognitive load by domain:
 
 The platform needs reusable infrastructure patterns — CIS-compliant GCP projects, shared VPC networks, GKE clusters, Istio, cert-manager, OPA Gatekeeper, and Datadog — consumed consistently by all platform teams. Without a shared approach, each team would implement these patterns independently, leading to drift, duplicated effort, and inconsistent security posture.
 
-The modules also need to evolve independently of the domains that consume them. A bug fix in the GKE module should not require changes to Corpus or Pneuma source code — only a version pin update.
+The modules also need to evolve independently of the bounded contexts that consume them. A bug fix in the GKE module should not require changes to Corpus or Pneuma source code — only a version pin update.
 
 #### Decision
 
@@ -130,13 +130,13 @@ Modules are decomposed into two bounded contexts reflecting their infrastructure
 - **Google Cloud** — GCP-level infrastructure (projects, networking, GKE, storage, Cloud SQL, Datadog integration)
 - **Kubernetes** — Cluster add-ons that run on GKE (Istio, cert-manager, Datadog Operator, OPA Gatekeeper)
 
-This decomposition maps directly to the deployment layers in Corpus (GCP) and Pneuma (Kubernetes), making it clear which modules each domain consumes.
+This decomposition maps directly to the deployment layers in Corpus (GCP) and Pneuma (Kubernetes), making it clear which modules each bounded context consumes.
 
 A similar inner-source contribution model is used by [Techne](/platform-teams/techne#techne-as-a-shared-kernel-platform-tooling-layer) and [Ekklesia](/platform-teams/ekklesia#ekklesia-as-an-inner-source-shared-kernel) — the difference is artifact type. Arche shares OpenTofu modules as a Shared Kernel; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration as a Shared Kernel; Ekklesia shares documentation as a Shared Kernel.
 
 #### Alternatives Considered
 
-- **Inline modules within each domain repo** — Rejected. Prevents reuse across domains and creates divergent implementations of the same patterns. A security fix would need to be applied in multiple places.
+- **Inline modules within each bounded context repo** — Rejected. Prevents reuse across bounded contexts and creates divergent implementations of the same patterns. A security fix would need to be applied in multiple places.
 - **A single monorepo with all modules** — Rejected. Couples unrelated modules to the same release cycle. A change to the GKE module would require re-releasing all modules. Independent repositories allow independent versioning.
 - **Use a Terraform Registry** — Rejected. Adds operational overhead (registry hosting, auth) with no benefit over direct GitHub source pinning, which is already reproducible and auditable.
 
@@ -145,4 +145,4 @@ A similar inner-source contribution model is used by [Techne](/platform-teams/te
 - All platform infrastructure patterns are defined once and consumed everywhere
 - Security and compliance improvements propagate to all consumers on their next module version bump
 - New modules follow an established template (`pt-arche-child-module-template`) and are registered in pt-logos
-- Consumers must coordinate module upgrades across domains when breaking changes are released — mitigated by semver signalling and the upgrade order convention (core-helpers → other arche modules → consumers)
+- Consumers must coordinate module upgrades across bounded contexts when breaking changes are released — mitigated by semver signalling and the upgrade order convention (core-helpers → other arche modules → consumers)

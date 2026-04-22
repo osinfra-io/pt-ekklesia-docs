@@ -17,13 +17,13 @@ The hidden foundation of platform security — managing cryptographic primitives
 
 - **[pt-kryptos-ai-context](https://github.com/osinfra-io/pt-kryptos-ai-context)**: Team-level Copilot instructions for `pt-kryptos-*` repositories
 
-## Domain
+## Bounded Context
 
 Kryptos is a downstream **Customer/Supplier** consumer of Pneuma (runs OpenBao on Pneuma-managed clusters) and an upstream supplier of secrets management to all teams in the [context map](/platform-teams#context-map).
 
 ### Ubiquitous Language
 
-| Term | Meaning in this domain |
+| Term | Meaning in this context |
 |---|---|
 | Dynamic credential | A short-lived secret generated on demand and automatically revoked on lease expiry |
 | Engine | A secrets backend (PKI, KV, database) that generates or stores credentials |

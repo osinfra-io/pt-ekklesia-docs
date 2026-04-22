@@ -40,7 +40,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
-## Domain
+## Bounded Context
 
 | Entity | Description |
 |---|---|

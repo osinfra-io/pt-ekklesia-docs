@@ -8,7 +8,7 @@ import CardGrid from '@site/src/components/CardGrid';
 
 # Platform Teams
 
-Platform teams provide the foundational infrastructure and tooling that stream-aligned teams depend on. Each team owns a distinct bounded domain within the platform.
+Platform teams provide the foundational infrastructure and tooling that stream-aligned teams depend on. Each team owns a distinct bounded context within the platform.
 
 ## Teams
 
@@ -22,9 +22,9 @@ Platform teams provide the foundational infrastructure and tooling that stream-a
   <Card item={{ icon: '🛠️', title: 'Techne', note: 'The practiced art of making — the disciplined craft through which raw materials of infrastructure are shaped into purposeful, refined platform instruments.', link: '/platform-teams/techne', linkText: 'Learn more →' }} />
 </CardGrid>
 
-## Domain
+## Bounded Context
 
-The platform is organized into bounded domains — each team owns one with explicit upstream/downstream relationships.
+The platform is organized into bounded contexts — each team owns one with explicit upstream/downstream relationships.
 
 ### Context Map
 
@@ -73,7 +73,7 @@ _🟢 within limit · 🟡 approaching · 🟠 at limit · 🔴 over limit_
 
 ### Team Capacity
 
-Headcount is derived from the cognitive load analysis above. When operating within capacity, a team requires one domain engineer to maintain and evolve its domain. A team approaching or at its limit is a candidate for additional capacity or scope reduction. Any team flagged 🔴 over limit is the highest priority for intervention — either a second engineer, scope reduction, or tooling investment to lower extraneous load.
+Headcount is derived from the cognitive load analysis above. When operating within capacity, a team requires one domain engineer to maintain and evolve its bounded context. A team approaching or at its limit is a candidate for additional capacity or scope reduction. Any team flagged 🔴 over limit is the highest priority for intervention — either a second engineer, scope reduction, or tooling investment to lower extraneous load.
 
 #### Platform Lead
 
@@ -90,7 +90,7 @@ Responsibilities:
 
 #### Domain Engineers
 
-Each staffed team has one domain engineer who owns that domain end-to-end. Pneuma is the exception — its operational surface scales with the number of clusters and stream-aligned teams consuming it.
+Each staffed team has one domain engineer who owns that bounded context end-to-end. Pneuma is the exception — its operational surface scales with the number of clusters and stream-aligned teams consuming it.
 
 | Team | Engineers | Role |
 |---|---|---|

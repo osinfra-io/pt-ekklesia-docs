@@ -12,7 +12,7 @@ Logos is the foundational principle of order across systems — integrating mult
 - **[Team Topology](./team-topology.md)**: GitHub teams and repositories, Datadog teams, and branch protection
 - **[SaaS Governance](./saas-governance.md)**: GitHub and Datadog organization-level settings and policies
 
-Corpus depends directly on Logos outputs. All other infrastructure domains consume Logos data transitively via the [Arche Shared Kernel](/platform-teams/arche).
+Corpus depends directly on Logos outputs. All other infrastructure bounded contexts consume Logos data transitively via the [Arche Shared Kernel](/platform-teams/arche).
 
 ## Repositories
 
@@ -23,13 +23,13 @@ Corpus depends directly on Logos outputs. All other infrastructure domains consu
 - **[pt-ai-context](https://github.com/osinfra-io/pt-ai-context)**: Platform-level Copilot instructions applying universally to all `pt-*` repositories
 - **[pt-logos-ai-context](https://github.com/osinfra-io/pt-logos-ai-context)**: Team-level Copilot instructions for `pt-logos-*` repositories
 
-## Domain
+## Bounded Context
 
 Logos is the upstream **Customer/Supplier** to Corpus in the platform's [context map](/platform-teams#context-map).
 
 ### Ubiquitous Language
 
-| Term | Meaning in this domain |
+| Term | Meaning in this context |
 |---|---|
 | Branch protection | A GitHub policy enforcing review and status check requirements on a repository |
 | Environment | A GCP folder scoping a deployment tier (sandbox, non-production, production) — for the canonical definition see [Arche Ubiquitous Language](/platform-teams/arche#ubiquitous-language) |

@@ -23,13 +23,13 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 - **[pt-ekklesia-ai-context](https://github.com/osinfra-io/pt-ekklesia-ai-context)**: Team-level Copilot instructions for `pt-ekklesia-*` repositories
 
-## Domain
+## Bounded Context
 
 Ekklesia operates using a **Shared Kernel** pattern in the [context map](/platform-teams#context-map) — all teams contribute documentation here and consume it as the canonical reference for platform knowledge. Because documentation lives in version control and goes through the same PR process as code, it is subject to the same quality standards. Every team owns their section; Ekklesia owns the structure and tooling that makes contribution frictionless.
 
 ### Ubiquitous Language
 
-| Term | Meaning in this domain |
+| Term | Meaning in this context |
 |---|---|
 | Architecture decision record | A structured record of a significant design decision — context, decision, alternatives considered, and consequences |
 | Contributor | Any team member who opens a PR to add or update documentation |
@@ -45,7 +45,7 @@ Ekklesia operates using a **Shared Kernel** pattern in the [context map](/platfo
 
 ### Cognitive Load
 
-Ekklesia carries the lightest operational load of any platform team — its domain is documentation tooling, which is low inherent complexity. The real challenge is breadth of knowledge: contributing meaningfully to platform docs requires understanding every other team's domain.
+Ekklesia carries the lightest operational load of any platform team — its bounded context is documentation tooling, which is low inherent complexity. The real challenge is breadth of knowledge: contributing meaningfully to platform docs requires understanding every other team's bounded context.
 
 | Working Domains | High Intrinsic Domains |
 |---|---|
@@ -69,7 +69,7 @@ Cognitive load by domain:
 
 - Technical writing: structuring complex infrastructure concepts for different audiences
 - Information architecture: organizing platform knowledge so engineers can find what they need quickly
-- Platform-wide context: Ekklesia contributors develop a uniquely broad understanding of how all domains fit together
+- Platform-wide context: Ekklesia contributors develop a uniquely broad understanding of how all bounded contexts fit together
 
 ### Team Capacity
 

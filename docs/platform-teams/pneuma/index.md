@@ -30,13 +30,13 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 - **[pt-pneuma-ai-context](https://github.com/osinfra-io/pt-pneuma-ai-context)**: Team-level Copilot instructions for `pt-pneuma-*` repositories
 
-## Domain
+## Bounded Context
 
 Pneuma is a downstream **Customer/Supplier** consumer of Corpus (networking and project infrastructure) and the Arche Shared Kernel (team data originating in Logos). It is an upstream supplier of Kubernetes clusters to all teams that need one — including Kryptos, which runs OpenBao on a Pneuma-managed cluster. See the [context map](/platform-teams#context-map).
 
 ### Ubiquitous Language
 
-| Term | Meaning in this domain |
+| Term | Meaning in this context |
 |---|---|
 | Certificate | An mTLS leaf certificate issued by cert-manager and signed by the mesh CA |
 | Cluster | A GKE Kubernetes cluster deployed to one or more zones within a Corpus project |

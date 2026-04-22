@@ -33,7 +33,7 @@ A team declares a platform-managed project by adding a `platform_managed_project
 - **Data services only** — `platform_managed_project` block present, `kubernetes_engine` omitted
 - **Both** — `platform_managed_project.kubernetes_engine` with `locations` and data service configuration in the project
 
-## Domain
+## Bounded Context
 
 | Entity | Description |
 |---|---|

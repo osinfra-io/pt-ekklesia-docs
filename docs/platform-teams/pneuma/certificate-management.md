@@ -16,11 +16,11 @@ Platform teams may use cert-manager for other certificate needs beyond Istio mTL
 
 :::
 
-## Domain
+## Bounded Context
 
 ### Ubiquitous Language
 
-| Term | Meaning in this domain |
+| Term | Meaning in this context |
 |---|---|
 | `istio-ca` | 720h intermediate CA Certificate (CN: `istio-intermediate-ca.osinfra.io`) stored as a Kubernetes Secret named `istio-ca` in `istio-system` — the Secret name and CN differ; this is the signing authority used by cert-manager-istio-csr for all workload CSRs |
 | `istio-ca-issuer` | cert-manager Issuer backed by the `istio-ca` Secret; cert-manager-istio-csr uses this issuer to sign Envoy sidecar certificates |
