@@ -32,7 +32,7 @@ Logos is the upstream **Customer/Supplier** to Corpus in the platform's [context
 | Term | Meaning in this domain |
 |---|---|
 | Branch protection | A GitHub policy enforcing review and status check requirements on a repository |
-| Environment | A deployment tier (sandbox, non-production, production) represented as a GCP folder |
+| Environment | A GCP folder scoping a deployment tier (sandbox, non-production, production) — for the canonical definition see [Arche Ubiquitous Language](/platform-teams/arche#ubiquitous-language) |
 | Folder | A GCP resource container that scopes IAM and billing within an environment |
 | Identity group | A Google Workspace group that grants role-based access to GCP resources |
 | Membership | The assignment of a user to an identity group or GitHub team |

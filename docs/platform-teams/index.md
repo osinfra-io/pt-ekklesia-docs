@@ -32,26 +32,27 @@ The primary flow is a **Customer/Supplier** chain — Logos supplies team and id
 
 ```mermaid
 flowchart TD
-    Arche["🧱 Arche (Shared Kernel)"]
-    Techne["🛠️ Techne (Shared Kernel)"]
-    Ekklesia["📖 Ekklesia (Knowledge)"]
-    Kryptos["🔐 Kryptos"]
     AllTeams(["All Teams"])
 
-    subgraph sc ["Infrastructure Supply Chain"]
+    subgraph sk ["Shared Kernels"]
         direction LR
-        Logos["🏛️ Logos"] -->|"Customer/Supplier"| Corpus["🌐 Corpus"]
-        Corpus -->|"Customer/Supplier"| Pneuma["☸️ Pneuma"]
+        Arche["🧱 Arche"]
+        Ekklesia["📖 Ekklesia"]
+        Techne["🛠️ Techne"]
     end
 
-    Arche ==>|"Shared Kernel"| sc
-    Ekklesia -.->|"Knowledge"| sc
-    Techne ==>|"Shared Kernel"| sc
-    Techne ==>|"Shared Kernel"| AllTeams
+    subgraph cs ["Customer/Supplier"]
+        direction LR
+        Logos["🏛️ Logos"] --> Corpus["🌐 Corpus"]
+        Corpus --> Pneuma["☸️ Pneuma"]
+        Pneuma --> Kryptos["🔐 Kryptos"]
+    end
 
-    Pneuma -->|"Customer/Supplier"| Kryptos
-    Pneuma -->|"Customer/Supplier"| AllTeams
-    Kryptos -->|"Customer/Supplier"| AllTeams
+    sk ==> cs
+    Ekklesia ==> AllTeams
+    Techne ==> AllTeams
+    Pneuma --> AllTeams
+    Kryptos --> AllTeams
 ```
 
 ### Cognitive Load
@@ -66,7 +67,7 @@ Team Topologies distinguishes three types of cognitive load — **intrinsic** (i
 | Kryptos | 🟢 2 / 4 | 🟡 2 / 3 |
 | Logos | 🟠 4 / 4 | 🟢 0 / 3 |
 | Corpus | 🟠 4 / 4 | 🟢 1 / 3 |
-| Pneuma | 🔴 5 / 4 | 🟠 3 / 3 |
+| Pneuma | 🔴 5 / 4 · [ADR →](/platform-teams/pneuma#pneuma-cognitive-load-mitigation) | 🟠 3 / 3 |
 
 _🟢 within limit · 🟡 approaching · 🟠 at limit · 🔴 over limit_
 
@@ -115,4 +116,3 @@ How it works:
 - Stream-aligned teams can unblock themselves by contributing fixes or enhancements directly, rather than filing tickets and waiting
 
 This model distributes platform knowledge across the organization, reduces bottlenecks on the staffed teams, and ensures inner source repos evolve with the needs of their consumers rather than on a centralized backlog.
-
