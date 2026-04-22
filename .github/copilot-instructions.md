@@ -57,9 +57,26 @@ Every team (platform or stream-aligned) gets a folder, not a flat page. This all
 
 ## Domain Section
 
+### DDD Mapping
+
+The platform documentation uses DDD concepts at two levels:
+
+| DDD Concept | Maps To |
+|---|---|
+| **Domain** | The platform itself — the internal developer platform problem space |
+| **Subdomain** | Each team's area of concern (identity & structure, infrastructure, Kubernetes runtime, etc.) |
+| **Bounded Context** | Each team's implementation boundary — the `index.md` page documents this |
+| **Aggregate / Capability** | A sub-page within a team (e.g., `certificate-management.md`, `cluster-management.md`) |
+
+The `## Domain` heading on a team page documents the **bounded context**: its ubiquitous language, interfaces, invariants, cognitive load, and team capacity. The heading reads "Domain" for accessibility, but the mental model is bounded context.
+
+Sub-pages document **aggregates or capabilities** within that bounded context. They share the team's boundary and ubiquitous language but do not have their own cognitive load or team capacity — those belong to the bounded context (team index page) only.
+
+### Team Index Pages (`index.md`)
+
 If a page has a `## Domain` section, it must always be the **second-to-last `##` heading on the page** — immediately before `## Architecture Decision Records` if ADRs exist, or the **last `##` heading** if there are no ADRs.
 
-Platform team pages follow this standard `###` subheading order within `## Domain`:
+Team index pages follow this standard `###` subheading order within `## Domain`:
 
 1. **`### Ubiquitous Language`** — a `| Term | Meaning in this domain |` table sorted alphabetically. Establishes shared vocabulary before anything else.
 2. **`### Downstream Interfaces`** or **`### Bounded Contexts`** — a table mapping bounded contexts or artifacts to their consumers. Use `Downstream Interfaces` for teams with explicit customer/supplier relationships; use `Bounded Contexts` for shared kernel teams (Arche, Techne).
@@ -76,6 +93,16 @@ Platform team pages follow this standard `###` subheading order within `## Domai
 ```
 
 Use `**Day-to-day work**` for staffed teams; use `**Contribution model**` for inner source teams.
+
+### Sub-Pages (Aggregates / Capabilities)
+
+Sub-pages may include a `## Domain` section scoped to their aggregate. The allowed subsections are:
+
+1. **`### Ubiquitous Language`** — terms specific to this aggregate, using the same `| Term | Meaning in this domain |` format sorted alphabetically.
+2. **`### Downstream Interfaces`** — if this aggregate exposes a concrete interface consumed elsewhere within the bounded context or externally.
+3. **`### Core Invariant`** — if this aggregate has an enforceable invariant distinct from the team's.
+
+`### Cognitive Load` and `### Team Capacity` are **not used on sub-pages** — they belong to the bounded context (team index page) only.
 
 ## Architecture Decision Records
 
