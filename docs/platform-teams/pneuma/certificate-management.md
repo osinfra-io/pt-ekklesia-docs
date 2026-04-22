@@ -37,30 +37,3 @@ Platform teams may use cert-manager for other certificate needs beyond Istio mTL
 ### Core Invariant
 
 All mesh workload certificates are issued and rotated by cert-manager — no manually managed certificates exist in the mesh.
-
-### Cognitive Load
-
-Certificate management is a 🔴 high-intrinsic domain — operating it requires holding a three-layer PKI chain (self-signed root CA → intermediate CA → workload certificates), the cert-manager CRD API (Certificate, Issuer resources), and the istio-csr delegation model simultaneously. The `pt-arche-kubernetes-cert-manager` Arche module encapsulates all Helm chart management, reducing extraneous load to configuration and integration.
-
-| Domain | Intrinsic | Extraneous Reduced By | Germane Expertise |
-|---|---|---|---|
-| Certificate Management | 🔴 High | `pt-arche-kubernetes-cert-manager` | PKI chains, cert-manager issuers, istio-csr |
-
-**Extraneous load is minimized by:**
-
-- `pt-arche-kubernetes-cert-manager` wraps cert-manager and istio-csr Helm releases — no raw chart management
-- Root CA generation is handled once in the main workspace and passed to regional workspaces via remote state
-
-**Germane load is built through:**
-
-- ECDSA root CA chain design and lifecycle management
-- cert-manager Issuer and Certificate resource authoring
-- istio-csr integration — understanding how Citadel CA responsibilities are delegated from istiod to cert-manager
-
-### Team Capacity
-
-| | |
-|---|---|
-| **Headcount** | 1–2 domain engineers |
-| **Day-to-day work** | cert-manager and istio-csr version upgrades, issuer reconfiguration, root CA rotation |
-| **Scale signal** | Driven by overall Pneuma team capacity — see [Pneuma Team Capacity](/platform-teams/pneuma#team-capacity) |
