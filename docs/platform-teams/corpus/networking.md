@@ -145,7 +145,7 @@ A new GKE cluster is always guaranteed a pre-allocated CIDR slot — no IP confl
 
 When the active block reaches 25 claimed slots, the Corpus team initiates a capacity review to activate the next `/10` block before the remaining 5 slots are exhausted.
 
-To provision a new cluster, open a pull request in [pt-logos](https://github.com/osinfra-io/pt-logos) assigning the next available CIDR slot to the new cluster. The Corpus team owns IPAM monitoring and approves all slot allocations.
+To provision a new cluster, use the [Logos Agent](https://github.com/osinfra-io/pt-logos/blob/main/.github/agents/logos.agent.md) in [pt-logos](https://github.com/osinfra-io/pt-logos). The agent reads all existing CIDR allocations from `teams/*.tfvars`, assigns the next available slot automatically, and opens the necessary pull requests — no manual CIDR selection required.
 
 ## Domain
 
