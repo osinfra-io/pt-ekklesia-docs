@@ -96,7 +96,7 @@ Cognitive load by domain:
 
 Platform knowledge — architecture decisions, module usage, deployment patterns, operational guides — is spread across multiple teams and repositories. Without a shared home, documentation lives in README files that are hard to navigate, per-team wikis that fall out of sync, or not at all. Engineers must hunt across repositories to understand how the platform fits together.
 
-This follows a similar inner-source contribution model to [Arche](/platform-teams/arche#arche-as-an-inner-source-shared-kernel) and [Techne](/platform-teams/techne#techne-as-a-conformist-platform-tooling-layer) — the difference is artifact type and domain relationship pattern. Arche shares OpenTofu modules as a Shared Kernel; Techne shares GitHub Actions workflows and tooling as a Conformist; Ekklesia shares documentation as a Shared Knowledge Domain.
+This follows a similar inner-source contribution model to [Arche](/platform-teams/arche#arche-as-an-inner-source-shared-kernel) and [Techne](/platform-teams/techne#techne-as-a-shared-kernel-platform-tooling-layer) — the difference is artifact type and domain relationship pattern. Arche shares OpenTofu modules as a Shared Kernel; Techne shares GitHub Actions workflows and tooling as a Shared Kernel; Ekklesia shares documentation as a Shared Knowledge Domain.
 
 #### Decision
 
