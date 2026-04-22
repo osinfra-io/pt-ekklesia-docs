@@ -137,7 +137,7 @@ A new GKE cluster is always guaranteed a pre-allocated CIDR slot — no IP confl
 
 To provision a new cluster, use the [Logos Agent](https://github.com/osinfra-io/pt-logos/blob/main/.github/agents/logos.agent.md) in [pt-logos](https://github.com/osinfra-io/pt-logos). The agent reads all existing CIDR allocations from `teams/*.tfvars`, assigns the next available slot automatically, and opens the necessary pull requests — no manual CIDR selection required.
 
-## Bounded Context
+## Aggregate
 
 | Entity | Description |
 |---|---|

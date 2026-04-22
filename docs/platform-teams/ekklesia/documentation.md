@@ -30,7 +30,7 @@ When adding a new page:
 2. Register it in `sidebars.js` — the page will not appear in navigation until it is added there
 3. Open a pull request — the test build will validate there are no broken links before merge
 
-## Bounded Context
+## Aggregate
 
 | Entity | Description |
 |---|---|

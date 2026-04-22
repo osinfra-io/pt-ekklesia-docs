@@ -19,7 +19,7 @@ Each team is defined as an entry in the `teams` map inside a `.tfvars` file unde
 
 <SchemaViewer schema={logosTeamSchema} title="teams.<team-key>" />
 
-## Bounded Context
+## Aggregate
 
 | Entity | Description |
 |---|---|

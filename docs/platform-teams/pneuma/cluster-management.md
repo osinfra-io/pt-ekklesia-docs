@@ -40,7 +40,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
-## Bounded Context
+## Aggregate
 
 | Entity | Description |
 |---|---|

@@ -96,7 +96,7 @@ Use `**Day-to-day work**` for staffed teams; use `**Contribution model**` for in
 
 ### Sub-Pages (Aggregates / Capabilities)
 
-Sub-pages may include a `## Bounded Context` section scoped to their aggregate. The allowed subsections are:
+Sub-pages may include a `## Aggregate` section scoped to their aggregate. The allowed subsections are:
 
 1. **`### Ubiquitous Language`** — terms specific to this aggregate, using the same `| Term | Meaning in this context |` format sorted alphabetically.
 2. **`### Downstream Interfaces`** — if this aggregate exposes a concrete interface consumed elsewhere within the bounded context or externally.

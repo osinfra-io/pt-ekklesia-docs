@@ -69,7 +69,7 @@ GCP infrastructure modules covering project governance, networking, compute, sto
   </div>
 </div>
 
-## Bounded Context
+## Aggregate
 
 These modules form the **Google Cloud** bounded context within Arche. The **Bounded Context Served** column identifies which platform bounded context primarily consumes each module.
 

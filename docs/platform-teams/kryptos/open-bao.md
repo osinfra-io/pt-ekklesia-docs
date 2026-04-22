@@ -13,7 +13,7 @@ OpenBao is an open-source secrets management platform — a Linux Foundation for
 
 All secrets issued by OpenBao are dynamic or time-bounded — no consumer stores long-lived credentials.
 
-## Bounded Context
+## Aggregate
 
 | Entity | Description |
 |---|---|

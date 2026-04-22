@@ -45,7 +45,7 @@ Kubernetes add-on modules for service mesh, certificate management, policy enfor
   </div>
 </div>
 
-## Bounded Context
+## Aggregate
 
 These modules form the **Kubernetes** bounded context within Arche. All are deployed by Pneuma onto GKE clusters.
 

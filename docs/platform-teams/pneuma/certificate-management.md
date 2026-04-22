@@ -16,7 +16,7 @@ Platform teams may use cert-manager for other certificate needs beyond Istio mTL
 
 :::
 
-## Bounded Context
+## Aggregate
 
 ### Ubiquitous Language
 
