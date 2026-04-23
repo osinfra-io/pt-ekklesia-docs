@@ -37,7 +37,9 @@ Logos is the upstream **Customer/Supplier** to Corpus in the platform's [context
 | Folder | A GCP resource container that scopes IAM and billing within an environment |
 | Identity group | A Google Workspace group that grants role-based access to GCP resources |
 | Membership | The assignment of a user to an identity group or GitHub team |
-| Organization | The top-level GCP and GitHub entity that owns all platform resources |
+| Organization (Datadog) | The Datadog org that owns all monitors, teams, dashboards, and observability settings |
+| Organization (GCP) | The top-level GCP resource container that owns all folders, projects, and IAM policies |
+| Organization (GitHub) | The GitHub org that owns all repositories, teams, and Actions settings |
 | Repository | A GitHub repository registered to a team and managed as code in Logos |
 | Team | A bounded ownership unit — one GitHub team, one GCP folder, one Datadog team, provisioned together from a single definition |
 
