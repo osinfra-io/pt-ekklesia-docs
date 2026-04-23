@@ -91,7 +91,7 @@ _🟢 within limit · 🟡 approaching · 🟠 at limit · 🔴 over limit_
 
 ### Team Capacity
 
-Headcount is derived from the cognitive load analysis above. When operating within capacity, a team requires one domain engineer to maintain and evolve its bounded context. A team approaching or at its limit is a candidate for additional capacity or scope reduction. Any team flagged 🔴 over limit is the highest priority for intervention — either a second engineer, scope reduction, or tooling investment to lower extraneous load.
+Headcount is derived from the cognitive load analysis above. When operating within capacity, a team requires one platform engineer to maintain and evolve its bounded context. A team approaching or at its limit is a candidate for additional capacity or scope reduction. Any team flagged 🔴 over limit is the highest priority for intervention — either a second engineer, scope reduction, or tooling investment to lower extraneous load.
 
 #### Platform Lead
 
@@ -103,12 +103,12 @@ Responsibilities:
 - Owns cross-team dependency sequencing (Logos → Corpus → Pneuma)
 - Reviews and ratifies Architecture Decision Records (ADRs) across all teams
 - Interfaces with stream-aligned team leads and engineering leadership
-- Unblocks cross-team decisions that no single domain engineer can resolve
+- Unblocks cross-team decisions that no single platform engineer can resolve
 - Allocates capacity across staffed teams based on platform demand
 
-#### Domain Engineers
+#### Platform Engineers
 
-Each staffed team has one domain engineer who owns that bounded context end-to-end. Pneuma is the exception — its operational surface scales with the number of clusters and stream-aligned teams consuming it.
+Each staffed team has one platform engineer who owns that bounded context end-to-end. Pneuma is the exception — its operational surface scales with the number of clusters and stream-aligned teams consuming it.
 
 | Team | Engineers | Role |
 |---|---|---|
@@ -129,7 +129,7 @@ Arche, Ekklesia, and Techne operate without dedicated engineers. Instead, they r
 How it works:
 
 - Any engineer may open a pull request to an inner source repo
-- Domain engineers from staffed teams (Logos, Corpus, Pneuma, Kryptos) serve as code owners and reviewers
+- Platform engineers from staffed teams (Logos, Corpus, Pneuma, Kryptos) serve as code owners and reviewers
 - The Platform Lead has final approval authority on structural or architectural changes
 - Stream-aligned teams can unblock themselves by contributing fixes or enhancements directly, rather than filing tickets and waiting
 

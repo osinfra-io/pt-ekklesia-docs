@@ -91,6 +91,6 @@ Cognitive load by domain:
 
 | | |
 |---|---|
-| **Headcount** | 1 domain engineer |
+| **Headcount** | 1 platform engineer |
 | **Day-to-day work** | Provisioning new team projects, occasional subnet expansion, supporting Pneuma's cluster networking requirements |
 | **Scale signal** | Stable — networking and project infrastructure changes infrequently once designed |

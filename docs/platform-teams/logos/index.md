@@ -88,6 +88,6 @@ Cognitive load by domain:
 
 | | |
 |---|---|
-| **Headcount** | 1 domain engineer |
+| **Headcount** | 1 platform engineer |
 | **Day-to-day work** | New team onboarding, user membership changes, governance policy updates across GitHub, GCP, and Datadog |
 | **Scale signal** | Stable — organizational structure is established; workload is routine maintenance |

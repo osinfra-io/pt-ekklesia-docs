@@ -100,7 +100,7 @@ Cognitive load by domain:
 
 | | |
 |---|---|
-| **Headcount** | 1–2 domain engineers |
+| **Headcount** | 1–2 platform engineers |
 | **Day-to-day work** | GKE cluster operations, Kubernetes add-on upgrades, networking support for stream-aligned teams |
 | **Scale signal** | Add a second engineer when cluster count grows or multiple add-on upgrades run in parallel — the one team where headcount scales with the platform |
 

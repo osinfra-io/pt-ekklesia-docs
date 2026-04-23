@@ -92,7 +92,7 @@ Team index pages use two top-level sections for team context, in this order:
 ```md
 | | |
 |---|---|
-| **Headcount** | `1 domain engineer` / `1–2 domain engineers` / `Inner source — no dedicated engineer` |
+| **Headcount** | `1 platform engineer` / `1–2 platform engineers` / `Inner source — no dedicated engineer` |
 | **Day-to-day work** or **Contribution model** | What the work actually looks like day-to-day |
 | **Scale signal** | When (or whether) to add headcount |
 ```
