@@ -282,14 +282,15 @@ const logosTeamSchema = {
   google_project_enable_datadog: {
     type: 'boolean',
     required: false,
-    description: "Enables Datadog Google Cloud integration for the team's GCP project. Default: false.",
+    description:
+      "Enables Datadog Google Cloud integration for the team's GCP project. Default: false. Only applies when enable_google_project is true.",
   },
 
   google_project_services: {
     type: 'string[]',
     required: false,
     description:
-      'Additional GCP API services to enable in the team project beyond the baseline set (e.g., "bigquery.googleapis.com"). Default: [].',
+      'Additional GCP API services to enable in the team project beyond the baseline set (e.g., "bigquery.googleapis.com"). Default: []. Only applies when enable_google_project is true.',
   },
 
   google_browser_groups_memberships: {
