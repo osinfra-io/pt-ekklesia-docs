@@ -36,10 +36,8 @@ Techne operates using a **Shared Kernel** pattern in the [context map](/platform
 | Term | Meaning in this context |
 |---|---|
 | Codespace | A GitHub-hosted development environment defined in `pt-techne-opentofu-codespace` |
-| Job | A single GitHub Actions execution unit within a workflow (e.g., sandbox, non-production, production) |
 | OIDC | OpenID Connect — the token-based authentication protocol that eliminates static credentials from CI |
 | Pre-commit hook | A script in `pt-techne-pre-commit-hooks` that runs automatically before every git commit |
-| Toolchain | The complete set of CLIs and tools (tofu, pre-commit, gh) standardized across all repositories |
 | Workflow | A GitHub Actions called workflow in `pt-techne-opentofu-workflows` consumed via `workflow_call` |
 
 ### Bounded Contexts

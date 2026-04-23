@@ -32,14 +32,11 @@ Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream 
 |---|---|
 | Artifact registry | A GCP container and artifact repository for storing built images |
 | CIS benchmark | The Center for Internet Security hardening standard applied to every project at creation |
-| DNS zone | A Cloud DNS zone for internal or external name resolution |
-| Firewall rule | A network policy controlling traffic between subnets and resources |
 | Managed services IP range | A private IP range reserved for Cloud SQL and Memorystore peering |
 | Project | A GCP project scoped to a team and environment, CIS-compliant at creation |
 | Service networking connection | A VPC peering link enabling Private Services Access for managed databases |
 | Shared VPC | A centrally-managed GCP network whose subnets are shared across team projects |
 | State bucket | A GCS bucket holding encrypted OpenTofu state for a team's infrastructure |
-| Subnet | An IP range within a shared VPC allocated to a team's cluster nodes and pods |
 | Workload identity | A GCP mechanism mapping a Kubernetes service account to a GCP service account — no static credentials |
 
 ### Downstream Interfaces

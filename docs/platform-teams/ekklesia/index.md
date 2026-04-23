@@ -34,9 +34,6 @@ Ekklesia operates using a **Shared Kernel** pattern in the [context map](/platfo
 | Term | Meaning in this context |
 |---|---|
 | Architecture decision record | A structured record of a significant design decision — context, decision, alternatives considered, and consequences |
-| Contributor | Any team member who opens a PR to add or update documentation |
-| Page | A Markdown file in `pt-ekklesia-docs` that renders as a documentation page in the Docusaurus site |
-| Sidebar | The Docusaurus navigation tree defined in `sidebars.js` that organizes pages into sections |
 
 ### Downstream Interfaces
 

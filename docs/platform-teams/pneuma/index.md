@@ -42,12 +42,10 @@ Pneuma is a downstream **Customer/Supplier** consumer of Corpus (networking and 
 | Cluster | A GKE Kubernetes cluster deployed to one or more zones within a Corpus project |
 | Constraint | An OPA Gatekeeper policy rule enforced at admission time against incoming Kubernetes resources |
 | Fleet | A GCP construct grouping GKE clusters for unified management and policy |
-| Node pool | A group of identically configured VMs within a cluster that run workload pods |
 | Operator | A Kubernetes controller deployed as an add-on (Datadog Operator, cert-manager) managing its resource lifecycle |
 | Policy | A set of constraints defining the compliance posture for a cluster |
 | Service mesh | The Istio control plane managing mTLS, traffic routing, and observability across all pods |
 | Workload identity | See [Corpus Ubiquitous Language](/platform-teams/corpus#ubiquitous-language) — Pneuma consumes Workload Identity bindings provisioned by Corpus |
-| Zone | A GCP availability zone where cluster nodes run |
 
 ### Downstream Interfaces
 
