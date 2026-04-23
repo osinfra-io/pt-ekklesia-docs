@@ -63,13 +63,13 @@ Team Topologies defines three interaction modes — **X-as-a-Service** (consume 
 
 | Team | Steady-State Mode | Notes |
 |---|---|---|
-| 🏛️ Logos | X-as-a-Service | Identity groups, GitHub teams, GCP folders, and Datadog teams are provisioned for you via automation |
-| 🌐 Corpus | X-as-a-Service | GCP projects, shared VPC, state buckets, and workload identity are provisioned for you |
-| ☸️ Pneuma | X-as-a-Service | GKE clusters and add-ons run for you; Collaboration available during initial cluster onboarding |
-| 🧱 Arche | X-as-a-Service | Consume child modules via OpenTofu source pins; inner source Collaboration available for contributions |
-| 📖 Ekklesia | Facilitating | Platform documentation helps all teams self-serve knowledge and onboard without direct support |
-| 🔐 Kryptos | X-as-a-Service | Secrets infrastructure and PKI managed for you; no direct interface for stream-aligned teams |
-| 🛠️ Techne | Facilitating | Reusable workflows, pre-commit hooks, and Codespace reduce extraneous load; Collaboration for new tool adoption |
+| <nobr>🏛️ Logos</nobr> | X-as-a-Service | Identity groups, GitHub teams, GCP folders, and Datadog teams are provisioned for you via automation |
+| <nobr>🌐 Corpus</nobr> | X-as-a-Service | GCP projects, shared VPC, state buckets, and workload identity are provisioned for you |
+| <nobr>☸️ Pneuma</nobr> | X-as-a-Service | GKE clusters and add-ons run for you; Collaboration available during initial cluster onboarding |
+| <nobr>🧱 Arche</nobr> | X-as-a-Service | Consume child modules via OpenTofu source pins; inner source Collaboration available for contributions |
+| <nobr>📖 Ekklesia</nobr> | Facilitating | Platform documentation helps all teams self-serve knowledge and onboard without direct support |
+| <nobr>🔐 Kryptos</nobr> | X-as-a-Service | Secrets infrastructure and PKI managed for you; no direct interface for stream-aligned teams |
+| <nobr>🛠️ Techne</nobr> | Facilitating | Reusable workflows, pre-commit hooks, and Codespace reduce extraneous load; Collaboration for new tool adoption |
 
 ### Cognitive Load
 
