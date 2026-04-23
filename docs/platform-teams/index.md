@@ -67,7 +67,7 @@ Team Topologies defines three interaction modes — **X-as-a-Service** (consume 
 | <nobr>🌐 Corpus</nobr> | <nobr>🔵 X-as-a-Service</nobr> | GCP projects, shared VPC, state buckets, and workload identity are provisioned for you |
 | <nobr>☸️ Pneuma</nobr> | <nobr>🔵 X-as-a-Service</nobr> | GKE clusters and add-ons run for you; Collaboration available during initial cluster onboarding |
 | <nobr>🧱 Arche</nobr> | <nobr>🔵 X-as-a-Service</nobr> | Consume child modules via OpenTofu source pins; inner source Collaboration available for contributions |
-| <nobr>📖 Ekklesia</nobr> | <nobr>🟢 Facilitating</nobr> | Platform documentation helps all teams self-serve knowledge and onboard without direct support |
+| <nobr>📖 Ekklesia</nobr> | <nobr>🟢 Facilitating</nobr> | Organizational knowledge hub — architecture decisions, module references, and operational guides for platform and stream-aligned teams alike |
 | <nobr>🔐 Kryptos</nobr> | <nobr>🔵 X-as-a-Service</nobr> | Secrets infrastructure and PKI managed for you; no direct interface for stream-aligned teams |
 | <nobr>🛠️ Techne</nobr> | <nobr>🟢 Facilitating</nobr> | Reusable workflows, pre-commit hooks, and Codespace reduce extraneous load; Collaboration for new tool adoption |
 
