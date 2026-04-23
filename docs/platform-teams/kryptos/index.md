@@ -70,7 +70,7 @@ Cognitive load by domain:
 
 - OpenBao runs on Pneuma-managed clusters — no cluster operations burden
 - GCP KMS manages key infrastructure at scale — Kryptos configures policy, not key primitives
-- Techne's called workflows handle all CI/CD pipelines
+- Called workflows provide OpenTofu deployment pipelines — no CI/CD to build or maintain
 
 **Germane load is built through:**
 

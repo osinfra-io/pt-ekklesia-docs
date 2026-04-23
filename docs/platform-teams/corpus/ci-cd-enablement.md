@@ -20,10 +20,10 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 | Entity | Description |
 |---|---|
-| `service-account` | A GCP service account created per repository and environment for GitHub Actions workloads |
+| `service-account` | A GCP service account created per team for GitHub Actions workloads; individual repository access is granted via IAM bindings |
 | `workload-identity-pool` | A Workload Identity Federation pool that maps GitHub OIDC tokens to GCP service accounts — no static credentials |
-| `workload-identity-provider` | An OIDC provider within the pool, scoped to a specific GitHub org and repository |
-| `artifact-registry` | A container image and package registry scoped per team, consumed by GKE workloads |
+| `workload-identity-provider` | An OIDC provider within the pool, scoped to the GitHub org via `repository_owner_id`; repository-level access is enforced at the IAM binding level |
+| `artifact-registry` | A three-tier registry per team: a shared Docker Hub remote proxy, a per-team standard repository for team images, and a per-team virtual repository that chains both |
 | `state-bucket` | An encrypted GCS bucket per repository per environment used as the OpenTofu remote backend, protected by a per-environment KMS key |
 
 ## Architecture Decision Records

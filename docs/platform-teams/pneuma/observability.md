@@ -48,6 +48,5 @@ These features are disabled by default and carry additional per-host cost when e
 |---|---|
 | `datadog-operator` | The Kubernetes operator that manages the lifecycle of Datadog Agent deployments |
 | `datadog-agent` | A cluster-level CRD defining the desired state of the Datadog Agent (features, log collection, APM) |
-| `daemon-set` | The underlying Kubernetes DaemonSet that runs a Datadog Agent pod on every node |
 | `cluster-agent` | A single-instance Datadog Cluster Agent that aggregates cluster-level metrics and forwards them to Datadog |
 | `metrics-config` | Configuration enabling specific metric collection (container, Kubernetes state, network) |

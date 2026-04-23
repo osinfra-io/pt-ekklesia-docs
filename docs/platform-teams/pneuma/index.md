@@ -52,12 +52,18 @@ Pneuma is a downstream **Customer/Supplier** consumer of Corpus (networking and 
 | Output | Consumed By | Via | Description |
 |---|---|---|---|
 | GKE cluster | All teams | Direct cluster provisioning | Kubernetes environment for workload deployment |
-| Kubernetes namespace | All teams | Logos team provisioning | Isolated namespace per team per cluster |
-| GKE cluster | Kryptos | Direct cluster provisioning | Dedicated cluster for OpenBao secrets infrastructure |
+| Kubernetes namespace | All teams | Pneuma onboarding workspace | Isolated namespace per team per cluster |
 
-### Core Invariant
+### Core Invariants
 
-Every cluster has mTLS enforced, policy enforcement active, and observability running.
+- mTLS is enforced on every cluster via Istio — no plaintext pod-to-pod traffic
+- OPA Gatekeeper policy enforcement is active on every cluster — no workload is accepted without passing admission
+- Datadog Operator observability is running on every cluster — no cluster ships without metrics, traces, and logs
+- etcd is KMS-encrypted at rest — `database_encryption` with `state = "ENCRYPTED"` is hardcoded in the GKE module
+- Workload Identity is enabled on every node pool — no static credentials for pod-level GCP access
+- Shielded nodes with Secure Boot and integrity monitoring are enforced on every node — no unverified boot path
+- Client certificate authentication is permanently disabled — `issue_client_certificate = false` is hardcoded
+- Dataplane V2 (eBPF) is hardcoded as the network datapath — no legacy kube-proxy on any cluster
 
 ## Team Topologies
 
@@ -85,7 +91,7 @@ Cognitive load by domain:
 
 - Arche Kubernetes modules (`pt-arche-kubernetes-*`) wrap Istio, cert-manager, OPA Gatekeeper, and the Datadog Operator — no raw Helm chart management
 - Corpus handles all networking prerequisites; Pneuma consumes them via `module.core_helpers`
-- All state is managed exclusively in GitHub Actions — no local backend access required
+- Called workflows provide OpenTofu deployment pipelines — no CI/CD to build or maintain
 
 **Germane load is built through:**
 

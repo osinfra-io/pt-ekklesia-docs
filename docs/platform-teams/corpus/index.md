@@ -1,11 +1,11 @@
 ---
 sidebar_label: Corpus
-description: The embodiment of that order — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate.
+description: The embodiment of the order Logos defines — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate.
 ---
 
 # Corpus
 
-Corpus is the embodiment of that order — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate. The abstract principles of Logos are translated here into tangible, reliable infrastructure.
+Corpus is the embodiment of the order Logos defines — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate. The abstract principles of Logos are translated here into tangible, reliable infrastructure.
 
 - **[Projects](./projects.md)**: CIS-compliant GCP project creation with standard labels
 - **[Networking](./networking.md)**: Shared VPC, subnets, DNS zones, Cloud NAT
@@ -43,13 +43,15 @@ Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream 
 
 | Output | Consumed By | Via | Description |
 |---|---|---|---|
-| Shared VPC and subnet self-links | Pneuma | `module.core_helpers.teams` | GKE cluster node and pod network attachment |
-| Project IDs | Pneuma | `module.core_helpers.teams` | Cluster placement and Workload Identity binding |
-| Networking CIDRs | Pneuma | `module.core_helpers.teams` | Node, pod, and service IP range allocation |
+| Platform-managed GCP projects | Pneuma | `data "google_projects"` (GCP label query) | Cluster placement and Workload Identity binding |
+| Shared VPC | Pneuma | `data "google_projects"` (GCP label query) | GKE cluster network and subnet attachment |
 
-### Core Invariant
+### Core Invariants
 
-Every GCP project is CIS-compliant at creation — there is no non-compliant state.
+- Every GCP project is CIS-compliant at creation — there is no non-compliant state.
+- Every team's OpenTofu state is encrypted at rest with a KMS key protected from destruction.
+- GitHub Actions authenticates via Workload Identity Federation — no static credentials exist.
+- Every platform-managed project is a Shared VPC service project with subnet access granted at creation.
 
 ## Team Topologies
 
@@ -76,7 +78,7 @@ Cognitive load by domain:
 
 - Arche modules encapsulate CIS-compliant GCP project and network resource creation
 - Logos outputs drive project placement and team data — no manual cross-referencing
-- Techne's called workflows manage all CI/CD pipeline complexity
+- Called workflows provide OpenTofu deployment pipelines — no CI/CD to build or maintain
 
 **Germane load is built through:**
 

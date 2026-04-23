@@ -12,7 +12,7 @@ Logos is the foundational principle of order across systems — integrating mult
 - **[Team Topology](./team-topology.md)**: GitHub teams and repositories, Datadog teams, and branch protection
 - **[SaaS Governance](./saas-governance.md)**: GitHub and Datadog organization-level settings and policies
 
-Corpus depends directly on Logos outputs. All other infrastructure bounded contexts consume Logos data transitively via the [Arche Shared Kernel](/platform-teams/arche).
+All infrastructure bounded contexts consume Logos data via the [Arche Shared Kernel](/platform-teams/arche).
 
 ## Repositories
 
@@ -25,7 +25,7 @@ Corpus depends directly on Logos outputs. All other infrastructure bounded conte
 
 ## Bounded Context
 
-Logos is the upstream **Customer/Supplier** to Corpus in the platform's [context map](/platform-teams#context-map).
+Logos is the upstream **Customer/Supplier** to all infrastructure bounded contexts in the platform's [context map](/platform-teams#context-map).
 
 ### Ubiquitous Language
 
@@ -50,9 +50,12 @@ Logos is the upstream **Customer/Supplier** to Corpus in the platform's [context
 | `environment_folder_id` | Corpus | `module.core_helpers` | Places projects in the correct environment folder |
 | `teams` | Corpus | `module.core_helpers.teams` | Team data map — project names, folder IDs, and group emails |
 
-### Core Invariant
+### Core Invariants
 
-Every team definition produces exactly one set of GCP, GitHub, and Datadog resources.
+- Every team definition produces exactly one set of GCP, GitHub, and Datadog resources
+- Every provisioned GitHub repository has signed commits required, linear history enforced, and PR review active — the branch ruleset is hardcoded with `enforcement = "active"` and no variable to disable it
+- Organization administrators (Datadog and GitHub) are indestructible — `prevent_destroy = true` is set on both; no accidental removal is possible via OpenTofu
+- Singleton organization-level resources (Datadog API keys, GitHub org settings, Google Groups) are only created in the `logos-production-main` workspace — preventing duplicates or conflicts across environments
 
 ## Team Topologies
 
@@ -79,7 +82,7 @@ Cognitive load by domain:
 
 - Everything is code — no manual GCP console, GitHub UI, or Datadog UI operations
 - A single tfvars edit propagates to all three providers in one deployment
-- Pre-commit hooks enforce format and validate before any change reaches CI
+- Called workflows provide OpenTofu deployment pipelines — no CI/CD to build or maintain
 
 **Germane load is built through:**
 

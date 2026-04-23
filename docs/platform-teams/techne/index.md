@@ -47,9 +47,13 @@ Techne operates using a **Shared Kernel** pattern in the [context map](/platform
 | [Deployment Automation](./deployment-automation.md) | Called workflows, OIDC auth, state config, job summaries | All platform teams |
 | [Developer Experience](./developer-experience.md) | Codespace, pre-commit hooks, development setup | All platform and stream-aligned teams |
 
-### Core Invariant
+### Core Invariants
 
-All deployments use short-lived OIDC tokens — no static credentials exist anywhere on the platform.
+- All deployments use short-lived OIDC tokens — no static credentials exist anywhere on the platform
+- `tofu fmt -check` always runs before plan — unformatted code is a deployment gate, not a warning
+- `tofu validate` always runs before plan — invalid configuration cannot be planned or applied
+- Apply only triggers on plan exit code 2 (actual changes detected) — no-op plans never cause an apply
+- The plan artifact is cached and reused verbatim in the apply job (`fail-on-cache-miss: true`) — exactly what was reviewed is what gets applied, with no possibility of drift between plan and apply
 
 ## Team Topologies
 
@@ -73,7 +77,6 @@ Cognitive load by domain:
 **Extraneous load is minimized by:**
 
 - Reusable called workflows mean no platform team implements its own deployment pipeline
-- Pre-commit hooks enforce standards automatically across all repos on every commit
 - OIDC authentication eliminates static credentials entirely — no rotation burden on any team
 
 **Germane load is built through:**

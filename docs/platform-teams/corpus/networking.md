@@ -133,7 +133,7 @@ This block is available for future use.
 
 ## Consumer Contract
 
-A new GKE cluster is always guaranteed a pre-allocated CIDR slot — no IP conflict is possible because every range is defined in [pt-logos](https://github.com/osinfra-io/pt-logos) before any cluster is created. The plan supports up to 30 clusters per `/10` block and 120 clusters total across all four blocks. When all 30 slots in the active block are claimed, the Logos Agent's IPAM sequences must be extended to cover the next `/10` block before any additional clusters can be provisioned.
+A new GKE cluster is always guaranteed a pre-allocated CIDR slot — no IP conflict is possible because every range is defined in [pt-logos](https://github.com/osinfra-io/pt-logos) before any cluster is created. Each environment has its own isolated VPC, so the plan supports up to 30 clusters per environment in the active `/10` block, expandable to 120 per environment across all four `/10` blocks. When all 30 slots in the active block are claimed, the Logos Agent's IPAM sequences must be extended to cover the next `/10` block before any additional clusters can be provisioned.
 
 To provision a new cluster, use the [Logos Agent](https://github.com/osinfra-io/pt-logos/blob/main/.github/agents/logos.agent.md) in [pt-logos](https://github.com/osinfra-io/pt-logos). The agent reads all existing CIDR allocations from `teams/*.tfvars`, assigns the next available slot automatically, and opens the necessary pull requests — no manual CIDR selection required.
 
@@ -143,7 +143,6 @@ To provision a new cluster, use the [Logos Agent](https://github.com/osinfra-io/
 |---|---|
 | `shared-vpc` | A VPC host project network shared across all team projects in an environment |
 | `subnet` | A regional subnetwork with primary node CIDR, pod secondary range, and service secondary range |
-| `firewall-rule` | Network-level traffic controls applied to the shared VPC |
 | `dns-zone` | A Cloud DNS managed zone for a platform domain (e.g., `osinfra.io`) |
 | `cloud-nat` | Managed NAT for private nodes to reach the internet without public IPs |
 
@@ -164,7 +163,7 @@ To provision a new cluster, use the [Logos Agent](https://github.com/osinfra-io/
 
 GKE VPC-native clusters using Shared VPC require all IP address ranges — primary node subnets, pod secondary ranges, service secondary ranges, and control plane ranges — to be pre-created and user-managed. GKE cannot auto-manage these ranges in a Shared VPC. This forces upfront address planning before any cluster can be created and means every range must be tracked centrally.
 
-The platform uses a one-cluster-per-zone model (e.g., `pt-pneuma-us-east1-b`, `pt-pneuma-us-east4-a`), so the number of clusters scales with zone coverage rather than workload size. Address space must accommodate growth across multiple regions and zones without requiring re-addressing.
+Each cluster is a regional cluster with a single zonal node pool (e.g., `pt-pneuma-us-east1-b` has a regional control plane and nodes pinned to `us-east1-b`), so the number of clusters scales with zone coverage rather than workload size. Address space must accommodate growth across multiple regions and zones without requiring re-addressing.
 
 The guiding principle throughout: **use GKE defaults unless there is a clear reason not to.**
 
@@ -178,7 +177,7 @@ The guiding principle throughout: **use GKE defaults unless there is a clear rea
    - `/20` service range — GKE default, supports 4,096 services per cluster
    - `/28` control plane range — GKE default for private cluster masters
 
-3. **Use `/15` for the cluster-level pod secondary range.** This is the one deliberate deviation from defaults. A `/14` would roughly double per-cluster node capacity (~1,022 nodes) but would halve the number of clusters per `/10` (~15 vs 30) with nearly identical total node capacity across the block. The one-cluster-per-zone model benefits more from cluster count than cluster size, so `/15` was chosen.
+3. **Use `/15` for the cluster-level pod secondary range.** This is the one deliberate deviation from defaults. A `/14` would roughly double per-cluster node capacity (~1,022 nodes) but would halve the number of clusters per `/10` (~15 vs 30) with nearly identical total node capacity across the block. Regional clusters with zonal node pools benefit more from cluster count than cluster size, so `/15` was chosen.
 
 4. **Use the GKE IPAM calculator for address planning.** This ensures ranges are correctly sized, non-overlapping, and documented reproducibly.
 
@@ -194,7 +193,7 @@ The guiding principle throughout: **use GKE defaults unless there is a clear rea
 
 #### Consequences
 
-- 30 cluster slots available per `/10` block
+- 30 cluster slots available per environment in the active `/10` block
 - 510 nodes per cluster maximum
 - 4,096 services per cluster maximum
 - 110 pods per node maximum

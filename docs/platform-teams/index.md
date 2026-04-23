@@ -69,7 +69,7 @@ Team Topologies defines three interaction modes — **X-as-a-Service** (consume 
 | <nobr>🧱 Arche</nobr> | <nobr>🔵 X-as-a-Service</nobr> | Consume child modules via OpenTofu source pins; inner source Collaboration available for contributions |
 | <nobr>📖 Ekklesia</nobr> | <nobr>🟢 Facilitating</nobr> | Organizational knowledge hub — architecture decisions, module references, and operational guides for platform and stream-aligned teams alike |
 | <nobr>🔐 Kryptos</nobr> | <nobr>🔵 X-as-a-Service</nobr> | Secrets infrastructure and PKI managed for you; no direct interface for stream-aligned teams |
-| <nobr>🛠️ Techne</nobr> | <nobr>🟢 Facilitating</nobr> | Reusable workflows, pre-commit hooks, and Codespace reduce extraneous load; Collaboration for new tool adoption |
+| <nobr>🛠️ Techne</nobr> | <nobr>🟢 Facilitating</nobr> | Reusable workflows and Codespace reduce extraneous load; Collaboration for new tool adoption |
 
 _🔵 X-as-a-Service · 🟡 Collaboration · 🟢 Facilitating_
 
@@ -91,11 +91,13 @@ _🟢 within limit · 🟡 approaching · 🟠 at limit · 🔴 over limit_
 
 ### Team Capacity
 
-The platform operates as a **platform grouping** — the Team Topologies Second Edition term for a collection of teams or specializations that together provide a coherent internal platform product. Internally, each platform engineer specializes in one bounded context, but externally the platform grouping presents a coherent interface to stream-aligned teams — consistent tooling, documentation, and services regardless of which bounded context delivers them. Headcount is derived from the cognitive load analysis above. When operating within capacity, a bounded context requires one platform engineer to maintain and evolve it. A context approaching or at its limit is a candidate for additional capacity or scope reduction. Any context flagged 🔴 over limit is the highest priority for intervention — either a second engineer, scope reduction, or tooling investment to lower extraneous load.
+The platform operates as a **platform grouping** — the Team Topologies Second Edition term for a collection of teams or specializations that together provide a coherent internal platform product. Internally, each platform engineer specializes in one bounded context, but externally the platform grouping presents a coherent interface to stream-aligned teams — consistent tooling, documentation, and services regardless of which bounded context delivers them.
+
+Headcount is derived from the cognitive load analysis. When operating within capacity, a bounded context requires one platform engineer to maintain and evolve it. A context approaching or at its limit is a candidate for additional capacity or scope reduction. Any context flagged 🔴 over limit is the highest priority for intervention — either a second engineer, scope reduction, or tooling investment to lower extraneous load.
 
 #### Platform Lead
 
-A single **Platform Lead** spans all seven teams. This role does not belong to any one team — it exists above them. On this platform, the Platform Lead also serves as the **Product Manager**, owning both the technical direction and the platform roadmap.
+A single **Platform Lead** spans all teams. This role does not belong to any one team — it exists above them. On this platform, the Platform Lead also serves as the **Product Manager**, owning both the technical direction and the platform roadmap.
 
 Responsibilities:
 
@@ -108,19 +110,19 @@ Responsibilities:
 
 #### Platform Engineers
 
-Each staffed team has one platform engineer who owns that bounded context end-to-end. Pneuma is the exception — its operational surface scales with the number of clusters and stream-aligned teams consuming it.
+Each staffed team starts with one platform engineer who owns the bounded context end-to-end. Teams can scale beyond one engineer as cognitive load demands — the cognitive load analysis is the guide for when to add capacity.
 
-| Team | Engineers | Role |
+| Team | Min. Engineers | Role |
 |---|---|---|
 | Logos | 1 | Owns org structure, identity, GitHub, and Datadog team management |
 | Corpus | 1 | Owns GCP projects, shared VPC, state buckets, and workload identity |
-| Pneuma | 1–2 | Owns GKE clusters, service mesh, policy enforcement, and cluster add-ons |
+| Pneuma | 1 | Owns GKE clusters, service mesh, policy enforcement, and cluster add-ons — currently flagged 🔴 over limit, candidate for a second engineer |
 | Kryptos | 1 | Owns secrets infrastructure, PKI, and cryptographic controls |
 | Arche | — | Inner source — no dedicated engineer |
 | Ekklesia | — | Inner source — no dedicated engineer |
 | Techne | — | Inner source — no dedicated engineer |
 
-**Total: 5–6 engineers + 1 Platform Lead**
+**Total: 4–5 engineers + 1 Platform Lead** _(minimum staffing — scale per cognitive load analysis)_
 
 #### Inner Source Model
 
