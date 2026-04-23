@@ -9,6 +9,8 @@ Ekklesia is the assembly of the called-out — where distinct capabilities are g
 
 Ekklesia operates as the platform's inner-source shared kernel for documentation: a single centralized documentation site where any team member can contribute, rather than maintaining scattered per-repo READMEs or per-team wikis. See the [shared kernel ADR](#ekklesia-as-an-inner-source-shared-kernel) for the rationale.
 
+- **[Documentation](./documentation.md)**: Docusaurus site structure, contribution model, and authoring conventions for the platform documentation hub
+
 :::tip Architecture Decision Records
 
 This page includes [Architecture Decision Records](#architecture-decision-records) documenting the key design decisions.
