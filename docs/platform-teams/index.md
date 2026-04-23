@@ -99,11 +99,10 @@ A single **Platform Lead** spans all seven teams. This role does not belong to a
 
 Responsibilities:
 
-- Sets the platform's technical direction and architectural standards
-- Owns the platform roadmap and prioritizes work across all teams based on stream-aligned team needs
+- Owns the platform roadmap and prioritizes work based on stream-aligned team needs
+- Interfaces with stream-aligned team leads and engineering leadership to inform that roadmap
 - Owns cross-team dependency sequencing (Logos → Corpus → Pneuma)
-- Reviews and ratifies Architecture Decision Records (ADRs) across all teams
-- Interfaces with stream-aligned team leads and engineering leadership
+- Ratifies Architecture Decision Records (ADRs) across all teams
 - Unblocks cross-team decisions that no single platform engineer can resolve
 - Allocates capacity across staffed teams based on platform demand
 
