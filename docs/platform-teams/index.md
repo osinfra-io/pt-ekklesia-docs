@@ -63,13 +63,13 @@ Team Topologies defines three interaction modes — **X-as-a-Service** (consume 
 
 | Team | Steady-State Mode | Notes |
 |---|---|---|
-| <nobr>🏛️ Logos</nobr> | 🔵 X-as-a-Service | Identity groups, GitHub teams, GCP folders, and Datadog teams are provisioned for you via automation |
-| <nobr>🌐 Corpus</nobr> | 🔵 X-as-a-Service | GCP projects, shared VPC, state buckets, and workload identity are provisioned for you |
-| <nobr>☸️ Pneuma</nobr> | 🔵 X-as-a-Service | GKE clusters and add-ons run for you; Collaboration available during initial cluster onboarding |
-| <nobr>🧱 Arche</nobr> | 🔵 X-as-a-Service | Consume child modules via OpenTofu source pins; inner source Collaboration available for contributions |
-| <nobr>📖 Ekklesia</nobr> | 🟢 Facilitating | Platform documentation helps all teams self-serve knowledge and onboard without direct support |
-| <nobr>🔐 Kryptos</nobr> | 🔵 X-as-a-Service | Secrets infrastructure and PKI managed for you; no direct interface for stream-aligned teams |
-| <nobr>🛠️ Techne</nobr> | 🟢 Facilitating | Reusable workflows, pre-commit hooks, and Codespace reduce extraneous load; Collaboration for new tool adoption |
+| <nobr>🏛️ Logos</nobr> | <nobr>🔵 X-as-a-Service</nobr> | Identity groups, GitHub teams, GCP folders, and Datadog teams are provisioned for you via automation |
+| <nobr>🌐 Corpus</nobr> | <nobr>🔵 X-as-a-Service</nobr> | GCP projects, shared VPC, state buckets, and workload identity are provisioned for you |
+| <nobr>☸️ Pneuma</nobr> | <nobr>🔵 X-as-a-Service</nobr> | GKE clusters and add-ons run for you; Collaboration available during initial cluster onboarding |
+| <nobr>🧱 Arche</nobr> | <nobr>🔵 X-as-a-Service</nobr> | Consume child modules via OpenTofu source pins; inner source Collaboration available for contributions |
+| <nobr>📖 Ekklesia</nobr> | <nobr>🟢 Facilitating</nobr> | Platform documentation helps all teams self-serve knowledge and onboard without direct support |
+| <nobr>🔐 Kryptos</nobr> | <nobr>🔵 X-as-a-Service</nobr> | Secrets infrastructure and PKI managed for you; no direct interface for stream-aligned teams |
+| <nobr>🛠️ Techne</nobr> | <nobr>🟢 Facilitating</nobr> | Reusable workflows, pre-commit hooks, and Codespace reduce extraneous load; Collaboration for new tool adoption |
 
 _🔵 X-as-a-Service · 🟡 Collaboration · 🟢 Facilitating_
 
