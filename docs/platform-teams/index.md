@@ -8,7 +8,7 @@ import CardGrid from '@site/src/components/CardGrid';
 
 # Platform Teams
 
-Platform teams provide the foundational infrastructure and tooling that stream-aligned teams depend on. Each platform engineer owns a distinct bounded context within the platform grouping.
+Platform teams provide the foundational infrastructure and tooling that stream-aligned teams depend on. Each platform team owns a distinct bounded context within the platform grouping.
 
 ## Teams
 
