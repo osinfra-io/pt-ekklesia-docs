@@ -8,7 +8,31 @@ Pneuma provisions one GKE cluster per zone, consuming Corpus networking and Logo
 
 - **GKE clusters**: Regional clusters (highly available control plane) with a single-zone node pool per cluster — one cluster per zone (e.g., `pt-pneuma-us-east1-b`). Zone-scoped node pools ensure Istio's locality-aware load balancing keeps traffic within a zone, eliminating cross-zone hot spots in the mesh. Clusters are CIS GKE Benchmark hardened and Fleet-enrolled for multi-cluster ingress.
 - **Workload Identity**: Kubernetes service accounts are mapped to GCP service accounts, eliminating node-level credential access
-- **Namespace onboarding**: A dedicated onboarding workspace handles namespace creation and Workload Identity bindings per team after the cluster is provisioned
+- **Namespace onboarding**: A dedicated onboarding workspace in the Pneuma pipeline creates Kubernetes namespaces and Workload Identity bindings per team. It runs automatically within the same pipeline after the zonal cluster job completes — no separate trigger is needed once the pipeline starts. The Pneuma pipeline itself triggers on every merge to `pt-pneuma` main, or a platform engineer can trigger it immediately via `workflow_dispatch`.
+
+## Namespace Provisioning
+
+Namespace provisioning is **automated within the Pneuma pipeline** but is **not cross-triggered** by a Logos or Corpus merge. Each repo deploys independently when its own code merges to main, or when a platform engineer triggers `workflow_dispatch`.
+
+```mermaid
+sequenceDiagram
+    participant Team as Stream-Aligned Team
+    participant Logos as pt-logos
+    participant Corpus as pt-corpus
+    participant Pneuma as pt-pneuma
+
+    Team->>Logos: Logos Agent PR merges
+    Logos->>Logos: OpenTofu: GCP folders, identity groups, GitHub structure
+
+    Note over Corpus,Pneuma: Platform engineer triggers workflow_dispatch (or next merge to main)
+
+    Corpus->>Corpus: OpenTofu: GCP projects, networking
+    Pneuma->>Pneuma: OpenTofu: GKE clusters (main + zonal jobs)
+    Pneuma->>Pneuma: Onboarding: namespaces + Workload Identity bindings
+    Pneuma-->>Team: Namespace ready in each cluster
+```
+
+Corpus and Pneuma are triggered independently — there is no automatic cascade from a Logos PR merge. A platform engineer must either merge a pending PR to each repo or manually trigger their `workflow_dispatch` workflow. Once Pneuma's pipeline runs, the onboarding workspace executes automatically as part of the pipeline; no additional action is required.
 
 :::tip Architecture Decision Records
 
@@ -16,7 +40,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
-## Domain
+## Aggregate
 
 | Entity | Description |
 |---|---|
@@ -54,7 +78,7 @@ The platform also needs a clear scaling model for clusters. Sizing a single larg
 |---|---|---|
 | [Cluster Management](./cluster-management.md) | GKE | Compute, networking attachment, Workload Identity, Fleet enrollment |
 | [Service Mesh](./service-mesh.md) | Istio | mTLS, traffic management, ingress, Datadog AAP |
-| [Certificate Management](./certificate-management.md) | cert-manager | TLS issuance and renewal via Let's Encrypt |
+| [Certificate Management](./certificate-management.md) | cert-manager | Istio CA, mTLS PKI, and workload certificate signing via istio-csr |
 | [Policy Enforcement](./policy-enforcement.md) | OPA Gatekeeper | Kubernetes admission control and audit |
 | [Observability](./observability.md) | Datadog Operator | Metrics, logs, and traces from all workloads |
 

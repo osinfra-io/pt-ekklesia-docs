@@ -27,19 +27,17 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 - **[pt-techne-ai-context](https://github.com/osinfra-io/pt-techne-ai-context)**: Team-level Copilot instructions for `pt-techne-*` repositories
 
-## Domain
+## Bounded Context
 
 Techne operates using a **Shared Kernel** pattern in the [context map](/platform-teams#context-map) — all teams share its workflows, hooks, and tooling as a jointly maintained foundation. Unlike a pure Conformist, interface changes are coordinated with consumers, and any team can contribute improvements via pull request. The Platform Lead holds final approval authority on interface changes due to the blast radius across all consumers.
 
 ### Ubiquitous Language
 
-| Term | Meaning in this domain |
+| Term | Meaning in this context |
 |---|---|
 | Codespace | A GitHub-hosted development environment defined in `pt-techne-opentofu-codespace` |
-| Job | A single GitHub Actions execution unit within a workflow (e.g., sandbox, non-production, production) |
 | OIDC | OpenID Connect — the token-based authentication protocol that eliminates static credentials from CI |
 | Pre-commit hook | A script in `pt-techne-pre-commit-hooks` that runs automatically before every git commit |
-| Toolchain | The complete set of CLIs and tools (tofu, pre-commit, gh) standardized across all repositories |
 | Workflow | A GitHub Actions called workflow in `pt-techne-opentofu-workflows` consumed via `workflow_call` |
 
 ### Bounded Contexts
@@ -49,9 +47,15 @@ Techne operates using a **Shared Kernel** pattern in the [context map](/platform
 | [Deployment Automation](./deployment-automation.md) | Called workflows, OIDC auth, state config, job summaries | All platform teams |
 | [Developer Experience](./developer-experience.md) | Codespace, pre-commit hooks, development setup | All platform and stream-aligned teams |
 
-### Core Invariant
+### Core Invariants
 
-All deployments use short-lived OIDC tokens — no static credentials exist anywhere on the platform.
+- All deployments use short-lived OIDC tokens — no static credentials exist anywhere on the platform
+- `tofu fmt -check` always runs before plan — unformatted code is a deployment gate, not a warning
+- `tofu validate` always runs before plan — invalid configuration cannot be planned or applied
+- Apply only triggers on plan exit code 2 (actual changes detected) — no-op plans never cause an apply
+- The plan artifact is cached and reused verbatim in the apply job (`fail-on-cache-miss: true`) — exactly what was reviewed is what gets applied, with no possibility of drift between plan and apply
+
+## Team Topologies
 
 ### Cognitive Load
 
@@ -73,7 +77,6 @@ Cognitive load by domain:
 **Extraneous load is minimized by:**
 
 - Reusable called workflows mean no platform team implements its own deployment pipeline
-- Pre-commit hooks enforce standards automatically across all repos on every commit
 - OIDC authentication eliminates static credentials entirely — no rotation burden on any team
 
 **Germane load is built through:**
@@ -107,7 +110,7 @@ Cognitive load by domain:
 
 Every platform repository needs consistent OpenTofu deployment pipelines (OIDC auth, KMS-encrypted state, job summaries) and pre-commit validation hooks. All repositories — platform and stream-aligned — benefit from a standardized developer environment and shared toolchain. Without a shared approach, each repository would implement these independently, leading to drift and duplicated maintenance.
 
-This follows a similar inner-source contribution model to [Arche](/platform-teams/arche#arche-as-an-inner-source-shared-kernel) and [Ekklesia](/platform-teams/ekklesia#ekklesia-as-the-platforms-shared-knowledge-domain) — the difference is artifact type. Arche shares OpenTofu modules as a Shared Kernel; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration as a Shared Kernel; Ekklesia shares documentation as a Shared Knowledge Domain.
+This follows a similar inner-source contribution model to [Arche](/platform-teams/arche#arche-as-an-inner-source-shared-kernel) and [Ekklesia](/platform-teams/ekklesia#ekklesia-as-an-inner-source-shared-kernel) — the difference is artifact type. Arche shares OpenTofu modules as a Shared Kernel; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration as a Shared Kernel; Ekklesia shares documentation as a Shared Kernel.
 
 #### Decision
 

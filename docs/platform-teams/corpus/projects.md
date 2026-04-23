@@ -33,14 +33,13 @@ A team declares a platform-managed project by adding a `platform_managed_project
 - **Data services only** — `platform_managed_project` block present, `kubernetes_engine` omitted
 - **Both** — `platform_managed_project.kubernetes_engine` with `locations` and data service configuration in the project
 
-## Domain
+## Aggregate
 
 | Entity | Description |
 |---|---|
 | `gcp-project` | A GCP project created under the correct environment folder with billing and APIs enabled |
-| `cis-policy` | A set of CIS GCP Foundation Benchmark controls applied at project creation (audit logging, OS Login, no default VPC) |
+| `cis-policy` | A set of CIS GCP Foundation Benchmark controls applied at project creation (audit logging, OS Login, no default VPC, log sink, and security alert policies) |
 | `billing-budget` | Automatic spending alerts at 50%, 75%, and 100% of threshold on every project |
-| `labels` | Standard label set derived from `module.core_helpers.labels` — always includes `env`, `team`, `managed-by` |
 | `monitoring-channel` | Cloud Monitoring notification channels for budget and infrastructure change alerts |
 
 ## Architecture Decision Records

@@ -1,11 +1,11 @@
 ---
 sidebar_label: Corpus
-description: The embodiment of that order — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate.
+description: The embodiment of the order Logos defines — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate.
 ---
 
 # Corpus
 
-Corpus is the embodiment of that order — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate. The abstract principles of Logos are translated here into tangible, reliable infrastructure.
+Corpus is the embodiment of the order Logos defines — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate. The abstract principles of Logos are translated here into tangible, reliable infrastructure.
 
 - **[Projects](./projects.md)**: CIS-compliant GCP project creation with standard labels
 - **[Networking](./networking.md)**: Shared VPC, subnets, DNS zones, Cloud NAT
@@ -22,37 +22,38 @@ Corpus consumes Logos outputs and provides the foundation for Pneuma workload en
 
 - **[pt-corpus-ai-context](https://github.com/osinfra-io/pt-corpus-ai-context)**: Team-level Copilot instructions for `pt-corpus-*` repositories
 
-## Domain
+## Bounded Context
 
 Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream supplier to Pneuma in the platform's [context map](/platform-teams#context-map).
 
 ### Ubiquitous Language
 
-| Term | Meaning in this domain |
+| Term | Meaning in this context |
 |---|---|
 | Artifact registry | A GCP container and artifact repository for storing built images |
 | CIS benchmark | The Center for Internet Security hardening standard applied to every project at creation |
-| DNS zone | A Cloud DNS zone for internal or external name resolution |
-| Firewall rule | A network policy controlling traffic between subnets and resources |
 | Managed services IP range | A private IP range reserved for Cloud SQL and Memorystore peering |
 | Project | A GCP project scoped to a team and environment, CIS-compliant at creation |
 | Service networking connection | A VPC peering link enabling Private Services Access for managed databases |
 | Shared VPC | A centrally-managed GCP network whose subnets are shared across team projects |
 | State bucket | A GCS bucket holding encrypted OpenTofu state for a team's infrastructure |
-| Subnet | An IP range within a shared VPC allocated to a team's cluster nodes and pods |
 | Workload identity | A GCP mechanism mapping a Kubernetes service account to a GCP service account — no static credentials |
 
 ### Downstream Interfaces
 
 | Output | Consumed By | Via | Description |
 |---|---|---|---|
-| Shared VPC and subnet self-links | Pneuma | `module.core_helpers.teams` | GKE cluster node and pod network attachment |
-| Project IDs | Pneuma | `module.core_helpers.teams` | Cluster placement and Workload Identity binding |
-| Networking CIDRs | Pneuma | `module.core_helpers.teams` | Node, pod, and service IP range allocation |
+| Platform-managed GCP projects | Pneuma | `data "google_projects"` (GCP label query) | Cluster placement and Workload Identity binding |
+| Shared VPC | Pneuma | `data "google_projects"` (GCP label query) | GKE cluster network and subnet attachment |
 
-### Core Invariant
+### Core Invariants
 
-Every GCP project is CIS-compliant at creation — there is no non-compliant state.
+- Every GCP project is CIS-compliant at creation — there is no non-compliant state.
+- Every team's OpenTofu state is encrypted at rest with a KMS key protected from destruction.
+- GitHub Actions authenticates via Workload Identity Federation — no static credentials exist.
+- Every platform-managed project is a Shared VPC service project with subnet access granted at creation.
+
+## Team Topologies
 
 ### Cognitive Load
 
@@ -77,7 +78,7 @@ Cognitive load by domain:
 
 - Arche modules encapsulate CIS-compliant GCP project and network resource creation
 - Logos outputs drive project placement and team data — no manual cross-referencing
-- Techne's called workflows manage all CI/CD pipeline complexity
+- Called workflows provide OpenTofu deployment pipelines — no CI/CD to build or maintain
 
 **Germane load is built through:**
 
@@ -89,6 +90,6 @@ Cognitive load by domain:
 
 | | |
 |---|---|
-| **Headcount** | 1 domain engineer |
+| **Headcount** | 1 platform engineer |
 | **Day-to-day work** | Provisioning new team projects, occasional subnet expansion, supporting Pneuma's cluster networking requirements |
 | **Scale signal** | Stable — networking and project infrastructure changes infrequently once designed |

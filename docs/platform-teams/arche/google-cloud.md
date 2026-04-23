@@ -69,11 +69,11 @@ GCP infrastructure modules covering project governance, networking, compute, sto
   </div>
 </div>
 
-## Domain
+## Aggregate
 
-These modules form the **Google Cloud** bounded context within Arche. The **Domain Served** column identifies which platform domain primarily consumes each module.
+These modules form the **Google Cloud** bounded context within Arche. The **Bounded Context Served** column identifies which platform bounded context primarily consumes each module.
 
-| Module | Domain Served | Purpose |
+| Module | Bounded Context Served | Purpose |
 |---|---|---|
 | `pt-arche-core-helpers` | All | Workspace parsing, labels, team data, environment detection |
 | `pt-arche-google-project` | Corpus | CIS-compliant GCP project with billing, APIs, and monitoring |

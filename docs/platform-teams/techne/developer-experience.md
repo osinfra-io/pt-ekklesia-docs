@@ -16,7 +16,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
-## Domain
+## Aggregate
 
 | Entity | Description |
 |---|---|

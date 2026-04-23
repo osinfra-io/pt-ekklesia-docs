@@ -17,13 +17,13 @@ The hidden foundation of platform security — managing cryptographic primitives
 
 - **[pt-kryptos-ai-context](https://github.com/osinfra-io/pt-kryptos-ai-context)**: Team-level Copilot instructions for `pt-kryptos-*` repositories
 
-## Domain
+## Bounded Context
 
 Kryptos is a downstream **Customer/Supplier** consumer of Pneuma (runs OpenBao on Pneuma-managed clusters) and an upstream supplier of secrets management to all teams in the [context map](/platform-teams#context-map).
 
 ### Ubiquitous Language
 
-| Term | Meaning in this domain |
+| Term | Meaning in this context |
 |---|---|
 | Dynamic credential | A short-lived secret generated on demand and automatically revoked on lease expiry |
 | Engine | A secrets backend (PKI, KV, database) that generates or stores credentials |
@@ -47,6 +47,8 @@ Kryptos is a downstream **Customer/Supplier** consumer of Pneuma (runs OpenBao o
 
 All secrets distributed to consumers are dynamic or short-lived — no static credentials are stored in consumer repositories or CI environments.
 
+## Team Topologies
+
 ### Cognitive Load
 
 Kryptos owns two domains of high inherent complexity — secrets infrastructure and cryptographic primitives. The scope is deliberately narrow: depth over breadth, with no cluster operations burden (Pneuma handles that) and no deployment pipeline overhead (Techne handles that).
@@ -68,7 +70,7 @@ Cognitive load by domain:
 
 - OpenBao runs on Pneuma-managed clusters — no cluster operations burden
 - GCP KMS manages key infrastructure at scale — Kryptos configures policy, not key primitives
-- Techne's called workflows handle all CI/CD pipelines
+- Called workflows provide OpenTofu deployment pipelines — no CI/CD to build or maintain
 
 **Germane load is built through:**
 
@@ -80,6 +82,6 @@ Cognitive load by domain:
 
 | | |
 |---|---|
-| **Headcount** | 1 domain engineer |
+| **Headcount** | 1 platform engineer |
 | **Day-to-day work** | OpenBao policy authoring, PKI configuration, cryptographic key lifecycle management |
 | **Scale signal** | Intentionally narrow — scope should not grow to fill capacity; a third high-complexity domain would approach the cognitive ceiling |

@@ -45,11 +45,11 @@ Kubernetes add-on modules for service mesh, certificate management, policy enfor
   </div>
 </div>
 
-## Domain
+## Aggregate
 
 These modules form the **Kubernetes** bounded context within Arche. All are deployed by Pneuma onto GKE clusters.
 
-| Module | Domain Served | Purpose |
+| Module | Bounded Context Served | Purpose |
 |---|---|---|
 | `pt-arche-kubernetes-istio` | Pneuma | Istio service mesh with ingress gateway and Cloud Armor WAF |
 | `pt-arche-kubernetes-cert-manager` | Pneuma | cert-manager with Let's Encrypt ACME issuance |

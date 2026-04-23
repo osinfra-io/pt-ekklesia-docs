@@ -12,7 +12,7 @@ Logos is the foundational principle of order across systems — integrating mult
 - **[Team Topology](./team-topology.md)**: GitHub teams and repositories, Datadog teams, and branch protection
 - **[SaaS Governance](./saas-governance.md)**: GitHub and Datadog organization-level settings and policies
 
-Corpus depends directly on Logos outputs. All other infrastructure domains consume Logos data transitively via the [Arche Shared Kernel](/platform-teams/arche).
+All infrastructure bounded contexts consume Logos data via the [Arche Shared Kernel](/platform-teams/arche).
 
 ## Repositories
 
@@ -23,20 +23,23 @@ Corpus depends directly on Logos outputs. All other infrastructure domains consu
 - **[pt-ai-context](https://github.com/osinfra-io/pt-ai-context)**: Platform-level Copilot instructions applying universally to all `pt-*` repositories
 - **[pt-logos-ai-context](https://github.com/osinfra-io/pt-logos-ai-context)**: Team-level Copilot instructions for `pt-logos-*` repositories
 
-## Domain
+## Bounded Context
 
-Logos is the upstream **Customer/Supplier** to Corpus in the platform's [context map](/platform-teams#context-map).
+Logos is the upstream **Customer/Supplier** to all infrastructure bounded contexts in the platform's [context map](/platform-teams#context-map).
 
 ### Ubiquitous Language
 
-| Term | Meaning in this domain |
+| Term | Meaning in this context |
 |---|---|
 | Branch protection | A GitHub policy enforcing review and status check requirements on a repository |
-| Environment | A deployment tier (sandbox, non-production, production) represented as a GCP folder |
+| Environment (GCP) | A GCP folder scoping a deployment tier (sandbox, non-production, production) — for the canonical definition see [Arche Ubiquitous Language](/platform-teams/arche#ubiquitous-language) |
+| Environment (GitHub) | A GitHub Actions deployment environment attached to a repository, with reviewer teams and branch protection policies that gate workflow runs |
 | Folder | A GCP resource container that scopes IAM and billing within an environment |
 | Identity group | A Google Workspace group that grants role-based access to GCP resources |
 | Membership | The assignment of a user to an identity group or GitHub team |
-| Organization | The top-level GCP and GitHub entity that owns all platform resources |
+| Organization (Datadog) | The Datadog org that owns all monitors, teams, dashboards, and observability settings |
+| Organization (GCP) | The top-level GCP resource container that owns all folders, projects, and IAM policies |
+| Organization (GitHub) | The GitHub org that owns all repositories, teams, and Actions settings |
 | Repository | A GitHub repository registered to a team and managed as code in Logos |
 | Team | A bounded ownership unit — one GitHub team, one GCP folder, one Datadog team, provisioned together from a single definition |
 
@@ -47,9 +50,14 @@ Logos is the upstream **Customer/Supplier** to Corpus in the platform's [context
 | `environment_folder_id` | Corpus | `module.core_helpers` | Places projects in the correct environment folder |
 | `teams` | Corpus | `module.core_helpers.teams` | Team data map — project names, folder IDs, and group emails |
 
-### Core Invariant
+### Core Invariants
 
-Every team definition produces exactly one set of GCP, GitHub, and Datadog resources.
+- Every team definition produces exactly one set of GCP, GitHub, and Datadog resources
+- Every provisioned GitHub repository has signed commits required, linear history enforced, and PR review active — the branch ruleset is hardcoded with `enforcement = "active"` and no variable to disable it
+- Organization administrators (Datadog and GitHub) are indestructible — `prevent_destroy = true` is set on both; no accidental removal is possible via OpenTofu
+- Singleton organization-level resources (Datadog API keys, GitHub org settings, Google Groups) are only created in the `logos-production-main` workspace — preventing duplicates or conflicts across environments
+
+## Team Topologies
 
 ### Cognitive Load
 
@@ -74,7 +82,7 @@ Cognitive load by domain:
 
 - Everything is code — no manual GCP console, GitHub UI, or Datadog UI operations
 - A single tfvars edit propagates to all three providers in one deployment
-- Pre-commit hooks enforce format and validate before any change reaches CI
+- Called workflows provide OpenTofu deployment pipelines — no CI/CD to build or maintain
 
 **Germane load is built through:**
 
@@ -86,6 +94,6 @@ Cognitive load by domain:
 
 | | |
 |---|---|
-| **Headcount** | 1 domain engineer |
+| **Headcount** | 1 platform engineer |
 | **Day-to-day work** | New team onboarding, user membership changes, governance policy updates across GitHub, GCP, and Datadog |
 | **Scale signal** | Stable — organizational structure is established; workload is routine maintenance |

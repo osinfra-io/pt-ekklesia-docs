@@ -30,10 +30,9 @@ When adding a new page:
 2. Register it in `sidebars.js` — the page will not appear in navigation until it is added there
 3. Open a pull request — the test build will validate there are no broken links before merge
 
-## Domain
+## Aggregate
 
 | Entity | Description |
 |---|---|
 | `doc-page` | A Markdown page in the Docusaurus site, organized by team and bounded context |
 | `adr` | An Architecture Decision Record embedded in a doc page, capturing context, decision, alternatives, and consequences |
-| `sidebar` | The Docusaurus navigation structure reflecting the domain model |

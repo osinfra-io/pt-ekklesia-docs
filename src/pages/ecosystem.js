@@ -24,6 +24,7 @@ const categories = [
         logo: '/img/opentofu.png',
         description: 'The open-source IaC engine used across every layer of the platform — from GCP projects to Kubernetes manifests.',
         href: 'https://opentofu.org',
+        cncf: true,
       },
     ],
   },

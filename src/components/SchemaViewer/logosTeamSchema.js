@@ -208,6 +208,23 @@ const logosTeamSchema = {
             required: false,
             description: 'Custom domain for the Pages site.',
           },
+          source: {
+            type: 'object',
+            required: false,
+            description: 'Branch source configuration. Required when build_type is "legacy"; ignored when build_type is "workflow".',
+            properties: {
+              branch: {
+                type: 'string',
+                required: true,
+                description: 'Branch to publish from.',
+              },
+              path: {
+                type: 'string',
+                required: false,
+                description: 'Folder to publish from. Default: "/".',
+              },
+            },
+          },
         },
       },
       environments: {
@@ -255,22 +272,60 @@ const logosTeamSchema = {
     },
   },
 
-  google_projects: {
+  enable_google_project: {
+    type: 'boolean',
+    required: false,
+    description:
+      "Creates a GCP project in the team's environment folder via pt-corpus. Default: false.",
+  },
+
+  google_project_enable_datadog: {
+    type: 'boolean',
+    required: false,
+    description:
+      "Enables Datadog Google Cloud integration for the team's GCP project. Default: false. Only applies when enable_google_project is true.",
+  },
+
+  google_project_services: {
+    type: 'string[]',
+    required: false,
+    description:
+      'Additional GCP API services to enable in the team project beyond the baseline set (e.g., "bigquery.googleapis.com"). Default: []. Only applies when enable_google_project is true.',
+  },
+
+  google_browser_groups_memberships: {
     type: 'map',
     required: false,
     description:
-      "Additional GCP projects created in the team's environment folder by pt-corpus. Key is the project description slug.",
+      'GCP console browser access groups keyed by environment (sandbox, non-production, production). Used by pt-corpus only — grants roles/browser at the environment folder level.',
     properties: {
-      services: {
-        type: 'string[]',
-        required: true,
-        description: 'GCP API services to enable (e.g., "bigquery.googleapis.com").',
-      },
-      enable_datadog: {
-        type: 'boolean',
-        required: false,
-        description: 'Enables Datadog Google Cloud integration for this project.',
-      },
+      managers: { type: 'string[]', required: true, description: 'Email addresses.' },
+      members: { type: 'string[]', required: true, description: 'Email addresses.' },
+      owners: { type: 'string[]', required: true, description: 'Email addresses.' },
+    },
+  },
+
+  google_project_creator_groups_memberships: {
+    type: 'map',
+    required: false,
+    description:
+      'GCP project creator groups keyed by environment (sandbox, non-production, production). Used by pt-corpus only — grants roles/resourcemanager.projectCreator at the environment folder level.',
+    properties: {
+      managers: { type: 'string[]', required: true, description: 'Email addresses.' },
+      members: { type: 'string[]', required: true, description: 'Email addresses.' },
+      owners: { type: 'string[]', required: true, description: 'Email addresses.' },
+    },
+  },
+
+  google_xpn_admin_groups_memberships: {
+    type: 'map',
+    required: false,
+    description:
+      'Shared VPC (XPN) admin groups keyed by environment (sandbox, non-production, production). Used by pt-corpus only — grants roles/compute.xpnAdmin at the environment folder level.',
+    properties: {
+      managers: { type: 'string[]', required: true, description: 'Email addresses.' },
+      members: { type: 'string[]', required: true, description: 'Email addresses.' },
+      owners: { type: 'string[]', required: true, description: 'Email addresses.' },
     },
   },
 
