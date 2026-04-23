@@ -57,6 +57,20 @@ flowchart TD
 
 ## Team Topologies
 
+### Interaction Modes
+
+Team Topologies defines three interaction modes — **X-as-a-Service** (consume without collaboration), **Collaboration** (work together temporarily to solve a problem), and **Facilitating** (help another team improve capability). Collaboration is always time-boxed; the goal is to transition to X-as-a-Service once the consuming team is self-sufficient.
+
+| Team | Steady-State Mode | Notes |
+|---|---|---|
+| Logos | X-as-a-Service | Identity groups, GitHub teams, GCP folders, and Datadog teams are provisioned for you via automation |
+| Corpus | X-as-a-Service | GCP projects, shared VPC, state buckets, and workload identity are provisioned for you |
+| Pneuma | X-as-a-Service | GKE clusters and add-ons run for you; Collaboration available during initial cluster onboarding |
+| Arche | X-as-a-Service | Consume child modules via OpenTofu source pins; inner source Collaboration available for contributions |
+| Ekklesia | Facilitating | Platform documentation helps all teams self-serve knowledge and onboard without direct support |
+| Kryptos | X-as-a-Service | Secrets infrastructure and PKI managed for you; no direct interface for stream-aligned teams |
+| Techne | Facilitating | Reusable workflows, pre-commit hooks, and Codespace reduce extraneous load; Collaboration for new tool adoption |
+
 ### Cognitive Load
 
 Team Topologies distinguishes three types of cognitive load — **intrinsic** (inherent domain complexity), **extraneous** (friction from poor tooling), and **germane** (productive expertise-building). The platform is designed to eliminate extraneous load through shared automation (Arche, Techne), so each team's cognitive budget is spent entirely on intrinsic and germane load.
