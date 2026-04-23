@@ -95,11 +95,12 @@ Headcount is derived from the cognitive load analysis above. When operating with
 
 #### Platform Lead
 
-A single **Platform Lead** spans all seven teams. This role does not belong to any one team — it exists above them.
+A single **Platform Lead** spans all seven teams. This role does not belong to any one team — it exists above them. On this platform, the Platform Lead also serves as the **Product Manager**, owning both the technical direction and the platform roadmap.
 
 Responsibilities:
 
 - Sets the platform's technical direction and architectural standards
+- Owns the platform roadmap and prioritizes work across all teams based on stream-aligned team needs
 - Owns cross-team dependency sequencing (Logos → Corpus → Pneuma)
 - Reviews and ratifies Architecture Decision Records (ADRs) across all teams
 - Interfaces with stream-aligned team leads and engineering leadership
