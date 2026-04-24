@@ -351,6 +351,12 @@ const logosTeamSchema = {
             description:
               'DNS subdomain for team services. Defaults to the team key with prefix removed. Creates zones: {subdomain}.osinfra.io, {subdomain}.nonprod.osinfra.io, {subdomain}.sb.osinfra.io.',
           },
+          enable_datadog_apm: {
+            type: 'boolean',
+            required: false,
+            description:
+              'Enables Datadog APM (distributed tracing) and Universal Service Monitoring (USM) on the team\'s GKE cluster. USM is included at no extra cost when APM is enabled. Only meaningful when platform_managed_project.enable_datadog is true. Cost: $31/host/month (annual) with Infrastructure Monitoring. Default: false.',
+          },
           artifact_registry_groups_memberships: {
             type: 'object',
             required: false,

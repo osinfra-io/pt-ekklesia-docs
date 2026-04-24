@@ -31,7 +31,7 @@ Kubernetes add-on modules for service mesh, certificate management, policy enfor
     <ModuleCard
       image="/img/datadog.png"
       title="pt-arche-kubernetes-datadog-operator"
-      description="OpenTofu module that deploys the Datadog Operator via Helm and manages a DatadogAgent custom resource with configurable observability features including log collection, NPM, USM, Orchestrator Explorer, SBOM, and optional APM and security modules"
+      description="OpenTofu module that deploys the Datadog Operator via Helm and manages a DatadogAgent custom resource. Platform invariants — log collection, NPM, Orchestrator Explorer, SBOM, CSPM, and CWS — are always enabled. APM and Universal Service Monitoring are opt-in per team via the Logos schema."
       href="https://github.com/osinfra-io/pt-arche-kubernetes-datadog-operator"
     />
   </div>
