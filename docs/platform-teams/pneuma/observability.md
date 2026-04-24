@@ -21,7 +21,7 @@ These features are hardcoded enabled in the `DatadogAgent` spec and cannot be di
 
 ## Team-opt-in features
 
-These features are disabled by default and enabled per team via the `kubernetes_engine.enable_datadog_apm` flag in the Logos team schema:
+These features are disabled by default and enabled per team via the `platform_managed_project.kubernetes_engine.enable_datadog_apm` flag in the Logos team schema:
 
 - **APM**: Distributed tracing — collects spans from instrumented services and assembles flame graphs and service maps ($31/host/month annual with Infrastructure Monitoring)
 - **Universal Service Monitoring (USM)**: Automatically detects service-to-service communication via eBPF and generates RED metrics (requests, errors, duration) per service without code changes — enabled automatically alongside APM at no additional cost
