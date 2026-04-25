@@ -10,6 +10,7 @@ Corpus is the embodiment of the order Logos defines — the structural form wher
 - **[Projects](./projects.md)**: CIS-compliant GCP project creation with standard labels
 - **[Networking](./networking.md)**: Shared VPC, subnets, DNS zones, Cloud NAT
 - **[Data Services](./data-services.md)**: Private Services Access peering for managed services; Cloud SQL instances in team platform-managed projects
+- **[Log Management](./log-management.md)**: Centralized CMEK-encrypted log bucket in the Corpus project; all platform projects sink here
 - **[CI/CD Enablement](./ci-cd-enablement.md)**: GitHub Actions workload identity, Artifact Registry, encrypted OpenTofu state buckets
 
 Corpus consumes Logos outputs and provides the foundation for Pneuma workload environments.

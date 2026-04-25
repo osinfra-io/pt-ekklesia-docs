@@ -27,6 +27,7 @@ const sidebars = {
             'platform-teams/corpus/projects',
             'platform-teams/corpus/networking',
             'platform-teams/corpus/data-services',
+            'platform-teams/corpus/log-management',
             'platform-teams/corpus/ci-cd-enablement',
           ],
         },
