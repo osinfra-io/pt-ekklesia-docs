@@ -9,7 +9,7 @@ Corpus is the embodiment of the order Logos defines — the structural form wher
 
 - **[Projects](./projects.md)**: CIS-compliant GCP project creation with standard labels
 - **[Networking](./networking.md)**: Shared VPC, subnets, DNS zones, Cloud NAT
-- **[Data Services](./data-services.md)**: Private Services Access peering for Cloud SQL and Memorystore; Corpus owns the VPC prerequisites, teams own their instances
+- **[Data Services](./data-services.md)**: Private Services Access peering for managed services; Cloud SQL instances in team platform-managed projects
 - **[CI/CD Enablement](./ci-cd-enablement.md)**: GitHub Actions workload identity, Artifact Registry, encrypted OpenTofu state buckets
 
 Corpus consumes Logos outputs and provides the foundation for Pneuma workload environments.
@@ -32,6 +32,7 @@ Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream 
 |---|---|
 | Artifact registry | A GCP container and artifact repository for storing built images |
 | CIS benchmark | The Center for Internet Security hardening standard applied to every project at creation |
+| Cloud SQL instance | A managed PostgreSQL database provisioned by Corpus in a team's platform-managed project |
 | Managed services IP range | A private IP range reserved for Cloud SQL and Memorystore peering |
 | Project | A GCP project scoped to a team and environment, CIS-compliant at creation |
 | Service networking connection | A VPC peering link enabling Private Services Access for managed databases |
@@ -45,6 +46,7 @@ Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream 
 |---|---|---|---|
 | Platform-managed GCP projects | Pneuma | `data "google_projects"` (GCP label query) | Cluster placement and Workload Identity binding |
 | Shared VPC | Pneuma | `data "google_projects"` (GCP label query) | GKE cluster network and subnet attachment |
+| Cloud SQL instances | Teams | `data "terraform_remote_state"` (corpus regional) | Private IP and instance name per team in each region |
 
 ### Core Invariants
 
@@ -52,6 +54,7 @@ Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream 
 - Every team's OpenTofu state is encrypted at rest with a KMS key protected from destruction.
 - GitHub Actions authenticates via Workload Identity Federation — no static credentials exist.
 - Every platform-managed project is a Shared VPC service project with subnet access granted at creation.
+- Every Cloud SQL instance has no public IP — private connectivity only, with SSL enforced.
 
 ## Team Topologies
 
@@ -69,7 +72,7 @@ Cognitive load by domain:
 |---|---|---|---|
 | Projects | 🟡 Medium | Arche module | CIS compliance patterns |
 | Networking | 🔴 High | Arche module | VPC design, IP planning |
-| Data Services | 🟡 Medium | Corpus owns prerequisites | Managed services connectivity |
+| Data Services | 🟡 Medium | Arche module | Managed services connectivity |
 | CI/CD Enablement | 🟡 Medium | Techne workflows | Workload identity, OIDC |
 
 **Capacity**: 1 high-complexity domain (Team Topologies guideline: 2–3); team members hold 4 active domains — at the ~4 working-knowledge limit.
