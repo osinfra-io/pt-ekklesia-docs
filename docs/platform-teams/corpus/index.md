@@ -33,11 +33,14 @@ Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream 
 | Artifact registry | A GCP container and artifact repository for storing built images |
 | CIS benchmark | The Center for Internet Security hardening standard applied to every project at creation |
 | Cloud SQL instance | A managed PostgreSQL database provisioned by Corpus in a team's platform-managed project |
+| Log bucket | A Cloud Logging bucket in the Corpus project that receives all platform log sinks per environment |
+| Log sink | A per-project sink routing audit logs to the Corpus log bucket with a unique writer identity |
 | Managed services IP range | A private IP range reserved for Cloud SQL and Memorystore peering |
 | Project | A GCP project scoped to a team and environment, CIS-compliant at creation |
 | Service networking connection | A VPC peering link enabling Private Services Access for managed databases |
 | Shared VPC | A centrally-managed GCP network whose subnets are shared across team projects |
 | State bucket | A GCS bucket holding encrypted OpenTofu state for a team's infrastructure |
+| Tenancy | The governed GCP presence assigned to a team — project provisioned, CIS controls applied, and log routing established |
 | Workload identity | A GCP mechanism mapping a Kubernetes service account to a GCP service account — no static credentials |
 
 ### Downstream Interfaces
@@ -60,7 +63,7 @@ Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream 
 
 ### Cognitive Load
 
-Corpus translates Logos abstractions into concrete GCP infrastructure — projects, networks, and CI/CD foundations. Networking is the domain of highest inherent complexity here, spanning VPC design, multi-region subnets, DNS, NAT, and Private Services Access.
+Corpus translates Logos abstractions into concrete GCP infrastructure — team tenancy, networking, and CI/CD foundations. Networking is the domain of highest inherent complexity here, spanning VPC design, multi-region subnets, DNS, NAT, and Private Services Access.
 
 | Working Domains | High Intrinsic Domains |
 |---|---|
@@ -94,5 +97,5 @@ Cognitive load by domain:
 | | |
 |---|---|
 | **Headcount** | 1 platform engineer |
-| **Day-to-day work** | Provisioning new team projects, occasional subnet expansion, supporting Pneuma's cluster networking requirements |
+| **Day-to-day work** | Onboarding new team tenancies, occasional subnet expansion, supporting Pneuma's cluster networking requirements |
 | **Scale signal** | Stable — networking and project infrastructure changes infrequently once designed |
