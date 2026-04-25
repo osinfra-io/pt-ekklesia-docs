@@ -18,11 +18,17 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 ## Aggregate
 
-| Entity | Description |
+### Ubiquitous Language
+
+| Term | Meaning in this context |
 |---|---|
 | `cloud-sql-instance` | A managed PostgreSQL instance per region in the team's platform-managed project, accessible via private IP through the Shared VPC peering connection |
 | `managed-services-ip-range` | A reserved IP range in the host VPC allocated for Google managed services Private Services Access |
 | `service-networking-connection` | The VPC peering connection between the host VPC and Google's managed services network |
+
+### Core Invariant
+
+Each team has at most one Cloud SQL instance per declared region — never more than one instance per team per region.
 
 ## Architecture Decision Records
 
