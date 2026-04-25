@@ -7,9 +7,9 @@ description: The embodiment of the order Logos defines — the structural form w
 
 Corpus is the embodiment of the order Logos defines — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate. The abstract principles of Logos are translated here into tangible, reliable infrastructure.
 
-- **[Projects](./projects.md)**: CIS-compliant GCP project creation with standard labels
+- **[Tenancy](./tenancy.md)**: CIS-compliant GCP project creation, centralized log governance, and audit log routing for all platform projects
 - **[Networking](./networking.md)**: Shared VPC, subnets, DNS zones, Cloud NAT
-- **[Data Services](./data-services.md)**: Private Services Access peering for Cloud SQL and Memorystore; Corpus owns the VPC prerequisites, teams own their instances
+- **[Data Services](./data-services.md)**: Private Services Access peering for managed services; Cloud SQL instances in team platform-managed projects
 - **[CI/CD Enablement](./ci-cd-enablement.md)**: GitHub Actions workload identity, Artifact Registry, encrypted OpenTofu state buckets
 
 Corpus consumes Logos outputs and provides the foundation for Pneuma workload environments.
@@ -32,11 +32,15 @@ Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream 
 |---|---|
 | Artifact registry | A GCP container and artifact repository for storing built images |
 | CIS benchmark | The Center for Internet Security hardening standard applied to every project at creation |
+| Cloud SQL instance | A managed PostgreSQL database provisioned by Corpus in a team's platform-managed project |
+| Log bucket | A Cloud Logging bucket in the Corpus project that receives all platform log sinks per environment |
+| Log sink | A per-project sink routing audit logs to the Corpus log bucket with a unique writer identity |
 | Managed services IP range | A private IP range reserved for Cloud SQL and Memorystore peering |
 | Project | A GCP project scoped to a team and environment, CIS-compliant at creation |
 | Service networking connection | A VPC peering link enabling Private Services Access for managed databases |
 | Shared VPC | A centrally-managed GCP network whose subnets are shared across team projects |
 | State bucket | A GCS bucket holding encrypted OpenTofu state for a team's infrastructure |
+| Tenancy | The governed GCP presence assigned to a team — project provisioned, CIS controls applied, and log routing established |
 | Workload identity | A GCP mechanism mapping a Kubernetes service account to a GCP service account — no static credentials |
 
 ### Downstream Interfaces
@@ -45,6 +49,7 @@ Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream 
 |---|---|---|---|
 | Platform-managed GCP projects | Pneuma | `data "google_projects"` (GCP label query) | Cluster placement and Workload Identity binding |
 | Shared VPC | Pneuma | `data "google_projects"` (GCP label query) | GKE cluster network and subnet attachment |
+| Cloud SQL instances | Teams | `data "terraform_remote_state"` (corpus regional) | Private IP and instance name per team in each region |
 
 ### Core Invariants
 
@@ -52,12 +57,13 @@ Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream 
 - Every team's OpenTofu state is encrypted at rest with a KMS key protected from destruction.
 - GitHub Actions authenticates via Workload Identity Federation — no static credentials exist.
 - Every platform-managed project is a Shared VPC service project with subnet access granted at creation.
+- Every Cloud SQL instance has no public IP — private connectivity only, with SSL enforced.
 
 ## Team Topologies
 
 ### Cognitive Load
 
-Corpus translates Logos abstractions into concrete GCP infrastructure — projects, networks, and CI/CD foundations. Networking is the domain of highest inherent complexity here, spanning VPC design, multi-region subnets, DNS, NAT, and Private Services Access.
+Corpus translates Logos abstractions into concrete GCP infrastructure — team tenancy, networking, and CI/CD foundations. Networking is the domain of highest inherent complexity here, spanning VPC design, multi-region subnets, DNS, NAT, and Private Services Access.
 
 | Working Domains | High Intrinsic Domains |
 |---|---|
@@ -67,9 +73,9 @@ Cognitive load by domain:
 
 | Domain | Intrinsic | Extraneous Reduced By | Germane Expertise |
 |---|---|---|---|
-| Projects | 🟡 Medium | Arche module | CIS compliance patterns |
+| Tenancy | 🟡 Medium | Arche module | CIS compliance, log governance |
 | Networking | 🔴 High | Arche module | VPC design, IP planning |
-| Data Services | 🟡 Medium | Corpus owns prerequisites | Managed services connectivity |
+| Data Services | 🟡 Medium | Arche module | Managed services connectivity |
 | CI/CD Enablement | 🟡 Medium | Techne workflows | Workload identity, OIDC |
 
 **Capacity**: 1 high-complexity domain (Team Topologies guideline: 2–3); team members hold 4 active domains — at the ~4 working-knowledge limit.
@@ -91,5 +97,5 @@ Cognitive load by domain:
 | | |
 |---|---|
 | **Headcount** | 1 platform engineer |
-| **Day-to-day work** | Provisioning new team projects, occasional subnet expansion, supporting Pneuma's cluster networking requirements |
+| **Day-to-day work** | Onboarding new team tenancies, occasional subnet expansion, supporting Pneuma's cluster networking requirements |
 | **Scale signal** | Stable — networking and project infrastructure changes infrequently once designed |
