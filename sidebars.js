@@ -24,10 +24,9 @@ const sidebars = {
           label: 'Corpus',
           link: { type: 'doc', id: 'platform-teams/corpus/index' },
           items: [
-            'platform-teams/corpus/projects',
+            'platform-teams/corpus/tenancy',
             'platform-teams/corpus/networking',
             'platform-teams/corpus/data-services',
-            'platform-teams/corpus/log-management',
             'platform-teams/corpus/ci-cd-enablement',
           ],
         },
