@@ -87,6 +87,12 @@ const sidebars = {
       items: [
         {
           type: 'category',
+          label: 'Data',
+          link: { type: 'doc', id: 'stream-aligned-teams/data/index' },
+          items: [],
+        },
+        {
+          type: 'category',
           label: 'Ethos',
           link: { type: 'doc', id: 'stream-aligned-teams/ethos/index' },
           items: [],
