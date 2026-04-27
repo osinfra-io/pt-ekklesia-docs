@@ -1,5 +1,10 @@
 // @ts-check
 
+// The `// region: <section>` / `// endregion: <section>` markers below are
+// consumed by `pt-techne-mcp-server`'s `render_sidebar_patch` tool, which
+// inserts new team entries between them. Keep them in place; deleting or
+// renaming a marker will cause that tool to fail with `source_parse_error`.
+
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebars = {
   docs: [
@@ -8,6 +13,7 @@ const sidebars = {
       label: 'Platform Teams',
       link: { type: 'doc', id: 'platform-teams/index' },
       items: [
+        // region: platform-teams
         {
           type: 'category',
           label: 'Logos',
@@ -78,6 +84,7 @@ const sidebars = {
             'platform-teams/techne/developer-experience',
           ],
         },
+        // endregion: platform-teams
       ],
     },
     {
@@ -85,12 +92,14 @@ const sidebars = {
       label: 'Stream-Aligned Teams',
       link: { type: 'doc', id: 'stream-aligned-teams/index' },
       items: [
+        // region: stream-aligned-teams
         {
           type: 'category',
           label: 'Ethos',
           link: { type: 'doc', id: 'stream-aligned-teams/ethos/index' },
           items: [],
         },
+        // endregion: stream-aligned-teams
       ],
     },
     {
@@ -98,12 +107,14 @@ const sidebars = {
       label: 'Complicated Subsystem Teams',
       link: { type: 'doc', id: 'complicated-subsystem-teams/index' },
       items: [
+        // region: complicated-subsystem-teams
         {
           type: 'category',
           label: 'Mysterion',
           link: { type: 'doc', id: 'complicated-subsystem-teams/mysterion/index' },
           items: [],
         },
+        // endregion: complicated-subsystem-teams
       ],
     },
     {
@@ -111,6 +122,7 @@ const sidebars = {
       label: 'Enabling Teams',
       link: { type: 'doc', id: 'enabling-teams/index' },
       items: [
+        // region: enabling-teams
         {
           type: 'category',
           label: 'Sophrosyne',
@@ -123,6 +135,7 @@ const sidebars = {
           link: { type: 'doc', id: 'enabling-teams/soteria/index' },
           items: [],
         },
+        // endregion: enabling-teams
       ],
     },
   ],
