@@ -55,4 +55,5 @@ Logos runs OpenTofu on merge — the GCP folder hierarchy, identity groups, and 
 
 <CardGrid>
   <Card item={{ icon: '🧭', title: 'Ethos', note: 'The lived moral character that customers experience — the trustworthiness, transparency, and integrity through which the business earns and keeps their confidence.', link: '/stream-aligned-teams/ethos', linkText: 'Learn more →' }} />
+  <Card item={{ icon: '🌊', title: 'Foo', note: 'A stream-aligned team delivering value directly to end users as part of the osinfra.io platform.', link: '/stream-aligned-teams/foo', linkText: 'Learn more →' }} />
 </CardGrid>

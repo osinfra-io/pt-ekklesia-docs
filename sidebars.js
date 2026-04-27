@@ -99,6 +99,12 @@ const sidebars = {
           link: { type: 'doc', id: 'stream-aligned-teams/ethos/index' },
           items: [],
         },
+        {
+          type: 'category',
+          label: 'Foo',
+          link: { type: 'doc', id: 'stream-aligned-teams/foo/index' },
+          items: [],
+        },
         // endregion: stream-aligned-teams
       ],
     },
