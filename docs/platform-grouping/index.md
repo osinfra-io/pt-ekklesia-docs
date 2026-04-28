@@ -61,15 +61,15 @@ flowchart TD
 
 Team Topologies defines three interaction modes — **X-as-a-Service** (consume without collaboration), **Collaboration** (work together temporarily to solve a problem), and **Facilitating** (help another team improve capability). Collaboration is always time-boxed; the goal is to transition to X-as-a-Service once the consuming team is self-sufficient.
 
-| Team | Steady-State Mode | Notes |
+| Team | Notes | Steady-State Mode |
 |---|---|---|
-| <nobr>🏛️ Logos</nobr> | <nobr>🔵 X-as-a-Service</nobr> | Identity groups, GitHub teams, GCP folders, and Datadog teams are provisioned for you via automation |
-| <nobr>🌐 Corpus</nobr> | <nobr>🔵 X-as-a-Service</nobr> | GCP projects, shared VPC, state buckets, and workload identity are provisioned for you |
-| <nobr>☸️ Pneuma</nobr> | <nobr>🔵 X-as-a-Service</nobr> | GKE clusters and add-ons run for you; Collaboration available during initial cluster onboarding |
-| <nobr>🧱 Arche</nobr> | <nobr>🔵 X-as-a-Service</nobr> | Consume child modules via OpenTofu source pins; inner source Collaboration available for contributions |
-| <nobr>📖 Ekklesia</nobr> | <nobr>🟢 Facilitating</nobr> | Organizational knowledge hub — architecture decisions, module references, and operational guides for platform and stream-aligned teams alike |
-| <nobr>🔐 Kryptos</nobr> | <nobr>🔵 X-as-a-Service</nobr> | Secrets infrastructure and PKI managed for you; no direct interface for stream-aligned teams |
-| <nobr>🛠️ Techne</nobr> | <nobr>🟢 Facilitating</nobr> | Reusable workflows and Codespace reduce extraneous load; Collaboration for new tool adoption |
+| <nobr>🏛️ Logos</nobr> | Identity groups, GitHub teams, GCP folders, and Datadog teams are provisioned for you via automation | <nobr>🔵 X-as-a-Service</nobr> |
+| <nobr>🌐 Corpus</nobr> | GCP projects, shared VPC, state buckets, and workload identity are provisioned for you | <nobr>🔵 X-as-a-Service</nobr> |
+| <nobr>☸️ Pneuma</nobr> | GKE clusters and add-ons run for you; Collaboration available during initial cluster onboarding | <nobr>🔵 X-as-a-Service</nobr> |
+| <nobr>🧱 Arche</nobr> | Consume child modules via OpenTofu source pins; inner source Collaboration available for contributions | <nobr>🔵 X-as-a-Service</nobr> |
+| <nobr>📖 Ekklesia</nobr> | Organizational knowledge hub — architecture decisions, module references, and operational guides for platform and stream-aligned teams alike | <nobr>🟢 Facilitating</nobr> |
+| <nobr>🔐 Kryptos</nobr> | Secrets infrastructure and PKI managed for you; no direct interface for stream-aligned teams | <nobr>🔵 X-as-a-Service</nobr> |
+| <nobr>🛠️ Techne</nobr> | Reusable workflows and Codespace reduce extraneous load; Collaboration for new tool adoption | <nobr>🟢 Facilitating</nobr> |
 
 _🔵 X-as-a-Service · 🟡 Collaboration · 🟢 Facilitating_
 
