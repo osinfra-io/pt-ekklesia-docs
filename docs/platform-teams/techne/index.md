@@ -40,13 +40,6 @@ Techne operates using a **Shared Kernel** pattern in the [context map](/platform
 | Pre-commit hook | A script in `pt-techne-pre-commit-hooks` that runs automatically before every git commit |
 | Workflow | A GitHub Actions called workflow in `pt-techne-opentofu-workflows` consumed via `workflow_call` |
 
-### Bounded Contexts
-
-| Bounded Context | Artifacts | Consumed By |
-|---|---|---|
-| [Deployment Automation](./deployment-automation.md) | Called workflows, OIDC auth, state config, job summaries | All platform teams |
-| [Developer Experience](./developer-experience.md) | Codespace, pre-commit hooks, development setup | All platform and stream-aligned teams |
-
 ### Core Invariants
 
 - All deployments use short-lived OIDC tokens — no static credentials exist anywhere on the platform

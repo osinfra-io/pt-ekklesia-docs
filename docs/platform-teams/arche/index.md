@@ -43,15 +43,6 @@ Arche operates as the platform's **Shared Kernel** in the [context map](/platfor
 | Version | A semver tag (e.g., v1.2.3) associated with a module release — documented as a comment alongside the ref |
 | Workspace | An OpenTofu workspace name encoding environment and optionally region or zone |
 
-### Bounded Contexts
-
-Arche is decomposed into two bounded contexts that map directly to the infrastructure layer each module targets:
-
-| Bounded Context | Modules | Consumed By |
-|---|---|---|
-| [Google Cloud](./google-cloud.md) | project, network, GKE, storage, Cloud SQL, Datadog integration | Corpus, Pneuma, stream-aligned teams |
-| [Kubernetes](./kubernetes.md) | Istio, cert-manager, Datadog Operator, OPA Gatekeeper | Pneuma |
-
 ### Shared Kernel Foundation
 
 [`pt-arche-core-helpers`](./core-helpers.md) is the foundational module that every other module builds on. It is the only module that reads OpenTofu workspace state directly — translating raw workspace names (e.g., `main-production`, `us-east1-b-sandbox`) into structured context all other modules consume. No module hardcodes environment strings, labels, or team data.
