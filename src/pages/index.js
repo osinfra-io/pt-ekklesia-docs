@@ -33,14 +33,14 @@ const cards = [
     icon: '🗺️',
     title: 'Explore the Platform',
     note: 'Understand the team topology — how the platform is organized, what each team owns, and how the layers fit together.',
-    link: '/platform-teams',
+    link: '/platform-grouping',
     linkText: 'See the teams →',
   },
   {
     icon: '🧩',
     title: 'Browse the Modules',
     note: 'Eleven reusable OpenTofu modules covering GCP projects, networking, GKE, Istio, cert-manager, OPA Gatekeeper, and more.',
-    link: '/platform-teams/arche',
+    link: '/platform-grouping/arche',
     linkText: 'View the modules →',
   },
   {

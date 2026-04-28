@@ -12,7 +12,7 @@ Logos is the foundational principle of order across systems — integrating mult
 - **[Team Topology](./team-topology.md)**: GitHub teams and repositories, Datadog teams, and branch protection
 - **[SaaS Governance](./saas-governance.md)**: GitHub and Datadog organization-level settings and policies
 
-All infrastructure bounded contexts consume Logos data via the [Arche Shared Kernel](/platform-teams/arche).
+All infrastructure bounded contexts consume Logos data via the [Arche Shared Kernel](/platform-grouping/arche).
 
 ## Repositories
 
@@ -25,14 +25,14 @@ All infrastructure bounded contexts consume Logos data via the [Arche Shared Ker
 
 ## Bounded Context
 
-Logos is the upstream **Customer/Supplier** to all infrastructure bounded contexts in the platform's [context map](/platform-teams#context-map).
+Logos is the upstream **Customer/Supplier** to all infrastructure bounded contexts in the platform's [context map](/platform-grouping#context-map).
 
 ### Ubiquitous Language
 
 | Term | Meaning in this context |
 |---|---|
 | Branch protection | A GitHub policy enforcing review and status check requirements on a repository |
-| Environment (GCP) | A GCP folder scoping a deployment tier (sandbox, non-production, production) — for the canonical definition see [Arche Ubiquitous Language](/platform-teams/arche#ubiquitous-language) |
+| Environment (GCP) | A GCP folder scoping a deployment tier (sandbox, non-production, production) — for the canonical definition see [Arche Ubiquitous Language](/platform-grouping/arche#ubiquitous-language) |
 | Environment (GitHub) | A GitHub Actions deployment environment attached to a repository, with reviewer teams and branch protection policies that gate workflow runs |
 | Folder | A GCP resource container that scopes IAM and billing within an environment |
 | Identity group | A Google Workspace group that grants role-based access to GCP resources |

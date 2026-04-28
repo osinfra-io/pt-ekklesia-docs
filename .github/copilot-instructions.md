@@ -159,4 +159,4 @@ Each ADR follows this structure:
 - [<Link text>](<url>)
 ```
 
-See `docs/platform-teams/corpus/networking.md` for a complete example.
+See `docs/platform-grouping/corpus/networking.md` for a complete example.

@@ -74,7 +74,7 @@ const config = {
         },
         items: [
           {
-            to: '/platform-teams',
+            to: '/platform-grouping',
             label: 'Teams',
             position: 'left',
           },

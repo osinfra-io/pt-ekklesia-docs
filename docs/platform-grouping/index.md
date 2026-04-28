@@ -1,25 +1,25 @@
 ---
-sidebar_label: Platform Teams
-description: Platform teams provide the foundational infrastructure and tooling that stream-aligned teams depend on.
+sidebar_label: Platform Grouping
+description: The platform grouping — the collection of platform teams that together provide a coherent internal platform product.
 ---
 
 import Card from '@site/src/components/Card';
 import CardGrid from '@site/src/components/CardGrid';
 
-# Platform Teams
+# Platform Grouping
 
-Platform teams provide the foundational infrastructure and tooling that stream-aligned teams depend on. Each platform team owns a distinct bounded context within the platform grouping.
+The **platform grouping** is the Team Topologies (2nd edition) term for a collection of platform teams that together provide a coherent internal platform product. Each platform team within the grouping owns a distinct bounded context; together they expose a single, coherent interface to stream-aligned teams.
 
 ## Teams
 
 <CardGrid>
-  <Card item={{ icon: '🏛️', title: 'Logos', note: 'The foundational principle of order across systems — integrating multi-provider infrastructure, establishing boundaries, governance, and stable standards for teams to operate autonomously.', link: '/platform-teams/logos', linkText: 'Learn more →' }} />
-  <Card item={{ icon: '🌐', title: 'Corpus', note: 'The embodiment of that order — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate.', link: '/platform-teams/corpus', linkText: 'Learn more →' }} />
-  <Card item={{ icon: '☸️', title: 'Pneuma', note: 'The breath of life animating the platform via Kubernetes — orchestrating dynamic, self-healing, and scalable services atop the Logos foundation.', link: '/platform-teams/pneuma', linkText: 'Learn more →' }} />
-  <Card item={{ icon: '🧱', title: 'Arche', note: 'The origin and first cause — the primordial source from which all platform foundations draw their initial form and essential nature.', link: '/platform-teams/arche', linkText: 'View modules →' }} />
-  <Card item={{ icon: '📖', title: 'Ekklesia', note: 'The assembly of the called-out — where distinct capabilities are gathered into a unified body, deliberating and acting in concert toward shared platform purpose.', link: '/platform-teams/ekklesia', linkText: 'Learn more →' }} />
-  <Card item={{ icon: '🔐', title: 'Kryptos', note: 'The hidden foundation of platform security — managing cryptographic primitives, secrets infrastructure, and security controls that underpin all teams on the platform.', link: '/platform-teams/kryptos', linkText: 'Learn more →' }} />
-  <Card item={{ icon: '🛠️', title: 'Techne', note: 'The practiced art of making — the disciplined craft through which raw materials of infrastructure are shaped into purposeful, refined platform instruments.', link: '/platform-teams/techne', linkText: 'Learn more →' }} />
+  <Card item={{ icon: '🏛️', title: 'Logos', note: 'The foundational principle of order across systems — integrating multi-provider infrastructure, establishing boundaries, governance, and stable standards for teams to operate autonomously.', link: '/platform-grouping/logos', linkText: 'Learn more →' }} />
+  <Card item={{ icon: '🌐', title: 'Corpus', note: 'The embodiment of that order — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate.', link: '/platform-grouping/corpus', linkText: 'Learn more →' }} />
+  <Card item={{ icon: '☸️', title: 'Pneuma', note: 'The breath of life animating the platform via Kubernetes — orchestrating dynamic, self-healing, and scalable services atop the Logos foundation.', link: '/platform-grouping/pneuma', linkText: 'Learn more →' }} />
+  <Card item={{ icon: '🧱', title: 'Arche', note: 'The origin and first cause — the primordial source from which all platform foundations draw their initial form and essential nature.', link: '/platform-grouping/arche', linkText: 'View modules →' }} />
+  <Card item={{ icon: '📖', title: 'Ekklesia', note: 'The assembly of the called-out — where distinct capabilities are gathered into a unified body, deliberating and acting in concert toward shared platform purpose.', link: '/platform-grouping/ekklesia', linkText: 'Learn more →' }} />
+  <Card item={{ icon: '🔐', title: 'Kryptos', note: 'The hidden foundation of platform security — managing cryptographic primitives, secrets infrastructure, and security controls that underpin all teams on the platform.', link: '/platform-grouping/kryptos', linkText: 'Learn more →' }} />
+  <Card item={{ icon: '🛠️', title: 'Techne', note: 'The practiced art of making — the disciplined craft through which raw materials of infrastructure are shaped into purposeful, refined platform instruments.', link: '/platform-grouping/techne', linkText: 'Learn more →' }} />
 </CardGrid>
 
 ## Domain-Driven Design
@@ -99,7 +99,7 @@ Team Topologies distinguishes three types of cognitive load — **intrinsic** (i
 | Kryptos | 🟢 2 / 4 | 🟡 2 / 3 |
 | Logos | 🟠 4 / 4 | 🟢 0 / 3 |
 | Corpus | 🟠 4 / 4 | 🟢 1 / 3 |
-| Pneuma | 🔴 5 / 4 · [ADR →](/platform-teams/pneuma#pneuma-cognitive-load-mitigation) | 🟠 3 / 3 |
+| Pneuma | 🔴 5 / 4 · [ADR →](/platform-grouping/pneuma#pneuma-cognitive-load-mitigation) | 🟠 3 / 3 |
 
 _🟢 within limit · 🟡 approaching · 🟠 at limit · 🔴 over limit_
 

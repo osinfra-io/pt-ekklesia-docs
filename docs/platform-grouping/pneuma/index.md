@@ -32,7 +32,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 ## Bounded Context
 
-Pneuma is a downstream **Customer/Supplier** consumer of Corpus (networking and project infrastructure) and the Arche Shared Kernel (team data originating in Logos). It is an upstream supplier of Kubernetes clusters to all teams that need one — including Kryptos, which runs OpenBao on a Pneuma-managed cluster. See the [context map](/platform-teams#context-map).
+Pneuma is a downstream **Customer/Supplier** consumer of Corpus (networking and project infrastructure) and the Arche Shared Kernel (team data originating in Logos). It is an upstream supplier of Kubernetes clusters to all teams that need one — including Kryptos, which runs OpenBao on a Pneuma-managed cluster. See the [context map](/platform-grouping#context-map).
 
 ### Ubiquitous Language
 
@@ -45,7 +45,7 @@ Pneuma is a downstream **Customer/Supplier** consumer of Corpus (networking and 
 | Operator | A Kubernetes controller deployed as an add-on (Datadog Operator, cert-manager) managing its resource lifecycle |
 | Policy | A set of constraints defining the compliance posture for a cluster |
 | Service mesh | The Istio control plane managing mTLS, traffic routing, and observability across all pods |
-| Workload identity | See [Corpus Ubiquitous Language](/platform-teams/corpus#ubiquitous-language) — Pneuma consumes Workload Identity bindings provisioned by Corpus |
+| Workload identity | See [Corpus Ubiquitous Language](/platform-grouping/corpus#ubiquitous-language) — Pneuma consumes Workload Identity bindings provisioned by Corpus |
 
 ### Downstream Interfaces
 

@@ -19,7 +19,7 @@ The hidden foundation of platform security — managing cryptographic primitives
 
 ## Bounded Context
 
-Kryptos is a downstream **Customer/Supplier** consumer of Pneuma (runs OpenBao on Pneuma-managed clusters) and an upstream supplier of secrets management to all teams in the [context map](/platform-teams#context-map).
+Kryptos is a downstream **Customer/Supplier** consumer of Pneuma (runs OpenBao on Pneuma-managed clusters) and an upstream supplier of secrets management to all teams in the [context map](/platform-grouping#context-map).
 
 ### Ubiquitous Language
 

@@ -10,81 +10,81 @@ const sidebars = {
   docs: [
     {
       type: 'category',
-      label: 'Platform Teams',
-      link: { type: 'doc', id: 'platform-teams/index' },
+      label: 'Platform Grouping',
+      link: { type: 'doc', id: 'platform-grouping/index' },
       items: [
-        // region: platform-teams
+        // region: platform-grouping
         {
           type: 'category',
           label: 'Logos',
-          link: { type: 'doc', id: 'platform-teams/logos/index' },
+          link: { type: 'doc', id: 'platform-grouping/logos/index' },
           items: [
-            'platform-teams/logos/resource-hierarchy',
-            'platform-teams/logos/identity-access',
-            'platform-teams/logos/team-topology',
-            'platform-teams/logos/saas-governance',
+            'platform-grouping/logos/resource-hierarchy',
+            'platform-grouping/logos/identity-access',
+            'platform-grouping/logos/team-topology',
+            'platform-grouping/logos/saas-governance',
           ],
         },
         {
           type: 'category',
           label: 'Corpus',
-          link: { type: 'doc', id: 'platform-teams/corpus/index' },
+          link: { type: 'doc', id: 'platform-grouping/corpus/index' },
           items: [
-            'platform-teams/corpus/tenancy',
-            'platform-teams/corpus/networking',
-            'platform-teams/corpus/data-services',
-            'platform-teams/corpus/ci-cd-enablement',
+            'platform-grouping/corpus/tenancy',
+            'platform-grouping/corpus/networking',
+            'platform-grouping/corpus/data-services',
+            'platform-grouping/corpus/ci-cd-enablement',
           ],
         },
         {
           type: 'category',
           label: 'Pneuma',
-          link: { type: 'doc', id: 'platform-teams/pneuma/index' },
+          link: { type: 'doc', id: 'platform-grouping/pneuma/index' },
           items: [
-            'platform-teams/pneuma/cluster-management',
-            'platform-teams/pneuma/service-mesh',
-            'platform-teams/pneuma/certificate-management',
-            'platform-teams/pneuma/policy-enforcement',
-            'platform-teams/pneuma/observability',
+            'platform-grouping/pneuma/cluster-management',
+            'platform-grouping/pneuma/service-mesh',
+            'platform-grouping/pneuma/certificate-management',
+            'platform-grouping/pneuma/policy-enforcement',
+            'platform-grouping/pneuma/observability',
           ],
         },
         {
           type: 'category',
           label: 'Arche',
-          link: { type: 'doc', id: 'platform-teams/arche/index' },
+          link: { type: 'doc', id: 'platform-grouping/arche/index' },
           items: [
-            'platform-teams/arche/core-helpers',
-            'platform-teams/arche/module-development',
-            'platform-teams/arche/google-cloud',
-            'platform-teams/arche/kubernetes',
+            'platform-grouping/arche/core-helpers',
+            'platform-grouping/arche/module-development',
+            'platform-grouping/arche/google-cloud',
+            'platform-grouping/arche/kubernetes',
           ],
         },
         {
           type: 'category',
           label: 'Ekklesia',
-          link: { type: 'doc', id: 'platform-teams/ekklesia/index' },
+          link: { type: 'doc', id: 'platform-grouping/ekklesia/index' },
           items: [
-            'platform-teams/ekklesia/documentation',
+            'platform-grouping/ekklesia/documentation',
           ],
         },
         {
           type: 'category',
           label: 'Kryptos',
-          link: { type: 'doc', id: 'platform-teams/kryptos/index' },
+          link: { type: 'doc', id: 'platform-grouping/kryptos/index' },
           items: [
-            'platform-teams/kryptos/open-bao',
+            'platform-grouping/kryptos/open-bao',
           ],
         },
         {
           type: 'category',
           label: 'Techne',
-          link: { type: 'doc', id: 'platform-teams/techne/index' },
+          link: { type: 'doc', id: 'platform-grouping/techne/index' },
           items: [
-            'platform-teams/techne/deployment-automation',
-            'platform-teams/techne/developer-experience',
+            'platform-grouping/techne/deployment-automation',
+            'platform-grouping/techne/developer-experience',
           ],
         },
-        // endregion: platform-teams
+        // endregion: platform-grouping
       ],
     },
     {

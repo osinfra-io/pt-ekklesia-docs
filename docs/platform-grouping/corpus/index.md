@@ -24,7 +24,7 @@ Corpus consumes Logos outputs and provides the foundation for Pneuma workload en
 
 ## Bounded Context
 
-Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream supplier to Pneuma in the platform's [context map](/platform-teams#context-map).
+Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream supplier to Pneuma in the platform's [context map](/platform-grouping#context-map).
 
 ### Ubiquitous Language
 

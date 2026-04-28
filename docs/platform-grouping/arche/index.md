@@ -28,7 +28,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 ## Bounded Context
 
-Arche operates as the platform's **Shared Kernel** in the [context map](/platform-teams#context-map) — versioned OpenTofu modules consumed by all teams as pinned dependencies.
+Arche operates as the platform's **Shared Kernel** in the [context map](/platform-grouping#context-map) — versioned OpenTofu modules consumed by all teams as pinned dependencies.
 
 ### Ubiquitous Language
 
@@ -128,7 +128,7 @@ Modules are decomposed into two bounded contexts reflecting their infrastructure
 
 This decomposition maps directly to the deployment layers in Corpus (GCP) and Pneuma (Kubernetes), making it clear which modules each bounded context consumes.
 
-A similar inner-source contribution model is used by [Techne](/platform-teams/techne#techne-as-a-shared-kernel-platform-tooling-layer) and [Ekklesia](/platform-teams/ekklesia#ekklesia-as-an-inner-source-shared-kernel) — the difference is artifact type. Arche shares OpenTofu modules as a Shared Kernel; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration as a Shared Kernel; Ekklesia shares documentation as a Shared Kernel.
+A similar inner-source contribution model is used by [Techne](/platform-grouping/techne#techne-as-a-shared-kernel-platform-tooling-layer) and [Ekklesia](/platform-grouping/ekklesia#ekklesia-as-an-inner-source-shared-kernel) — the difference is artifact type. Arche shares OpenTofu modules as a Shared Kernel; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration as a Shared Kernel; Ekklesia shares documentation as a Shared Kernel.
 
 #### Alternatives Considered
 
