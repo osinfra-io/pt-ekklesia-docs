@@ -11,9 +11,9 @@ Logos defines the GCP folder hierarchy that organizes all platform infrastructur
 - **Billing budgets**: A monthly budget with threshold alerts is created per team folder
 - **Folder IDs**: Exposed as outputs and consumed downstream by Corpus via `module.core_helpers.environment_folder_id`
 
-## Aggregate
+## Components
 
-| Entity | Description |
+| Component | Description |
 |---|---|
 | `organization` | The GCP organization root — the top-level billing and IAM boundary |
 | `environment-folder` | One folder per environment: `sandbox`, `non-production`, `production` |

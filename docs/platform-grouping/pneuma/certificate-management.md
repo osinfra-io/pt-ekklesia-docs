@@ -16,27 +16,23 @@ Platform teams may use cert-manager for other certificate needs beyond Istio mTL
 
 :::
 
-## Aggregates
+## Components
 
 ### Certificate Authority
 
-**Aggregate Root:** `root-ca`
+The trust anchor of the mesh is `root-ca` — an ECDSA P-256 self-signed certificate (CN: `opentofu-self-signed-ca.osinfra.io`, 30-year validity) generated in the main workspace by OpenTofu and passed to regional workspaces via remote state. It establishes the chain of trust for every workload certificate in the mesh.
 
-ECDSA P-256 self-signed trust anchor (CN: `opentofu-self-signed-ca.osinfra.io`, 30-year validity) generated in the main workspace by OpenTofu and passed to regional workspaces via remote state. Establishes the chain of trust for every workload certificate in the mesh.
-
-| Member | Role | Description |
-|---|---|---|
-| `istio-intermediate-ca` | Entity | cert-manager Issuer in `istio-system` backed by the root CA Secret; issues the `istio-ca` intermediate Certificate |
-| `istio-ca` | Entity | 720h intermediate CA Certificate (CN: `istio-intermediate-ca.osinfra.io`) stored as the Kubernetes Secret named `istio-ca` in `istio-system` |
-| `istio-ca-issuer` | Entity | cert-manager Issuer backed by the `istio-ca` Secret; cert-manager-istio-csr uses it to sign Envoy sidecar CSRs |
+| Component | Description |
+|---|---|
+| `istio-intermediate-ca` | cert-manager Issuer in `istio-system` backed by the root CA Secret; issues the `istio-ca` intermediate Certificate |
+| `istio-ca` | 720h intermediate CA Certificate (CN: `istio-intermediate-ca.osinfra.io`) stored as the Kubernetes Secret named `istio-ca` in `istio-system` |
+| `istio-ca-issuer` | cert-manager Issuer backed by the `istio-ca` Secret; cert-manager-istio-csr uses it to sign Envoy sidecar CSRs |
 
 ### Workload Certificate
 
-**Aggregate Root:** `workload-certificate`
+`workload-certificate` is a short-lived mTLS leaf certificate issued to an Envoy sidecar by cert-manager-istio-csr. Automatically rotated by cert-manager — no manual intervention required.
 
-Short-lived mTLS leaf certificate issued to an Envoy sidecar by cert-manager-istio-csr. Automatically rotated by cert-manager — no manual intervention required.
-
-## Ubiquitous Language
+## Glossary
 
 | Term | Meaning in this context |
 |---|---|

@@ -42,9 +42,9 @@ Autodiscovery rules are pre-configured for the following cluster components:
 - **Cilium**: Scrapes Cilium eBPF dataplane metrics from the agent endpoint using OpenMetrics
 - **Envoy (Istio sidecars)**: Scrapes Envoy proxy metrics from the Istio stats endpoint and collects Envoy access logs
 
-## Aggregate
+## Components
 
-| Entity | Description |
+| Component | Description |
 |---|---|
 | `datadog-operator` | The Kubernetes operator that manages the lifecycle of Datadog Agent deployments |
 | `datadog-agent` | A cluster-level CRD defining the desired state of the Datadog Agent (features, log collection, APM) |

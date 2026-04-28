@@ -107,7 +107,7 @@ Once the scaffold is pushed:
 2. Update `tests/default.tftest.hcl` with any `mock_resource` overrides for computed attributes
 3. Tag a `v0.1.0` release once the initial code is merged — the release workflow generates notes and publishes automatically
 
-## Aggregate
+## Components
 
 Arche modules follow a two-sided contract between module authors and consumers.
 

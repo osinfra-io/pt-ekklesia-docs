@@ -16,25 +16,21 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
-## Aggregates
+## Components
 
 ### Private Services Access
 
-**Aggregate Root:** `service-networking-connection`
+The primary resource is `service-networking-connection` — the VPC peering connection between the Shared VPC host project and Google's managed services network. Provisioned once per environment by Corpus; required before any Cloud SQL or Memorystore instance can be created with a private IP.
 
-The VPC peering connection between the Shared VPC host project and Google's managed services network. Provisioned once per environment by Corpus; required before any Cloud SQL or Memorystore instance can be created with a private IP.
-
-| Member | Role | Description |
-|---|---|---|
-| `managed-services-ip-range` | Entity | Reserved IP range in the host VPC allocated for Google managed services peering |
+| Component | Description |
+|---|---|
+| `managed-services-ip-range` | Reserved IP range in the host VPC allocated for Google managed services peering |
 
 ### Cloud SQL Instance
 
-**Aggregate Root:** `cloud-sql-instance`
+`cloud-sql-instance` is a managed PostgreSQL instance provisioned by Corpus in a team's platform-managed project — at most one per declared region. Created via `pt-arche-google-cloud-sql` with private IP through the Shared VPC peering connection (`ipv4_enabled = false`) and SSL enforced (`ssl_mode = "ENCRYPTED_ONLY"`).
 
-A managed PostgreSQL instance provisioned by Corpus in a team's platform-managed project — at most one per declared region. Created via `pt-arche-google-cloud-sql` with private IP through the Shared VPC peering connection (`ipv4_enabled = false`) and SSL enforced (`ssl_mode = "ENCRYPTED_ONLY"`).
-
-## Ubiquitous Language
+## Glossary
 
 | Term | Meaning in this context |
 |---|---|
@@ -67,7 +63,7 @@ Platform-managed projects require data services provisioned within them, driven 
 
 #### Decision
 
-Corpus adds a **Managed Data Services** bounded context alongside Networking and CI/CD Enablement. Corpus provisions the Private Services Access peering once per environment, enabling private IP connectivity to Cloud SQL and Memorystore across the Shared VPC. For teams with a `platform_managed_project`, Corpus also provisions Cloud SQL instances using `pt-arche-google-cloud-sql` — teams declare the configuration in Logos and Corpus creates the instance; no team-side provisioning work is required.
+Corpus adds a **Managed Data Services** capability alongside Networking and CI/CD Enablement. Corpus provisions the Private Services Access peering once per environment, enabling private IP connectivity to Cloud SQL and Memorystore across the Shared VPC. For teams with a `platform_managed_project`, Corpus also provisions Cloud SQL instances using `pt-arche-google-cloud-sql` — teams declare the configuration in Logos and Corpus creates the instance; no team-side provisioning work is required.
 
 Stream-aligned teams without a platform-managed project provision their own instances using the Arche module in their own repositories.
 

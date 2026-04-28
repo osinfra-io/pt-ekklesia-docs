@@ -40,9 +40,9 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
-## Aggregate
+## Components
 
-| Entity | Description |
+| Component | Description |
 |---|---|
 | `gke-cluster` | A regional GKE cluster (regional control plane with zone-scoped node pools, e.g., `pt-pneuma-us-east1-b`) with KMS encryption, Workload Identity, and CIS hardening — regional control planes with zone-scoped node pools reduce Istio control plane hotspots |
 | `node-pool` | A managed node pool with auto-provisioning, node auto-repair, and auto-upgrade |
@@ -51,7 +51,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 ## Architecture Decision Records
 
-### One Cluster Per Zone with Five Bounded Contexts
+### One Cluster Per Zone with Five Add-on Layers
 
 <table>
   <thead>
@@ -72,9 +72,9 @@ The platform also needs a clear scaling model for clusters. Sizing a single larg
 
 1. **Regional clusters with zone-scoped node pools.** Each cluster has a regional control plane (highly available across three zones) but a single-zone node pool — one cluster per zone (e.g., `pt-pneuma-us-east1-b`, `pt-pneuma-us-east4-a`). Keeping node pools zone-local ensures Istio's locality-aware load balancing routes traffic within the zone by default, preventing cross-zone hot spots in the mesh. Clusters scale by adding zones, not by growing individual cluster size. Each cluster is independently managed, independently upgradeable, and independently recoverable.
 
-2. **Five bounded contexts for cluster add-ons.** The workload runtime is decomposed into five areas of concern, each deployed and managed independently:
+2. **Five add-on layers for the cluster.** The workload runtime is decomposed into five areas of concern, each deployed and managed independently:
 
-| Context | Tool | Concern |
+| Layer | Tool | Concern |
 |---|---|---|
 | [Cluster Management](./cluster-management.md) | GKE | Compute, networking attachment, Workload Identity, Fleet enrollment |
 | [Service Mesh](./service-mesh.md) | Istio | mTLS, traffic management, ingress, Datadog AAP |
@@ -82,7 +82,7 @@ The platform also needs a clear scaling model for clusters. Sizing a single larg
 | [Policy Enforcement](./policy-enforcement.md) | OPA Gatekeeper | Kubernetes admission control and audit |
 | [Observability](./observability.md) | Datadog Operator | Metrics, logs, and traces from all workloads |
 
-Each context maps to a dedicated subdirectory workspace in `pt-pneuma`, deployed in the correct order via GitHub Actions `needs` dependencies.
+Each layer maps to a dedicated subdirectory workspace in `pt-pneuma`, deployed in the correct order via GitHub Actions `needs` dependencies.
 
 #### Alternatives Considered
 
@@ -95,4 +95,4 @@ Each context maps to a dedicated subdirectory workspace in `pt-pneuma`, deployed
 - Zone failure is contained — other clusters continue serving traffic
 - Add-on upgrades (e.g., Istio minor version) are applied per cluster without touching cluster infrastructure
 - Adding a new zone requires claiming a CIDR slot from the Corpus IPAM plan and adding a zonal workspace to `pt-pneuma`
-- Each bounded context has its own subdirectory, workspace, and deployment job in the workflow
+- Each add-on layer has its own subdirectory, workspace, and deployment job in the workflow

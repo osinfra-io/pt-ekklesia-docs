@@ -11,9 +11,9 @@ Istio is deployed on every GKE cluster, providing mTLS between services, fine-gr
 - **Ingress gateway**: External traffic enters the mesh through a managed gateway with Datadog AAP (Application and API Protection) deployed as an Envoy external processor for WAF and threat detection
 - **cert-manager integration**: Istio's built-in CA is replaced by cert-manager via istio-csr, which issues and rotates all workload mTLS certificates in the mesh
 
-## Aggregate
+## Components
 
-| Entity | Description |
+| Component | Description |
 |---|---|
 | `istio-control-plane` | The Istio control plane deployed via Helm, managing traffic policy across the mesh |
 | `ingress-gateway` | A managed ingress gateway exposed via a GCP load balancer |

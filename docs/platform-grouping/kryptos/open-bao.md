@@ -8,7 +8,7 @@ OpenBao is an open-source secrets management platform — a Linux Foundation for
 
 :::note Status
 
-`pt-kryptos` does not yet contain an OpenBao deployment. This page describes the intended scope; aggregate definitions will land here once the implementation does.
+`pt-kryptos` does not yet contain an OpenBao deployment. This page describes the intended scope; component details will land here once the implementation does.
 
 :::
 

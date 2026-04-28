@@ -16,9 +16,9 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
-## Aggregate
+## Components
 
-| Entity | Description |
+| Component | Description |
 |---|---|
 | `service-account` | A GCP service account created per team for GitHub Actions workloads; individual repository access is granted via IAM bindings |
 | `workload-identity-pool` | A Workload Identity Federation pool that maps GitHub OIDC tokens to GCP service accounts — no static credentials |

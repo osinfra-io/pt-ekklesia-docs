@@ -10,9 +10,9 @@ Logos manages centralized identity and access control for the platform. Google I
 - **GKE security groups**: An organization-wide security group used for Kubernetes RBAC across all GKE clusters; team identity groups are nested as members
 - **Billing users group**: An organization-wide group that grants the billing user IAM role, used by team service accounts that need to associate projects with the billing account
 
-## Aggregate
+## Components
 
-| Entity | Description |
+| Component | Description |
 |---|---|
 | `identity-group` | A Google Identity group scoped to a team and environment (e.g., `pt-corpus-admins`) |
 | `user` | A platform user provisioned into one or more identity groups |
