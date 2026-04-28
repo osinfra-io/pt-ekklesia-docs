@@ -7,7 +7,7 @@ description: The assembly of the called-out — where distinct capabilities are 
 
 Ekklesia is the assembly of the called-out — where distinct capabilities are gathered into a unified body, deliberating and acting in concert toward shared platform purpose. This is that assembly.
 
-Ekklesia operates as the platform's inner-source shared kernel for documentation: a single centralized documentation site where any team member can contribute, rather than maintaining scattered per-repo READMEs or per-team wikis. See the [shared kernel ADR](#ekklesia-as-an-inner-source-shared-kernel) for the rationale.
+Ekklesia operates as the platform's inner-source documentation hub: a single centralized documentation site where any team member can contribute, rather than maintaining scattered per-repo READMEs or per-team wikis. See the [documentation hub ADR](#ekklesia-as-an-inner-source-documentation-hub) for the rationale.
 
 - **[Documentation](./documentation.md)**: Docusaurus site structure, contribution model, and authoring conventions for the platform documentation hub
 
@@ -25,11 +25,11 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 - **[pt-ekklesia-ai-context](https://github.com/osinfra-io/pt-ekklesia-ai-context)**: Team-level Copilot instructions for `pt-ekklesia-*` repositories
 
-## Bounded Context
+## Scope
 
-Ekklesia operates using a **Shared Kernel** pattern in the [context map](/platform-grouping#context-map) — all teams contribute documentation here and consume it as the canonical reference for platform knowledge. Because documentation lives in version control and goes through the same PR process as code, it is subject to the same quality standards. Every team owns their section; Ekklesia owns the structure and tooling that makes contribution frictionless.
+Ekklesia is a shared service used by all platform teams — every team contributes documentation here and consumes it as the canonical reference for platform knowledge. Because documentation lives in version control and goes through the same PR process as code, it is subject to the same quality standards. Every team owns their section; Ekklesia owns the structure and tooling that makes contribution frictionless.
 
-### Ubiquitous Language
+### Glossary
 
 | Term | Meaning in this context |
 |---|---|
@@ -46,7 +46,7 @@ Ekklesia operates using a **Shared Kernel** pattern in the [context map](/platfo
 
 ### Cognitive Load
 
-Ekklesia carries the lightest operational load of any platform team — its bounded context is documentation tooling, which is low inherent complexity. The real challenge is breadth of knowledge: contributing meaningfully to platform docs requires understanding every other team's bounded context.
+Ekklesia carries the lightest operational load of any platform team — its scope is documentation tooling, which is low inherent complexity. The real challenge is breadth of knowledge: contributing meaningfully to platform docs requires understanding every other team's work.
 
 | Working Domains | High Intrinsic Domains |
 |---|---|
@@ -70,7 +70,7 @@ Cognitive load by domain:
 
 - Technical writing: structuring complex infrastructure concepts for different audiences
 - Information architecture: organizing platform knowledge so engineers can find what they need quickly
-- Platform-wide context: Ekklesia contributors develop a uniquely broad understanding of how all bounded contexts fit together
+- Platform-wide context: Ekklesia contributors develop a uniquely broad understanding of how all platform teams fit together
 
 ### Team Capacity
 
@@ -82,7 +82,7 @@ Cognitive load by domain:
 
 ## Architecture Decision Records
 
-### Ekklesia as an Inner-Source Shared Kernel
+### Ekklesia as an Inner-Source Documentation Hub
 
 <table>
   <thead>
@@ -97,7 +97,7 @@ Cognitive load by domain:
 
 Platform knowledge — architecture decisions, module usage, deployment patterns, operational guides — is spread across multiple teams and repositories. Without a shared home, documentation lives in README files that are hard to navigate, per-team wikis that fall out of sync, or not at all. Engineers must hunt across repositories to understand how the platform fits together.
 
-This follows a similar inner-source contribution model to [Arche](/platform-grouping/arche#arche-as-an-inner-source-shared-kernel) and [Techne](/platform-grouping/techne#techne-as-a-shared-kernel-platform-tooling-layer) — the difference is artifact type. Arche shares OpenTofu modules as a Shared Kernel; Techne shares GitHub Actions workflows and tooling as a Shared Kernel; Ekklesia shares documentation as a Shared Kernel.
+This follows a similar inner-source contribution model to [Arche](/platform-grouping/arche#arche-as-an-inner-source-module-library) and [Techne](/platform-grouping/techne#techne-as-a-shared-platform-tooling-layer) — the difference is artifact type. Arche shares OpenTofu modules; Techne shares GitHub Actions workflows and tooling; Ekklesia shares documentation.
 
 #### Decision
 

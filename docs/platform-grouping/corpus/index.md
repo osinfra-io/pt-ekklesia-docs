@@ -22,11 +22,11 @@ Corpus consumes Logos outputs and provides the foundation for Pneuma workload en
 
 - **[pt-corpus-ai-context](https://github.com/osinfra-io/pt-corpus-ai-context)**: Team-level Copilot instructions for `pt-corpus-*` repositories
 
-## Bounded Context
+## Scope
 
-Corpus is a downstream **Customer/Supplier** consumer of Logos, and an upstream supplier to Pneuma in the platform's [context map](/platform-grouping#context-map).
+Corpus consumes from Logos and feeds into Pneuma. See [team dependencies](/platform-grouping#team-dependencies).
 
-### Ubiquitous Language
+### Glossary
 
 | Term | Meaning in this context |
 |---|---|

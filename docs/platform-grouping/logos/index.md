@@ -12,7 +12,7 @@ Logos is the foundational principle of order across systems — integrating mult
 - **[Team Topology](./team-topology.md)**: GitHub teams and repositories, Datadog teams, and branch protection
 - **[SaaS Governance](./saas-governance.md)**: GitHub and Datadog organization-level settings and policies
 
-All infrastructure bounded contexts consume Logos data via the [Arche Shared Kernel](/platform-grouping/arche).
+All downstream platform teams consume Logos data via [Arche](/platform-grouping/arche).
 
 ## Repositories
 
@@ -23,16 +23,16 @@ All infrastructure bounded contexts consume Logos data via the [Arche Shared Ker
 - **[pt-ai-context](https://github.com/osinfra-io/pt-ai-context)**: Platform-level Copilot instructions applying universally to all `pt-*` repositories
 - **[pt-logos-ai-context](https://github.com/osinfra-io/pt-logos-ai-context)**: Team-level Copilot instructions for `pt-logos-*` repositories
 
-## Bounded Context
+## Scope
 
-Logos is the upstream **Customer/Supplier** to all infrastructure bounded contexts in the platform's [context map](/platform-grouping#context-map).
+Logos feeds team and identity data into all downstream platform teams. See [team dependencies](/platform-grouping#team-dependencies).
 
-### Ubiquitous Language
+### Glossary
 
 | Term | Meaning in this context |
 |---|---|
 | Branch protection | A GitHub policy enforcing review and status check requirements on a repository |
-| Environment (GCP) | A GCP folder scoping a deployment tier (sandbox, non-production, production) — for the canonical definition see [Arche Ubiquitous Language](/platform-grouping/arche#ubiquitous-language) |
+| Environment (GCP) | A GCP folder scoping a deployment tier (sandbox, non-production, production) — for the canonical definition see the [Arche glossary](/platform-grouping/arche#glossary) |
 | Environment (GitHub) | A GitHub Actions deployment environment attached to a repository, with reviewer teams and branch protection policies that gate workflow runs |
 | Folder | A GCP resource container that scopes IAM and billing within an environment |
 | Identity group | A Google Workspace group that grants role-based access to GCP resources |
@@ -41,7 +41,7 @@ Logos is the upstream **Customer/Supplier** to all infrastructure bounded contex
 | Organization (GCP) | The top-level GCP resource container that owns all folders, projects, and IAM policies |
 | Organization (GitHub) | The GitHub org that owns all repositories, teams, and Actions settings |
 | Repository | A GitHub repository registered to a team and managed as code in Logos |
-| Team | A bounded ownership unit — one GitHub team, one GCP folder, one Datadog team, provisioned together from a single definition |
+| Team | An ownership unit — one GitHub team, one GCP folder, one Datadog team, provisioned together from a single definition |
 
 ### Downstream Interfaces
 
@@ -87,7 +87,7 @@ Cognitive load by domain:
 **Germane load is built through:**
 
 - Multi-provider governance patterns and how org-wide policy propagates downstream
-- Domain-Driven Design: modeling teams as bounded contexts with explicit ownership boundaries
+- Modeling teams with explicit ownership boundaries and dependency relationships
 - Reasoning about how changes in Logos ripple through Corpus and Pneuma
 
 ### Team Capacity

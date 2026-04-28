@@ -7,7 +7,7 @@ description: The practiced art of making — the disciplined craft through which
 
 Techne is the practiced art of making — the disciplined craft through which raw materials of infrastructure are shaped into purposeful, refined platform instruments.
 
-Techne operates as the platform's shared kernel tooling layer: versioned GitHub Actions called workflows, pre-commit hooks, and developer tooling published on GitHub and consumed by platform and stream-aligned repositories as pinned dependencies. Any team can contribute improvements — changes to shared interfaces are coordinated with consumers. See the [shared kernel ADR](#techne-as-a-shared-kernel-platform-tooling-layer) for the rationale.
+Techne operates as the platform's shared tooling layer: versioned GitHub Actions called workflows, pre-commit hooks, and developer tooling published on GitHub and used by platform and stream-aligned repositories as pinned dependencies. Any team can contribute improvements — changes to shared interfaces are coordinated with consumers. See the [platform tooling ADR](#techne-as-a-shared-platform-tooling-layer) for the rationale.
 
 :::tip Architecture Decision Records
 
@@ -27,11 +27,11 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 - **[pt-techne-ai-context](https://github.com/osinfra-io/pt-techne-ai-context)**: Team-level Copilot instructions for `pt-techne-*` repositories
 
-## Bounded Context
+## Scope
 
-Techne operates using a **Shared Kernel** pattern in the [context map](/platform-grouping#context-map) — all teams share its workflows, hooks, and tooling as a jointly maintained foundation. Unlike a pure Conformist, interface changes are coordinated with consumers, and any team can contribute improvements via pull request. The Platform Lead holds final approval authority on interface changes due to the blast radius across all consumers.
+Techne is a shared service used by all platform teams — its workflows, hooks, and tooling are jointly maintained. Interface changes are coordinated with consumers, and any team can contribute improvements via pull request. The Platform Lead holds final approval authority on interface changes due to the blast radius across all consumers.
 
-### Ubiquitous Language
+### Glossary
 
 | Term | Meaning in this context |
 |---|---|
@@ -88,7 +88,7 @@ Cognitive load by domain:
 
 ## Architecture Decision Records
 
-### Techne as a Shared Kernel Platform Tooling Layer
+### Techne as a Shared Platform Tooling Layer
 
 <table>
   <thead>
@@ -103,17 +103,17 @@ Cognitive load by domain:
 
 Every platform repository needs consistent OpenTofu deployment pipelines (OIDC auth, KMS-encrypted state, job summaries) and pre-commit validation hooks. All repositories — platform and stream-aligned — benefit from a standardized developer environment and shared toolchain. Without a shared approach, each repository would implement these independently, leading to drift and duplicated maintenance.
 
-This follows a similar inner-source contribution model to [Arche](/platform-grouping/arche#arche-as-an-inner-source-shared-kernel) and [Ekklesia](/platform-grouping/ekklesia#ekklesia-as-an-inner-source-shared-kernel) — the difference is artifact type. Arche shares OpenTofu modules as a Shared Kernel; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration as a Shared Kernel; Ekklesia shares documentation as a Shared Kernel.
+This follows a similar inner-source contribution model to [Arche](/platform-grouping/arche#arche-as-an-inner-source-module-library) and [Ekklesia](/platform-grouping/ekklesia#ekklesia-as-an-inner-source-documentation-hub) — the difference is artifact type. Arche shares OpenTofu modules; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration; Ekklesia shares documentation.
 
 #### Decision
 
-Organize all shared tooling as a shared kernel layer under the `pt-techne-*` namespace. Each repository is:
+Organize all shared tooling as a platform tooling layer under the `pt-techne-*` namespace. Each repository is:
 
 - A standalone GitHub repository with its own versioning and release pipeline
 - Consumed by callers via pinned references (commit SHAs for actions, tagged versions for hooks)
 - Owned by the Techne team and open for contribution from any team
 
-The scope of consumers is broader than Arche — Techne developer experience tooling (Codespace, pre-commit hooks, development setup) is consumed by all platform and stream-aligned teams, not just the infrastructure domains. Deployment automation is platform-team scoped.
+The scope of consumers is broader than Arche — Techne developer experience tooling (Codespace, pre-commit hooks, development setup) is consumed by all platform and stream-aligned teams, not just the infrastructure teams. Deployment automation is platform-team scoped.
 
 #### Alternatives Considered
 
