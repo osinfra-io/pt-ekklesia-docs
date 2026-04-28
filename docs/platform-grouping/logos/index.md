@@ -47,8 +47,7 @@ Logos feeds team and identity data into all downstream platform teams. See [team
 
 | Output | Via | Description |
 |---|---|---|
-| `environment_folder_id` | `module.core_helpers` | Places projects in the correct environment folder |
-| `teams` | `module.core_helpers.teams` | Team data map — project names, folder IDs, and group emails |
+| `teams` | `data.terraform_remote_state.logos` → `module.core_helpers` | Team data map — folder IDs, identity groups, GitHub repositories, project flags, and platform-managed project config |
 
 ## Team Topologies
 
