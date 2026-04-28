@@ -45,10 +45,10 @@ Logos feeds team and identity data into all downstream platform teams. See [team
 
 ### Downstream Interfaces
 
-| Output | Consumed By | Via | Description |
-|---|---|---|---|
-| `environment_folder_id` | Corpus | `module.core_helpers` | Places projects in the correct environment folder |
-| `teams` | Corpus | `module.core_helpers.teams` | Team data map — project names, folder IDs, and group emails |
+| Output | Via | Description |
+|---|---|---|
+| `environment_folder_id` | `module.core_helpers` | Places projects in the correct environment folder |
+| `teams` | `module.core_helpers.teams` | Team data map — project names, folder IDs, and group emails |
 
 ## Team Topologies
 
