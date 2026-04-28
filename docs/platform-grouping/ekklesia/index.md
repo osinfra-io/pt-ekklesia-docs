@@ -67,11 +67,9 @@ Cognitive load by domain:
 
 ### Team Capacity
 
-| | |
-|---|---|
-| **Headcount** | Inner source — no dedicated engineer |
-| **Contribution model** | Every team updates their section as part of their own PRs; Ekklesia owns the site structure and tooling, not the content |
-| **Scale signal** | No scaling expected — documentation is a distributed responsibility by design |
+- **Headcount**: Inner source — no dedicated engineer
+- **Contribution model**: Every team updates their section as part of their own PRs; Ekklesia owns the site structure and tooling, not the content
+- **Scale signal**: No scaling expected — documentation is a distributed responsibility by design
 
 ## Architecture Decision Records
 

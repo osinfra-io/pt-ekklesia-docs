@@ -72,11 +72,9 @@ Cognitive load by domain:
 
 ### Team Capacity
 
-| | |
-|---|---|
-| **Headcount** | Inner source — no dedicated engineer |
-| **Contribution model** | Any team can contribute improvements; the Platform Lead holds final approval on interface changes due to blast radius across all consumers |
-| **Scale signal** | Stable once built — the platform lead or a senior engineer handles occasional updates |
+- **Headcount**: Inner source — no dedicated engineer
+- **Contribution model**: Any team can contribute improvements; the Platform Lead holds final approval on interface changes due to blast radius across all consumers
+- **Scale signal**: Stable once built — the platform lead or a senior engineer handles occasional updates
 
 ## Architecture Decision Records
 

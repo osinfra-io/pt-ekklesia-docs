@@ -78,8 +78,6 @@ Cognitive load by domain:
 
 ### Team Capacity
 
-| | |
-|---|---|
-| **Headcount** | 1 platform engineer |
-| **Day-to-day work** | Onboarding new team tenancies, occasional subnet expansion, supporting Pneuma's cluster networking requirements |
-| **Scale signal** | Stable — networking and project infrastructure changes infrequently once designed |
+- **Headcount**: 1 platform engineer
+- **Day-to-day work**: Onboarding new team tenancies, occasional subnet expansion, supporting Pneuma's cluster networking requirements
+- **Scale signal**: Stable — networking and project infrastructure changes infrequently once designed

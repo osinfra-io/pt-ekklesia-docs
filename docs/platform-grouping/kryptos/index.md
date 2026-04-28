@@ -68,8 +68,6 @@ Cognitive load by domain:
 
 ### Team Capacity
 
-| | |
-|---|---|
-| **Headcount** | 1 platform engineer |
-| **Day-to-day work** | OpenBao policy authoring, PKI configuration, cryptographic key lifecycle management |
-| **Scale signal** | Intentionally narrow — scope should not grow to fill capacity; a third high-complexity domain would approach the cognitive ceiling |
+- **Headcount**: 1 platform engineer
+- **Day-to-day work**: OpenBao policy authoring, PKI configuration, cryptographic key lifecycle management
+- **Scale signal**: Intentionally narrow — context should not grow to fill capacity; a third high-complexity domain would approach the cognitive ceiling
