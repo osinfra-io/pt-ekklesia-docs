@@ -22,9 +22,9 @@ The **platform grouping** is the Team Topologies (2nd edition) term for a collec
   <Card item={{ icon: '🛠️', title: 'Techne', note: 'The practiced art of making — the disciplined craft through which raw materials of infrastructure are shaped into purposeful, refined platform instruments.', link: '/platform-grouping/techne', linkText: 'Learn more →' }} />
 </CardGrid>
 
-## Team scope
+## Team context
 
-Each team owns a distinct scope with explicit upstream/downstream relationships.
+Each team owns a distinct context with explicit upstream/downstream relationships.
 
 ### Team dependencies
 

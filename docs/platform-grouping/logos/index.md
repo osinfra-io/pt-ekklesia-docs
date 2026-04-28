@@ -23,7 +23,7 @@ All downstream platform teams consume Logos data via [Arche](/platform-grouping/
 - **[pt-ai-context](https://github.com/osinfra-io/pt-ai-context)**: Platform-level Copilot instructions applying universally to all `pt-*` repositories
 - **[pt-logos-ai-context](https://github.com/osinfra-io/pt-logos-ai-context)**: Team-level Copilot instructions for `pt-logos-*` repositories
 
-## Scope
+## Context
 
 Logos feeds team and identity data into all downstream platform teams. See [team dependencies](/platform-grouping#team-dependencies).
 

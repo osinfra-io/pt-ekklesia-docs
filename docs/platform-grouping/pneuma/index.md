@@ -30,7 +30,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 - **[pt-pneuma-ai-context](https://github.com/osinfra-io/pt-pneuma-ai-context)**: Team-level Copilot instructions for `pt-pneuma-*` repositories
 
-## Scope
+## Context
 
 Pneuma consumes from Corpus (networking and project infrastructure) and Arche (team data originating in Logos). It supplies Kubernetes clusters to all teams that need one — including Kryptos, which runs OpenBao on a Pneuma-managed cluster. See [team dependencies](/platform-grouping#team-dependencies).
 

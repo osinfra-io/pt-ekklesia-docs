@@ -26,7 +26,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 - **[pt-arche-ai-context](https://github.com/osinfra-io/pt-arche-ai-context)**: Team-level Copilot instructions for `pt-arche-*` repositories
 
-## Scope
+## Context
 
 Arche provides versioned OpenTofu modules used by all platform teams as pinned dependencies. See [team dependencies](/platform-grouping#team-dependencies).
 

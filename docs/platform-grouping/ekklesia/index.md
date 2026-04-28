@@ -25,7 +25,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 - **[pt-ekklesia-ai-context](https://github.com/osinfra-io/pt-ekklesia-ai-context)**: Team-level Copilot instructions for `pt-ekklesia-*` repositories
 
-## Scope
+## Context
 
 Ekklesia is a shared service used by all platform teams — every team contributes documentation here and consumes it as the canonical reference for platform knowledge. Because documentation lives in version control and goes through the same PR process as code, it is subject to the same quality standards. Every team owns their section; Ekklesia owns the structure and tooling that makes contribution frictionless.
 

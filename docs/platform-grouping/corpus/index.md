@@ -22,7 +22,7 @@ Corpus consumes Logos outputs and provides the foundation for Pneuma workload en
 
 - **[pt-corpus-ai-context](https://github.com/osinfra-io/pt-corpus-ai-context)**: Team-level Copilot instructions for `pt-corpus-*` repositories
 
-## Scope
+## Context
 
 Corpus consumes from Logos and feeds into Pneuma. See [team dependencies](/platform-grouping#team-dependencies).
 

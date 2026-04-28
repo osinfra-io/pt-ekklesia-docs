@@ -27,7 +27,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 - **[pt-techne-ai-context](https://github.com/osinfra-io/pt-techne-ai-context)**: Team-level Copilot instructions for `pt-techne-*` repositories
 
-## Scope
+## Context
 
 Techne is a shared service used by all platform teams — its workflows, hooks, and tooling are jointly maintained. Interface changes are coordinated with consumers, and any team can contribute improvements via pull request. The Platform Lead holds final approval authority on interface changes due to the blast radius across all consumers.
 

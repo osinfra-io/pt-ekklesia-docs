@@ -17,7 +17,7 @@ The hidden foundation of platform security — managing cryptographic primitives
 
 - **[pt-kryptos-ai-context](https://github.com/osinfra-io/pt-kryptos-ai-context)**: Team-level Copilot instructions for `pt-kryptos-*` repositories
 
-## Scope
+## Context
 
 Kryptos consumes from Pneuma (runs OpenBao on Pneuma-managed clusters) and supplies secrets management to all teams. See [team dependencies](/platform-grouping#team-dependencies).
 
