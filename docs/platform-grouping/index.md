@@ -8,7 +8,7 @@ import CardGrid from '@site/src/components/CardGrid';
 
 # Platform Grouping
 
-The **platform grouping** is the Team Topologies (2nd edition) term for a collection of platform teams that together provide a coherent internal platform product. Each platform team within the grouping owns a distinct bounded context; together they expose a single, coherent interface to stream-aligned teams.
+The **platform grouping** is the Team Topologies (2nd edition) term for a collection of platform teams that together provide a coherent internal platform product. Each platform team within the grouping owns a distinct scope; together they expose a single, coherent interface to stream-aligned teams.
 
 ## Teams
 
@@ -22,40 +22,26 @@ The **platform grouping** is the Team Topologies (2nd edition) term for a collec
   <Card item={{ icon: '🛠️', title: 'Techne', note: 'The practiced art of making — the disciplined craft through which raw materials of infrastructure are shaped into purposeful, refined platform instruments.', link: '/platform-grouping/techne', linkText: 'Learn more →' }} />
 </CardGrid>
 
-## Domain-Driven Design
+## Team scope
 
-The platform documentation uses Domain-Driven Design (Evans, Vernon) vocabulary precisely. Every team, subdomain, and aggregate page is structured against this mapping:
+Each team owns a distinct scope with explicit upstream/downstream relationships.
 
-| DDD concept | Mapping in this codebase |
-|---|---|
-| Domain | The osinfra-io platform |
-| Bounded Context | A platform team — Logos, Corpus, Pneuma, Arche, Techne, Ekklesia, Kryptos |
-| Subdomain | A child page of a team (e.g., Pneuma's Cluster Management, Service Mesh) |
-| Aggregate | A consistency boundary inside a subdomain — has exactly one Aggregate Root |
-| Members | Aggregate Root / Entity / Value Object / Domain Event / Domain Service |
+### Team dependencies
 
-When a sentence on any team or subdomain page says "bounded context", it always means a team — never a subdomain or an aggregate. When it names an aggregate, the aggregate root is called out explicitly and any non-root members appear in a typed table.
-
-## Bounded Context
-
-The platform is organized into bounded contexts — each team owns one with explicit upstream/downstream relationships.
-
-### Context Map
-
-The primary flow is a **Customer/Supplier** chain — Logos supplies team and identity data to Corpus, which supplies networking and project infrastructure to Pneuma.
+The primary flow is a supply chain — Logos feeds team and identity data into Corpus, which feeds networking and project infrastructure into Pneuma. Arche, Ekklesia, and Techne are shared services used by all platform teams.
 
 ```mermaid
 flowchart TD
     AllTeams(["All Teams"])
 
-    subgraph sk ["Shared Kernels"]
+    subgraph sk ["Shared services"]
         direction LR
         Arche["🧱 Arche"]
         Ekklesia["📖 Ekklesia"]
         Techne["🛠️ Techne"]
     end
 
-    subgraph cs ["Customer/Supplier"]
+    subgraph cs ["Supply chain"]
         direction LR
         Logos["🏛️ Logos"] --> Corpus["🌐 Corpus"]
         Corpus --> Pneuma["☸️ Pneuma"]
@@ -105,9 +91,9 @@ _🟢 within limit · 🟡 approaching · 🟠 at limit · 🔴 over limit_
 
 ### Team Capacity
 
-The platform operates as a **platform grouping** — the Team Topologies Second Edition term for a collection of teams or specializations that together provide a coherent internal platform product. Internally, each platform engineer specializes in one bounded context, but externally the platform grouping presents a coherent interface to stream-aligned teams — consistent tooling, documentation, and services regardless of which bounded context delivers them.
+The platform operates as a **platform grouping** — the Team Topologies Second Edition term for a collection of teams or specializations that together provide a coherent internal platform product. Internally, each platform engineer specializes in one team's scope, but externally the platform grouping presents a coherent interface to stream-aligned teams — consistent tooling, documentation, and services regardless of which team delivers them.
 
-Headcount is derived from the cognitive load analysis. When operating within capacity, a bounded context requires one platform engineer to maintain and evolve it. A context approaching or at its limit is a candidate for additional capacity or scope reduction. Any context flagged 🔴 over limit is the highest priority for intervention — either a second engineer, scope reduction, or tooling investment to lower extraneous load.
+Headcount is derived from the cognitive load analysis. When operating within capacity, a team requires one platform engineer to maintain and evolve its scope. A team approaching or at its limit is a candidate for additional capacity or scope reduction. Any team flagged 🔴 over limit is the highest priority for intervention — either a second engineer, scope reduction, or tooling investment to lower extraneous load.
 
 #### Platform Lead
 
@@ -124,7 +110,7 @@ Responsibilities:
 
 #### Platform Engineers
 
-Each staffed team starts with one platform engineer who owns the bounded context end-to-end. Teams can scale beyond one engineer as cognitive load demands — the cognitive load analysis is the guide for when to add capacity.
+Each staffed team starts with one platform engineer who owns the team's scope end-to-end. Teams can scale beyond one engineer as cognitive load demands — the cognitive load analysis is the guide for when to add capacity.
 
 | Team | Min. Engineers | Role |
 |---|---|---|
