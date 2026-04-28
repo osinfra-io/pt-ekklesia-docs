@@ -28,3 +28,8 @@ Each team is defined as an entry in the `teams` map inside a `.tfvars` file unde
 | `repository` | A GitHub repository registered in Logos with standard settings and branch protection |
 | `branch-protection` | Rules applied to default branch: required reviews, status checks, no force push |
 | `datadog-team` | An observability team in Datadog mirroring the Logos team — owns dashboards and monitors |
+
+## Core Invariants
+
+- Every team definition produces exactly one set of GCP, GitHub, and Datadog resources.
+- Every provisioned GitHub repository has signed commits required, linear history enforced, and PR review active — the branch ruleset is hardcoded with `enforcement = "active"` and no variable to disable it.

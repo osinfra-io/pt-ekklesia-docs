@@ -43,10 +43,6 @@ Kryptos consumes from Pneuma (runs OpenBao on Pneuma-managed clusters) and suppl
 | PKI certificates | Workload and service identity certificates issued from Kryptos-managed CA | All teams |
 | KV secrets | Static secrets (API keys, tokens) stored and versioned in OpenBao KV | All teams |
 
-### Core Invariant
-
-All secrets distributed to consumers are dynamic or short-lived — no static credentials are stored in consumer repositories or CI environments.
-
 ## Team Topologies
 
 ### Cognitive Load

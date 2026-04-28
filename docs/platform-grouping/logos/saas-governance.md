@@ -15,3 +15,8 @@ Logos manages organization-level settings for GitHub and Datadog, establishing p
 |---|---|
 | `datadog-org-policy` | Org-level Datadog settings — logs indexes, retention tiers, and daily limits |
 | `github-org-policy` | Org-level GitHub configuration — member permissions, security defaults, and Actions allowlist |
+
+## Core Invariants
+
+- Organization administrators (Datadog and GitHub) are indestructible — `prevent_destroy = true` is set on both; no accidental removal is possible via OpenTofu.
+- Singleton organization-level resources (Datadog API keys, GitHub org settings, Google Groups) are only created in the `logos-production-main` workspace — preventing duplicates or conflicts across environments.

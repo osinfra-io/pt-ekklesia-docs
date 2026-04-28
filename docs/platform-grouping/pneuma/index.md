@@ -54,17 +54,6 @@ Pneuma consumes from Corpus (networking and project infrastructure) and Arche (t
 | GKE cluster | All teams | Direct cluster provisioning | Kubernetes environment for workload deployment |
 | Kubernetes namespace | All teams | Pneuma onboarding workspace | Isolated namespace per team per cluster |
 
-### Core Invariants
-
-- mTLS is enforced on every cluster via Istio — no plaintext pod-to-pod traffic
-- OPA Gatekeeper policy enforcement is active on every cluster — no workload is accepted without passing admission
-- Datadog Operator observability is running on every cluster — no cluster ships without metrics, traces, and logs
-- etcd is KMS-encrypted at rest — `database_encryption` with `state = "ENCRYPTED"` is hardcoded in the GKE module
-- Workload Identity is enabled on every node pool — no static credentials for pod-level GCP access
-- Shielded nodes with Secure Boot and integrity monitoring are enforced on every node — no unverified boot path
-- Client certificate authentication is permanently disabled — `issue_client_certificate = false` is hardcoded
-- Dataplane V2 (eBPF) is hardcoded as the network datapath — no legacy kube-proxy on any cluster
-
 ## Team Topologies
 
 ### Cognitive Load
@@ -145,7 +134,7 @@ The five domains — Cluster Management, Service Mesh, Certificate Management, P
 #### Alternatives Considered
 
 - **Split Pneuma into two teams (Cluster Management + Mesh/Add-ons)** — Rejected. The five domains are tightly coupled at deployment time: the `needs` dependency chain in the pipeline (cluster → onboarding → cert-manager → Istio → OPA → Datadog) requires a single owner who understands the full ordering. Splitting ownership would require cross-team coordination at every upgrade cycle, adding more extraneous load than the split removes.
-- **Reduce scope by removing Policy Enforcement or Observability** — Rejected. Both domains are required for the Core Invariant: every cluster must have mTLS enforced, policy enforcement active, and observability running before any workload is accepted. Removing either breaks the platform's baseline readiness guarantee.
+- **Reduce scope by removing Policy Enforcement or Observability** — Rejected. Both domains are required for the platform's baseline readiness guarantee: every cluster must have mTLS enforced, policy enforcement active, and observability running before any workload is accepted. Removing either breaks that guarantee.
 - **Add a third engineer proactively** — Deferred. Current headcount is sufficient while Arche module coverage is intact and cluster count is stable. Adding headcount ahead of a clear scaling signal increases coordination overhead without reducing cognitive load.
 
 #### Consequences

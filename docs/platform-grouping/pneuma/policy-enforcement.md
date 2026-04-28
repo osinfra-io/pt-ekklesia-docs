@@ -31,6 +31,10 @@ The primary resource is `constraint-template` — a reusable Rego policy definit
 | `rego-policy` | The Rego logic embedded in a `constraint-template` defining what is and is not admitted |
 | `audit-result` | A violation record produced when an existing resource fails a constraint in audit mode |
 
+## Core Invariant
+
+OPA Gatekeeper policy enforcement is active on every cluster — no workload is accepted without passing admission.
+
 ## Architecture Decision Records
 
 ### Block Ingress resources cluster-wide

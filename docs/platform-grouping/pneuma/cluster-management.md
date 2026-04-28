@@ -49,6 +49,14 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 | `fleet` | A GKE Fleet registration enabling multi-cluster service discovery and ingress across zones |
 | `workload-identity` | Kubernetes-to-GCP service account mapping, allowing pods to authenticate to GCP without keys |
 
+## Core Invariants
+
+- etcd is KMS-encrypted at rest — `database_encryption` with `state = "ENCRYPTED"` is hardcoded in the GKE module.
+- Workload Identity is enabled on every node pool — no static credentials for pod-level GCP access.
+- Shielded nodes with Secure Boot and integrity monitoring are enforced on every node — no unverified boot path.
+- Client certificate authentication is permanently disabled — `issue_client_certificate = false` is hardcoded.
+- Dataplane V2 (eBPF) is hardcoded as the network datapath — no legacy kube-proxy on any cluster.
+
 ## Architecture Decision Records
 
 ### One Cluster Per Zone with Five Add-on Layers

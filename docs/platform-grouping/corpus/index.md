@@ -51,14 +51,6 @@ Corpus consumes from Logos and feeds into Pneuma. See [team dependencies](/platf
 | Shared VPC | Pneuma | `data "google_projects"` (GCP label query) | GKE cluster network and subnet attachment |
 | Cloud SQL instances | Teams | `data "terraform_remote_state"` (corpus regional) | Private IP and instance name per team in each region |
 
-### Core Invariants
-
-- Every GCP project is CIS-compliant at creation — there is no non-compliant state.
-- Every team's OpenTofu state is encrypted at rest with a KMS key protected from destruction.
-- GitHub Actions authenticates via Workload Identity Federation — no static credentials exist.
-- Every platform-managed project is a Shared VPC service project with subnet access granted at creation.
-- Every Cloud SQL instance has no public IP — private connectivity only, with SSL enforced.
-
 ## Team Topologies
 
 ### Cognitive Load

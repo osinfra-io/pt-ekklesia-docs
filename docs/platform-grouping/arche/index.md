@@ -47,13 +47,6 @@ Arche provides versioned OpenTofu modules used by all platform teams as pinned d
 
 [`pt-arche-core-helpers`](./core-helpers.md) is the foundational module that every other module builds on. It is the only module that reads OpenTofu workspace state directly — translating raw workspace names (e.g., `main-production`, `us-east1-b-sandbox`) into structured context all other modules consume. No module hardcodes environment strings, labels, or team data.
 
-### Core Invariants
-
-- Every module `ref` must point to a post-merge commit SHA on `main` — never a branch name or semver tag. This makes every deployment reproducible and auditable.
-- Every resource in every module carries a validated `cost_center` — must match `x` followed by three or four digits. Enforced by `pt-arche-core-helpers` input validation; `tofu plan` fails if the value is missing or malformed.
-- Every resource carries a validated `data_classification` — must be `public`, `internal`, or `confidential`. Same enforcement mechanism.
-- Every `team` and `repository` label is enforced to lowercase alphanumeric characters or hyphens — no uppercase, no special characters, enforced at plan time.
-
 ## Team Topologies
 
 ### Cognitive Load

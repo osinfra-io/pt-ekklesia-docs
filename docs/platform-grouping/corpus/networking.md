@@ -146,6 +146,10 @@ To provision a new cluster, use the [Logos Agent](https://github.com/osinfra-io/
 | `dns-zone` | A Cloud DNS managed zone for a platform domain (e.g., `osinfra.io`) |
 | `cloud-nat` | Managed NAT for private nodes to reach the internet without public IPs |
 
+## Core Invariant
+
+Every platform-managed project is a Shared VPC service project with subnet access granted at creation.
+
 ## Architecture Decision Records
 
 ### GKE IP Address Management for Shared VPC

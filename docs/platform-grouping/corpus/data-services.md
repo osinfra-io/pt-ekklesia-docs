@@ -38,9 +38,10 @@ The primary resource is `service-networking-connection` — the VPC peering conn
 | `managed-services-ip-range` | A reserved IP range in the host VPC allocated for Google managed services Private Services Access |
 | `service-networking-connection` | The VPC peering connection between the host VPC and Google's managed services network |
 
-## Core Invariant
+## Core Invariants
 
-Each team has at most one Cloud SQL instance per declared region — never more than one instance per team per region.
+- Each team has at most one Cloud SQL instance per declared region — never more than one instance per team per region.
+- Every Cloud SQL instance has no public IP — private connectivity only, with SSL enforced.
 
 ## Architecture Decision Records
 

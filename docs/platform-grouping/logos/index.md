@@ -50,13 +50,6 @@ Logos feeds team and identity data into all downstream platform teams. See [team
 | `environment_folder_id` | Corpus | `module.core_helpers` | Places projects in the correct environment folder |
 | `teams` | Corpus | `module.core_helpers.teams` | Team data map — project names, folder IDs, and group emails |
 
-### Core Invariants
-
-- Every team definition produces exactly one set of GCP, GitHub, and Datadog resources
-- Every provisioned GitHub repository has signed commits required, linear history enforced, and PR review active — the branch ruleset is hardcoded with `enforcement = "active"` and no variable to disable it
-- Organization administrators (Datadog and GitHub) are indestructible — `prevent_destroy = true` is set on both; no accidental removal is possible via OpenTofu
-- Singleton organization-level resources (Datadog API keys, GitHub org settings, Google Groups) are only created in the `logos-production-main` workspace — preventing duplicates or conflicts across environments
-
 ## Team Topologies
 
 ### Cognitive Load

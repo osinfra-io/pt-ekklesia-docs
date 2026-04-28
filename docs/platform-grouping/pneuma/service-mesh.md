@@ -21,3 +21,7 @@ Istio is deployed on every GKE cluster, providing mTLS between services, fine-gr
 | `virtual-service` | An Istio routing rule defining traffic behavior for a service (retries, timeouts, fault injection) |
 | `destination-rule` | An Istio policy defining connection pool and circuit breaker settings for a destination |
 | `peer-authentication` | A mesh-wide policy enforcing strict mTLS between all services |
+
+## Core Invariant
+
+mTLS is enforced on every cluster via Istio — no plaintext pod-to-pod traffic.

@@ -26,6 +26,10 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 | `artifact-registry` | A three-tier registry per team: a shared Docker Hub remote proxy, a per-team standard repository for team images, and a per-team virtual repository that chains both |
 | `state-bucket` | An encrypted GCS bucket per repository per environment used as the OpenTofu remote backend, protected by a per-environment KMS key |
 
+## Core Invariant
+
+GitHub Actions authenticates via Workload Identity Federation — no static credentials exist.
+
 ## Architecture Decision Records
 
 ### Keyless Authentication via Workload Identity Federation

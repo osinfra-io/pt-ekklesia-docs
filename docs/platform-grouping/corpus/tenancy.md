@@ -74,9 +74,10 @@ The primary resource is `log-bucket` — the Corpus project owns a single `cis-2
 | Log sink | A per-project `cis-2-2-logging-sink` project sink with a unique writer identity; present in every project Corpus creates |
 | Log bucket | The `cis-2-2-logging-sink` bucket in the Corpus project; CMEK-encrypted, 30-day retention, receives all platform log sinks |
 
-## Core Invariant
+## Core Invariants
 
-Every GCP project is CIS-compliant and log-governed from the first second of its existence — there is no non-compliant or unobserved intermediate state.
+- Every GCP project is CIS-compliant and log-governed from the first second of its existence — there is no non-compliant or unobserved intermediate state.
+- Every team's OpenTofu state is encrypted at rest with a KMS key protected from destruction.
 
 ## Architecture Decision Records
 

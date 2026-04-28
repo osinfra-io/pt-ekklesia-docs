@@ -6,9 +6,9 @@ sidebar_label: Observability
 
 The Datadog Operator runs on every GKE cluster and manages the Datadog Agent DaemonSet via a `DatadogAgent` custom resource. The operator authenticates using per-team API and app keys provisioned by Logos and injected as GitHub Actions secrets.
 
-## Platform invariants
+## Core Invariants
 
-These features are hardcoded enabled in the `DatadogAgent` spec and cannot be disabled by individual teams:
+The Datadog Operator runs on every cluster — no cluster ships without metrics, traces, and logs. The features below are hardcoded enabled in the `DatadogAgent` spec and cannot be disabled by individual teams:
 
 - **Admission Controller**: Mutates application pods at admission time to inject the Datadog library and environment variables, enabling traces, logs, and metrics to reach the agent without code changes
 - **Workload Autoscaling**: Implements the Kubernetes external metrics API so HPAs can scale workloads on Datadog metrics

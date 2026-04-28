@@ -74,3 +74,9 @@ Consumed outputs include the GCP environment folder ID for the current team (use
 ## Components
 
 `pt-arche-core-helpers` is the translation layer between raw OpenTofu workspace state and every module that needs deployment context. All environment strings, labels, team data, and folder IDs flow through it — no module accesses these values independently. This boundary prevents environment-specific logic from leaking into module implementations and ensures that adding a new environment or team requires no changes outside Logos and core-helpers.
+
+## Core Invariants
+
+- Every resource carries a validated `cost_center` — must match `x` followed by three or four digits. Enforced by `pt-arche-core-helpers` input validation; `tofu plan` fails if the value is missing or malformed.
+- Every resource carries a validated `data_classification` — must be `public`, `internal`, or `confidential`. Same enforcement mechanism.
+- Every `team` and `repository` label is enforced to lowercase alphanumeric characters or hyphens — no uppercase, no special characters, enforced at plan time.

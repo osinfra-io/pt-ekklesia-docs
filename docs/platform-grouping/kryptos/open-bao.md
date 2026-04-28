@@ -17,4 +17,6 @@ OpenBao is an open-source secrets management platform — a Linux Foundation for
 - **[KV engine](https://openbao.org/docs/secrets/kv/)**: Versioned key-value store for static secrets that cannot be dynamically generated
 - **[Database engine](https://openbao.org/docs/secrets/databases/)**: Generates short-lived database credentials on demand and revokes them automatically on lease expiry
 
-All secrets issued by OpenBao will be dynamic or time-bounded — no consumer stores long-lived credentials.
+## Core Invariant
+
+All secrets distributed to consumers are dynamic or short-lived — no static credentials are stored in consumer repositories or CI environments.

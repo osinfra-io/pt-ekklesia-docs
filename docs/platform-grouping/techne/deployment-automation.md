@@ -21,3 +21,11 @@ Reusable GitHub Actions called workflows that standardize OpenTofu deployments a
 | `job-summary` | A structured GitHub Actions job summary displaying plan output, drift, and resource counts |
 
 **Key rule:** All OpenTofu state lives in GitHub Actions. Local `tofu apply` against remote state is not permitted.
+
+## Core Invariants
+
+- All deployments use short-lived OIDC tokens — no static credentials exist anywhere on the platform.
+- `tofu fmt -check` always runs before plan — unformatted code is a deployment gate, not a warning.
+- `tofu validate` always runs before plan — invalid configuration cannot be planned or applied.
+- Apply only triggers on plan exit code 2 (actual changes detected) — no-op plans never cause an apply.
+- The plan artifact is cached and reused verbatim in the apply job (`fail-on-cache-miss: true`) — exactly what was reviewed is what gets applied, with no possibility of drift between plan and apply.
