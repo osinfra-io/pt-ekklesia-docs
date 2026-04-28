@@ -22,6 +22,20 @@ Platform teams provide the foundational infrastructure and tooling that stream-a
   <Card item={{ icon: '🛠️', title: 'Techne', note: 'The practiced art of making — the disciplined craft through which raw materials of infrastructure are shaped into purposeful, refined platform instruments.', link: '/platform-teams/techne', linkText: 'Learn more →' }} />
 </CardGrid>
 
+## Domain-Driven Design
+
+The platform documentation uses Domain-Driven Design (Evans, Vernon) vocabulary precisely. Every team, subdomain, and aggregate page is structured against this mapping:
+
+| DDD concept | Mapping in this codebase |
+|---|---|
+| Domain | The osinfra-io platform |
+| Bounded Context | A platform team — Logos, Corpus, Pneuma, Arche, Techne, Ekklesia, Kryptos |
+| Subdomain | A child page of a team (e.g., Pneuma's Cluster Management, Service Mesh) |
+| Aggregate | A consistency boundary inside a subdomain — has exactly one Aggregate Root |
+| Members | Aggregate Root / Entity / Value Object / Domain Event / Domain Service |
+
+When a sentence on any team or subdomain page says "bounded context", it always means a team — never a subdomain or an aggregate. When it names an aggregate, the aggregate root is called out explicitly and any non-root members appear in a typed table.
+
 ## Bounded Context
 
 The platform is organized into bounded contexts — each team owns one with explicit upstream/downstream relationships.
