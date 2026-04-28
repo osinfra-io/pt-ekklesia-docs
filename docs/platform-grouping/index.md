@@ -61,15 +61,15 @@ flowchart TD
 
 Team Topologies defines three interaction modes — **X-as-a-Service** (consume without collaboration), **Collaboration** (work together temporarily to solve a problem), and **Facilitating** (help another team improve capability). Collaboration is always time-boxed; the goal is to transition to X-as-a-Service once the consuming team is self-sufficient.
 
-| Team | Notes | Steady-State Mode |
-|---|---|---|
-| <nobr>🏛️ Logos</nobr> | Identity groups, GitHub teams, GCP folders, and Datadog teams provisioned via automation | <nobr>🔵 X-as-a-Service</nobr> |
-| <nobr>🌐 Corpus</nobr> | GCP projects, shared VPC, state buckets, and workload identity provisioned for you | <nobr>🔵 X-as-a-Service</nobr> |
-| <nobr>☸️ Pneuma</nobr> | GKE clusters and add-ons run for you; Collaboration during initial onboarding | <nobr>🔵 X-as-a-Service</nobr> |
-| <nobr>🧱 Arche</nobr> | Child modules consumed via source pins; Collaboration available for module contributions | <nobr>🔵 X-as-a-Service</nobr> |
-| <nobr>📖 Ekklesia</nobr> | Architecture decisions, module references, and operational guides for all teams | <nobr>🟢 Facilitating</nobr> |
-| <nobr>🔐 Kryptos</nobr> | Secrets infrastructure and PKI managed for you | <nobr>🔵 X-as-a-Service</nobr> |
-| <nobr>🛠️ Techne</nobr> | Workflows, hooks, Codespace, and MCP tooling reduce extraneous load across all teams; Collaboration for new tool adoption | <nobr>🟢 Facilitating</nobr> |
+| Team | Steady-State Mode |
+|---|---|
+| Logos | <nobr>🔵 X-as-a-Service</nobr> |
+| Corpus | <nobr>🔵 X-as-a-Service</nobr> |
+| Pneuma | <nobr>🔵 X-as-a-Service</nobr> |
+| Arche | <nobr>🔵 X-as-a-Service</nobr> |
+| Ekklesia | <nobr>🟢 Facilitating</nobr> |
+| Kryptos | <nobr>🔵 X-as-a-Service</nobr> |
+| Techne | <nobr>🟢 Facilitating</nobr> |
 
 _🔵 X-as-a-Service · 🟡 Collaboration · 🟢 Facilitating_
 
