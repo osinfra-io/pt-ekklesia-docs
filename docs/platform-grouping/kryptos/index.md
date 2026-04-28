@@ -35,14 +35,6 @@ Kryptos consumes from Pneuma (runs OpenBao on Pneuma-managed clusters) and suppl
 | Secret | A sensitive value (password, certificate, API key) managed by OpenBao |
 | Token | An OpenBao authentication credential scoped to one or more policies |
 
-### Downstream Interfaces
-
-| Output | Consumed By | Via | Description |
-|---|---|---|---|
-| Dynamic credentials | All teams | OpenBao Leases API | Short-lived database, cloud, and API secrets issued on demand and automatically revoked on lease expiry |
-| PKI certificates | All teams | OpenBao PKI engine | Workload and service identity certificates issued from the Kryptos-managed CA |
-| KV secrets | All teams | OpenBao KV engine | Static secrets (API keys, tokens) stored and versioned in OpenBao KV |
-
 ## Team Topologies
 
 ### Cognitive Load

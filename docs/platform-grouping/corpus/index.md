@@ -43,14 +43,6 @@ Corpus consumes from Logos and feeds into Pneuma. See [team dependencies](/platf
 | Tenancy | The governed GCP presence assigned to a team — project provisioned, CIS controls applied, and log routing established |
 | Workload identity | A GCP mechanism mapping a Kubernetes service account to a GCP service account — no static credentials |
 
-### Downstream Interfaces
-
-| Output | Consumed By | Via | Description |
-|---|---|---|---|
-| Platform-managed GCP projects | Pneuma | `data "google_projects"` (GCP label query) | Cluster placement and Workload Identity binding |
-| Shared VPC | Pneuma | `data "google_projects"` (GCP label query) | GKE cluster network and subnet attachment |
-| Cloud SQL instances | Teams | `data "terraform_remote_state"` (corpus regional) | Private IP and instance name per team in each region |
-
 ## Team Topologies
 
 ### Cognitive Load

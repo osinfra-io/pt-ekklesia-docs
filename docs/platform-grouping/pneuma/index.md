@@ -47,13 +47,6 @@ Pneuma consumes from Corpus (networking and project infrastructure) and Arche (t
 | Service mesh | The Istio control plane managing mTLS, traffic routing, and observability across all pods |
 | Workload identity | See the [Corpus glossary](/platform-grouping/corpus#glossary) — Pneuma consumes Workload Identity bindings provisioned by Corpus |
 
-### Downstream Interfaces
-
-| Output | Consumed By | Via | Description |
-|---|---|---|---|
-| GKE cluster | All teams | Direct cluster provisioning | Kubernetes environment for workload deployment |
-| Kubernetes namespace | All teams | Pneuma onboarding workspace | Isolated namespace per team per cluster |
-
 ## Team Topologies
 
 ### Cognitive Load
