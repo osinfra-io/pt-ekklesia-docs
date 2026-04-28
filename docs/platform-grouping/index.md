@@ -69,7 +69,7 @@ Team Topologies defines three interaction modes — **X-as-a-Service** (consume 
 | <nobr>🧱 Arche</nobr> | Child modules consumed via source pins; Collaboration available for module contributions | <nobr>🔵 X-as-a-Service</nobr> |
 | <nobr>📖 Ekklesia</nobr> | Architecture decisions, module references, and operational guides for all teams | <nobr>🟢 Facilitating</nobr> |
 | <nobr>🔐 Kryptos</nobr> | Secrets infrastructure and PKI managed for you | <nobr>🔵 X-as-a-Service</nobr> |
-| <nobr>🛠️ Techne</nobr> | Reusable workflows and Codespace reduce extraneous load; Collaboration for new tool adoption | <nobr>🟢 Facilitating</nobr> |
+| <nobr>🛠️ Techne</nobr> | Workflows, hooks, Codespace, and MCP tooling reduce extraneous load across all teams; Collaboration for new tool adoption | <nobr>🟢 Facilitating</nobr> |
 
 _🔵 X-as-a-Service · 🟡 Collaboration · 🟢 Facilitating_
 
