@@ -16,9 +16,27 @@ Platform teams may use cert-manager for other certificate needs beyond Istio mTL
 
 :::
 
-## Aggregate
+## Aggregates
 
-### Ubiquitous Language
+### Certificate Authority
+
+**Aggregate Root:** `root-ca`
+
+ECDSA P-256 self-signed trust anchor (CN: `opentofu-self-signed-ca.osinfra.io`, 30-year validity) generated in the main workspace by OpenTofu and passed to regional workspaces via remote state. Establishes the chain of trust for every workload certificate in the mesh.
+
+| Member | Role | Description |
+|---|---|---|
+| `istio-intermediate-ca` | Entity | cert-manager Issuer in `istio-system` backed by the root CA Secret; issues the `istio-ca` intermediate Certificate |
+| `istio-ca` | Entity | 720h intermediate CA Certificate (CN: `istio-intermediate-ca.osinfra.io`) stored as the Kubernetes Secret named `istio-ca` in `istio-system` |
+| `istio-ca-issuer` | Entity | cert-manager Issuer backed by the `istio-ca` Secret; cert-manager-istio-csr uses it to sign Envoy sidecar CSRs |
+
+### Workload Certificate
+
+**Aggregate Root:** `workload-certificate`
+
+Short-lived mTLS leaf certificate issued to an Envoy sidecar by cert-manager-istio-csr. Automatically rotated by cert-manager — no manual intervention required.
+
+## Ubiquitous Language
 
 | Term | Meaning in this context |
 |---|---|
@@ -28,12 +46,12 @@ Platform teams may use cert-manager for other certificate needs beyond Istio mTL
 | `root-ca` | ECDSA P-256 self-signed trust anchor (CN: `opentofu-self-signed-ca.osinfra.io`, 30-year validity) generated in the main workspace by OpenTofu and passed to regional workspaces via remote state |
 | `workload-certificate` | Short-lived mTLS leaf certificate issued to an Envoy sidecar by cert-manager-istio-csr; automatically rotated by cert-manager |
 
-### Downstream Interfaces
+## Downstream Interfaces
 
 | Output | Consumed By | Via | Description |
 |---|---|---|---|
 | `istio-ca-issuer` | Service Mesh | cert-manager-istio-csr | Signs workload CSRs for all Envoy sidecar mTLS certificates |
 
-### Core Invariant
+## Core Invariant
 
 All mesh workload certificates are issued and rotated by cert-manager — no manually managed certificates exist in the mesh.

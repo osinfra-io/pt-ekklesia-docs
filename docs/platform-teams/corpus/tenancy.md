@@ -43,9 +43,33 @@ The Corpus project is the only project that creates a log bucket. When Corpus pr
 
 The org-level `_Default` sink is disabled to prevent duplicate log entries. All log routing is explicit and version-controlled.
 
-## Aggregate
+## Aggregates
 
-### Ubiquitous Language
+### Project Tenancy
+
+**Aggregate Root:** `gcp-project`
+
+A team's GCP project is the consistency boundary for tenancy. Created via `pt-arche-google-project`, every project is born with CIS controls, audit logging, billing alerts, and log routing in a single transaction — there is no non-compliant intermediate state.
+
+| Member | Role | Description |
+|---|---|---|
+| `billing-budget` | Entity | Per-project budget with alerts at 50%, 75%, and 100% of threshold |
+| `cis-metric-filter` | Entity | Eight per-project log metric filters (CIS 2.4–2.11) monitoring ownership changes, IAM modifications, VPC, firewall, route, storage, and SQL configuration events |
+| `cis-policy` | Value Object | The set of CIS GCP Foundation Benchmark v1.3.0 controls applied at creation |
+| `log-sink` | Entity | Per-project `cis-2-2-logging-sink` sink with a unique GCP-managed writer identity routing to the Corpus log bucket |
+| `monitoring-channel` | Entity | Cloud Monitoring notification channel for budget and infrastructure change alerts |
+
+### Centralized Logging
+
+**Aggregate Root:** `log-bucket`
+
+The Corpus project owns a single `cis-2-2-logging-sink` Cloud Logging bucket per environment (CMEK-encrypted, 30-day retention). Every project's `log-sink` writes to it; the org-level `_Default` sink is disabled to prevent duplicate ingestion.
+
+| Member | Role | Description |
+|---|---|---|
+| `logging-kms-key` | Entity | KMS crypto key in the Corpus project encrypting the log bucket; 90-day rotation; protected from destruction |
+
+## Ubiquitous Language
 
 | Term | Meaning in this context |
 |---|---|
@@ -54,17 +78,7 @@ The org-level `_Default` sink is disabled to prevent duplicate log entries. All 
 | Log sink | A per-project `cis-2-2-logging-sink` project sink with a unique writer identity; present in every project Corpus creates |
 | Log bucket | The `cis-2-2-logging-sink` bucket in the Corpus project; CMEK-encrypted, 30-day retention, receives all platform log sinks |
 
-### Downstream Interfaces
-
-| Entity | Consumed By | Description |
-|---|---|---|
-| `gcp-project` | All downstream | A GCP project created under the correct environment folder with billing and APIs enabled |
-| `billing-budget` | Finance / alerting | Automatic spending alerts at 50%, 75%, and 100% of threshold on every project |
-| `monitoring-channel` | Operations | Cloud Monitoring notification channels for budget and infrastructure change alerts |
-| `logging-kms-key` | Log bucket | A `cis-2-2-logging-sink` KMS crypto key in the Corpus project, used to encrypt the log bucket; rotates every 90 days |
-| `cis-metric-filter` | Security | Eight per-project log metric filters (CIS 2.4–2.11) monitoring ownership changes, IAM modifications, VPC, firewall, route, storage, and SQL configuration events |
-
-### Core Invariant
+## Core Invariant
 
 Every GCP project is CIS-compliant and log-governed from the first second of its existence — there is no non-compliant or unobserved intermediate state.
 

@@ -16,16 +16,33 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
-## Aggregate
+## Aggregates
 
-| Entity | Description |
-|---|---|
-| `codespace` | A GitHub Codespace pre-configured with OpenTofu, pre-commit, gcloud, kubectl, and all platform tooling |
-| `pre-commit-config` | A `.pre-commit-config.yaml` file pinned to specific hook versions — enforces `tofu fmt`, `tofu validate`, `tofu test`, YAML lint, and trailing whitespace |
-| `pre-commit-hook` | A custom hook (written in Go) implementing platform-specific IaC checks beyond what stock hooks provide |
-| `development-setup` | A local setup guide and script for engineers preferring native tooling over Codespaces |
+### Codespace
 
-**Key rule:** `pre-commit run -a` must pass before any commit. The CI pipeline enforces the same checks — local and CI are identical environments.
+**Aggregate Root:** `codespace`
+
+A GitHub Codespace pre-configured with OpenTofu, pre-commit, gcloud, kubectl, and all platform tooling. Defined as code in `pt-techne-opentofu-codespace`, version-controlled, and updated alongside the platform.
+
+### Pre-commit Toolchain
+
+**Aggregate Root:** `pre-commit-config`
+
+A `.pre-commit-config.yaml` file pinned to specific hook versions, enforcing `tofu fmt`, `tofu validate`, `tofu test`, YAML lint, and trailing whitespace. Identical in local and CI environments.
+
+| Member | Role | Description |
+|---|---|---|
+| `pre-commit-hook` | Entity | A custom hook (written in Go) in `pt-techne-pre-commit-hooks` implementing platform-specific IaC checks beyond what stock hooks provide |
+
+### Local Development Setup
+
+**Aggregate Root:** `development-setup`
+
+A local setup guide and script in `pt-techne-development-setup` for engineers who prefer native tooling over Codespaces.
+
+## Core Invariant
+
+`pre-commit run -a` must pass before any commit. The CI pipeline enforces the same checks — local and CI are identical environments.
 
 ## Architecture Decision Records
 

@@ -16,9 +16,25 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 :::
 
-## Aggregate
+## Aggregates
 
-### Ubiquitous Language
+### Private Services Access
+
+**Aggregate Root:** `service-networking-connection`
+
+The VPC peering connection between the Shared VPC host project and Google's managed services network. Provisioned once per environment by Corpus; required before any Cloud SQL or Memorystore instance can be created with a private IP.
+
+| Member | Role | Description |
+|---|---|---|
+| `managed-services-ip-range` | Entity | Reserved IP range in the host VPC allocated for Google managed services peering |
+
+### Cloud SQL Instance
+
+**Aggregate Root:** `cloud-sql-instance`
+
+A managed PostgreSQL instance provisioned by Corpus in a team's platform-managed project — at most one per declared region. Created via `pt-arche-google-cloud-sql` with private IP through the Shared VPC peering connection (`ipv4_enabled = false`) and SSL enforced (`ssl_mode = "ENCRYPTED_ONLY"`).
+
+## Ubiquitous Language
 
 | Term | Meaning in this context |
 |---|---|
@@ -26,7 +42,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 | `managed-services-ip-range` | A reserved IP range in the host VPC allocated for Google managed services Private Services Access |
 | `service-networking-connection` | The VPC peering connection between the host VPC and Google's managed services network |
 
-### Core Invariant
+## Core Invariant
 
 Each team has at most one Cloud SQL instance per declared region — never more than one instance per team per region.
 

@@ -23,12 +23,15 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 ## Aggregate
 
-| Entity | Description |
-|---|---|
-| `constraint-template` | A reusable policy definition written in Rego — parameterizable and cluster-scoped |
-| `constraint` | An instance of a `constraint-template` with specific parameters (e.g., required label keys) |
-| `rego-policy` | The Rego logic embedded in a `constraint-template` that defines what is and is not admitted |
-| `audit-result` | A violation record produced when an existing resource fails a constraint in audit mode |
+**Aggregate Root:** `constraint-template`
+
+A reusable Rego policy definition deployed to every cluster. Each template is parameterizable and cluster-scoped; concrete policies are instances of a template applied with specific parameters.
+
+| Member | Role | Description |
+|---|---|---|
+| `constraint` | Entity | An instance of a `constraint-template` with specific parameters (e.g., the namespace exemption list for `K8sBlockIngress`) |
+| `rego-policy` | Value Object | The Rego logic embedded in a `constraint-template` defining what is and is not admitted |
+| `audit-result` | Domain Event | A violation record produced when an existing resource fails a constraint in audit mode |
 
 ## Architecture Decision Records
 
