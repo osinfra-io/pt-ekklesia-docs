@@ -91,7 +91,7 @@ _🟢 within limit · 🟡 approaching · 🟠 at limit · 🔴 over limit_
 
 ### Team Capacity
 
-The platform operates as a **platform grouping** — the Team Topologies Second Edition term for a collection of teams or specializations that together provide a coherent internal platform product. Internally, each platform engineer specializes in one team's context, but externally the platform grouping presents a coherent interface to stream-aligned teams — consistent tooling, documentation, and services regardless of which team delivers them.
+Internally, each platform engineer specializes in one team's context; externally the platform grouping presents a coherent interface to stream-aligned teams — consistent tooling, documentation, and services regardless of which team delivers them.
 
 Headcount is derived from the cognitive load analysis. When operating within capacity, a team requires one platform engineer to maintain and evolve its scope. A team approaching or at its limit is a candidate for additional capacity or scope reduction. Any team flagged 🔴 over limit is the highest priority for intervention — either a second engineer, scope reduction, or tooling investment to lower extraneous load.
 
