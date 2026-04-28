@@ -46,7 +46,7 @@ Ekklesia is a shared service used by all platform teams — every team contribut
 
 ### Cognitive Load
 
-Ekklesia carries the lightest operational load of any platform team — its scope is documentation tooling, which is low inherent complexity. The real challenge is breadth of knowledge: contributing meaningfully to platform docs requires understanding every other team's work.
+Ekklesia carries the lightest operational load of any platform team — its context is documentation tooling, which is low inherent complexity. The real challenge is breadth of knowledge: contributing meaningfully to platform docs requires understanding every other team's work.
 
 | Working Domains | High Intrinsic Domains |
 |---|---|
