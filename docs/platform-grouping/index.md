@@ -63,12 +63,12 @@ Team Topologies defines three interaction modes — **X-as-a-Service** (consume 
 
 | Team | Notes | Steady-State Mode |
 |---|---|---|
-| <nobr>🏛️ Logos</nobr> | Identity groups, GitHub teams, GCP folders, and Datadog teams are provisioned for you via automation | <nobr>🔵 X-as-a-Service</nobr> |
-| <nobr>🌐 Corpus</nobr> | GCP projects, shared VPC, state buckets, and workload identity are provisioned for you | <nobr>🔵 X-as-a-Service</nobr> |
-| <nobr>☸️ Pneuma</nobr> | GKE clusters and add-ons run for you; Collaboration available during initial cluster onboarding | <nobr>🔵 X-as-a-Service</nobr> |
-| <nobr>🧱 Arche</nobr> | Consume child modules via OpenTofu source pins; inner source Collaboration available for contributions | <nobr>🔵 X-as-a-Service</nobr> |
-| <nobr>📖 Ekklesia</nobr> | Organizational knowledge hub — architecture decisions, module references, and operational guides for platform and stream-aligned teams alike | <nobr>🟢 Facilitating</nobr> |
-| <nobr>🔐 Kryptos</nobr> | Secrets infrastructure and PKI managed for you; no direct interface for stream-aligned teams | <nobr>🔵 X-as-a-Service</nobr> |
+| <nobr>🏛️ Logos</nobr> | Identity groups, GitHub teams, GCP folders, and Datadog teams provisioned via automation | <nobr>🔵 X-as-a-Service</nobr> |
+| <nobr>🌐 Corpus</nobr> | GCP projects, shared VPC, state buckets, and workload identity provisioned for you | <nobr>🔵 X-as-a-Service</nobr> |
+| <nobr>☸️ Pneuma</nobr> | GKE clusters and add-ons run for you; Collaboration during initial onboarding | <nobr>🔵 X-as-a-Service</nobr> |
+| <nobr>🧱 Arche</nobr> | Child modules consumed via source pins; Collaboration available for module contributions | <nobr>🔵 X-as-a-Service</nobr> |
+| <nobr>📖 Ekklesia</nobr> | Architecture decisions, module references, and operational guides for all teams | <nobr>🟢 Facilitating</nobr> |
+| <nobr>🔐 Kryptos</nobr> | Secrets infrastructure and PKI managed for you | <nobr>🔵 X-as-a-Service</nobr> |
 | <nobr>🛠️ Techne</nobr> | Reusable workflows and Codespace reduce extraneous load; Collaboration for new tool adoption | <nobr>🟢 Facilitating</nobr> |
 
 _🔵 X-as-a-Service · 🟡 Collaboration · 🟢 Facilitating_
