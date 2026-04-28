@@ -37,11 +37,11 @@ Kryptos consumes from Pneuma (runs OpenBao on Pneuma-managed clusters) and suppl
 
 ### Downstream Interfaces
 
-| Artifact | Description | Consumed By |
-|---|---|---|
-| Dynamic credentials | Short-lived database, cloud, and API secrets issued on demand via OpenBao | All teams |
-| PKI certificates | Workload and service identity certificates issued from Kryptos-managed CA | All teams |
-| KV secrets | Static secrets (API keys, tokens) stored and versioned in OpenBao KV | All teams |
+| Output | Consumed By | Via | Description |
+|---|---|---|---|
+| Dynamic credentials | All teams | OpenBao Leases API | Short-lived database, cloud, and API secrets issued on demand and automatically revoked on lease expiry |
+| PKI certificates | All teams | OpenBao PKI engine | Workload and service identity certificates issued from the Kryptos-managed CA |
+| KV secrets | All teams | OpenBao KV engine | Static secrets (API keys, tokens) stored and versioned in OpenBao KV |
 
 ## Team Topologies
 
