@@ -21,7 +21,7 @@ sequenceDiagram
     participant Corpus as pt-corpus
     participant Pneuma as pt-pneuma
 
-    Team->>Logos: Logos Agent PR merges
+    Team->>Logos: Nomos Agent PR merges
     Logos->>Logos: OpenTofu: GCP folders, identity groups, GitHub structure
 
     Note over Corpus,Pneuma: Platform engineer triggers workflow_dispatch (or next merge to main)

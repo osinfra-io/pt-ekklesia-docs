@@ -13,21 +13,21 @@ Stream-aligned teams work directly on the flow of change to deliver value to end
 
 ## Onboarding
 
-The fastest way to get your team onto the platform is the **Logos Agent** — a GitHub Copilot coding agent that handles the full onboarding conversation and opens a pull request with every change. No local setup, no YAML to write by hand.
+The fastest way to get your team onto the platform is the **Nomos Agent** — a GitHub Copilot coding agent that handles the full onboarding conversation and opens a pull request with every change. No local setup, no YAML to write by hand.
 
 <AgentDemo />
 
-### The Logos Agent
+### The Nomos Agent
 
-The Logos Agent manages everything a stream-aligned team needs on the platform: GCP folder hierarchy, identity groups, GitHub teams, Datadog team, repositories, environments, and feature flags. It reads the current state from `pt-logos` and opens a reviewed pull request for every change — nothing is applied directly.
+The Nomos Agent manages everything a stream-aligned team needs on the platform: GCP folder hierarchy, identity groups, GitHub teams, Datadog team, repositories, environments, and feature flags. It reads the current state from `pt-logos` and opens a reviewed pull request for every change — nothing is applied directly.
 
 ### How to invoke it
 
-Clone the repo and run the Copilot CLI from within it — then type `/agent` and select **Logos Agent** from the menu:
+Clone the repo and run the Copilot CLI from within it — then type `/agent` and select **Nomos Agent** from the menu:
 
 ```none
-git clone https://github.com/osinfra-io/pt-logos
-cd pt-logos
+git clone https://github.com/osinfra-io/pt-techne-agents
+cd pt-techne-agents
 gh copilot
 ```
 
