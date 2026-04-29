@@ -49,7 +49,7 @@ Fine-grained PATs must be created through the GitHub web UI at [github.com/setti
 
 ### What happens after the PR merges
 
-Logos runs OpenTofu on merge — the GCP folder hierarchy, identity groups, and GitHub structure are created automatically. Corpus and Pneuma are not triggered by a Logos merge; each deploys when its own PR merges to main or a platform engineer triggers `workflow_dispatch`. When Pneuma runs, namespace creation and Workload Identity bindings are applied automatically within the same pipeline — no additional trigger is needed. See [Namespace Provisioning](/platform-teams/pneuma/cluster-management#namespace-provisioning) for the full pipeline flow.
+Logos runs OpenTofu on merge — the GCP folder hierarchy, identity groups, and GitHub structure are created automatically. Corpus and Pneuma are not triggered by a Logos merge; each deploys when its own PR merges to main or a platform engineer triggers `workflow_dispatch`. When Pneuma runs, namespace creation and Workload Identity bindings are applied automatically within the same pipeline — no additional trigger is needed. See [Namespace Provisioning](/platform-grouping/pneuma/cluster-management#namespace-provisioning) for the full pipeline flow.
 
 ## Teams
 

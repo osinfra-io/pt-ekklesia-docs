@@ -15,9 +15,11 @@ const config = {
   trailingSlash: false,
 
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
 
   markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
     mermaid: true,
   },
 
@@ -54,6 +56,7 @@ const config = {
         hashed: true,
         docsRouteBasePath: '/',
         highlightSearchTermsOnTargetPage: true,
+        indexBlog: false,
       }),
     ],
   ],
@@ -74,7 +77,7 @@ const config = {
         },
         items: [
           {
-            to: '/platform-teams',
+            to: '/platform-grouping',
             label: 'Teams',
             position: 'left',
           },
