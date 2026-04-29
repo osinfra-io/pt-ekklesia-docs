@@ -56,6 +56,7 @@ const config = {
         hashed: true,
         docsRouteBasePath: '/',
         highlightSearchTermsOnTargetPage: true,
+        indexBlog: false,
       }),
     ],
   ],
