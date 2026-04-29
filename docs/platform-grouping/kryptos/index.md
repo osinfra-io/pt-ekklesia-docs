@@ -1,5 +1,5 @@
 ---
-sidebar_label: Kryptos
+sidebar_label: Overview
 description: The hidden foundation of platform security — managing cryptographic primitives, secrets infrastructure, and security controls that underpin all teams on the platform.
 ---
 

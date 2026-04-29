@@ -81,9 +81,11 @@ Cognitive load by domain:
 
 ### Team Capacity
 
-- **Headcount**: Inner source — no dedicated engineer
-- **Contribution model**: Modules are built when a consuming team needs them and owned by whoever builds them; the child module template and Copilot agent make new module creation frictionless
-- **Scale signal**: Scales with contributor interest — Arche is a shared standard and a set of versioned artifacts, not a team roster
+| | |
+|---|---|
+| **Headcount** | Inner source — no dedicated engineer |
+| **Contribution model** | Modules are built when a consuming team needs them and owned by whoever builds them; the child module template and Copilot agent make new module creation frictionless |
+| **Scale signal** | Scales with contributor interest — Arche is a shared standard and a set of versioned artifacts, not a team roster |
 
 ## Architecture Decision Records
 
