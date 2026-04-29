@@ -1,18 +1,18 @@
 import React from 'react';
 import styles from './styles.module.css';
 
-const defaultTitle = 'GitHub Copilot — Logos Agent';
+const defaultTitle = 'GitHub Copilot — Nomos Agent';
 
 const defaultMessages = [
   {
     role: 'user',
-    text: '/agent → Logos Agent',
+    text: '/agent → Nomos Agent',
   },
   {
     role: 'agent',
     content: (
       <>
-        <p>👋 Hi! I'm the Logos Agent. I help manage everything on the osinfra.io platform — teams, members, repositories, environments, and more.</p>
+        <p>👋 Hi! I'm the Nomos Agent — your self-serve interface to the osinfra.io platform. Just tell me what your team needs.</p>
         <p>Give me just a moment while I look you up…</p>
         <p className={styles.meta}>✓ Identity validated · joe@osinfra.io</p>
         <p>It looks like you're not part of any team yet — welcome! Would you like to <strong>join an existing team</strong> or <strong>onboard a new team</strong> from scratch?</p>

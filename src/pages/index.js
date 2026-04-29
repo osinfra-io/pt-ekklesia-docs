@@ -102,7 +102,7 @@ function GettingStarted() {
             Your team, on the platform in minutes
           </Heading>
           <p className={styles.gettingStartedBody}>
-            The <strong>Logos Agent</strong> handles the full onboarding conversation and opens a pull request with every change — GCP folder hierarchy, identity groups, GitHub teams, Datadog team, and repositories. No YAML to write by hand, no support ticket to file.
+            The <strong>Nomos Agent</strong> handles the full onboarding conversation and opens a pull request with every change — GCP folder hierarchy, identity groups, GitHub teams, Datadog team, and repositories. No YAML to write by hand, no support ticket to file.
           </p>
           <Link
             to="/stream-aligned-teams#onboarding"
