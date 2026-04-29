@@ -133,9 +133,9 @@ This block is available for future use.
 
 ## Consumer Contract
 
-A new GKE cluster is always guaranteed a pre-allocated CIDR slot — no IP conflict is possible because every range is defined in [pt-logos](https://github.com/osinfra-io/pt-logos) before any cluster is created. Each environment has its own isolated VPC, so the plan supports up to 30 clusters per environment in the active `/10` block, expandable to 120 per environment across all four `/10` blocks. When all 30 slots in the active block are claimed, the Logos Agent's IPAM sequences must be extended to cover the next `/10` block before any additional clusters can be provisioned.
+A new GKE cluster is always guaranteed a pre-allocated CIDR slot — no IP conflict is possible because every range is defined in [pt-logos](https://github.com/osinfra-io/pt-logos) before any cluster is created. Each environment has its own isolated VPC, so the plan supports up to 30 clusters per environment in the active `/10` block, expandable to 120 per environment across all four `/10` blocks. When all 30 slots in the active block are claimed, the Nomos Agent's IPAM sequences must be extended to cover the next `/10` block before any additional clusters can be provisioned.
 
-To provision a new cluster, use the [Logos Agent](https://github.com/osinfra-io/pt-logos/blob/main/.github/agents/logos.agent.md) in [pt-logos](https://github.com/osinfra-io/pt-logos). The agent reads all existing CIDR allocations from `teams/*.tfvars`, assigns the next available slot automatically, and opens the necessary pull requests — no manual CIDR selection required.
+To provision a new cluster, use the [Nomos Agent](https://github.com/osinfra-io/pt-techne-agents/blob/main/.github/agents/nomos.agent.md) in [pt-logos](https://github.com/osinfra-io/pt-logos). The agent reads all existing CIDR allocations from `teams/*.tfvars`, assigns the next available slot automatically, and opens the necessary pull requests — no manual CIDR selection required.
 
 ## Components
 
