@@ -40,10 +40,11 @@ The GitHub MCP server must be configured with a **fine-grained Personal Access T
 | Permission | Access |
 |---|---|
 | Contents | Read and write |
+| Issues | Read and write |
 | Pull requests | Read and write |
 | Workflows | Read and write |
 
-Fine-grained PATs must be created through the GitHub web UI at [github.com/settings/personal-access-tokens/new](https://github.com/settings/personal-access-tokens/new).
+Fine-grained PATs must be created through the GitHub web UI at [github.com/settings/personal-access-tokens/new](https://github.com/settings/personal-access-tokens/new). Set the resource owner to the **`osinfra-io` organization** (not individual repositories) so the token can operate across all repos the agent needs to reach.
 
 :::
 
