@@ -34,9 +34,77 @@ The primary resource is `pre-commit-config` — a `.pre-commit-config.yaml` file
 
 A local setup guide and script in `pt-techne-development-setup` for engineers who prefer native tooling over Codespaces.
 
+## Onboarding
+
+Three supported developer environments — all run the same toolchain and enforce the same pre-commit checks.
+
+### Ubuntu (Native/WSL)
+
+Applies to both a native Ubuntu install and Windows WSL2 Ubuntu. WSL2 users need to install the Linux subsystem first.
+
+**WSL2 only — install Ubuntu on Windows:**
+
+```powershell
+wsl --install
+```
+
+Restart your computer, then open a WSL2 Ubuntu terminal and continue with the steps below.
+
+**Ubuntu setup (native and WSL2):**
+
+This step is optional but allows `sudo` access without entering a password.
+
+```bash
+echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo EDITOR='tee -a' visudo
+```
+
+Run the setup script from [pt-techne-development-setup](https://github.com/osinfra-io/pt-techne-development-setup):
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/osinfra-io/pt-techne-development-setup/main/ubuntu/setup.sh)"
+```
+
+Change your default shell to Zsh and exit.
+
+```bash
+chsh -s /home/linuxbrew/.linuxbrew/bin/zsh; exit
+```
+
+Once complete, stay current by running the generated update script.
+
+```bash
+~/bin/update.zsh
+```
+
+### Ubuntu Docker Image
+
+The [pt-techne-development-setup](https://github.com/osinfra-io/pt-techne-development-setup) repository publishes a pre-built Ubuntu Docker image — the same base image used by the Codespace.
+
+Pull the image from the GitHub container registry.
+
+```bash
+docker pull ghcr.io/osinfra-io/ubuntu:latest
+```
+
+Run the image in interactive mode.
+
+```bash
+docker run -it ghcr.io/osinfra-io/ubuntu:latest
+```
+
+To attach VS Code to the running container, install the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension, click the open a remote window icon in the status bar, and select **Attach to Running Container**.
+
+This same image can be used as a devcontainer — open the repo containing a `.devcontainer/devcontainer.json` that references `ghcr.io/osinfra-io/ubuntu` in a Codespace and GitHub will use it automatically.
+
+### Codespace
+
+The [pt-techne-opentofu-codespace](https://github.com/osinfra-io/pt-techne-opentofu-codespace) repository provides a fully configured GitHub Codespace. Go to the repository, click **Code → Codespaces → Create a new Codespace on main**.
+
+When the Codespace starts, all `pt-*` repositories in the `osinfra-io` organization are automatically cloned into `/workspaces/`. VS Code opens `/workspaces` directly so all repositories are immediately visible and navigable in the file explorer — no local setup required.
+
 ## Core Invariant
 
-`pre-commit run -a` must pass before any commit. The CI pipeline enforces the same checks — local and CI are identical environments.
+`pre-commit run -a` must pass before any commit. CI enforces the core OpenTofu checks (`tofu fmt`, `tofu validate`, `tofu test`) — not the full pre-commit suite. YAML lint, trailing whitespace, and custom hooks are local-only gates.
 
 ## Architecture Decision Records
 
@@ -61,7 +129,7 @@ The platform has a small team (1-2 engineers). Onboarding time is a meaningful c
 
 Provide a GitHub Codespace (`pt-techne-opentofu-codespace`) as the primary development environment, pre-configured with the full platform toolchain. The Codespace is defined as code, version-controlled, and updated alongside the platform.
 
-A local setup guide (`pt-techne-development-setup`) is maintained for engineers who prefer native tooling, but the Codespace is the supported default. Pre-commit hooks (`pt-techne-pre-commit-hooks`) enforce the same checks locally and in CI — the environment a developer uses does not change what passes or fails.
+A local setup guide (`pt-techne-development-setup`) is maintained for engineers who prefer native tooling, but the Codespace is the supported default. Pre-commit hooks (`pt-techne-pre-commit-hooks`) enforce local checks before every commit; CI enforces the core OpenTofu checks (`tofu fmt`, `tofu validate`, `tofu test`).
 
 #### Alternatives Considered
 
@@ -72,6 +140,6 @@ A local setup guide (`pt-techne-development-setup`) is maintained for engineers 
 #### Consequences
 
 - New engineers are productive within hours of repository access
-- Local and CI environments enforce identical pre-commit checks — no environment-specific failures
+- Local pre-commit hooks catch formatting, validation, and custom checks before code is pushed; CI enforces the core OpenTofu checks as a second gate
 - Toolchain updates are applied once in the Codespace definition and inherited by all engineers on next rebuild
 - Engineers on restricted machines (no local Docker, managed endpoints) can still contribute via browser-based Codespace
