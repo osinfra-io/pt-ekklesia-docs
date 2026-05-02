@@ -18,7 +18,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 ## Components
 
-### Codespace
+### GitHub Codespace
 
 A GitHub Codespace pre-configured with OpenTofu, pre-commit, gcloud, kubectl, and all platform tooling. Defined as code in `pt-techne-opentofu-codespace`, version-controlled, and updated alongside the platform.
 
