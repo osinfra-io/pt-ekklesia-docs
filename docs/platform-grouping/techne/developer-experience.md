@@ -104,7 +104,9 @@ When the Codespace starts, all `pt-*` repositories in the `osinfra-io` organizat
 
 ## Core Invariant
 
-`pre-commit run -a` must pass before any commit. CI enforces the core OpenTofu checks (`tofu fmt`, `tofu validate`, `tofu test`) — not the full pre-commit suite. YAML lint, trailing whitespace, and custom hooks are local-only gates.
+`pre-commit run -a` must pass before any commit.
+
+CI enforces the core OpenTofu checks (`tofu fmt`, `tofu validate`, `tofu test`) directly — it does not run the full pre-commit suite. YAML lint, trailing whitespace, and custom hooks are local-only gates.
 
 ## Architecture Decision Records
 
