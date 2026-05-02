@@ -96,7 +96,7 @@ To attach VS Code to the running container, install the [Dev Containers](https:/
 
 This same image can be used as a devcontainer — open the repo containing a `.devcontainer/devcontainer.json` that references `ghcr.io/osinfra-io/ubuntu` in a Codespace and GitHub will use it automatically.
 
-### Codespace
+### GitHub Codespace
 
 The [pt-techne-opentofu-codespace](https://github.com/osinfra-io/pt-techne-opentofu-codespace) repository provides a fully configured GitHub Codespace. Go to the repository, click **Code → Codespaces → Create a new Codespace on main**.
 
