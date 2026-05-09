@@ -7,7 +7,7 @@ sidebar_label: Developer Experience
 Standardized tooling and environments that make developing and iterating on platform infrastructure consistent and reproducible.
 
 - **[pt-techne-opentofu-codespace](https://github.com/osinfra-io/pt-techne-opentofu-codespace)**: A GitHub Codespace pre-configured with OpenTofu, pre-commit, and all platform tooling — ready to use without local setup
-- **[pt-techne-pre-commit-hooks](https://github.com/osinfra-io/pt-techne-pre-commit-hooks)**: Custom pre-commit hooks written in Go that enforce IaC formatting (`tofu fmt`), configuration validation (`tofu validate`), and automated testing (`tofu test`) before every commit
+- **[pt-techne-pre-commit-hooks](https://github.com/osinfra-io/pt-techne-pre-commit-hooks)**: Custom pre-commit hooks written in Go that enforce IaC formatting (`tofu fmt`), configuration validation (`tofu validate`), automated testing (`tofu test`), and CIS benchmark scanning (`tofu scan`) before every commit
 - **[pt-techne-development-setup](https://github.com/osinfra-io/pt-techne-development-setup)**: Local development environment setup for engineers who prefer working outside of Codespaces
 
 :::tip Architecture Decision Records
@@ -24,11 +24,12 @@ A GitHub Codespace pre-configured with OpenTofu, pre-commit, gcloud, kubectl, an
 
 ### Pre-commit Toolchain
 
-The primary resource is `pre-commit-config` — a `.pre-commit-config.yaml` file pinned to specific hook versions, enforcing `tofu fmt`, `tofu validate`, `tofu test`, YAML lint, and trailing whitespace. Identical in local and CI environments.
+The primary resource is `pre-commit-config` — a `.pre-commit-config.yaml` file pinned to specific hook versions, enforcing `tofu fmt`, `tofu validate`, `tofu test`, `tofu scan`, YAML lint, and trailing whitespace. Identical in local and CI environments.
 
 | Component | Description |
 |---|---|
-| `pre-commit-hook` | A custom hook (written in Go) in `pt-techne-pre-commit-hooks` implementing platform-specific IaC checks beyond what stock hooks provide |
+| `pre-commit-hook` | Custom hooks (written in Go) in `pt-techne-pre-commit-hooks` implementing platform-specific IaC checks beyond what stock hooks provide |
+| `tofuscan` | A CIS benchmark scanner that checks OpenTofu files against CIS Google Cloud Platform Foundation Benchmark v3.0.0 and CIS GKE Benchmark v1.6.1 using OPA/Rego — supports inline skip comments and a `--warn-only` flag for non-blocking scans |
 
 ### Local Development Setup
 
@@ -106,7 +107,7 @@ When the Codespace starts, all `pt-*` repositories in the `osinfra-io` organizat
 
 `pre-commit run -a` must pass before any commit.
 
-CI enforces the core OpenTofu checks (`tofu fmt`, `tofu validate`, `tofu test`) directly — it does not run the full pre-commit suite. YAML lint, trailing whitespace, and custom hooks are local-only gates.
+CI enforces the core OpenTofu checks (`tofu fmt`, `tofu validate`, `tofu test`) directly — it does not run the full pre-commit suite. YAML lint, trailing whitespace, `tofu scan`, and custom hooks are local-only gates.
 
 ## Architecture Decision Records
 
