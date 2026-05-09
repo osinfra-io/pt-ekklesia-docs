@@ -28,8 +28,10 @@ The primary resource is `pre-commit-config` — a `.pre-commit-config.yaml` file
 
 | Component | Description |
 |---|---|
-| `pre-commit-hook` | Custom hooks (written in Go) in `pt-techne-pre-commit-hooks` implementing platform-specific IaC checks beyond what stock hooks provide |
-| `tofuscan` | A CIS benchmark scanner that checks OpenTofu files against CIS Google Cloud Platform Foundation Benchmark v3.0.0 and CIS GKE Benchmark v1.6.1 using OPA/Rego — supports inline skip comments and a `--warn-only` flag for non-blocking scans |
+| `tofu-fmt` | Rewrites OpenTofu (`.tf`, `.tofu`, `.tfvars`, `.tftest.hcl`) files to canonical format — skips `.terraform/` directories |
+| `tofu-validate` | Checks configuration for syntax errors and internal consistency without accessing remote services |
+| `tofu-test` | Executes automated tests defined in `.tftest.hcl` files — runs in the root directory only, skips if no test files are found |
+| `tofu-scan` | Checks OpenTofu files against CIS Google Cloud Platform Foundation Benchmark v3.0.0 and CIS GKE Benchmark v1.6.1 using OPA/Rego — supports inline skip comments and a `--warn-only` flag for non-blocking scans |
 
 ### Local Development Setup
 
