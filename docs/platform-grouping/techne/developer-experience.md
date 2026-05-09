@@ -24,7 +24,7 @@ A GitHub Codespace pre-configured with OpenTofu, pre-commit, gcloud, kubectl, an
 
 ### Pre-commit Toolchain
 
-The primary resource is `pre-commit-config` — a `.pre-commit-config.yaml` file pinned to specific hook versions, enforcing `tofu fmt`, `tofu validate`, `tofu test`, `tofu scan`, YAML lint, and trailing whitespace. Identical in local and CI environments.
+The primary resource is `pre-commit-config` — a `.pre-commit-config.yaml` file pinned to specific hook versions, enforcing `tofu fmt`, `tofu validate`, `tofu test`, `tofu scan`, YAML lint, and trailing whitespace locally before every commit. CI runs the core OpenTofu checks (`tofu fmt`, `tofu validate`, `tofu test`) directly rather than executing the full pre-commit suite.
 
 | Component | Description |
 |---|---|
