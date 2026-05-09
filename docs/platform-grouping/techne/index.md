@@ -19,7 +19,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 - **[pt-techne-opentofu-workflows](https://github.com/osinfra-io/pt-techne-opentofu-workflows)**: Reusable GitHub Actions called workflows for OpenTofu deployments — see [Deployment Automation](./deployment-automation.md)
 - **[pt-techne-misc-workflows](https://github.com/osinfra-io/pt-techne-misc-workflows)**: Reusable GitHub Actions called workflows for common repository tasks
-- **[pt-techne-pre-commit-hooks](https://github.com/osinfra-io/pt-techne-pre-commit-hooks)**: Pre-commit hooks for IaC validation and formatting — see [Developer Experience](./developer-experience.md)
+- **[pt-techne-pre-commit-hooks](https://github.com/osinfra-io/pt-techne-pre-commit-hooks)**: Pre-commit hooks for IaC validation, formatting, and CIS benchmark scanning — see [Developer Experience](./developer-experience.md)
 - **[pt-techne-opentofu-codespace](https://github.com/osinfra-io/pt-techne-opentofu-codespace)**: GitHub Codespace configuration for standardized OpenTofu development environments
 - **[pt-techne-development-setup](https://github.com/osinfra-io/pt-techne-development-setup)**: Local development setup and tooling configuration
 
