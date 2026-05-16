@@ -44,7 +44,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 - Agents never hand-write HCL — all `teams/*.tfvars` writes go through `render_team_tfvars` in the MCP server.
 - All write tools are idempotent — identical input and repo state returns `action: "noop"`.
-- The MCP server schema (`schema/team.schema.json`) is the single source of truth for team spec fields; `docs/schema.md` is generated from it.
+- `schema/team.schema.json` in `pt-techne-mcp-server` is the source of truth for validation and rendering; the [Logos team topology page](/platform-grouping/logos/team-topology) is the documentation home for the schema.
 
 ## Architecture Decision Records
 
@@ -77,6 +77,6 @@ Copilot agents in `pt-techne-agents` call the MCP server for all write operation
 #### Consequences
 
 - All write paths go through one tested renderer — formatting and validation is consistent across all agents and callers
-- Schema changes propagate automatically; agents do not need to be updated for new optional fields
-- The MCP server can be tested independently of the agents that consume it
+- The Go binary embeds the schema at build time (`internal/spec/schema_embed.json`); new optional fields are picked up on the next server release
+- The Logos docs `logosTeamSchema.js` is a separate display representation and must be kept in sync with `schema/team.schema.json` manually or via a generator — it is the known maintenance surface
 - Adding a new agent capability requires only new MCP tools, not changes to existing agents
