@@ -3,7 +3,6 @@ sidebar_label: Team Topology
 ---
 
 import SchemaViewer from '@site/src/components/SchemaViewer';
-import logosTeamSchema from '@site/src/components/SchemaViewer/logosTeamSchema';
 
 # Team Topology
 
@@ -17,7 +16,7 @@ Logos codifies the team structure that all platform tooling — GitHub, GCP, and
 
 Each team is defined as an entry in the `teams` map inside a `.tfvars` file under `teams/`. The schema below documents every available field — click any object or map to expand its properties.
 
-<SchemaViewer schema={logosTeamSchema} title="teams.<team-key>" />
+<SchemaViewer title="teams.<team-key>" />
 
 ## Components
 
