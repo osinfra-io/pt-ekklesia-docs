@@ -1,6 +1,10 @@
 import { useState } from 'react';
 
+import teamSchema from './team.schema.json';
+import resolveSchema from './resolveSchema';
 import styles from './styles.module.css';
+
+const resolved = resolveSchema(teamSchema);
 
 const TYPE_CLASS = {
   string: styles.typeString,
@@ -71,11 +75,11 @@ function SchemaProperty({ name, prop, depth = 0 }) {
   );
 }
 
-export default function SchemaViewer({ schema, title }) {
+export default function SchemaViewer({ title }) {
   return (
     <div className={styles.viewer}>
       {title && <div className={styles.title}>{title}</div>}
-      {Object.entries(schema).map(([name, prop]) => (
+      {Object.entries(resolved).map(([name, prop]) => (
         <SchemaProperty key={name} name={name} prop={prop} depth={0} />
       ))}
     </div>
