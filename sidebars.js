@@ -82,6 +82,7 @@ const sidebars = {
           items: [
             'platform-grouping/techne/deployment-automation',
             'platform-grouping/techne/developer-experience',
+            'platform-grouping/techne/ai-tooling',
           ],
         },
         // endregion: platform-grouping
