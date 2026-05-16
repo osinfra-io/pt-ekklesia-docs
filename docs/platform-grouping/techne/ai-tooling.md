@@ -40,11 +40,9 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 |---|---|
 | `techne-nomos` | The self-serve interface to the osinfra.io platform — onboard teams, manage members and repositories, request infrastructure, and configure platform resources through a single conversation |
 
-## Core Invariants
+### Core Invariant
 
-- Agents never hand-write HCL — all `teams/*.tfvars` writes go through `render_team_tfvars` in the MCP server.
-- All write tools are idempotent — identical input and repo state returns `action: "noop"`.
-- `schema/team.schema.json` in `pt-techne-mcp-server` is the source of truth for validation and rendering; the [Logos team topology page](/platform-grouping/logos/team-topology) is the documentation home for the schema.
+Agents must never hand-write HCL: all `teams/*.tfvars` writes must go through the `render_team_tfvars` path in the MCP server, all write tools must be idempotent, with `schema/team.schema.json` as the single source of truth for validation and rendering.
 
 ## Architecture Decision Records
 
