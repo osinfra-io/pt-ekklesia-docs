@@ -22,6 +22,8 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 - **[pt-techne-pre-commit-hooks](https://github.com/osinfra-io/pt-techne-pre-commit-hooks)**: Pre-commit hooks for IaC validation, formatting, and CIS benchmark scanning — see [Developer Experience](./developer-experience.md)
 - **[pt-techne-opentofu-codespace](https://github.com/osinfra-io/pt-techne-opentofu-codespace)**: GitHub Codespace configuration for standardized OpenTofu development environments
 - **[pt-techne-development-setup](https://github.com/osinfra-io/pt-techne-development-setup)**: Local development setup and tooling configuration
+- **[pt-techne-mcp-server](https://github.com/osinfra-io/pt-techne-mcp-server)**: MCP server providing platform context and typed tools to AI assistants — see [AI Tooling](./ai-tooling.md)
+- **[pt-techne-agents](https://github.com/osinfra-io/pt-techne-agents)**: GitHub Copilot agent catalog for self-serve platform operations — see [AI Tooling](./ai-tooling.md)
 
 ### AI Context
 
@@ -35,7 +37,9 @@ Techne is a shared service used by all platform teams — its workflows, hooks, 
 
 | Term | Meaning in this context |
 |---|---|
+| Agent | A GitHub Copilot agent defined in `pt-techne-agents/.github/agents/` that uses platform MCP tools to handle requests and open pull requests |
 | Codespace | A GitHub-hosted development environment defined in `pt-techne-opentofu-codespace` |
+| MCP | Model Context Protocol — a standard for exposing typed, testable tools to AI models |
 | OIDC | OpenID Connect — the token-based authentication protocol that eliminates static credentials from CI |
 | Pre-commit hook | A script in `pt-techne-pre-commit-hooks` that runs automatically before every git commit |
 | Workflow | A GitHub Actions called workflow in `pt-techne-opentofu-workflows` consumed via `workflow_call` |
@@ -48,7 +52,7 @@ Techne's domains are medium and low complexity individually — the craft is in 
 
 | Working Domains | High Intrinsic Domains |
 |---|---|
-| 🟢 2 / 4 | 🟢 0 / 3 |
+| 🟡 3 / 4 | 🟢 0 / 3 |
 
 Cognitive load by domain:
 
@@ -56,8 +60,9 @@ Cognitive load by domain:
 |---|---|---|---|
 | Deployment Automation | 🟡 Medium | Reusable called workflows | GitHub Actions, OIDC patterns |
 | Developer Experience | 🟢 Low | Pre-commit automation | DevX & productivity design |
+| AI Tooling | 🟡 Medium | MCP server abstraction | MCP protocol, schema design, Copilot agent patterns |
 
-**Capacity**: 0 high-complexity domains (Team Topologies guideline: 2–3); team members hold 2 active domains — well within the ~4 working-knowledge limit.
+**Capacity**: 0 high-complexity domains (Team Topologies guideline: 2–3); team members hold 3 active domains — within the ~4 working-knowledge limit.
 
 **Extraneous load is minimized by:**
 
@@ -69,6 +74,7 @@ Cognitive load by domain:
 - GitHub Actions ecosystem: called workflow design, input/output contracts, and backward compatibility
 - CI/CD security patterns: OIDC federation, least-privilege service accounts, and short-lived tokens
 - Developer productivity: understanding what friction platform and stream-aligned engineers actually encounter and systematically removing it
+- AI tooling patterns: MCP protocol design, JSON schema authoring, agent behavioral design, and idempotent write operations
 
 ### Team Capacity
 
