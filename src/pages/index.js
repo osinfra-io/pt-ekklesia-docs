@@ -17,7 +17,7 @@ const features = [
   {
     title: 'Built on open standards',
     description:
-      'Every layer of the stack uses CNCF and open-source projects — Kubernetes, Istio, cert-manager, OPA Gatekeeper, OpenTofu. No proprietary abstractions, no lock-in, no black boxes.',
+      'Infrastructure automation and runtime tooling are built on CNCF and Linux Foundation open-source projects — Kubernetes, Istio, cert-manager, OPA Gatekeeper, OpenTofu, OpenBao. No proprietary abstractions, no lock-in, no black boxes.',
     icon: '📦',
   },
   {
