@@ -64,8 +64,8 @@ function Hero() {
         <p className={styles.heroSubtitle}>
           A team-first, open source reference implementation for building and
           managing cloud infrastructure — built on vendor-light, open-source
-          tooling. This is an example Docusaurus site showing what engineering
-          documentation could look like in your organization.
+          tooling. This is what it looks like when documentation is a
+          first-class platform concern.
         </p>
       </div>
     </header>
