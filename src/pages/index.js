@@ -39,9 +39,9 @@ const cards = [
   {
     icon: '🧩',
     title: 'Browse the Modules',
-    note: 'Eleven reusable OpenTofu modules covering GCP projects, networking, GKE, Istio, cert-manager, OPA Gatekeeper, and more.',
+    note: 'Reusable OpenTofu modules organized by infrastructure layer — Google Cloud modules for projects, networking, GKE, and storage; Kubernetes modules for Istio, cert-manager, OPA Gatekeeper, and Datadog.',
     link: '/platform-grouping/arche',
-    linkText: 'View the modules →',
+    linkText: 'Explore the library →',
   },
   {
     icon: '💻',
