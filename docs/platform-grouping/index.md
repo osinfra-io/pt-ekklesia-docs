@@ -80,7 +80,7 @@ Team Topologies distinguishes three types of cognitive load — **intrinsic** (i
 | Team | Working Domains | High Intrinsic Domains |
 |---|---|---|
 | Ekklesia | 🟢 1 / 4 | 🟢 0 / 3 |
-| Techne | 🟢 2 / 4 | 🟢 0 / 3 |
+| Techne | 🟡 3 / 4 | 🟢 0 / 3 |
 | Arche | 🟢 3 / 4 | 🟢 1 / 3 |
 | Kryptos | 🟢 2 / 4 | 🟡 2 / 3 |
 | Logos | 🟠 4 / 4 | 🟢 0 / 3 |
