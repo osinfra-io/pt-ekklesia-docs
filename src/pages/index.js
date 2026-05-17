@@ -23,7 +23,7 @@ const features = [
   {
     title: 'Team onboarding in minutes',
     description:
-      'AI-assisted onboarding creates GCP projects, identity groups, GitHub repos, and Kubernetes namespaces from a single conversation — producing a reviewed pull request, not a support ticket.',
+      'The Nomos Agent is the self-serve interface to the platform — onboard teams, manage members and repositories, and request infrastructure through a single conversation. Typed MCP tools validate and render canonical HCL across repos, opening pull requests instead of filing tickets.',
     icon: '🤖',
   },
 ];
