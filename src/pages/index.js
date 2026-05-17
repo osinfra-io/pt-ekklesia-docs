@@ -11,19 +11,19 @@ const features = [
   {
     title: 'Security by default, not bolt-on',
     description:
-      'Every GCP project is automatically CIS GCP Foundation Benchmark compliant. Audit logging, encrypted log sinks, KMS-encrypted state, zero default VPCs — making the right things the easiest things to do.',
+      'CIS benchmarks enforced at every layer — commit-time scanning catches violations before they land, GCP projects and GKE clusters are automatically hardened at deployment. Audit logging, KMS-encrypted state, zero default VPCs — making the right thing the easiest thing to do.',
     icon: '🔐',
   },
   {
     title: 'Built on open standards',
     description:
-      'Every layer of the stack uses CNCF and open-source projects — Kubernetes, Istio, cert-manager, OPA Gatekeeper, OpenTofu. No proprietary abstractions, no lock-in, no black boxes.',
+      'Infrastructure automation and runtime tooling are built on CNCF and Linux Foundation open-source projects — Kubernetes, Istio, cert-manager, OPA Gatekeeper, OpenTofu, OpenBao. No proprietary abstractions, no lock-in, no black boxes.',
     icon: '📦',
   },
   {
     title: 'Team onboarding in minutes',
     description:
-      'AI-assisted onboarding creates GCP projects, identity groups, GitHub repos, and Kubernetes namespaces from a single conversation — producing a reviewed pull request, not a support ticket.',
+      'The Nomos Agent is the self-serve interface to the platform — onboard teams, manage members and repositories, and request infrastructure through a single conversation. Typed MCP tools validate and render canonical HCL across repos, opening pull requests instead of filing tickets.',
     icon: '🤖',
   },
 ];
@@ -39,9 +39,9 @@ const cards = [
   {
     icon: '🧩',
     title: 'Browse the Modules',
-    note: 'Eleven reusable OpenTofu modules covering GCP projects, networking, GKE, Istio, cert-manager, OPA Gatekeeper, and more.',
+    note: 'Reusable OpenTofu modules organized by infrastructure layer — Google Cloud modules for projects, networking, GKE, and storage; Kubernetes modules for Istio, cert-manager, OPA Gatekeeper, and Datadog.',
     link: '/platform-grouping/arche',
-    linkText: 'View the modules →',
+    linkText: 'Explore the library →',
   },
   {
     icon: '💻',
@@ -64,7 +64,8 @@ function Hero() {
         <p className={styles.heroSubtitle}>
           A team-first, open source reference implementation for building and
           managing cloud infrastructure — built on vendor-light, open-source
-          tooling.
+          tooling. This is what it looks like when documentation is a
+          first-class platform concern.
         </p>
       </div>
     </header>
@@ -135,7 +136,7 @@ function CallToAction() {
 
 export default function Home() {
   return (
-    <Layout description="A team-first, open source reference implementation for building and managing cloud infrastructure — built on vendor-light, open-source tooling.">
+    <Layout description="A team-first, open source reference implementation for building and managing cloud infrastructure — built on vendor-light, open-source tooling. This is what it looks like when documentation is a first-class platform concern.">
       <Hero />
       <main>
         <Features />

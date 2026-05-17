@@ -149,6 +149,14 @@
   display: block;
 }
 
+.lfBadge {
+  width: 9.5rem;
+  height: auto;
+  opacity: 0.85;
+  margin-top: 0.5rem;
+  display: block;
+}
+
 .cardDescription {
   font-size: 0.8rem;
   color: var(--ifm-color-emphasis-700);
