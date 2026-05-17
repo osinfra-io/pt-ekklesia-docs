@@ -79,6 +79,12 @@ const categories = [
         href: 'https://datadoghq.com',
       },
       {
+        name: 'OpenBao',
+        logo: '/img/openbao.svg',
+        description: 'Open-source secrets management platform — dynamic credentials, PKI certificate issuance, and short-lived secrets for all teams.',
+        href: 'https://openbao.org',
+      },
+      {
         name: 'Nuclei',
         logo: '/img/nuclei.svg',
         description: 'Fast, template-based vulnerability scanner used for scheduled security scanning of platform endpoints and APIs.',
