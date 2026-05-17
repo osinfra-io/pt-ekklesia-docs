@@ -83,6 +83,7 @@ const categories = [
         logo: '/img/openbao.svg',
         description: 'Open-source secrets management platform — dynamic credentials, PKI certificate issuance, and short-lived secrets for all teams.',
         href: 'https://openbao.org',
+        lf: true,
       },
       {
         name: 'Nuclei',
@@ -142,7 +143,7 @@ const categories = [
   },
 ];
 
-function ToolCard({ name, logo, description, href, cncf }) {
+function ToolCard({ name, logo, description, href, cncf, lf }) {
   return (
     <a href={href} className={styles.card} target="_blank" rel="noopener noreferrer">
       <div className={styles.logoWrapper}>
@@ -153,6 +154,9 @@ function ToolCard({ name, logo, description, href, cncf }) {
         <p className={styles.cardDescription}>{description}</p>
         {cncf && (
           <img src="/img/cncf.png" alt="CNCF" className={styles.cncfBadge} title="CNCF Project" />
+        )}
+        {lf && (
+          <img src="/img/linux-foundation.svg" alt="Linux Foundation" className={styles.lfBadge} title="Linux Foundation Project" />
         )}
       </div>
     </a>
