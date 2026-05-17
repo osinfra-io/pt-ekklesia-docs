@@ -136,7 +136,7 @@ function CallToAction() {
 
 export default function Home() {
   return (
-    <Layout description="A team-first, open source reference implementation for building and managing cloud infrastructure — built on vendor-light, open-source tooling.">
+    <Layout description="A team-first, open source reference implementation for building and managing cloud infrastructure — built on vendor-light, open-source tooling. This is what it looks like when documentation is a first-class platform concern.">
       <Hero />
       <main>
         <Features />
