@@ -11,7 +11,7 @@ const features = [
   {
     title: 'Security by default, not bolt-on',
     description:
-      'Every GCP project is automatically CIS GCP Foundation Benchmark compliant. Audit logging, encrypted log sinks, KMS-encrypted state, zero default VPCs — making the right things the easiest things to do.',
+      'CIS benchmarks enforced at every layer — commit-time scanning catches violations before they land, GCP projects and GKE clusters are automatically hardened at deployment. Audit logging, KMS-encrypted state, zero default VPCs — making the right thing the easiest thing to do.',
     icon: '🔐',
   },
   {
