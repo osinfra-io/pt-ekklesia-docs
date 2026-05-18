@@ -66,8 +66,8 @@ const whatYouGet = [
   },
   {
     icon: '🏗️',
-    title: 'Cloud infrastructure',
-    note: 'GCP folder hierarchy across sandbox, non-production, and production, with identity groups and a dedicated GKE cluster pre-configured with Istio, cert-manager, and OPA Gatekeeper',
+    title: 'Cloud foundation',
+    note: 'GCP folder hierarchy across sandbox, non-production, and production, with identity groups, a dedicated GKE cluster pre-configured with Istio, cert-manager, and OPA Gatekeeper, and managed data services including Cloud SQL and Private Services Access',
   },
   {
     icon: '🔒',
