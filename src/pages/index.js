@@ -79,9 +79,6 @@ function WhatYouGet() {
         <p className={styles.whatYouGetSubtitle}>
           Everything provisioned for your team — without writing a line of infrastructure code.
         </p>
-      </div>
-      <TechStrip />
-      <div className="container">
         <div className={styles.whatYouGetGrid}>
           {whatYouGet.map((item) => (
             <div key={item.title} className={styles.whatYouGetItem}>
@@ -250,6 +247,7 @@ export default function Home() {
         <Features />
         <GettingStarted />
         <WhatYouGet />
+        <TechStrip />
         <CallToAction />
       </main>
       <HomeFooter />
