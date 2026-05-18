@@ -297,6 +297,80 @@
   background-color: #1e1e1e;
 }
 
+/* Home Footer */
+
+.homeFooter {
+  background-color: #141414;
+  border-top: 1px solid #2a2a2a;
+  padding: 3rem 2rem;
+}
+
+.homeFooterInner {
+  max-width: 72rem;
+  margin: 0 auto;
+  display: flex;
+  gap: 4rem;
+  align-items: flex-start;
+}
+
+.homeFooterBrand {
+  flex: 0 0 20rem;
+}
+
+.homeFooterLogo {
+  max-width: 10rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+.homeFooterTagline {
+  font-size: 0.85rem;
+  color: #606060;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.homeFooterCopy {
+  font-size: 0.75rem;
+  color: #404040;
+  margin: 0;
+}
+
+.homeFooterLinks {
+  flex: 1;
+  display: flex;
+  gap: 4rem;
+  justify-content: flex-end;
+}
+
+.homeFooterCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.homeFooterColTitle {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #484848;
+  margin-bottom: 0.25rem;
+}
+
+.homeFooterLink {
+  font-size: 0.875rem;
+  color: #707070;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.homeFooterLink:hover {
+  color: #a0a0a0;
+  text-decoration: none;
+}
+
 /* Responsive */
 
 @media (max-width: 768px) {
@@ -354,5 +428,18 @@
 
   .gettingStartedHeading {
     font-size: 1.6rem;
+  }
+
+  .homeFooterInner {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .homeFooterBrand {
+    flex: none;
+  }
+
+  .homeFooterLinks {
+    justify-content: flex-start;
   }
 }

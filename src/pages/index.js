@@ -112,6 +112,35 @@ const techLogosVendor = [
   { src: '/img/github-mark.svg', alt: 'GitHub' },
 ];
 
+function HomeFooter() {
+  return (
+    <footer className={styles.homeFooter}>
+      <div className={styles.homeFooterInner}>
+        <div className={styles.homeFooterBrand}>
+          <img src="/img/osinfra-logo-full.png" alt="osinfra.io" className={styles.homeFooterLogo} />
+          <p className={styles.homeFooterTagline}>
+            A team-first, vendor-light, open source reference implementation for cloud infrastructure.
+          </p>
+          <p className={styles.homeFooterCopy}>© {new Date().getFullYear()} osinfra.io</p>
+        </div>
+        <div className={styles.homeFooterLinks}>
+          <div className={styles.homeFooterCol}>
+            <span className={styles.homeFooterColTitle}>Platform</span>
+            <Link to="/platform-grouping" className={styles.homeFooterLink}>Teams</Link>
+            <Link to="/stream-aligned-teams" className={styles.homeFooterLink}>Stream-aligned teams</Link>
+            <Link to="/ecosystem" className={styles.homeFooterLink}>Ecosystem</Link>
+          </div>
+          <div className={styles.homeFooterCol}>
+            <span className={styles.homeFooterColTitle}>Project</span>
+            <a href="https://github.com/osinfra-io" className={styles.homeFooterLink} target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://github.com/sponsors/osinfra-io?frequency=one-time" className={styles.homeFooterLink} target="_blank" rel="noopener noreferrer">Sponsor</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
 function TechStrip() {
   return (
     <div className={styles.techStrip}>
@@ -219,7 +248,7 @@ function CallToAction() {
 
 export default function Home() {
   return (
-    <Layout description="A team-first, vendor-light, open source reference implementation for cloud infrastructure.">
+    <Layout noFooter description="A team-first, vendor-light, open source reference implementation for cloud infrastructure.">
       <Hero />
       <main>
         <Features />
@@ -228,6 +257,7 @@ export default function Home() {
         <CallToAction />
         <TechStrip />
       </main>
+      <HomeFooter />
     </Layout>
   );
 }
