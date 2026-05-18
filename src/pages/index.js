@@ -76,7 +76,7 @@ function WhatYouGet() {
           Everything your team needs, out of the box.
         </Heading>
         <p className={styles.whatYouGetSubtitle}>
-          Everything provisioned for your team — without writing a line of infrastructure code.
+          From source code to production — everything your team needs, already in place.
         </p>
         <div className={styles.whatYouGetGrid}>
           {whatYouGet.map((item) => (
