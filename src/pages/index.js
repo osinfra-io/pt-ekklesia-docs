@@ -61,12 +61,12 @@ const cards = [
 const whatYouGet = [
   { icon: '📁', title: 'Folder hierarchy', note: 'Sandbox, non-production, and production folders scoped to your team' },
   { icon: '👥', title: 'Identity groups', note: 'Admin, reader, and writer Google Identity groups, ready to assign' },
-  { icon: '🏢', title: 'Team management', note: 'GitHub parent team with branch protection policies and a Datadog team provisioned with your designated admin' },
+  { icon: '🤝', title: 'Team management', note: 'GitHub parent team with branch protection policies and a Datadog team provisioned with your designated admin' },
   { icon: '☸️', title: 'GKE cluster', note: 'Dedicated cluster with Istio, cert-manager, OPA Gatekeeper, and Workload Identity pre-configured' },
   { icon: '🔐', title: 'Workload Identity', note: 'GCP service account bindings so your workloads authenticate without keys' },
   { icon: '🔒', title: 'Secrets management', note: 'Team-scoped KV2 paths, dynamic credentials, and a Kubernetes secrets operator via OpenBao' },
   { icon: '📄', title: 'Documentation', note: 'A dedicated page on the platform docs site, scaffolded from your team spec' },
-  { icon: '📊', title: 'Observability', note: 'Logs, metrics, and APM flowing to Datadog from day one — with your team registered in the service catalog and API catalog' },
+  { icon: '🐶', title: 'Observability', note: 'Logs, metrics, and APM flowing to Datadog from day one — with your team registered in the service catalog and API catalog' },
 ];
 
 function WhatYouGet() {
