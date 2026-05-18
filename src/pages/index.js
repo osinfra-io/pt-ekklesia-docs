@@ -65,7 +65,7 @@ const whatYouGet = [
   { icon: '🚀', title: 'Continuous delivery', note: 'Workload Identity bindings so pipelines and workloads authenticate to GCP without service account keys' },
   { icon: '🔒', title: 'Secrets management', note: 'Team-scoped KV2 paths, dynamic credentials, and a Kubernetes secrets operator via OpenBao' },
   { icon: '📄', title: 'Documentation', note: 'A dedicated page on the platform docs site, scaffolded from your team spec' },
-  { icon: '🐶', title: 'Observability', note: 'Logs, metrics, and APM flowing to Datadog from day one — with your team registered in the service catalog and API catalog' },
+  { icon: '🐶', title: 'Observability, incidents and on-call', note: 'Logs, metrics, and APM flowing to Datadog from day one — with your team registered in the service catalog and API catalog' },
 ];
 
 function WhatYouGet() {
