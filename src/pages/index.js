@@ -72,7 +72,7 @@ const whatYouGet = [
   {
     icon: '🔒',
     title: 'Security',
-    note: 'Team-scoped KV2 paths, dynamic credentials, and a Kubernetes secrets operator via OpenBao',
+    note: 'OpenBao for secrets management and dynamic credentials, with Datadog ASM, SIEM, and Cloud Security Management enabled out of the box',
   },
   {
     icon: '🐶',
