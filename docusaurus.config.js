@@ -96,7 +96,6 @@ const config = {
         ],
       },
       footer: {
-        copyright: `Copyright © ${new Date().getFullYear()} osinfra.io`,
       },
       prism: {
         additionalLanguages: ['hcl', 'bash'],

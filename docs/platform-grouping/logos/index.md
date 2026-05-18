@@ -32,7 +32,7 @@ Logos feeds team and identity data into all downstream platform teams. See [team
 | Term | Meaning in this context |
 |---|---|
 | Branch protection | A GitHub policy enforcing review and status check requirements on a repository |
-| Environment (GCP) | A GCP folder scoping a deployment tier (sandbox, non-production, production) — for the canonical definition see the [Arche glossary](/platform-grouping/arche#glossary) |
+| Environment (GCP) | A GCP folder scoping a deployment tier: `sandbox`, `non-production`, or `production` — Logos creates one folder per tier under each team folder |
 | Environment (GitHub) | A GitHub Actions deployment environment attached to a repository, with reviewer teams and branch protection policies that gate workflow runs |
 | Folder | A GCP resource container that scopes IAM and billing within an environment |
 | Identity group | A Google Workspace group that grants role-based access to GCP resources |

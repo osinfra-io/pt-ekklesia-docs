@@ -5,7 +5,7 @@ description: The hidden foundation of platform security — managing cryptograph
 
 # Kryptos
 
-The hidden foundation of platform security — managing cryptographic primitives, secrets infrastructure, and security controls that underpin all teams on the platform.
+Kryptos is the hidden foundation of platform security — managing cryptographic primitives, secrets infrastructure, and security controls that underpin all teams on the platform.
 
 - **[OpenBao](./open-bao.md)**: Dynamic secrets, PKI certificate issuance, and short-lived credentials for all teams — deployed on a dedicated Pneuma-managed cluster
 

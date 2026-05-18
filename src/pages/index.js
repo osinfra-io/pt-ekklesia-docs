@@ -9,26 +9,39 @@ import styles from './index.module.css';
 
 const features = [
   {
-    title: 'Security by default, not bolt-on',
+    title: 'Secure by default — not your problem to configure',
     description:
-      'Every GCP project is automatically CIS GCP Foundation Benchmark compliant. Audit logging, encrypted log sinks, KMS-encrypted state, zero default VPCs — making the right things the easiest things to do.',
+      'Your infrastructure is CIS-compliant before you write a line of application code. Hardened GCP projects, KMS-encrypted state, and audit logging are built in — your team inherits a secure foundation without having to build or maintain it.',
     icon: '🔐',
   },
   {
     title: 'Built on open standards',
     description:
-      'Every layer of the stack uses CNCF and open-source projects — Kubernetes, Istio, cert-manager, OPA Gatekeeper, OpenTofu. No proprietary abstractions, no lock-in, no black boxes.',
+      'Infrastructure automation and runtime tooling are built on CNCF and Linux Foundation open-source projects — Kubernetes, Istio, cert-manager, OPA Gatekeeper, OpenTofu, OpenBao. No proprietary abstractions, no lock-in, no black boxes.',
     icon: '📦',
   },
   {
-    title: 'Team onboarding in minutes',
+    title: 'AI agents, not tickets',
     description:
-      'AI-assisted onboarding creates GCP projects, identity groups, GitHub repos, and Kubernetes namespaces from a single conversation — producing a reviewed pull request, not a support ticket.',
+      'The platform is built around GitHub Copilot agents — the Nomos Agent handles team onboarding end-to-end. No YAML to write, no support ticket to file. Just describe what you need.',
     icon: '🤖',
+  },
+  {
+    title: 'Inner source, not a bottleneck',
+    description:
+      'Arche, Ekklesia, and Techne run as inner-source repositories — any engineer can open a pull request, and platform engineers from staffed teams review. Stream-aligned teams unblock themselves by contributing fixes and new capabilities directly to the platform.',
+    icon: '🤝',
   },
 ];
 
 const cards = [
+  {
+    icon: '🚀',
+    title: 'Onboard your team',
+    note: 'New to the platform? The Nomos Agent guides you through onboarding step by step. No prior platform knowledge needed.',
+    link: '/stream-aligned-teams',
+    linkText: 'Get started →',
+  },
   {
     icon: '🗺️',
     title: 'Explore the Platform',
@@ -37,20 +50,127 @@ const cards = [
     linkText: 'See the teams →',
   },
   {
-    icon: '🧩',
-    title: 'Browse the Modules',
-    note: 'Eleven reusable OpenTofu modules covering GCP projects, networking, GKE, Istio, cert-manager, OPA Gatekeeper, and more.',
-    link: '/platform-grouping/arche',
-    linkText: 'View the modules →',
-  },
-  {
-    icon: '💻',
-    title: 'View the Source',
-    note: 'Everything is open source. Explore the repositories, open issues, and contribute to the platform.',
-    link: 'https://github.com/osinfra-io',
-    linkText: 'Browse on GitHub →',
+    icon: '🌐',
+    title: 'Explore the Ecosystem',
+    note: 'The open-source tools and infrastructure that power the platform — GCP, OpenTofu, GKE, Istio, Datadog, OpenBao, GitHub Actions, and more.',
+    link: '/ecosystem',
+    linkText: 'See the stack →',
   },
 ];
+
+const whatYouGet = [
+  {
+    icon: '🏭',
+    title: 'Continuous delivery enablement',
+    note: 'GitHub team structure with branch protection, Workload Identity and OIDC federation for keyless GCP auth, Artifact Registry, encrypted state buckets, reusable GitHub Actions called workflows, and Datadog CI Visibility and Test Optimization.',
+  },
+  {
+    icon: '🏗️',
+    title: 'Cloud foundation',
+    note: 'CIS-compliant GCP projects with audit logging, billing budgets, and KMS-encrypted state across sandbox, non-production, and production — with Shared VPC networking, per-team DNS subdomain zones, Cloud NAT, managed data services (Cloud SQL, Private Services Access), and namespace provisioning with Workload Identity bindings.',
+  },
+  {
+    icon: '🔒',
+    title: 'Security',
+    note: 'OpenBao for dynamic credentials, KV2 paths, and a Kubernetes secrets operator — plus Cloud Armor WAF, Istio mTLS with automated certificate rotation, OPA Gatekeeper admission control, CIS-hardened GKE clusters, GitHub secret scanning and Dependabot, and Datadog Application Security Management, SIEM, Cloud Security Posture Management, and Code Security.',
+  },
+  {
+    icon: '🐶',
+    title: 'Observability and incident response',
+    note: 'Logs, metrics, Application Performance Monitoring, and Universal Service Monitoring in Datadog from day one — service catalog, API catalog, cloud cost management, and incident response included.',
+  },
+];
+
+function WhatYouGet() {
+  return (
+    <section className={styles.whatYouGet}>
+      <div className="container">
+        <Heading as="h2" className={styles.whatYouGetHeading}>
+          Everything your team needs, out of the box.
+        </Heading>
+        <p className={styles.whatYouGetSubtitle}>
+          From source code management to production support — already in place.
+        </p>
+        <div className={styles.whatYouGetGrid}>
+          {whatYouGet.map((item) => (
+            <div key={item.title} className={styles.whatYouGetItem}>
+              <span className={styles.whatYouGetIcon}>{item.icon}</span>
+              <div>
+                <div className={styles.whatYouGetTitle}>{item.title}</div>
+                <div className={styles.whatYouGetNote}>{item.note}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+const techLogosOss = [
+  { src: '/img/opentofu.png', alt: 'OpenTofu' },
+  { src: '/img/helm-white.svg', alt: 'Helm' },
+  { src: '/img/istio.png', alt: 'Istio' },
+  { src: '/img/cert-manager-white.svg', alt: 'cert-manager' },
+  { src: '/img/opa.png', alt: 'OPA Gatekeeper' },
+  { src: '/img/openbao.svg', alt: 'OpenBao' },
+  { src: '/img/docusaurus.svg', alt: 'Docusaurus' },
+];
+
+const techLogosVendor = [
+  { src: '/img/google-cloud.svg', alt: 'Google Cloud' },
+  { src: '/img/datadog.png', alt: 'Datadog' },
+  { src: '/img/github-mark.svg', alt: 'GitHub' },
+];
+
+function HomeFooter() {
+  return (
+    <footer className={styles.homeFooter}>
+      <div className={styles.homeFooterInner}>
+        <div className={styles.homeFooterBrand}>
+          <img src="/img/osinfra-logo-full.png" alt="osinfra.io" className={styles.homeFooterLogo} />
+          <p className={styles.homeFooterTagline}>
+            A team-first, vendor-light, open source reference implementation for cloud infrastructure.
+          </p>
+        </div>
+        <div className={styles.homeFooterLinks}>
+          <div className={styles.homeFooterCol}>
+            <span className={styles.homeFooterColTitle}>Project</span>
+            <a href="https://github.com/osinfra-io" className={styles.homeFooterLink} target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://github.com/sponsors/osinfra-io?frequency=one-time" className={styles.homeFooterLink} target="_blank" rel="noopener noreferrer">Sponsor</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function TechStrip() {
+  return (
+    <div className={styles.techStrip}>
+      <Link to="/ecosystem" className={styles.techStripInner} aria-label="Explore the ecosystem">
+        <span className={styles.techStripTitle}>Powered by</span>
+        <div className={styles.techStripLogosRow}>
+          <span className={styles.techStripLabel}>Open source</span>
+          <div className={styles.techStripLogos}>
+            {techLogosOss.map((logo) => (
+              <img key={logo.alt} src={logo.src} alt={logo.alt} className={styles.techStripLogo} title={logo.alt} />
+            ))}
+          </div>
+          <span className={styles.techStripDivider} aria-hidden="true" />
+          <span className={styles.techStripLabel}>Vendor</span>
+          <div className={styles.techStripLogos}>
+            {techLogosVendor.map((logo) => (
+              <img key={logo.alt} src={logo.src} alt={logo.alt} className={styles.techStripLogo} title={logo.alt} />
+            ))}
+          </div>
+          <span className={styles.techStripCta}>Explore the full ecosystem →</span>
+        </div>
+      </Link>
+    </div>
+  );
+}
 
 function Hero() {
   return (
@@ -62,9 +182,7 @@ function Hero() {
           className={styles.heroLogo}
         />
         <p className={styles.heroSubtitle}>
-          A team-first, open source reference implementation for building and
-          managing cloud infrastructure — built on vendor-light, open-source
-          tooling.
+          A team-first, vendor-light, open source reference implementation for cloud infrastructure.
         </p>
       </div>
     </header>
@@ -102,13 +220,13 @@ function GettingStarted() {
             Your team, on the platform in minutes
           </Heading>
           <p className={styles.gettingStartedBody}>
-            The <strong>Nomos Agent</strong> handles the full onboarding conversation and opens a pull request with every change — GCP folder hierarchy, identity groups, GitHub teams, Datadog team, and repositories. No YAML to write by hand, no support ticket to file.
+            The <strong>Nomos Agent</strong> asks the right questions and takes care of the platform details. Your team is up and running in minutes.
           </p>
           <Link
             to="/stream-aligned-teams#onboarding"
             className={styles.gettingStartedCta}
           >
-            Onboard your team →
+            See the full onboarding guide →
           </Link>
         </div>
         <div className={styles.gettingStartedRight}>
@@ -135,13 +253,16 @@ function CallToAction() {
 
 export default function Home() {
   return (
-    <Layout description="A team-first, open source reference implementation for building and managing cloud infrastructure — built on vendor-light, open-source tooling.">
+    <Layout noFooter description="A team-first, vendor-light, open source reference implementation for cloud infrastructure.">
       <Hero />
       <main>
         <Features />
         <GettingStarted />
+        <WhatYouGet />
+        <TechStrip />
         <CallToAction />
       </main>
+      <HomeFooter />
     </Layout>
   );
 }
