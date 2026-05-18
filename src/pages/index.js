@@ -62,22 +62,22 @@ const whatYouGet = [
   {
     icon: '🏭',
     title: 'Continuous delivery enablement',
-    note: 'GitHub team structure with branch protection, Workload Identity for keyless GCP auth, and platform documentation scaffolded from your team spec',
+    note: 'GitHub team structure with branch protection, Workload Identity and OIDC federation for keyless GCP auth, Artifact Registry, encrypted state buckets, and reusable GitHub Actions called workflows.',
   },
   {
     icon: '🏗️',
     title: 'Cloud foundation',
-    note: 'GCP folder hierarchy across sandbox, non-production, and production, with identity groups, a dedicated GKE cluster pre-configured with Istio, cert-manager, and OPA Gatekeeper, and managed data services including Cloud SQL and Private Services Access',
+    note: 'CIS-compliant GCP projects with audit logging, billing budgets, and KMS-encrypted state across sandbox, non-production, and production — with Shared VPC networking, per-team DNS subdomain zones, Cloud NAT, managed data services (Cloud SQL, Private Services Access), and namespace provisioning with Workload Identity bindings.',
   },
   {
     icon: '🔒',
     title: 'Security',
-    note: 'OpenBao for secrets management and dynamic credentials, with Datadog Application Security Management, SIEM, and Cloud Security Management enabled out of the box',
+    note: 'OpenBao for dynamic credentials, KV2 paths, and a Kubernetes secrets operator — plus Cloud Armor WAF, Istio mTLS with automated certificate rotation, OPA Gatekeeper admission control, CIS-hardened GKE clusters, GitHub secret scanning and Dependabot, and Datadog Application Security Management, SIEM, and Cloud Security Posture Management.',
   },
   {
     icon: '🐶',
     title: 'Observability, incidents and on-call',
-    note: 'Logs, metrics, and APM flowing to Datadog from day one — with your team registered in the service catalog and API catalog',
+    note: 'Logs, metrics, Application Performance Monitoring, and Universal Service Monitoring in Datadog from day one — service catalog, API catalog, incidents, and on-call included.',
   },
 ];
 
