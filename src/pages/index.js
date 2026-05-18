@@ -59,7 +59,7 @@ const cards = [
 ];
 
 const whatYouGet = [
-  { icon: '📁', title: 'GCP folder hierarchy', note: 'Sandbox, non-production, and production folders scoped to your team' },
+  { icon: '📁', title: 'Folder hierarchy', note: 'Sandbox, non-production, and production folders scoped to your team' },
   { icon: '👥', title: 'Identity groups', note: 'Admin, reader, and writer Google Identity groups, ready to assign' },
   { icon: '🐙', title: 'GitHub team structure', note: 'Parent team and four child teams with branch protection policies' },
   { icon: '🐶', title: 'Datadog team', note: 'Team provisioned in Datadog with your designated admin' },
