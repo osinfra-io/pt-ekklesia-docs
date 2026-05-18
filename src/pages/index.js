@@ -72,7 +72,7 @@ const whatYouGet = [
   {
     icon: '🔒',
     title: 'Security',
-    note: 'OpenBao for secrets management and dynamic credentials, with Datadog ASM, SIEM, and Cloud Security Management enabled out of the box',
+    note: 'OpenBao for secrets management and dynamic credentials, with Datadog Application Security Management, SIEM, and Cloud Security Management enabled out of the box',
   },
   {
     icon: '🐶',
