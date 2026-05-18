@@ -331,12 +331,6 @@
   margin-bottom: 1rem;
 }
 
-.homeFooterCopy {
-  font-size: 0.75rem;
-  color: #404040;
-  margin: 0;
-}
-
 .homeFooterLinks {
   flex: 1;
   display: flex;

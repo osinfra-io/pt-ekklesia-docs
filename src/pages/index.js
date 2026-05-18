@@ -121,7 +121,6 @@ function HomeFooter() {
           <p className={styles.homeFooterTagline}>
             A team-first, vendor-light, open source reference implementation for cloud infrastructure.
           </p>
-          <p className={styles.homeFooterCopy}>© {new Date().getFullYear()} osinfra.io</p>
         </div>
         <div className={styles.homeFooterLinks}>
           <div className={styles.homeFooterCol}>
