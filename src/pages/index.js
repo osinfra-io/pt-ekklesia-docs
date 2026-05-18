@@ -246,8 +246,8 @@ export default function Home() {
       <main>
         <Features />
         <GettingStarted />
-        <TechStrip />
         <WhatYouGet />
+        <TechStrip />
         <CallToAction />
       </main>
       <HomeFooter />
