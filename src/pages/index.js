@@ -23,7 +23,7 @@ const features = [
   {
     title: 'AI agents, not tickets',
     description:
-      'The platform is built around GitHub Copilot agents — the Nomos Agent handles team onboarding end-to-end, and a separate agent scaffolds new OpenTofu modules from a template. No YAML to write, no support ticket to file. Just describe what you need.',
+      'The platform is built around GitHub Copilot agents — the Nomos Agent handles team onboarding end-to-end. No YAML to write, no support ticket to file. Just describe what you need.',
     icon: '🤖',
   },
   {
