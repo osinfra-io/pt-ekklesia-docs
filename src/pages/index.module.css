@@ -38,6 +38,100 @@
   margin: 0;
 }
 
+/* Tech Strip */
+
+.techStrip {
+  background-color: #181818;
+  border-top: 1px solid #2a2a2a;
+  padding: 1.5rem 2rem;
+}
+
+.techStripInner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-width: 72rem;
+  margin: 0 auto;
+  text-decoration: none;
+  color: inherit;
+}
+
+.techStripTitle {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #484848;
+}
+
+.techStripLogosRow {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+}
+
+.techStripInner:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.techStripInner:hover .techStripLogo {
+  opacity: 0.85;
+}
+
+.techStripInner:hover .techStripCta {
+  color: #909090;
+}
+
+.techStripLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #606060;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.techStripLogos {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.techStripLogos:last-of-type {
+  flex: 0 0 auto;
+}
+
+.techStripLogo {
+  height: 2rem;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.5;
+  transition: opacity 0.15s ease;
+  filter: grayscale(1) brightness(2);
+}
+
+.techStripDivider {
+  width: 1px;
+  height: 2rem;
+  background-color: #2a2a2a;
+  flex-shrink: 0;
+}
+
+.techStripCta {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #505050;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+  text-decoration: none;
+}
+
 /* Features */
 
 .features {
@@ -47,6 +141,7 @@
 
 .featureGrid {
   display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
   justify-content: center;
 }
@@ -136,6 +231,65 @@
   text-decoration: none;
 }
 
+/* What You Get */
+
+.whatYouGet {
+  padding: 5rem 0;
+  background-color: #232323;
+}
+
+.whatYouGetHeading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.whatYouGetSubtitle {
+  text-align: center;
+  color: #a0a0a0;
+  font-size: 1rem;
+  max-width: 40rem;
+  margin: 0 auto 3rem;
+  line-height: 1.7;
+}
+
+.whatYouGetGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.whatYouGetItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background-color: #1e1e1e;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.whatYouGetIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.whatYouGetTitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e0e0e0;
+  margin-bottom: 0.25rem;
+}
+
+.whatYouGetNote {
+  font-size: 0.82rem;
+  color: #707070;
+  line-height: 1.5;
+}
+
 /* Call to Action */
 
 .cta {
@@ -158,6 +312,19 @@
     font-size: 1.1rem;
   }
 
+  .techStrip {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .techStripLogosRow {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .techStripCta {
+    display: none;
+  }
+
   .featureGrid {
     flex-direction: column;
     align-items: center;
@@ -165,6 +332,10 @@
 
   .featureItem {
     max-width: none;
+  }
+
+  .whatYouGetGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .gettingStarted {
