@@ -77,7 +77,7 @@ const whatYouGet = [
   {
     icon: '🐶',
     title: 'Observability and incident response',
-    note: 'Logs, metrics, Application Performance Monitoring, and Universal Service Monitoring in Datadog from day one — service catalog, API catalog, and incident response included.',
+    note: 'Logs, metrics, Application Performance Monitoring, and Universal Service Monitoring in Datadog from day one — service catalog, API catalog, cloud cost management, and incident response included.',
   },
 ];
 
