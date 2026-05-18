@@ -59,13 +59,26 @@ const cards = [
 ];
 
 const whatYouGet = [
-  { icon: '🏗️', title: 'Cloud foundation', note: 'Team-scoped folder hierarchy across sandbox, non-production, and production, with admin, reader, and writer identity groups' },
-  { icon: '🤝', title: 'Team management', note: 'GitHub parent team with branch protection policies and a Datadog team provisioned with your designated admin' },
-  { icon: '☸️', title: 'GKE cluster', note: 'Dedicated cluster with Istio, cert-manager, OPA Gatekeeper, and Workload Identity pre-configured' },
-  { icon: '🚀', title: 'Continuous delivery', note: 'Workload Identity bindings so pipelines and workloads authenticate to GCP without service account keys' },
-  { icon: '🔒', title: 'Secrets management', note: 'Team-scoped KV2 paths, dynamic credentials, and a Kubernetes secrets operator via OpenBao' },
-  { icon: '📄', title: 'Documentation', note: 'A dedicated page on the platform docs site, scaffolded from your team spec' },
-  { icon: '🐶', title: 'Observability, incidents and on-call', note: 'Logs, metrics, and APM flowing to Datadog from day one — with your team registered in the service catalog and API catalog' },
+  {
+    icon: '🚀',
+    title: 'Continuous delivery enablement',
+    note: 'GitHub team structure with branch protection, Workload Identity for keyless GCP auth, and platform documentation scaffolded from your team spec',
+  },
+  {
+    icon: '🏗️',
+    title: 'Cloud infrastructure',
+    note: 'GCP folder hierarchy across sandbox, non-production, and production, with identity groups and a dedicated GKE cluster pre-configured with Istio, cert-manager, and OPA Gatekeeper',
+  },
+  {
+    icon: '🔒',
+    title: 'Security',
+    note: 'Team-scoped KV2 paths, dynamic credentials, and a Kubernetes secrets operator via OpenBao',
+  },
+  {
+    icon: '🐶',
+    title: 'Observability, incidents and on-call',
+    note: 'Logs, metrics, and APM flowing to Datadog from day one — with your team registered in the service catalog and API catalog',
+  },
 ];
 
 function WhatYouGet() {
