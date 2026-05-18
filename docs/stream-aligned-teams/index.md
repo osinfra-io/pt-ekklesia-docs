@@ -15,6 +15,21 @@ Stream-aligned teams work directly on the flow of change to deliver value to end
 
 The fastest way to get your team onto the platform is the **Nomos Agent** — your self-serve interface to the osinfra.io platform. Tell it what you need and it handles the rest, opening a pull request with every change. No local setup, no YAML to write by hand.
 
+:::info Before you start
+
+Have the following ready before invoking the Nomos Agent — it will ask for all of these:
+
+- **Team key** — a short, lowercase `st-` prefixed identifier (e.g., `st-ethos`)
+- **Display name** — Title Case team name (e.g., `Ethos`)
+- **Description** — a one-line summary of what your team does; this appears in documentation and the Datadog team profile
+- **GitHub usernames** — handles for your team's maintainers and members (used for the GitHub parent team)
+- **Email addresses** — work emails for each member; used for Google Cloud Identity groups (admin, reader, writer) and Datadog team membership
+
+GitHub usernames and email addresses are collected separately — have both on hand.
+
+:::
+
+
 <AgentDemo />
 
 ### The Nomos Agent
