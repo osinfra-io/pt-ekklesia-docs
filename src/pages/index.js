@@ -60,7 +60,7 @@ const cards = [
 
 const whatYouGet = [
   {
-    icon: '🚀',
+    icon: '🏭',
     title: 'Continuous delivery enablement',
     note: 'GitHub team structure with branch protection, Workload Identity for keyless GCP auth, and platform documentation scaffolded from your team spec',
   },
