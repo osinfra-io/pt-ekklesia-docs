@@ -55,7 +55,7 @@ Every team (platform or stream-aligned) gets a folder, not a flat page. This all
 },
 ```
 
-## Bounded Context Section
+## Context Section
 
 ### DDD Mapping
 
@@ -68,46 +68,53 @@ The platform documentation uses DDD concepts at two levels:
 | **Bounded Context** | Each team's implementation boundary — the `index.md` page documents this |
 | **Aggregate / Capability** | A sub-page within a team (e.g., `certificate-management.md`, `cluster-management.md`) |
 
-The `## Bounded Context` section documents the team's DDD bounded context: its ubiquitous language, interfaces, and invariants. The `## Team Topologies` section documents the team's cognitive load and capacity.
+The `## Context` section documents the team's DDD bounded context: its glossary, interfaces, and any foundational concepts. The `## Team Topologies` section documents the team's cognitive load and capacity.
 
-Sub-pages document **aggregates or capabilities** within that bounded context. They share the team's boundary and ubiquitous language but do not have their own cognitive load or team capacity — those belong to the bounded context (team index page) only.
+Sub-pages document **aggregates or capabilities** within that bounded context. They share the team's boundary and glossary but do not have their own cognitive load or team capacity — those belong to the bounded context (team index page) only.
 
 ### Team Index Pages (`index.md`)
 
-Team index pages use two top-level sections for team context, in this order:
+Team index pages use these top-level sections in this order:
 
-**`## Bounded Context`** → **`## Team Topologies`** → **`## Architecture Decision Records`** (last, if ADRs exist)
+**`## Repositories`** → **`## Context`** → **`## Team Topologies`** → **`## Architecture Decision Records`** (last, if ADRs exist)
 
-`## Bounded Context` contains only the DDD subsections, in this order:
+`## Context` contains:
 
-1. **`### Ubiquitous Language`** — a `| Term | Meaning in this context |` table sorted alphabetically. Establishes shared vocabulary before anything else.
-2. **`### Downstream Interfaces`** or **`### Bounded Contexts`** — a table mapping bounded contexts or artifacts to their consumers. Use `Downstream Interfaces` for teams with explicit customer/supplier relationships; use `Bounded Contexts` for shared kernel teams (Arche, Techne).
-3. **`### Core Invariant`** — a single sentence stating the one rule this context must never violate. Omit only if there is no enforceable invariant (see Ekklesia).
+1. **`### Glossary`** — a `| Term | Meaning in this context |` table sorted alphabetically. Establishes shared vocabulary before anything else.
+2. **`### Downstream Interfaces`** — a table mapping outputs to their consumers. Include only for teams with explicit downstream consumers (e.g., Logos, which feeds team data to all other teams); omit for teams with no single downstream.
+3. Any additional subsections relevant to the team's context (e.g., `### Foundation` for Arche to describe `pt-arche-core-helpers`).
 
-`## Team Topologies` is a separate section immediately after `## Bounded Context`, containing:
+Core invariants belong on sub-pages, not on team index pages.
+
+`## Team Topologies` is a separate section immediately after `## Context`, containing:
 
 4. **`### Cognitive Load`** — Team Topologies cognitive load analysis: summary paragraph, working/high-intrinsic heat table, domain-by-domain table, capacity statement, extraneous load mitigations, germane load.
-5. **`### Team Capacity`** — a 3-row definition-style table (no header labels on columns):
+5. **`### Team Capacity`** — bullet list documenting headcount and scaling:
+
+For staffed teams (dedicated engineer):
 
 ```md
-| | |
-|---|---|
-| **Headcount** | `1 platform engineer` / `1–2 platform engineers` / `Inner source — no dedicated engineer` |
-| **Day-to-day work** or **Contribution model** | What the work actually looks like day-to-day |
-| **Scale signal** | When (or whether) to add headcount |
+- **Headcount**: `1 platform engineer` / `1–2 platform engineers`
+- **Scale signal**: When (or whether) to add headcount
 ```
 
-Use `**Day-to-day work**` for staffed teams; use `**Contribution model**` for inner source teams.
+For inner source teams (no dedicated engineer):
+
+```md
+- **Headcount**: Inner source — no dedicated engineer
+- **Contribution model**: What the contribution model looks like day-to-day
+- **Scale signal**: When (or whether) to change the model
+```
 
 ### Sub-Pages (Aggregates / Capabilities)
 
-Sub-pages may include a `## Aggregate` section scoped to their aggregate. The allowed subsections are:
+Sub-pages use flat `##`-level sections — there is no `## Aggregate` wrapper. DDD-related sections are placed at the `##` level alongside content sections:
 
-1. **`### Ubiquitous Language`** — terms specific to this aggregate, using the same `| Term | Meaning in this context |` format sorted alphabetically.
-2. **`### Downstream Interfaces`** — if this aggregate exposes a concrete interface consumed elsewhere within the bounded context or externally.
-3. **`### Core Invariant`** — if this aggregate has an enforceable invariant distinct from the team's.
+- **`## Glossary`** — terms specific to this aggregate/capability, using the same `| Term | Meaning in this context |` format sorted alphabetically. Include only if the sub-page introduces terms not covered by the team index glossary.
+- **`## Downstream Interfaces`** — if this aggregate/capability exposes a concrete interface consumed elsewhere within the bounded context or externally.
+- **`## Core Invariant`** or **`## Core Invariants`** — the non-negotiable rule(s) this aggregate enforces. Use singular for one rule, plural for multiple. Place near the end of the page, before `## Architecture Decision Records`.
 
-`### Cognitive Load` and `### Team Capacity` are **not used on sub-pages** — they belong to the bounded context (team index page) only.
+`### Cognitive Load` and `### Team Capacity` are **not used on sub-pages** — they belong to the team index page only.
 
 ## Architecture Decision Records
 
