@@ -62,7 +62,7 @@ const whatYouGet = [
   {
     icon: '🏭',
     title: 'Continuous delivery enablement',
-    note: 'GitHub team structure with branch protection, Workload Identity and OIDC federation for keyless GCP auth, Artifact Registry, encrypted state buckets, and reusable GitHub Actions called workflows.',
+    note: 'GitHub team structure with branch protection, Workload Identity and OIDC federation for keyless GCP auth, Artifact Registry, encrypted state buckets, reusable GitHub Actions called workflows, and Datadog CI Visibility and Test Optimization.',
   },
   {
     icon: '🏗️',
@@ -72,7 +72,7 @@ const whatYouGet = [
   {
     icon: '🔒',
     title: 'Security',
-    note: 'OpenBao for dynamic credentials, KV2 paths, and a Kubernetes secrets operator — plus Cloud Armor WAF, Istio mTLS with automated certificate rotation, OPA Gatekeeper admission control, CIS-hardened GKE clusters, GitHub secret scanning and Dependabot, and Datadog Application Security Management, SIEM, and Cloud Security Posture Management.',
+    note: 'OpenBao for dynamic credentials, KV2 paths, and a Kubernetes secrets operator — plus Cloud Armor WAF, Istio mTLS with automated certificate rotation, OPA Gatekeeper admission control, CIS-hardened GKE clusters, GitHub secret scanning and Dependabot, and Datadog Application Security Management, SIEM, Cloud Security Posture Management, and Code Security.',
   },
   {
     icon: '🐶',
