@@ -129,10 +129,10 @@ function HomeFooter() {
             <Link to="/stream-aligned-teams" className={styles.homeFooterLink}>Stream-aligned teams</Link>
             <Link to="/complicated-subsystem-teams" className={styles.homeFooterLink}>Complicated subsystem teams</Link>
             <Link to="/enabling-teams" className={styles.homeFooterLink}>Enabling teams</Link>
-            <Link to="/ecosystem" className={styles.homeFooterLink}>Ecosystem</Link>
           </div>
           <div className={styles.homeFooterCol}>
             <span className={styles.homeFooterColTitle}>Project</span>
+            <Link to="/ecosystem" className={styles.homeFooterLink}>Ecosystem</Link>
             <a href="https://github.com/osinfra-io" className={styles.homeFooterLink} target="_blank" rel="noopener noreferrer">GitHub</a>
             <a href="https://github.com/sponsors/osinfra-io?frequency=one-time" className={styles.homeFooterLink} target="_blank" rel="noopener noreferrer">Sponsor</a>
           </div>
