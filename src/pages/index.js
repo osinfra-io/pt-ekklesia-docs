@@ -65,7 +65,7 @@ const whatYouGet = [
   { icon: '🐶', title: 'Datadog team', note: 'Team provisioned in Datadog with your designated admin' },
   { icon: '☸️', title: 'GKE cluster', note: 'Dedicated cluster with Istio, cert-manager, OPA Gatekeeper, and Workload Identity pre-configured' },
   { icon: '🔐', title: 'Workload Identity', note: 'GCP service account bindings so your workloads authenticate without keys' },
-  { icon: '🔒', title: 'Secrets management', note: 'Dedicated OpenBao namespace for dynamic credentials and PKI' },
+  { icon: '🔒', title: 'Secrets management', note: 'Team-scoped KV2 paths, dynamic credentials, and a Kubernetes secrets operator via OpenBao' },
   { icon: '📊', title: 'Observability', note: 'Logs, metrics, and APM flowing to Datadog from day one' },
 ];
 
