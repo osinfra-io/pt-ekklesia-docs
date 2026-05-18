@@ -126,7 +126,6 @@ function HomeFooter() {
           <div className={styles.homeFooterCol}>
             <span className={styles.homeFooterColTitle}>Platform</span>
             <Link to="/platform-grouping" className={styles.homeFooterLink}>Teams</Link>
-            <Link to="/stream-aligned-teams" className={styles.homeFooterLink}>Stream-aligned teams</Link>
             <Link to="/ecosystem" className={styles.homeFooterLink}>Ecosystem</Link>
           </div>
           <div className={styles.homeFooterCol}>
