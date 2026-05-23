@@ -136,6 +136,7 @@ const sidebars = {
           link: { type: 'doc', id: 'enabling-teams/soteria/index' },
           items: [],
         },
+        'enabling-teams/test/index',
         // endregion: enabling-teams
       ],
     },
