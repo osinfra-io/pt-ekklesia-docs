@@ -126,6 +126,12 @@ const sidebars = {
         // region: enabling-teams
         {
           type: 'category',
+          label: 'Delete',
+          link: { type: 'doc', id: 'enabling-teams/delete/index' },
+          items: [],
+        },
+        {
+          type: 'category',
           label: 'Sophrosyne',
           link: { type: 'doc', id: 'enabling-teams/sophrosyne/index' },
           items: [],
