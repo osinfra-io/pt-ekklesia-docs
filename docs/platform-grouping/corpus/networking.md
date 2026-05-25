@@ -55,7 +55,7 @@ VPC: standard-shared
 </details>
 
 <Tabs>
-  <TabItem value="active" label="Active Clusters (8)" default>
+  <TabItem value="active" label="Active Clusters (11)" default>
 
     <CardGrid>
       <NetworkCard cluster="pt-pneuma-us-east1-b" logo="/img/gke.svg" primary="10.60.0.0/20" pods="10.0.0.0/15" services="10.61.224.0/20" master="10.63.192.0/28" />
@@ -66,15 +66,15 @@ VPC: standard-shared
       <NetworkCard cluster="pt-pneuma-us-east4-c" logo="/img/gke.svg" primary="10.60.80.0/20" pods="10.10.0.0/15" services="10.62.48.0/20" master="10.63.192.80/28" />
       <NetworkCard cluster="pt-kryptos-us-east1-b" logo="/img/gke.svg" primary="10.60.96.0/20" pods="10.12.0.0/15" services="10.62.64.0/20" master="10.63.192.96/28" />
       <NetworkCard cluster="pt-kryptos-us-east4-a" logo="/img/gke.svg" primary="10.60.112.0/20" pods="10.14.0.0/15" services="10.62.80.0/20" master="10.63.192.112/28" />
+      <NetworkCard cluster="st-ai-agents-us-east1-b" logo="/img/gke.svg" primary="10.60.128.0/20" pods="10.16.0.0/15" services="10.62.96.0/20" master="10.63.192.128/28" />
+      <NetworkCard cluster="st-ai-agents-us-east1-c" logo="/img/gke.svg" primary="10.60.144.0/20" pods="10.18.0.0/15" services="10.62.112.0/20" master="10.63.192.144/28" />
+      <NetworkCard cluster="st-ai-agents-us-east1-d" logo="/img/gke.svg" primary="10.60.160.0/20" pods="10.20.0.0/15" services="10.62.128.0/20" master="10.63.192.160/28" />
     </CardGrid>
 
   </TabItem>
-  <TabItem value="available" label="Available Slots (22)">
+  <TabItem value="available" label="Available Slots (19)">
 
     <CardGrid>
-      <NetworkCard cluster="Available – Slot 09" primary="10.60.128.0/20" pods="10.16.0.0/15" services="10.62.96.0/20" master="10.63.192.128/28" />
-      <NetworkCard cluster="Available – Slot 10" primary="10.60.144.0/20" pods="10.18.0.0/15" services="10.62.112.0/20" master="10.63.192.144/28" />
-      <NetworkCard cluster="Available – Slot 11" primary="10.60.160.0/20" pods="10.20.0.0/15" services="10.62.128.0/20" master="10.63.192.160/28" />
       <NetworkCard cluster="Available – Slot 12" primary="10.60.176.0/20" pods="10.22.0.0/15" services="10.62.144.0/20" master="10.63.192.176/28" />
       <NetworkCard cluster="Available – Slot 13" primary="10.60.192.0/20" pods="10.24.0.0/15" services="10.62.160.0/20" master="10.63.192.192/28" />
       <NetworkCard cluster="Available – Slot 14" primary="10.60.208.0/20" pods="10.26.0.0/15" services="10.62.176.0/20" master="10.63.192.208/28" />
