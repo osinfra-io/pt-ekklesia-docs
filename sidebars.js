@@ -100,6 +100,12 @@ const sidebars = {
           link: { type: 'doc', id: 'stream-aligned-teams/ethos/index' },
           items: [],
         },
+        {
+          type: 'category',
+          label: "AI Agents",
+          link: { type: 'doc', id: "stream-aligned-teams/ai-agents/index" },
+          items: [],
+        },
         // endregion: stream-aligned-teams
       ],
     },
