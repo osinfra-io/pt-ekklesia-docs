@@ -7,7 +7,7 @@ description: The origin and first cause — the primordial source from which all
 
 Arche is the origin and first cause — the primordial source from which all platform foundations draw their initial form and essential nature. Nothing above it exists without it.
 
-Arche operates as an inner-source module library: versioned OpenTofu modules published on GitHub, used by all platform teams as pinned dependencies. All modules build on `pt-arche-core-helpers` for environment detection, standard labels, and team data. See the [module library ADR](#arche-as-an-inner-source-module-library) for the rationale behind this design.
+Arche operates as an innersource module library: versioned OpenTofu modules published on GitHub, used by all platform teams as pinned dependencies. All modules build on `pt-arche-core-helpers` for environment detection, standard labels, and team data. See the [module library ADR](#arche-as-an-innersource-module-library) for the rationale behind this design.
 
 - **[Core Helpers](./core-helpers.md)**: Foundational module providing workspace parsing, standard labels, and Logos integration — consumed by every other `pt-arche-*` module
 - **[Module Development](./module-development.md)**: Copilot agent and skeleton template for creating new `pt-arche-*` modules
@@ -81,13 +81,13 @@ Cognitive load by domain:
 
 ### Team Capacity
 
-- **Headcount**: Inner source — no dedicated engineer
+- **Headcount**: Innersource — no dedicated engineer
 - **Contribution model**: Modules are built when a consuming team needs them and owned by whoever builds them; the child module template and Copilot agent make new module creation frictionless
 - **Scale signal**: Scales with contributor interest — Arche is a shared standard and a set of versioned artifacts, not a team roster
 
 ## Architecture Decision Records
 
-### Arche as an Inner-Source Module Library
+### Arche as an Innersource Module Library
 
 <table>
   <thead>
@@ -106,7 +106,7 @@ The modules also need to evolve independently of the teams that consume them. A 
 
 #### Decision
 
-Organize all reusable OpenTofu modules as an inner-source module library under the `pt-arche-*` namespace. Each module is:
+Organize all reusable OpenTofu modules as an innersource module library under the `pt-arche-*` namespace. Each module is:
 
 - A standalone GitHub repository with its own versioning, tests, and release pipeline
 - Published with semver tags; consumers pin to a full 40-character post-merge commit SHA
@@ -119,7 +119,7 @@ Modules are decomposed into two groups reflecting their infrastructure layer:
 
 This decomposition maps directly to the deployment layers in Corpus (GCP) and Pneuma (Kubernetes), making it clear which modules each team consumes.
 
-A similar inner-source contribution model is used by [Techne](/platform-grouping/techne#techne-as-a-shared-platform-tooling-layer) and [Ekklesia](/platform-grouping/ekklesia#ekklesia-as-an-inner-source-documentation-hub) — the difference is artifact type. Arche shares OpenTofu modules; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration; Ekklesia shares documentation.
+A similar innersource contribution model is used by [Techne](/platform-grouping/techne#techne-as-a-shared-platform-tooling-layer) and [Ekklesia](/platform-grouping/ekklesia#ekklesia-as-an-innersource-documentation-hub) — the difference is artifact type. Arche shares OpenTofu modules; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration; Ekklesia shares documentation.
 
 #### Alternatives Considered
 

@@ -78,7 +78,7 @@ Cognitive load by domain:
 
 ### Team Capacity
 
-- **Headcount**: Inner source — no dedicated engineer
+- **Headcount**: Innersource — no dedicated engineer
 - **Contribution model**: Any team can contribute improvements; the Platform Lead holds final approval on interface changes due to blast radius across all consumers
 - **Scale signal**: Stable once built — the platform lead or a senior engineer handles occasional updates
 
@@ -99,7 +99,7 @@ Cognitive load by domain:
 
 Every platform repository needs consistent OpenTofu deployment pipelines (OIDC auth, KMS-encrypted state, job summaries) and pre-commit validation hooks. All repositories — platform and stream-aligned — benefit from a standardized developer environment and shared toolchain. Without a shared approach, each repository would implement these independently, leading to drift and duplicated maintenance.
 
-This follows a similar inner-source contribution model to [Arche](/platform-grouping/arche#arche-as-an-inner-source-module-library) and [Ekklesia](/platform-grouping/ekklesia#ekklesia-as-an-inner-source-documentation-hub) — the difference is artifact type. Arche shares OpenTofu modules; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration; Ekklesia shares documentation.
+This follows a similar innersource contribution model to [Arche](/platform-grouping/arche#arche-as-an-innersource-module-library) and [Ekklesia](/platform-grouping/ekklesia#ekklesia-as-an-innersource-documentation-hub) — the difference is artifact type. Arche shares OpenTofu modules; Techne shares GitHub Actions called workflows, pre-commit hooks, and Codespace configuration; Ekklesia shares documentation.
 
 #### Decision
 

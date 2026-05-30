@@ -27,9 +27,9 @@ const features = [
     icon: '🤖',
   },
   {
-    title: 'Inner source, not a bottleneck',
+    title: 'Innersource, not a bottleneck',
     description:
-      'Arche, Ekklesia, and Techne run as inner-source repositories — any engineer can open a pull request, and platform engineers from staffed teams review. Stream-aligned teams unblock themselves by contributing fixes and new capabilities directly to the platform.',
+      'Arche, Ekklesia, and Techne run as innersource repositories — any engineer can open a pull request, and platform engineers from staffed teams review. Stream-aligned teams unblock themselves by contributing fixes and new capabilities directly to the platform.',
     icon: '🤝',
   },
 ];

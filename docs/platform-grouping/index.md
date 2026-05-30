@@ -118,21 +118,21 @@ Each staffed team starts with one platform engineer who owns the team's context 
 | Corpus | 1 | Owns GCP projects, shared VPC, state buckets, and workload identity |
 | Pneuma | 1 | Owns GKE clusters, service mesh, policy enforcement, and cluster add-ons — currently flagged 🔴 over limit, candidate for a second engineer |
 | Kryptos | 1 | Owns secrets infrastructure, PKI, and cryptographic controls |
-| Arche | — | Inner source — no dedicated engineer |
-| Ekklesia | — | Inner source — no dedicated engineer |
-| Techne | — | Inner source — no dedicated engineer |
+| Arche | — | Innersource — no dedicated engineer |
+| Ekklesia | — | Innersource — no dedicated engineer |
+| Techne | — | Innersource — no dedicated engineer |
 
 **Total: 4–5 engineers + 1 Platform Lead** _(minimum staffing — scale per cognitive load analysis)_
 
-#### Inner Source Model
+#### Innersource Model
 
-Arche, Ekklesia, and Techne operate without dedicated engineers. Instead, they run as **inner source** repositories — open for contribution from any engineer on the platform or from stream-aligned teams.
+Arche, Ekklesia, and Techne operate without dedicated engineers. Instead, they run as **innersource** repositories — open for contribution from any engineer on the platform or from stream-aligned teams.
 
 How it works:
 
-- Any engineer may open a pull request to an inner source repo
+- Any engineer may open a pull request to an innersource repo
 - Platform engineers from staffed teams (Logos, Corpus, Pneuma, Kryptos) serve as code owners and reviewers
 - The Platform Lead has final approval authority on structural or architectural changes
 - Stream-aligned teams can unblock themselves by contributing fixes or enhancements directly, rather than filing tickets and waiting
 
-This model distributes platform knowledge across the organization, reduces bottlenecks on the staffed teams, and ensures inner source repos evolve with the needs of their consumers rather than on a centralized backlog.
+This model distributes platform knowledge across the organization, reduces bottlenecks on the staffed teams, and ensures innersource repos evolve with the needs of their consumers rather than on a centralized backlog.
