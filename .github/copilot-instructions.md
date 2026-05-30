@@ -25,24 +25,45 @@ yarn build      # production build to verify before pushing
 
 ## Project Structure
 
-- `docs/` — Markdown documentation pages
+- `docs/` — Markdown documentation pages, organized by Team Topologies category
 - `src/` — Custom pages and React components
 - `static/` — Static assets copied to build root (includes `CNAME` for custom domain)
 - `docusaurus.config.js` — Site configuration
 - `sidebars.js` — Docs sidebar structure
 
+Docs are grouped into four top-level Team Topologies sections, each with its own
+section `index.md` and one folder per team beneath it:
+
+| Section slug | Topology |
+| --- | --- |
+| `platform-grouping` | Platform teams (Logos, Corpus, Pneuma, Arche, Ekklesia, Kryptos, Techne) |
+| `stream-aligned-teams` | Stream-aligned teams |
+| `complicated-subsystem-teams` | Complicated subsystem teams |
+| `enabling-teams` | Enabling teams |
+
 ## Adding a New Team
 
-Every team (platform or stream-aligned) gets a folder, not a flat page. This allows child pages to be added later without restructuring.
+Every team gets a folder, not a flat page — under one of the four section slugs
+(`platform-grouping`, `stream-aligned-teams`, `complicated-subsystem-teams`,
+`enabling-teams`). A folder allows child pages to be added later without restructuring.
 
-1. Create `docs/<section>/<team>/index.md` with `sidebar_label` set to the team name and a `description` in the frontmatter.
-2. Add a plain doc reference to `sidebars.js` under the appropriate section:
+1. Create `docs/<section>/<team>/index.md` with `sidebar_label` set to the team name
+   (never `Overview` — the team name is used whether or not the team has child pages)
+   and a `description` in the frontmatter.
+2. Register the team in `sidebars.js` as a `category` entry **between the
+   `// region: <section>` and `// endregion: <section>` markers** for that section.
+   Every team is a category from the start — single-page teams use an empty `items: []`:
 
 ```js
-'<section>/<team>/index',
+{
+  type: 'category',
+  label: '<Team>',
+  link: { type: 'doc', id: '<section>/<team>/index' },
+  items: [],
+},
 ```
 
-3. When a team gets its first child page, convert it to a category in `sidebars.js`, change `sidebar_label` in `index.md` to `Overview`, and register child pages in `items: []`:
+3. When a team gains child pages, add them to `items`:
 
 ```js
 {
@@ -54,6 +75,17 @@ Every team (platform or stream-aligned) gets a folder, not a flat page. This all
   ],
 },
 ```
+
+### sidebars.js region markers and MCP automation
+
+`sidebars.js` contains `// region: <section>` / `// endregion: <section>` comment
+markers around each section's team entries. These are consumed by the
+`pt-techne-mcp-server` tools (`render_sidebar_patch`, `open_team_docs_pr`), which
+insert new team entries between them. **Do not delete or rename these markers** —
+removing one causes the tool to fail with `source_parse_error`. New teams are
+typically scaffolded through this MCP-assisted flow (which renders the team
+`index.md` and patches `sidebars.js`); the manual steps above describe the same
+result for hand edits.
 
 ## Context Section
 
