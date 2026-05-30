@@ -130,10 +130,10 @@ For staffed teams (dedicated engineer):
 - **Scale signal**: When (or whether) to add headcount
 ```
 
-For inner source teams (no dedicated engineer):
+For innersource teams (no dedicated engineer):
 
 ```md
-- **Headcount**: Inner source — no dedicated engineer
+- **Headcount**: Innersource — no dedicated engineer
 - **Contribution model**: What the contribution model looks like day-to-day
 - **Scale signal**: When (or whether) to change the model
 ```

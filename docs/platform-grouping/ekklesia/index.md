@@ -7,7 +7,7 @@ description: The assembly of the called-out — where distinct capabilities are 
 
 Ekklesia is the assembly of the called-out — where distinct capabilities are gathered into a unified body, deliberating and acting in concert toward shared platform purpose. This is that assembly.
 
-Ekklesia operates as the platform's inner-source documentation hub: a single centralized documentation site where any team member can contribute, rather than maintaining scattered per-repo READMEs or per-team wikis. See the [documentation hub ADR](#ekklesia-as-an-inner-source-documentation-hub) for the rationale.
+Ekklesia operates as the platform's innersource documentation hub: a single centralized documentation site where any team member can contribute, rather than maintaining scattered per-repo READMEs or per-team wikis. See the [documentation hub ADR](#ekklesia-as-an-innersource-documentation-hub) for the rationale.
 
 - **[Documentation](./documentation.md)**: Docusaurus site structure, contribution model, and authoring conventions for the platform documentation hub
 
@@ -67,13 +67,13 @@ Cognitive load by domain:
 
 ### Team Capacity
 
-- **Headcount**: Inner source — no dedicated engineer
+- **Headcount**: Innersource — no dedicated engineer
 - **Contribution model**: Every team updates their section as part of their own PRs; Ekklesia owns the site structure and tooling, not the content
 - **Scale signal**: No scaling expected — documentation is a distributed responsibility by design
 
 ## Architecture Decision Records
 
-### Ekklesia as an Inner-Source Documentation Hub
+### Ekklesia as an Innersource Documentation Hub
 
 <table>
   <thead>
@@ -88,7 +88,7 @@ Cognitive load by domain:
 
 Platform knowledge — architecture decisions, module usage, deployment patterns, operational guides — is spread across multiple teams and repositories. Without a shared home, documentation lives in README files that are hard to navigate, per-team wikis that fall out of sync, or not at all. Engineers must hunt across repositories to understand how the platform fits together.
 
-This follows a similar inner-source contribution model to [Arche](/platform-grouping/arche#arche-as-an-inner-source-module-library) and [Techne](/platform-grouping/techne#techne-as-a-shared-platform-tooling-layer) — the difference is artifact type. Arche shares OpenTofu modules; Techne shares GitHub Actions workflows and tooling; Ekklesia shares documentation.
+This follows a similar innersource contribution model to [Arche](/platform-grouping/arche#arche-as-an-innersource-module-library) and [Techne](/platform-grouping/techne#techne-as-a-shared-platform-tooling-layer) — the difference is artifact type. Arche shares OpenTofu modules; Techne shares GitHub Actions workflows and tooling; Ekklesia shares documentation.
 
 #### Decision
 
