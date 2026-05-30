@@ -64,6 +64,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      image: 'img/osinfra-logo-full.png',
       colorMode: {
         defaultMode: 'dark',
         disableSwitch: true,
