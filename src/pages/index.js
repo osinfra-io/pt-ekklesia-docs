@@ -1,7 +1,6 @@
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
-import AgentDemo from '@site/src/components/AgentDemo';
 import Card from '@site/src/components/Card';
 import CardGrid from '@site/src/components/CardGrid';
 
@@ -39,7 +38,7 @@ const cards = [
     icon: '🚀',
     title: 'Onboard your team',
     note: 'New to the platform? The Nomos Agent guides you through onboarding step by step. No prior platform knowledge needed.',
-    link: '/stream-aligned-teams',
+    link: '/onboarding',
     linkText: 'Get started →',
   },
   {
@@ -211,6 +210,13 @@ function Features() {
   );
 }
 
+const agentFeatures = [
+  { icon: '🗂️', text: 'Schema-driven prompt builder with live validation' },
+  { icon: '🔍', text: 'GCP API autocomplete pulled live from Google Discovery' },
+  { icon: '📋', text: 'One-click copy — paste straight into the Nomos Agent' },
+  { icon: '🔀', text: 'Covers GitHub, Google Cloud, Datadog, and platform-managed infra' },
+];
+
 function GettingStarted() {
   return (
     <section className={styles.gettingStarted}>
@@ -220,17 +226,24 @@ function GettingStarted() {
             Your team, on the platform in minutes
           </Heading>
           <p className={styles.gettingStartedBody}>
-            The <strong>Nomos Agent</strong> asks the right questions and takes care of the platform details. Your team is up and running in minutes.
+            The <strong>Nomos Agent</strong> asks the right questions and takes care of the platform details. Use the interactive prompt builder to describe what your team needs — the agent opens a pull request with every change.
           </p>
           <Link
-            to="/stream-aligned-teams#onboarding"
+            to="/onboarding"
             className={styles.gettingStartedCta}
           >
-            See the full onboarding guide →
+            Build your agent prompt →
           </Link>
         </div>
         <div className={styles.gettingStartedRight}>
-          <AgentDemo />
+          <ul className={styles.agentFeatureList}>
+            {agentFeatures.map((f) => (
+              <li key={f.text} className={styles.agentFeatureItem}>
+                <span className={styles.agentFeatureIcon}>{f.icon}</span>
+                <span className={styles.agentFeatureText}>{f.text}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
