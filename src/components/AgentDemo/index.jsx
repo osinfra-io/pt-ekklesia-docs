@@ -36,7 +36,7 @@ const defaultMessages = [
     content: (
       <>
         <p className={styles.meta}>✓ open_team_pr → PR #142 opened on pt-logos</p>
-        <p>Done — <a href="#">PR #142</a> is open on <code>pt-logos</code>. Once it merges, your GCP folder, identity groups, GitHub teams, and Datadog team will be created automatically.</p>
+        <p>Done — PR #142 is open on <code>pt-logos</code>. Once it merges, your GCP folder, identity groups, GitHub teams, and Datadog team will be created automatically.</p>
         <p>Corpus and Pneuma deploy on their own schedules — your Google Cloud project and CI/CD service accounts will provision after the Corpus PR merges.</p>
       </>
     ),
