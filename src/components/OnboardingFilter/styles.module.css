@@ -1,0 +1,65 @@
+.filterBar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 6px;
+  margin: 1rem 0 1.25rem;
+}
+
+.filterLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ifm-color-content-secondary);
+  margin-right: 0.15rem;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  border: 1.5px solid;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: inherit;
+  user-select: none;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.pillRequired {
+  border-color: var(--ifm-color-primary);
+  background: var(--ifm-color-primary);
+  color: #1e1e1e;
+  cursor: default;
+}
+
+.pillOptional {
+  border-color: var(--ifm-color-emphasis-500);
+  background: transparent;
+  color: var(--ifm-color-emphasis-700);
+  opacity: 0.65;
+  cursor: pointer;
+}
+
+.pillActive {
+  background: var(--ifm-color-emphasis-500);
+  color: #ffffff;
+  opacity: 1;
+}
+
+.reset {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-family: inherit;
+  color: var(--ifm-color-primary);
+  text-decoration: underline;
+  padding: 0 0.25rem;
+  margin-left: auto;
+}

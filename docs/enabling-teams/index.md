@@ -5,10 +5,13 @@ description: Enabling teams provide specialist expertise to help both platform a
 
 import Card from '@site/src/components/Card';
 import CardGrid from '@site/src/components/CardGrid';
+import DocCard from '@theme/DocCard';
 
 # Enabling Teams
 
 Enabling teams provide specialist expertise on a temporary, collaborative basis — helping both platform and stream-aligned teams overcome obstacles, adopt new practices, and grow their own capabilities. Unlike platform teams, enabling teams do not own long-running services; they teach, coach, and uplift.
+
+<DocCard item={{ type: 'link', href: '/onboarding', label: 'Onboarding your team', description: 'Use the Nomos Agent to provision your GCP folder, identity groups, GitHub team, and Datadog setup from a single prompt.' }} />
 
 ## Teams
 

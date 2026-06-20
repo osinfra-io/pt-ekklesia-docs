@@ -5,10 +5,13 @@ description: The platform grouping — the collection of platform teams that tog
 
 import Card from '@site/src/components/Card';
 import CardGrid from '@site/src/components/CardGrid';
+import DocCard from '@theme/DocCard';
 
 # Platform Grouping
 
 The **platform grouping** is the Team Topologies (2nd edition) term for a collection of platform teams that together provide a coherent internal platform product. Each platform team within the grouping owns a distinct context; together they expose a single, coherent interface to stream-aligned teams.
+
+<DocCard item={{ type: 'link', href: '/onboarding', label: 'Onboarding your team', description: 'Use the Nomos Agent to provision your GCP folder, identity groups, GitHub team, and Datadog setup from a single prompt.' }} />
 
 ## Teams
 
