@@ -6,49 +6,38 @@ const defaultTitle = 'GitHub Copilot — Nomos Agent';
 const defaultMessages = [
   {
     role: 'user',
-    text: '/agent → Nomos Agent',
+    text: 'Onboard a new team — Fides. Team key: st-fides. Maintainers: joesmith. Admin email: joe@osinfra.io.',
   },
   {
     role: 'agent',
     content: (
       <>
-        <p>👋 Hi! I'm the Nomos Agent — your self-serve interface to the osinfra.io platform. Just tell me what your team needs.</p>
+        <p>👋 Hi! I'm the Nomos Agent — onboarding a new team for you now.</p>
         <p>Give me just a moment while I look you up…</p>
-        <p className={styles.meta}>✓ Identity validated · joe@osinfra.io</p>
-        <p>It looks like you're not part of any team yet — welcome! Would you like to <strong>join an existing team</strong> or <strong>onboard a new team</strong> from scratch?</p>
-      </>
-    ),
-  },
-  {
-    role: 'user',
-    text: 'Onboard a new team — st-fides',
-  },
-  {
-    role: 'agent',
-    content: (
-      <>
-        <p>Based on your team key I'd suggest <strong>Fides</strong> as the display name — it appears in Google Cloud Platform, GitHub, and Datadog. Does that work?</p>
-        <p className={styles.meta}>✓ Stream-aligned team detected (st- prefix)</p>
-        <p>What email address should be the Datadog team admin?</p>
-      </>
-    ),
-  },
-  {
-    role: 'user',
-    text: 'joe@osinfra.io — and use my GitHub username as the team maintainer.',
-  },
-  {
-    role: 'agent',
-    content: (
-      <>
-        <p>Here's what I'll create:</p>
+        <p className={styles.meta}>✓ get_me → joesmith · joe@osinfra.io · osinfra-io member</p>
+        <p className={styles.meta}>✓ lookup_user → no existing team memberships found</p>
+        <p>Welcome! I have everything I need from your prompt. Here's what I'll create for <strong>st-fides</strong>:</p>
         <ul>
-          <li>📁 GCP folder hierarchy — <code>Fides</code> (Sandbox / Non-Production / Production)</li>
-          <li>👥 Google Identity groups — admin, reader, writer</li>
-          <li>🐙 GitHub parent team + 4 child teams (sandbox-approvers, non-production-approvers, production-approvers, repository-administrators)</li>
-          <li>🐶 Datadog team — <strong>Fides</strong></li>
+          <li>📁 GCP folder — <code>Fides</code> with Sandbox / Non-Production / Production sub-folders</li>
+          <li>👥 Google Identity groups — admin, reader, writer per environment</li>
+          <li>🐙 GitHub parent team <code>st-fides</code> + 4 standard child teams</li>
+          <li>🐶 Datadog team — <strong>Fides</strong>, admin: joe@osinfra.io</li>
         </ul>
-        <p>Ready to open the pull request on <code>pt-logos</code>?</p>
+        <p>Any optional features to enable — Google Cloud project, OpenTofu state management, or additional GitHub repositories?</p>
+      </>
+    ),
+  },
+  {
+    role: 'user',
+    text: 'Enable google project and workflows. Add repo st-fides-api.',
+  },
+  {
+    role: 'agent',
+    content: (
+      <>
+        <p className={styles.meta}>✓ open_team_pr → PR #142 opened on pt-logos</p>
+        <p>Done — PR #142 is open on <code>pt-logos</code>. Once it merges, your GCP folder, identity groups, GitHub teams, and Datadog team will be created automatically.</p>
+        <p>Corpus and Pneuma deploy on their own schedules — your Google Cloud project and CI/CD service accounts will provision after the Corpus PR merges.</p>
       </>
     ),
   },

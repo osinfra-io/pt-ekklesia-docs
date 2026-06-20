@@ -47,6 +47,10 @@
   transition: box-shadow 0.2s, transform 0.2s;
 }
 
+a:has(.theme-doc-card-container) {
+  text-decoration: none !important;
+}
+
 .theme-doc-card-container:hover {
   border: none !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;

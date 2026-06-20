@@ -5,10 +5,13 @@ description: Complicated subsystem teams own complex, specialist areas of the ar
 
 import Card from '@site/src/components/Card';
 import CardGrid from '@site/src/components/CardGrid';
+import DocCard from '@theme/DocCard';
 
 # Complicated Subsystem Teams
 
 Complicated subsystem teams own areas of the system whose complexity demands sustained specialist knowledge. They exist to absorb that complexity on behalf of stream-aligned teams — building, maintaining, and evolving subsystems that would otherwise impose an unmanageable cognitive load.
+
+<DocCard item={{ type: 'link', href: '/onboarding', label: 'Onboarding your team', description: 'Use the Nomos Agent to provision your GCP folder, identity groups, GitHub team, and Datadog setup from a single prompt.' }} />
 
 ## Teams
 

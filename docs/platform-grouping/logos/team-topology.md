@@ -3,6 +3,7 @@ sidebar_label: Team Topology
 ---
 
 import SchemaViewer from '@site/src/components/SchemaViewer';
+import { OnboardingFilterProvider } from '@site/src/components/OnboardingFilter';
 
 # Team Topology
 
@@ -16,7 +17,9 @@ Logos codifies the team structure that all platform tooling — GitHub, GCP, and
 
 Each team is defined as an entry in the `teams` map inside a `.tfvars` file under `teams/`. The schema below documents every available field — click any object or map to expand its properties.
 
+<OnboardingFilterProvider>
 <SchemaViewer title="teams.<team-key>" />
+</OnboardingFilterProvider>
 
 ## Components
 

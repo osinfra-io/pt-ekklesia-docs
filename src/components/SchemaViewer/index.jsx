@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
+import { useOnboardingFilter, FilterBar, OnboardingFilterProvider, OnboardingFilterContext } from '@site/src/components/OnboardingFilter';
 import teamSchema from './team.schema.json';
 import resolveSchema from './resolveSchema';
 import styles from './styles.module.css';
 
 const resolved = resolveSchema(teamSchema);
+
+const REQUIRED_COUNT = Object.values(resolved).filter((p) => p.required).length;
+const OPTIONAL_COUNT = Object.values(resolved).filter((p) => !p.required).length;
 
 const TYPE_CLASS = {
   string: styles.typeString,
@@ -75,13 +79,29 @@ function SchemaProperty({ name, prop, depth = 0 }) {
   );
 }
 
-export default function SchemaViewer({ title }) {
+function SchemaViewerInner({ title }) {
+  const { showOptional } = useOnboardingFilter();
+  const entries = Object.entries(resolved).filter(([, prop]) => prop.required || showOptional);
+
   return (
-    <div className={styles.viewer}>
-      {title && <div className={styles.title}>{title}</div>}
-      {Object.entries(resolved).map(([name, prop]) => (
-        <SchemaProperty key={name} name={name} prop={prop} depth={0} />
-      ))}
-    </div>
+    <>
+      <FilterBar requiredCount={REQUIRED_COUNT} optionalCount={OPTIONAL_COUNT} />
+      <div className={styles.viewer}>
+        {title && <div className={styles.title}>{title}</div>}
+        {entries.map(([name, prop]) => (
+          <SchemaProperty key={name} name={name} prop={prop} depth={0} />
+        ))}
+      </div>
+    </>
+  );
+}
+
+export default function SchemaViewer({ title }) {
+  const ctx = useContext(OnboardingFilterContext);
+  if (ctx) return <SchemaViewerInner title={title} />;
+  return (
+    <OnboardingFilterProvider>
+      <SchemaViewerInner title={title} />
+    </OnboardingFilterProvider>
   );
 }

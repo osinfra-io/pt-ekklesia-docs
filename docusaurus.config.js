@@ -83,6 +83,11 @@ const config = {
             position: 'left',
           },
           {
+            to: '/onboarding',
+            label: 'Onboarding',
+            position: 'left',
+          },
+          {
             to: '/ecosystem',
             label: 'Ecosystem',
             position: 'left',

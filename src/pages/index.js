@@ -39,7 +39,7 @@ const cards = [
     icon: '🚀',
     title: 'Onboard your team',
     note: 'New to the platform? The Nomos Agent guides you through onboarding step by step. No prior platform knowledge needed.',
-    link: '/stream-aligned-teams',
+    link: '/onboarding',
     linkText: 'Get started →',
   },
   {
@@ -220,13 +220,13 @@ function GettingStarted() {
             Your team, on the platform in minutes
           </Heading>
           <p className={styles.gettingStartedBody}>
-            The <strong>Nomos Agent</strong> asks the right questions and takes care of the platform details. Your team is up and running in minutes.
+            The <strong>Nomos Agent</strong> asks the right questions and takes care of the platform details. Use the interactive prompt builder to describe what your team needs — the agent opens a pull request with every change.
           </p>
           <Link
-            to="/stream-aligned-teams#onboarding"
+            to="/onboarding"
             className={styles.gettingStartedCta}
           >
-            See the full onboarding guide →
+            Build your agent prompt →
           </Link>
         </div>
         <div className={styles.gettingStartedRight}>

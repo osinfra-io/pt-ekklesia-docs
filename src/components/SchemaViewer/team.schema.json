@@ -9,6 +9,7 @@
     "team_key",
     "datadog_team_memberships",
     "display_name",
+    "display_name_comment",
     "github_parent_team_memberships",
     "google_basic_groups_memberships",
     "team_type"
@@ -35,8 +36,9 @@
       "pattern": "^[A-Z][A-Za-z]*( (and|[A-Z][A-Za-z]*))*$"
     },
     "display_name_comment": {
-      "description": "Optional inline comment rendered after display_name. Used for the team etymology blurb. Also used as the `description` frontmatter on the team's docs index page (rendered by pt-techne-mcp-server/render_team_docs_index); that tool requires this field.",
-      "type": "string"
+      "description": "Inline comment rendered after display_name in the tfvars file. Used for the team etymology blurb. Also used as the `description` frontmatter on the team's docs index page; render_team_docs_index and open_team_docs_pr require this field to be non-empty — an empty string will produce a docs_input_invalid error.",
+      "type": "string",
+      "minLength": 1
     },
     "enable_google_project": {
       "description": "Enable a Google Cloud project for this team in the team's environment folder via pt-corpus. Default: false.",
@@ -90,6 +92,7 @@
     "google_project_services": {
       "description": "Additional GCP API services to enable in the team project.",
       "type": "array",
+      "uniqueItems": true,
       "items": { "type": "string", "pattern": "^[a-z0-9-]+\\.googleapis\\.com$" }
     },
     "google_xpn_admin_groups_memberships": {
@@ -140,14 +143,17 @@
   ],
   "$defs": {
     "emailList": {
+      "description": "List of email addresses.",
       "type": "array",
       "items": { "type": "string", "format": "email", "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$" }
     },
     "usernameList": {
+      "description": "List of GitHub usernames.",
       "type": "array",
       "items": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9-]*$" }
     },
     "githubMembership": {
+      "description": "GitHub team membership. maintainers have admin rights on the team; members have read access.",
       "type": "object",
       "additionalProperties": false,
       "required": ["maintainers", "members"],
@@ -157,6 +163,7 @@
       }
     },
     "googleGroup": {
+      "description": "Google Cloud Identity group membership. owners have full group management rights; managers can add and remove members; members have read access.",
       "type": "object",
       "additionalProperties": false,
       "required": ["managers", "members", "owners"],
@@ -167,13 +174,14 @@
       }
     },
     "emailOrServiceAccountList": {
+      "description": "List of email addresses or GCP service account emails (e.g. sa-name@project-id.iam.gserviceaccount.com).",
       "type": "array",
       "items": { "type": "string", "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$" }
     },
     "envScopedGoogleGroups": {
+      "description": "Google Cloud Identity group memberships scoped to deployment environments. Each present key (sandbox, non-production, production) configures the group membership for that environment. Omit an environment key if no group membership is needed for it.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["sandbox", "non-production", "production"],
       "properties": {
         "sandbox": { "$ref": "#/$defs/googleGroup" },
         "non-production": { "$ref": "#/$defs/googleGroup" },
@@ -181,6 +189,7 @@
       }
     },
     "githubRepository": {
+      "description": "GitHub repository configuration. Each repository is provisioned with squash-only merges, a branch ruleset (signed commits, linear history, PR reviews), Datadog webhook, and standard repository files.",
       "type": "object",
       "additionalProperties": false,
       "required": ["description", "topics"],
@@ -206,6 +215,7 @@
           "type": "boolean"
         },
         "environments": {
+          "description": "GitHub deployment environments for this repository. Key is the environment name. Each environment can require manual approval from specified teams before a workflow job may deploy to it.",
           "type": "object",
           "additionalProperties": { "$ref": "#/$defs/githubEnvironment" }
         },
@@ -214,32 +224,47 @@
           "description": "Repository topics for GitHub categorization and discovery. The first two entries must always be the team key (e.g. \"pt-logos\") and the team type (e.g. \"platform-team\"). Additional technology topics follow (e.g. \"opentofu\", \"kubernetes\").",
           "type": "array",
           "minItems": 2,
+          "uniqueItems": true,
           "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" }
         }
       }
     },
     "githubEnvironment": {
+      "description": "GitHub deployment environment configuration. Environments gate workflow jobs behind required reviewers and optional branch policies.",
       "type": "object",
       "additionalProperties": false,
       "required": ["name", "reviewers"],
       "properties": {
         "deployment_branch_policy": {
+          "description": "Restricts which branches may deploy to this environment. Omit to allow any branch to deploy.",
           "type": "object",
           "additionalProperties": false,
           "required": ["custom_branch_policies", "protected_branches"],
           "properties": {
-            "custom_branch_policies": { "type": "boolean" },
-            "protected_branches": { "type": "boolean" }
+            "custom_branch_policies": {
+              "description": "Allow deployments from branches matching custom name patterns defined in the repository. Mutually exclusive with protected_branches.",
+              "type": "boolean"
+            },
+            "protected_branches": {
+              "description": "Restrict deployments to branches that have a matching branch protection rule. Mutually exclusive with custom_branch_policies.",
+              "type": "boolean"
+            }
           }
         },
-        "name": { "type": "string" },
+        "name": {
+          "description": "Display name of the environment as shown in the GitHub Actions UI (e.g. production, non-production).",
+          "type": "string"
+        },
         "reviewers": {
+          "description": "Required reviewers that must approve a workflow job before it may deploy to this environment.",
           "type": "object",
           "additionalProperties": false,
           "required": ["teams"],
           "properties": {
             "teams": {
+              "description": "GitHub team slugs required to approve deployments to this environment (e.g. pt-logos-production-approvers).",
               "type": "array",
+              "uniqueItems": true,
               "items": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9-]*$" }
             }
           }
@@ -247,18 +272,33 @@
       }
     },
     "githubPages": {
+      "description": "GitHub Pages configuration for this repository. Omit if the repository does not publish a Pages site.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "build_type": { "type": "string", "enum": ["legacy", "workflow"] },
-        "cname": { "type": "string" },
+        "build_type": {
+          "description": "How Pages content is built. Use workflow to publish via a GitHub Actions workflow (recommended); use legacy for classic branch-based deploys.",
+          "type": "string",
+          "enum": ["legacy", "workflow"]
+        },
+        "cname": {
+          "description": "Custom domain (CNAME) for the Pages site (e.g. docs.example.com). Requires a matching DNS CNAME record pointing to <org>.github.io.",
+          "type": "string"
+        },
         "source": {
+          "description": "Source branch and directory for legacy Pages builds. Required when build_type is legacy.",
           "type": "object",
           "additionalProperties": false,
           "required": ["branch"],
           "properties": {
-            "branch": { "type": "string" },
-            "path": { "type": "string" }
+            "branch": {
+              "description": "Branch from which Pages content is served (e.g. gh-pages or main).",
+              "type": "string"
+            },
+            "path": {
+              "description": "Directory within the branch to serve as the Pages root. Use / for the repository root or /docs for a docs subdirectory.",
+              "type": "string"
+            }
           }
         }
       }
@@ -267,11 +307,12 @@
       "description": "Cloud SQL instance configuration. pt-corpus provisions one instance per declared region using the pt-arche-google-cloud-sql module. Each instance receives a private IP address through the Shared VPC peering connection managed by pt-corpus.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["regions"],
+      "required": ["database_version", "machine_tier", "regions"],
       "properties": {
-        "database_version": { "type": "string" },
-        "machine_tier": { "type": "string" },
+        "database_version": { "description": "Cloud SQL database version (e.g. POSTGRES_16, MYSQL_8_0).", "type": "string" },
+        "machine_tier": { "description": "Cloud SQL machine tier (e.g. db-g1-small, db-n1-standard-1).", "type": "string" },
         "regions": {
+          "description": "GCP regions in which to provision a Cloud SQL instance. At least one region is required.",
           "type": "array",
           "minItems": 1,
           "items": { "type": "string", "enum": ["us-east1", "us-east4"] }
@@ -279,11 +320,13 @@
       }
     },
     "kubernetesEngine": {
+      "description": "GKE cluster configuration for the team's platform-managed project. Defines cluster locations (zones), node pools, subnet CIDRs, Artifact Registry access, and optional Datadog APM integration.",
       "type": "object",
       "additionalProperties": false,
       "required": ["locations"],
       "properties": {
         "artifact_registry_groups_memberships": {
+          "description": "Artifact Registry reader and writer group memberships. Grants the specified Google Cloud Identity groups pull (readers) and push (writers) access to the team's Artifact Registry repository.",
           "type": "object",
           "additionalProperties": false,
           "required": ["readers", "writers"],
@@ -292,9 +335,10 @@
             "writers": { "$ref": "#/$defs/googleGroup" }
           }
         },
-        "dns_subdomain": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
-        "enable_datadog_apm": { "type": "boolean" },
+        "dns_subdomain": { "description": "DNS subdomain assigned to this team's GKE workloads under the platform's base domain. Must be lowercase letters, digits, and hyphens, starting with a letter.", "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "enable_datadog_apm": { "description": "Enable Datadog APM admission instrumentation on the GKE cluster. When true, the Datadog Operator injects the APM library into matching pods automatically.", "type": "boolean" },
         "locations": {
+          "description": "Map of GCP zones to GKE cluster configurations. Each entry provisions one cluster in the specified zone. At least one zone is required.",
           "type": "object",
           "additionalProperties": { "$ref": "#/$defs/gkeLocation" }
         }
@@ -311,20 +355,23 @@
           "type": "boolean"
         },
         "node_pools": {
+          "description": "Map of node pool names to configurations. At least one node pool is required per cluster. Each pool defines the machine type and autoscaling bounds.",
           "type": "object",
           "minProperties": 1,
           "additionalProperties": {
+            "description": "Node pool configuration defining machine type and autoscaling bounds.",
             "type": "object",
             "additionalProperties": false,
             "required": ["machine_type", "max_node_count", "min_node_count"],
             "properties": {
-              "machine_type": { "type": "string" },
-              "max_node_count": { "type": "integer", "minimum": 0 },
-              "min_node_count": { "type": "integer", "minimum": 0 }
+              "machine_type": { "description": "GCE machine type for nodes in this pool (e.g. e2-standard-4).", "type": "string" },
+              "max_node_count": { "description": "Maximum number of nodes the autoscaler may provision in this pool.", "type": "integer", "minimum": 0 },
+              "min_node_count": { "description": "Minimum number of nodes the autoscaler must keep running in this pool.", "type": "integer", "minimum": 0 }
             }
           }
         },
         "subnet": {
+          "description": "VPC subnet CIDRs for this cluster. All four ranges are required and must not overlap with other clusters or subnets in the shared VPC.",
           "type": "object",
           "additionalProperties": false,
           "required": [
@@ -334,10 +381,10 @@
             "services_ip_cidr_range"
           ],
           "properties": {
-            "ip_cidr_range": { "type": "string", "format": "ipv4-cidr" },
-            "master_ipv4_cidr_block": { "type": "string", "format": "ipv4-cidr" },
-            "pod_ip_cidr_range": { "type": "string", "format": "ipv4-cidr" },
-            "services_ip_cidr_range": { "type": "string", "format": "ipv4-cidr" }
+            "ip_cidr_range": { "description": "Primary node subnet CIDR (e.g. 10.0.0.0/24).", "type": "string", "format": "ipv4-cidr" },
+            "master_ipv4_cidr_block": { "description": "Control plane (master) private CIDR — must be a /28 (e.g. 172.16.0.0/28). Each cluster requires a unique block.", "type": "string", "format": "ipv4-cidr" },
+            "pod_ip_cidr_range": { "description": "Secondary CIDR for pod IPs (alias IP range). Must be large enough for the expected pod density (e.g. /16).", "type": "string", "format": "ipv4-cidr" },
+            "services_ip_cidr_range": { "description": "Secondary CIDR for Kubernetes Service VIPs (e.g. 10.1.0.0/20).", "type": "string", "format": "ipv4-cidr" }
           }
         }
       }
