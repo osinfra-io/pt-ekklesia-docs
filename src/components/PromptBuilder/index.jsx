@@ -1,6 +1,6 @@
-import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback, useContext } from 'react';
 import teamSchema from '@site/src/components/SchemaViewer/team.schema.json';
-import { useOnboardingFilter, FilterBar } from '@site/src/components/OnboardingFilter';
+import { useOnboardingFilter, FilterBar, OnboardingFilterContext, OnboardingFilterProvider } from '@site/src/components/OnboardingFilter';
 import styles from './styles.module.css';
 
 const schema = teamSchema.properties;
@@ -248,6 +248,16 @@ function ProductGroup({ color, label, children }) {
 }
 
 export default function PromptBuilder() {
+  const ctx = useContext(OnboardingFilterContext);
+  if (ctx) return <PromptBuilderInner />;
+  return (
+    <OnboardingFilterProvider>
+      <PromptBuilderInner />
+    </OnboardingFilterProvider>
+  );
+}
+
+function PromptBuilderInner() {
   const [teamKey,                setTeamKey]                = useState('');
   const [displayName,            setDisplayName]            = useState('');
   const [description,            setDescription]            = useState('');

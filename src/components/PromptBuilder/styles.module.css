@@ -315,7 +315,7 @@
   color: #d0d0d0;
   line-height: 1.65;
   white-space: pre-wrap;
-  word-break: break-word;
+  overflow-wrap: break-word;
   background: transparent;
   border: none;
 }
