@@ -211,13 +211,6 @@ function Features() {
   );
 }
 
-const agentFeatures = [
-  { icon: '🗂️', text: 'Schema-driven prompt builder with live validation' },
-  { icon: '🔍', text: 'GCP API autocomplete pulled live from Google Discovery' },
-  { icon: '📋', text: 'One-click copy — paste straight into the Nomos Agent' },
-  { icon: '🔀', text: 'Covers GitHub, Google Cloud, Datadog, and platform-managed infra' },
-];
-
 function GettingStarted() {
   return (
     <section className={styles.gettingStarted}>
@@ -229,14 +222,6 @@ function GettingStarted() {
           <p className={styles.gettingStartedBody}>
             The <strong>Nomos Agent</strong> asks the right questions and takes care of the platform details. Use the interactive prompt builder to describe what your team needs — the agent opens a pull request with every change.
           </p>
-          <ul className={styles.agentFeatureList}>
-            {agentFeatures.map((f) => (
-              <li key={f.text} className={styles.agentFeatureItem}>
-                <span className={styles.agentFeatureIcon}>{f.icon}</span>
-                <span className={styles.agentFeatureText}>{f.text}</span>
-              </li>
-            ))}
-          </ul>
           <Link
             to="/onboarding"
             className={styles.gettingStartedCta}
