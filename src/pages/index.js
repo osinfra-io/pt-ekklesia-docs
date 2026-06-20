@@ -1,6 +1,7 @@
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
+import AgentDemo from '@site/src/components/AgentDemo';
 import Card from '@site/src/components/Card';
 import CardGrid from '@site/src/components/CardGrid';
 
@@ -228,14 +229,6 @@ function GettingStarted() {
           <p className={styles.gettingStartedBody}>
             The <strong>Nomos Agent</strong> asks the right questions and takes care of the platform details. Use the interactive prompt builder to describe what your team needs — the agent opens a pull request with every change.
           </p>
-          <Link
-            to="/onboarding"
-            className={styles.gettingStartedCta}
-          >
-            Build your agent prompt →
-          </Link>
-        </div>
-        <div className={styles.gettingStartedRight}>
           <ul className={styles.agentFeatureList}>
             {agentFeatures.map((f) => (
               <li key={f.text} className={styles.agentFeatureItem}>
@@ -244,6 +237,15 @@ function GettingStarted() {
               </li>
             ))}
           </ul>
+          <Link
+            to="/onboarding"
+            className={styles.gettingStartedCta}
+          >
+            Build your agent prompt →
+          </Link>
+        </div>
+        <div className={styles.gettingStartedRight}>
+          <AgentDemo />
         </div>
       </div>
     </section>
