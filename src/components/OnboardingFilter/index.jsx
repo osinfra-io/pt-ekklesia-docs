@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 import styles from './styles.module.css';
 
-const OnboardingFilterContext = createContext(null);
+export const OnboardingFilterContext = createContext(null);
 
 export function OnboardingFilterProvider({ children }) {
   const [showOptional, setShowOptional] = useState(false);

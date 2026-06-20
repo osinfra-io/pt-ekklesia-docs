@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
-import { useOnboardingFilter, FilterBar } from '@site/src/components/OnboardingFilter';
+import { useOnboardingFilter, FilterBar, OnboardingFilterProvider, OnboardingFilterContext } from '@site/src/components/OnboardingFilter';
 import teamSchema from './team.schema.json';
 import resolveSchema from './resolveSchema';
 import styles from './styles.module.css';
@@ -79,7 +79,7 @@ function SchemaProperty({ name, prop, depth = 0 }) {
   );
 }
 
-export default function SchemaViewer({ title }) {
+function SchemaViewerInner({ title }) {
   const { showOptional } = useOnboardingFilter();
   const entries = Object.entries(resolved).filter(([, prop]) => prop.required || showOptional);
 
@@ -93,5 +93,15 @@ export default function SchemaViewer({ title }) {
         ))}
       </div>
     </>
+  );
+}
+
+export default function SchemaViewer({ title }) {
+  const ctx = useContext(OnboardingFilterContext);
+  if (ctx) return <SchemaViewerInner title={title} />;
+  return (
+    <OnboardingFilterProvider>
+      <SchemaViewerInner title={title} />
+    </OnboardingFilterProvider>
   );
 }
