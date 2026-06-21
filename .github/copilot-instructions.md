@@ -186,10 +186,9 @@ Each ADR follows this structure:
 
 <What forced this decision and why it was non-trivial.>
 
-#### Decisions
+#### Decision
 
-1. **<Decision>.** <Rationale.>
-2. **<Decision>.** <Rationale.>
+<The decision and its rationale.>
 
 #### Alternatives Considered
 
@@ -198,10 +197,8 @@ Each ADR follows this structure:
 #### Consequences
 
 - <Bullet list of outcomes, constraints, or follow-on requirements.>
-
-#### Links
-
-- [<Link text>](<url>)
 ```
+
+The `#### Links` section is optional — include a final bulleted list of external references only when the ADR cites them.
 
 See `docs/platform-grouping/corpus/networking.md` for a complete example.

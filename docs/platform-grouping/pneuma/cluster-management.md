@@ -76,7 +76,7 @@ Kubernetes workload environments require more than just a cluster — they need 
 
 The platform also needs a clear scaling model for clusters. Sizing a single large cluster per environment requires predicting peak load. Cluster failure affects all tenants. Regional failure affects all zones at once.
 
-#### Decisions
+#### Decision
 
 1. **Regional clusters with zone-scoped node pools.** Each cluster has a regional control plane (highly available across three zones) but a single-zone node pool — one cluster per zone (e.g., `pt-pneuma-us-east1-b`, `pt-pneuma-us-east4-a`). Keeping node pools zone-local ensures Istio's locality-aware load balancing routes traffic within the zone by default, preventing cross-zone hot spots in the mesh. Clusters scale by adding zones, not by growing individual cluster size. Each cluster is independently managed, independently upgradeable, and independently recoverable.
 
