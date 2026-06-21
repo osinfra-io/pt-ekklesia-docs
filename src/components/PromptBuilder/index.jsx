@@ -368,6 +368,7 @@ function PromptBuilderInner() {
   const [teamKey,                setTeamKey]                = useState('');
   const [displayName,            setDisplayName]            = useState('');
   const [description,            setDescription]            = useState('');
+  const [descriptionTouched,     setDescriptionTouched]     = useState(false);
   const [maintainers,            setMaintainers]            = useState('');
   const [members,                setMembers]                = useState('');
   const [adminEmail,             setAdminEmail]             = useState('');
@@ -473,13 +474,14 @@ function PromptBuilderInner() {
             <p className={styles.hint}>{schema.display_name_comment.description}</p>
             <textarea
               id="pb-description"
-              className={`${styles.textarea} ${errors.description ? styles.inputError : ''}`}
+              className={`${styles.textarea} ${errors.description && descriptionTouched ? styles.inputError : ''}`}
               value={description}
               onChange={e => setDescription(e.target.value)}
+              onBlur={() => setDescriptionTouched(true)}
               placeholder="Trust and reliability for the platform."
               rows={2}
             />
-            <FieldError msg={errors.description} />
+            {descriptionTouched && <FieldError msg={errors.description} />}
           </div>
 
         </ProductGroup>
