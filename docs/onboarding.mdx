@@ -6,12 +6,9 @@ title: Onboarding your team
 
 import Link from '@docusaurus/Link';
 import PromptBuilder from '@site/src/components/PromptBuilder';
-import SchemaViewer from '@site/src/components/SchemaViewer';
-import { OnboardingFilterProvider } from '@site/src/components/OnboardingFilter';
 
 export const ctaWrap = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem', margin: '1.5rem 0 2rem' };
 export const ctaCard = { background: 'var(--ifm-background-surface-color)', border: '1px solid var(--ifm-color-emphasis-300)', borderRadius: '8px', padding: '1.5rem', display: 'flex', flexDirection: 'column' };
-export const ctaCardPrimary = { ...ctaCard, borderColor: 'var(--ifm-color-primary)', background: 'color-mix(in srgb, var(--ifm-color-primary) 8%, transparent)' };
 export const stepWrap = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', margin: '1rem 0 2rem' };
 export const stepCard = { ...ctaCard, cursor: 'default' };
 export const invokeWrap = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', margin: '1rem 0 2rem' };
@@ -25,7 +22,7 @@ export const iconStyle = { fontSize: '2rem', marginBottom: '0.75rem', display: '
 The fastest way to get your team onto the platform is the **Nomos Agent** — your self-serve interface to the osinfra.io platform. Tell it what your team needs and it opens a pull request with every change. No local setup, no YAML to write by hand.
 
 <div style={ctaWrap}>
-  <div style={ctaCardPrimary}>
+  <div style={ctaCard}>
     <p style={cardTitle}>Ready to go?</p>
     <p style={cardBody}>You have your team's details and want to build a prompt to paste straight into the Nomos Agent.</p>
     <Link to="#build-your-agent-prompt" className="button button--primary" style={{marginTop: '1rem', alignSelf: 'flex-start'}}>Build your agent prompt →</Link>
@@ -52,25 +49,15 @@ The fastest way to get your team onto the platform is the **Nomos Agent** — yo
   </div>
 </div>
 
-## Before you start
-
-To onboard your team, the Nomos Agent needs a small set of details. Have these ready before you invoke it.
-
-<OnboardingFilterProvider>
-
-<SchemaViewer />
-
 ## Build your agent prompt
 
 :::tip[You have all the details]
 
-Fill in the form, hit **Copy**, then paste the result into the Nomos Agent. The agent will confirm each detail and open a pull request on `pt-logos`. Toggle **Optional** above to reveal additional fields — the filter bar is shared with the section above.
+Fill in the form, hit **Copy**, then paste the result into the Nomos Agent. The agent will confirm each detail and open a pull request on `pt-logos`. Toggle **Optional** to reveal additional fields.
 
 :::
 
 <PromptBuilder />
-
-</OnboardingFilterProvider>
 
 ## How to invoke the agent
 

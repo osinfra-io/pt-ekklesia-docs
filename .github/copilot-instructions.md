@@ -41,6 +41,12 @@ section `index.md` and one folder per team beneath it:
 | `complicated-subsystem-teams` | Complicated subsystem teams |
 | `enabling-teams` | Enabling teams |
 
+## PromptBuilder Component
+
+`src/components/PromptBuilder/index.jsx` renders the onboarding prompt builder on `docs/onboarding.mdx`. It imports `team.schema.json` from `src/components/SchemaViewer/` and uses it as the single source of truth for field descriptions and validation patterns.
+
+**Every field hint must use the schema description exactly** — pull it from the imported schema object (e.g. `schema.github_repositories.description`, `defs.usernameList.description`) and never add custom or appended text. If the schema description is wrong or missing, fix it in `schema/team.schema.json` in `pt-techne-mcp-server` and sync the copy here — do not work around it in the component.
+
 ## Adding a New Team
 
 Every team gets a folder, not a flat page — under one of the four section slugs
