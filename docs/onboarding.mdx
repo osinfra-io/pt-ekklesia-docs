@@ -65,9 +65,9 @@ Fill in the form, hit **Copy**, then paste the result into the Nomos Agent. The 
   <div style={invokeCard}>
     <span style={iconStyle}>💻</span>
     <p style={cardTitle}>Copilot CLI</p>
-    <p style={{...cardBody, marginBottom: '0.75rem'}}>From a terminal, clone the agents repo and run the Copilot CLI:</p>
-    <pre style={{fontSize: '0.8rem', margin: 0}}>{'git clone https://github.com/osinfra-io/pt-techne-agents\ncd pt-techne-agents\ngh copilot'}</pre>
-    <p style={{...cardBody, marginTop: '0.5rem'}}>Type <code>/agent</code>, select <strong>Nomos Agent</strong>, and paste your prompt.</p>
+    <p style={{...cardBody, marginBottom: '0.75rem'}}>Install the onboarding plugin once, then run the Copilot CLI from any directory:</p>
+    <pre style={{fontSize: '0.8rem', margin: 0}}>{'copilot plugin marketplace add osinfra-io/pt-ai-plugins\ncopilot plugin install techne-onboarding@osinfra-io\ncopilot'}</pre>
+    <p style={{...cardBody, marginTop: '0.5rem'}}>Type <code>/agent</code>, select <strong>Nomos Agent</strong>, and paste your prompt. Installing the plugin also registers the <code>pt-techne-mcp-server</code> tools automatically.</p>
   </div>
   <div style={invokeCard}>
     <span style={iconStyle}>🌐</span>
