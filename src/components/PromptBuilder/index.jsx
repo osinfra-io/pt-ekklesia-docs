@@ -46,13 +46,16 @@ function normalizeTeamKey(raw) {
   return raw.trim().toLowerCase();
 }
 
-function validate(fields) {
+function validate(fields, copyAttempted = false) {
   const errors = {};
 
-  if (!fields.description?.trim()) {
-    errors.description = 'Description is required';
+  // Required — only surface after a copy attempt
+  if (copyAttempted) {
+    if (!fields.description?.trim())           errors.description = 'Description is required';
+    if (!parseList(fields.maintainers).length) errors.maintainers = 'At least one maintainer is required';
   }
 
+  // Format errors — always checked when the field has a value
   if (fields.teamKey && !TEAM_KEY_RE.test(fields.teamKey)) {
     errors.teamKey = 'Must match pattern: (pt|st|ct|et)-<slug>, e.g. st-fides';
   }
@@ -104,14 +107,14 @@ function buildPrompt(f) {
 
   if (f.teamKey)     lines.push(`Team key: ${f.teamKey}`);
   if (f.displayName) lines.push(`Display name: ${f.displayName}`);
-  lines.push(`Description: ${f.description || '(required)'}`);
+  if (f.description) lines.push(`Description: ${f.description}`);
 
   lines.push('');
 
   const maintainers = parseList(f.maintainers);
   const members     = parseList(f.members);
 
-  lines.push(`Maintainers: ${maintainers.length ? maintainers.join(', ') : '(required)'}`);
+  if (maintainers.length) lines.push(`Maintainers: ${maintainers.join(', ')}`);
   if (members.length) lines.push(`Members: ${members.join(', ')}`);
 
   if (f.adminEmail) lines.push(`Admin email: ${f.adminEmail.trim()}`);
@@ -368,7 +371,6 @@ function PromptBuilderInner() {
   const [teamKey,                setTeamKey]                = useState('');
   const [displayName,            setDisplayName]            = useState('');
   const [description,            setDescription]            = useState('');
-  const [descriptionTouched,     setDescriptionTouched]     = useState(false);
   const [maintainers,            setMaintainers]            = useState('');
   const [members,                setMembers]                = useState('');
   const [adminEmail,             setAdminEmail]             = useState('');
@@ -388,6 +390,7 @@ function PromptBuilderInner() {
   const [gkeDnsSubdomain,        setGkeDnsSubdomain]        = useState('');
   const [enableGkeDatadog,       setEnableGkeDatadog]       = useState(false);
   const [copied,                 setCopied]                 = useState(false);
+  const [copyAttempted,          setCopyAttempted]          = useState(false);
 
   const { showOptional } = useOnboardingFilter();
 
@@ -402,8 +405,8 @@ function PromptBuilderInner() {
     enableKubernetes, gkeLocations, gkeDnsSubdomain, enableGkeDatadog,
   };
 
-  const errors = useMemo(() => validate(fields), [
-    normalizedKey, displayName, description, maintainers, adminEmail, members, githubRepositories, googleProjectServices,
+  const errors = useMemo(() => validate(fields, copyAttempted), [
+    normalizedKey, displayName, description, maintainers, adminEmail, members, githubRepositories, googleProjectServices, copyAttempted,
   ]);
 
   const hasErrors = Object.keys(errors).length > 0;
@@ -411,6 +414,9 @@ function PromptBuilderInner() {
   const prompt = buildPrompt(fields);
 
   const handleCopy = () => {
+    setCopyAttempted(true);
+    const currentErrors = validate(fields, true);
+    if (Object.keys(currentErrors).length > 0) return;
     const onSuccess = () => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -474,14 +480,13 @@ function PromptBuilderInner() {
             <p className={styles.hint}>{schema.display_name_comment.description}</p>
             <textarea
               id="pb-description"
-              className={`${styles.textarea} ${errors.description && descriptionTouched ? styles.inputError : ''}`}
+              className={`${styles.textarea} ${errors.description ? styles.inputError : ''}`}
               value={description}
               onChange={e => setDescription(e.target.value)}
-              onBlur={() => setDescriptionTouched(true)}
               placeholder="Trust and reliability for the platform."
               rows={2}
             />
-            {descriptionTouched && <FieldError msg={errors.description} />}
+            <FieldError msg={errors.description} />
           </div>
 
         </ProductGroup>
