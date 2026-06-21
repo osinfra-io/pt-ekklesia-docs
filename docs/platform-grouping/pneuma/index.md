@@ -106,7 +106,7 @@ Pneuma operates 5 working domains against the Team Topologies recommended limit 
 
 The five domains — Cluster Management, Service Mesh, Certificate Management, Policy Enforcement, and Observability — cannot be separated without creating artificial coupling problems. cert-manager CRDs must exist before Istio certificate resources; OPA Gatekeeper runs against all workloads on the cluster. Splitting these concerns across teams would require tight coordination at every upgrade cycle and introduce more extraneous load than the split would remove.
 
-#### Decisions
+#### Decision
 
 1. **Accept the 🔴 overload state as a managed risk.** The five domains are operationally inseparable at the cluster layer. This is a structural reality of the platform, not a resourcing failure. The risk is acknowledged, documented, and mitigated — not ignored.
 

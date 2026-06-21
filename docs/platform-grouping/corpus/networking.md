@@ -171,7 +171,7 @@ Each cluster is a regional cluster with a single zonal node pool (e.g., `pt-pneu
 
 The guiding principle throughout: **use GKE defaults unless there is a clear reason not to.**
 
-#### Decisions
+#### Decision
 
 1. **Carve `10.0.0.0/8` into four `/10` blocks.** Each `/10` is large enough for 30 clusters. Four blocks give the platform room to grow across independent address spaces without redesign.
 
