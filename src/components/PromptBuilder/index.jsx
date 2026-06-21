@@ -49,6 +49,10 @@ function normalizeTeamKey(raw) {
 function validate(fields) {
   const errors = {};
 
+  if (!fields.description?.trim()) {
+    errors.description = 'Description is required';
+  }
+
   if (fields.teamKey && !TEAM_KEY_RE.test(fields.teamKey)) {
     errors.teamKey = 'Must match pattern: (pt|st|ct|et)-<slug>, e.g. st-fides';
   }
@@ -398,7 +402,7 @@ function PromptBuilderInner() {
   };
 
   const errors = useMemo(() => validate(fields), [
-    normalizedKey, displayName, maintainers, adminEmail, members, githubRepositories, googleProjectServices,
+    normalizedKey, displayName, description, maintainers, adminEmail, members, githubRepositories, googleProjectServices,
   ]);
 
   const hasErrors = Object.keys(errors).length > 0;
@@ -469,12 +473,13 @@ function PromptBuilderInner() {
             <p className={styles.hint}>{schema.display_name_comment.description}</p>
             <textarea
               id="pb-description"
-              className={styles.textarea}
+              className={`${styles.textarea} ${errors.description ? styles.inputError : ''}`}
               value={description}
               onChange={e => setDescription(e.target.value)}
               placeholder="Trust and reliability for the platform."
               rows={2}
             />
+            <FieldError msg={errors.description} />
           </div>
 
         </ProductGroup>
