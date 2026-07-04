@@ -58,11 +58,7 @@ Traffic to `kryptos.sb.osinfra.io` enters pneuma's gateway, which applies the Vi
 
 All VirtualServices — including those for member team hosts — are defined on pneuma's clusters in the `istio-ingress` namespace. VirtualService destinations reference services by their fully-qualified in-cluster DNS name.
 
-Member team namespaces receive a team-key prefix when provisioned: a namespace declared as `openbao` in the kryptos team spec is created as `pt-kryptos-openbao` in the cluster. This prefix scopes the in-cluster service DNS to that team's own clusters:
-
-```
-istio-test.pt-kryptos-istio-test.svc.cluster.local
-```
+Member team namespaces receive a team-key prefix when provisioned: a namespace declared as `openbao` in the kryptos team spec is created as `pt-kryptos-openbao` in the cluster. This prefix scopes the in-cluster service DNS to that team's own clusters: `istio-test.pt-kryptos-istio-test.svc.cluster.local`.
 
 Fleet endpoint discovery only finds pods matching this service name on kryptos clusters — there are no pods with that service name on any other cluster. The VirtualService destination therefore routes exclusively to kryptos, without any explicit DestinationRule subset or locality filter. Adding a new team cluster automatically extends this isolation: each team's namespace prefix is globally unique in the mesh.
 
