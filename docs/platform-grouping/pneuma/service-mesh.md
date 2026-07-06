@@ -64,7 +64,7 @@ Because a `backendRef` must resolve to a `Service` that exists locally on the ga
 
 ### Team-Authored Routes
 
-Pneuma owns the shared ingress infrastructure — the `Gateway`, TLS, Cloud Armor WAF, and DNS — while teams own their route intent. A team exposes a service by authoring an `HTTPRoute` in its own namespace on the pneuma gateway cluster and attaching it to the shared `Gateway` via `parentRefs`. The `Gateway`'s `allowedRoutes` and a `ReferenceGrant` authorize the attachment, so teams change routing through their own pipelines without a pneuma deploy. In this phase the model is scaffolded and the istio-test routes are pneuma-managed; no team route is wired yet.
+Pneuma owns the shared ingress infrastructure — the `Gateway`, TLS, Cloud Armor WAF, and DNS — while teams own their route intent. A team exposes a service by authoring an `HTTPRoute` in its own namespace on the pneuma gateway cluster and attaching it to the shared `Gateway` via `parentRefs`. The Listener's `allowedRoutes` controls which `HTTPRoute`s may attach, while a `ReferenceGrant` authorizes the cross-namespace `backendRef`, so teams change routing through their own pipelines without a pneuma deploy. In this phase the model is scaffolded and the istio-test routes are pneuma-managed; no team route is wired yet.
 
 ### End-to-End Validation
 
@@ -125,7 +125,7 @@ Member team clusters join the Fleet and run istiod for local mTLS and sidecar in
 
 #### Context and Problem Statement
 
-With all clusters in a single Fleet mesh, cross-cluster endpoint discovery means a route on a pneuma cluster can send traffic to any pod in any namespace on any cluster. If two teams deploy a service with the same name in the same namespace name (e.g., `istio-test/istio-test`), fleet discovery aggregates their endpoints and a route's backend becomes non-deterministic — it may route to either team's cluster depending on load and locality.
+With all clusters in a single Fleet mesh, cross-cluster endpoint discovery means a `backendRef` on a pneuma cluster can resolve to a `Service` with the same name and namespace on any cluster in the mesh. If two teams deploy a `Service` with the same name in the same namespace (e.g., `istio-test` in `istio-test`), fleet discovery aggregates their endpoints and the backend becomes non-deterministic — traffic may route to either team's cluster depending on load and locality.
 
 E2E validation requires that traffic to `kryptos.sb.osinfra.io` reaches only a kryptos cluster. Without namespace isolation, a backend `Service` named `istio-test` in namespace `istio-test` would resolve to endpoints on all clusters in the mesh.
 
