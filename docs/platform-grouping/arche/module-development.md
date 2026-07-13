@@ -2,7 +2,59 @@
 sidebar_label: Module Development
 ---
 
-import ArcheModuleDemo from '@site/src/components/ArcheModuleDemo';
+import AgentDemo from '@site/src/components/AgentDemo';
+import demoStyles from '@site/src/components/AgentDemo/styles.module.css';
+
+export const archeMessages = [
+  {
+    role: 'user',
+    text: 'Use the Arche Module Agent in osinfra-io/pt-arche-child-module-template to create a new module.',
+  },
+  {
+    role: 'agent',
+    content: (
+      <>
+        <p>👋 Hi! I'm the Arche Module Agent. I help create new <code>pt-arche-*</code> OpenTofu child module repositories — I'll scaffold all the files, wire up the GitHub Actions workflows, and open a PR on <code>pt-logos</code> to register the new repo.</p>
+        <p>Give me just a moment while I look you up…</p>
+        <p className={demoStyles.meta}>✓ Identity validated · @arche-dev · arche-dev@osinfra.io</p>
+        <p>What GCP or Kubernetes resource will this module manage?</p>
+      </>
+    ),
+  },
+  {
+    role: 'user',
+    text: 'Cloud Spanner databases',
+  },
+  {
+    role: 'agent',
+    content: (
+      <>
+        <p>Based on that, I'd suggest naming the repository <code>pt-arche-google-cloud-spanner</code>. Does that work?</p>
+        <p className={demoStyles.meta}>✓ No naming conflicts found in pt-logos or GitHub</p>
+        <p>How about this description? Feel free to revise it:</p>
+        <p><em>OpenTofu module that manages Google Cloud Spanner instances and databases.</em></p>
+      </>
+    ),
+  },
+  {
+    role: 'user',
+    text: 'Looks good. No sub-modules needed. Default feature flags are fine.',
+  },
+  {
+    role: 'agent',
+    content: (
+      <>
+        <p>Here's what I'll do:</p>
+        <ul>
+          <li>📋 <strong>Open a PR on pt-logos</strong> to register <code>pt-arche-google-cloud-spanner</code> under the <code>pt-arche</code> team</li>
+          <li>📁 <strong>Once you confirm the repo exists</strong>, push all scaffolded files — <code>helpers.tofu</code>, <code>main.tofu</code>, <code>variables.tofu</code>, <code>outputs.tofu</code>, tests, workflows, and more</li>
+        </ul>
+        <p className={demoStyles.meta}>helpers.tofu pre-pinned to current pt-arche-core-helpers SHA</p>
+        <p>Shall I open the PR?</p>
+      </>
+    ),
+  },
+];
 
 # Module Development
 
@@ -12,7 +64,7 @@ New `pt-arche-*` modules are created using [`pt-arche-child-module-template`](ht
 
 The **Arche Module Agent** is a GitHub Copilot coding agent that creates new `pt-arche-*` repositories without requiring any local setup. It validates your identity, collects the module details, opens a PR on `pt-logos` to register the repo, and scaffolds all files once the repo exists.
 
-<ArcheModuleDemo />
+<AgentDemo messages={archeMessages} title="GitHub Copilot — Arche Module Agent" />
 
 ### How to invoke it
 
