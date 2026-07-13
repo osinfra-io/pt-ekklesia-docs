@@ -1,6 +1,6 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 
-import { useOnboardingFilter, FilterBar, OnboardingFilterProvider, OnboardingFilterContext } from '@site/src/components/OnboardingFilter';
+import { useOnboardingFilter, FilterBar, OnboardingFilterProvider } from '@site/src/components/OnboardingFilter';
 import teamSchema from './team.schema.json';
 import resolveSchema from './resolveSchema';
 import styles from './styles.module.css';
@@ -97,8 +97,6 @@ function SchemaViewerInner({ title }) {
 }
 
 export default function SchemaViewer({ title }) {
-  const ctx = useContext(OnboardingFilterContext);
-  if (ctx) return <SchemaViewerInner title={title} />;
   return (
     <OnboardingFilterProvider>
       <SchemaViewerInner title={title} />
