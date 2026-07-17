@@ -39,19 +39,18 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 #### Context and Problem Statement
 
-Each team previously had three Google Cloud Identity groups (admin, reader, writer) bound to the team folder via IAM. Because GCP IAM inherits down the folder hierarchy, all three environment folders (sandbox, non-production, production) received identical access. There was no way to grant write access in sandbox or non-production while restricting production to read-only for a given user.
+GCP IAM bindings applied at a folder level inherit to all child folders. Team identity groups bound at the team folder grant the same access across all environments, making it impossible to allow write access in sandbox or non-production while restricting production to read-only.
 
 #### Decision
 
-Replace the three team-folder groups with nine per-environment groups (3 roles × 3 environments), each bound directly to its corresponding environment folder. Group emails follow the pattern `{team-key}-{environment}-{role-plural}@osinfra.io` (e.g. `pt-arche-production-administrators@osinfra.io`). Membership for each role can now differ per environment, giving teams fine-grained access control without custom IAM policies.
+Each team has nine Google Cloud Identity groups (3 roles × 3 environments), each bound directly to its corresponding environment folder. Group emails follow the pattern `{team-key}-{environment}-{role-plural}@osinfra.io` (e.g. `pt-arche-production-administrators@osinfra.io`). Membership for each role is configured independently per environment in `teams/*.tfvars` under `google_basic_groups_env_memberships`.
 
 #### Alternatives Considered
 
-- **Keep team-folder binding, add environment-level deny policies** — deny policies are harder to reason about, audit, and manage as code; explicit group membership is clearer.
-- **Project-level IAM** — projects are provisioned by Corpus, not Logos; binding at the environment folder is the correct layer for team-wide access and consistent with how Corpus already scopes its own service account groups.
+- **Team-folder binding with environment-level deny policies** — deny policies are harder to reason about, audit, and manage as code; explicit group membership is clearer.
+- **Project-level IAM** — projects are provisioned by Corpus, not Logos; binding at the environment folder is the correct layer for team-wide access and consistent with how Corpus scopes its own service account groups.
 
 #### Consequences
 
-- Teams gain the ability to grant different access levels per environment (e.g. writer in sandbox, reader in production).
-- Each team now has 9 identity groups instead of 3; existing 3-group configurations are destroyed and replaced on next apply.
-- Membership must be specified per environment in `teams/*.tfvars` under `google_basic_groups_env_memberships`.
+- Teams can grant different access levels per environment (e.g. writer in sandbox and non-production, reader in production).
+- Membership must be specified per environment, which requires more configuration than a single shared membership block.
