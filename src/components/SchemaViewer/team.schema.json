@@ -77,6 +77,13 @@
         "$ref": "#/$defs/githubRepository"
       }
     },
+    "github_repository_labels": {
+      "description": "Per-team GitHub issue labels applied to all repositories owned by this team. Key is the label name.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/githubRepositoryLabel"
+      }
+    },
     "google_basic_groups_env_memberships": {
       "description": "Per-environment Google Cloud Identity basic groups: admin, reader, writer. Binds each role directly to environment folders — no team-folder binding, no inheritance. Allows finer-grained access control than team-level groups (e.g. write in sandbox/non-production, read-only in production).",
       "type": "object",
@@ -624,6 +631,26 @@
             "disabled"
           ],
           "default": "disabled"
+        }
+      }
+    },
+    "githubRepositoryLabel": {
+      "description": "A single GitHub issue label with a hex color and short description.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "color",
+        "description"
+      ],
+      "properties": {
+        "color": {
+          "description": "Six-digit hex color code without a leading #.",
+          "type": "string",
+          "pattern": "^[0-9A-Fa-f]{6}$"
+        },
+        "description": {
+          "description": "Short description of the label.",
+          "type": "string"
         }
       }
     }
