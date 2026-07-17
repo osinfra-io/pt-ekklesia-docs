@@ -11,7 +11,7 @@
     "display_name",
     "display_name_comment",
     "github_parent_team_memberships",
-    "google_basic_groups_memberships",
+    "google_basic_groups_env_memberships",
     "team_type"
   ],
   "properties": {
@@ -77,8 +77,8 @@
         "$ref": "#/$defs/githubRepository"
       }
     },
-    "google_basic_groups_memberships": {
-      "description": "Google Cloud Identity basic groups: admin, reader, writer.",
+    "google_basic_groups_env_memberships": {
+      "description": "Per-environment Google Cloud Identity basic groups: admin, reader, writer. Binds each role directly to environment folders — no team-folder binding, no inheritance. Allows finer-grained access control than team-level groups (e.g. write in sandbox/non-production, read-only in production).",
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -88,13 +88,13 @@
       ],
       "properties": {
         "admin": {
-          "$ref": "#/$defs/googleGroup"
+          "$ref": "#/$defs/envScopedGoogleGroups"
         },
         "reader": {
-          "$ref": "#/$defs/googleGroup"
+          "$ref": "#/$defs/envScopedGoogleGroups"
         },
         "writer": {
-          "$ref": "#/$defs/googleGroup"
+          "$ref": "#/$defs/envScopedGoogleGroups"
         }
       }
     },
@@ -616,10 +616,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "google_service_account": {
-          "description": "Email of the GCP service account to bind to the Kubernetes service account in this namespace via Workload Identity. When omitted, the namespace is created but no Workload Identity binding is provisioned.",
-          "type": "string"
-        },
         "istio_injection": {
           "description": "Whether to enable Istio sidecar injection in this namespace. Defaults to disabled.",
           "type": "string",
