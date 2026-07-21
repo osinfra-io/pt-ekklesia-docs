@@ -536,6 +536,11 @@
           "additionalProperties": {
             "$ref": "#/$defs/gkeNamespaceEntry"
           }
+        },
+        "route_prefix": {
+          "description": "DNS label the team owns for HTTP ingress on the shared Istio Gateway. Becomes the subdomain <route-prefix>.osinfra.io and the value of the osinfra.io/route-prefix namespace label that scopes the team's Gateway listener. Unlike dns_subdomain it does not require the team to own clusters. Must be lowercase letters, digits, and hyphens, starting with a letter.",
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
         }
       }
     },
