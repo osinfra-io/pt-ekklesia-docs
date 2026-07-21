@@ -68,7 +68,7 @@ Pneuma owns the shared ingress infrastructure — the `Gateway`, TLS, Cloud Armo
 
 ### End-to-End Validation
 
-The `istio-test` workspace deploys a lightweight metadata service in each team's team-prefixed istio-test namespace (`pt-pneuma-istio-test` for pneuma, `pt-{team_key}-istio-test` for member teams) — pneuma is dogfooded exactly like a member team. A validation script checks every global and zonal endpoint and confirms the returned cluster name contains the expected team subdomain and zone, verifying that traffic routes to the correct cluster.
+The `istio-test` workspace deploys a lightweight metadata service into each team's team-prefixed istio-test namespace (`pt-pneuma-istio-test` for pneuma, `pt-{team_key}-istio-test` for member teams) — pneuma is dogfooded exactly like a member team. The namespace itself is declared in each team's Logos spec and created by the `onboarding` workspace (like any team namespace), so the test workspace only deploys the workload. A validation script checks every global and zonal endpoint and confirms the returned cluster name contains the expected team subdomain and zone, verifying that traffic routes to the correct cluster.
 
 ## Core Invariants
 
@@ -132,7 +132,7 @@ E2E validation requires that traffic to `kryptos.sb.osinfra.io` reaches only a k
 
 #### Decision
 
-All member team namespaces are provisioned with a team-key prefix: a namespace declared as `{name}` in the team spec is created as `{team_key}-{name}` in the cluster (e.g., `pt-kryptos-openbao`, `pt-kryptos-istio-test`). Pneuma dogfoods the same convention for its istio-test harness, deploying into `pt-pneuma-istio-test` rather than a bare `istio-test` namespace, so every team — platform and member — is treated identically.
+All team namespaces are provisioned with a team-key prefix: a namespace declared as `{name}` in the team spec is created as `{team_key}-{name}` in the cluster (e.g., `pt-kryptos-openbao`, `pt-kryptos-istio-test`). Pneuma is prefixed the same way with no platform-team exception, so its istio-test harness is declared in Logos and provisioned as `pt-pneuma-istio-test` — every team, platform and member, is treated identically.
 
 `HTTPRoute` `backendRef`s for member team services reference a `Service` in the prefixed namespace (e.g. `istio-test` in `pt-kryptos-istio-test`). Because a `backendRef` must resolve locally on the gateway cluster, pneuma creates a selectorless stub `Service` there for each peer team; fleet endpoint discovery only returns pods from the owning team's clusters, so cluster-level isolation is achieved through naming — no explicit `DestinationRule` subset or locality filter is needed.
 
