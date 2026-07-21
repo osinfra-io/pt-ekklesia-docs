@@ -43,6 +43,7 @@ const sidebars = {
           items: [
             'platform-grouping/pneuma/cluster-management',
             'platform-grouping/pneuma/service-mesh',
+            'platform-grouping/pneuma/subdomain-routing',
             'platform-grouping/pneuma/certificate-management',
             'platform-grouping/pneuma/policy-enforcement',
             'platform-grouping/pneuma/observability',
