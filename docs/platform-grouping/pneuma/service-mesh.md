@@ -56,11 +56,11 @@ Traffic to `kryptos.sb.osinfra.io` enters pneuma's gateway, which matches the `H
 
 ### HTTPRoute Routing and Team Namespace Isolation
 
-The shared istio-test `HTTPRoute`s — including those for member team hosts — are defined on pneuma's clusters in the `istio-ingress` namespace and attach to the shared `Gateway` via `parentRefs`. Unlike an Istio `VirtualService` (which routed to an arbitrary destination FQDN), a Gateway API `HTTPRoute` `backendRef` references a real `Service` object by name, namespace, and port.
+The shared istio-test `HTTPRoute`s — including those for member team hosts — are **co-located with their backend `Service`** in each team's namespace on the pneuma gateway cluster and attach to the shared `Gateway` in the `istio-ingress` namespace via an explicit `parentRefs.namespace`. Unlike an Istio `VirtualService` (which routed to an arbitrary destination FQDN), a Gateway API `HTTPRoute` `backendRef` references a real `Service` object by name, namespace, and port.
 
 Member team namespaces receive a team-key prefix when provisioned: a namespace declared as `openbao` in the kryptos team spec is created as `pt-kryptos-openbao` in the cluster. This prefix scopes the backend `Service` to that team's own clusters (e.g. `istio-test` in `pt-kryptos-istio-test`).
 
-Because a `backendRef` must resolve to a `Service` that exists locally on the gateway cluster, pneuma creates a **selectorless stub `Service`** (and its namespace) on the gateway cluster for each peer team's istio-test backend. Fleet endpoint discovery fills that stub's endpoints from the owning team's clusters only — no pods with that service name exist on any other cluster — so traffic routes exclusively to the owning team without any explicit `DestinationRule` subset or locality filter. A `ReferenceGrant` in each backend namespace authorizes the `istio-ingress` `HTTPRoute` to reference the cross-namespace `Service`.
+Because a `backendRef` must resolve to a `Service` that exists locally on the gateway cluster, pneuma creates a **selectorless stub `Service`** (and its namespace) on the gateway cluster for each peer team's istio-test backend. Fleet endpoint discovery fills that stub's endpoints from the owning team's clusters only — no pods with that service name exist on any other cluster — so traffic routes exclusively to the owning team without any explicit `DestinationRule` subset or locality filter. Because each `HTTPRoute` lives in the same namespace as its backend `Service`, no cross-namespace `ReferenceGrant` is required; the listener's `allowedRoutes` selector authorizes the cross-namespace attachment to the `Gateway`.
 
 ### Team-Authored Routes
 
@@ -68,7 +68,7 @@ Pneuma owns the shared ingress infrastructure — the `Gateway`, TLS, Cloud Armo
 
 ### End-to-End Validation
 
-The `istio-test` workspace deploys a lightweight metadata service in each team's istio-test namespace (`istio-test` on pneuma, `pt-{team_key}-istio-test` on member clusters). A validation script checks every global and zonal endpoint and confirms the returned cluster name contains the expected team subdomain and zone, verifying that traffic routes to the correct cluster.
+The `istio-test` workspace deploys a lightweight metadata service in each team's team-prefixed istio-test namespace (`pt-pneuma-istio-test` for pneuma, `pt-{team_key}-istio-test` for member teams) — pneuma is dogfooded exactly like a member team. A validation script checks every global and zonal endpoint and confirms the returned cluster name contains the expected team subdomain and zone, verifying that traffic routes to the correct cluster.
 
 ## Core Invariants
 
@@ -126,13 +126,13 @@ Member team clusters join the Fleet and run istiod for local mTLS and sidecar in
 
 #### Context and Problem Statement
 
-With all clusters in a single Fleet mesh, cross-cluster endpoint discovery means a `backendRef` on a pneuma cluster can resolve to a `Service` with the same name and namespace on any cluster in the mesh. If two teams deploy a `Service` with the same name in the same namespace (e.g., `istio-test` in `istio-test`), fleet discovery aggregates their endpoints and the backend becomes non-deterministic — traffic may route to either team's cluster depending on load and locality.
+With all clusters in a single Fleet mesh, cross-cluster endpoint discovery means a `backendRef` on a pneuma cluster can resolve to a `Service` with the same name and namespace on any cluster in the mesh. If two teams deploy a `Service` with the same name in the same namespace (e.g., `istio-test` in a shared `istio-test` namespace), fleet discovery aggregates their endpoints and the backend becomes non-deterministic — traffic may route to either team's cluster depending on load and locality.
 
-E2E validation requires that traffic to `kryptos.sb.osinfra.io` reaches only a kryptos cluster. Without namespace isolation, a backend `Service` named `istio-test` in namespace `istio-test` would resolve to endpoints on all clusters in the mesh.
+E2E validation requires that traffic to `kryptos.sb.osinfra.io` reaches only a kryptos cluster. Without namespace isolation, a backend `Service` named `istio-test` in a shared `istio-test` namespace would resolve to endpoints on all clusters in the mesh.
 
 #### Decision
 
-All member team namespaces are provisioned with a team-key prefix: a namespace declared as `{name}` in the team spec is created as `{team_key}-{name}` in the cluster (e.g., `pt-kryptos-openbao`, `pt-kryptos-istio-test`). Pneuma's own namespaces are unchanged.
+All member team namespaces are provisioned with a team-key prefix: a namespace declared as `{name}` in the team spec is created as `{team_key}-{name}` in the cluster (e.g., `pt-kryptos-openbao`, `pt-kryptos-istio-test`). Pneuma dogfoods the same convention for its istio-test harness, deploying into `pt-pneuma-istio-test` rather than a bare `istio-test` namespace, so every team — platform and member — is treated identically.
 
 `HTTPRoute` `backendRef`s for member team services reference a `Service` in the prefixed namespace (e.g. `istio-test` in `pt-kryptos-istio-test`). Because a `backendRef` must resolve locally on the gateway cluster, pneuma creates a selectorless stub `Service` there for each peer team; fleet endpoint discovery only returns pods from the owning team's clusters, so cluster-level isolation is achieved through naming — no explicit `DestinationRule` subset or locality filter is needed.
 
