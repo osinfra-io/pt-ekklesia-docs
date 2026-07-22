@@ -20,8 +20,12 @@ const TYPE_CLASS = {
   map: styles.typeMap,
 };
 
-function SchemaProperty({ name, prop, depth = 0 }) {
-  const hasChildren = prop.properties && Object.keys(prop.properties).length > 0;
+function SchemaProperty({ name, prop, depth = 0, isMapKey = false }) {
+  // Map types (additionalProperties) carry their entry structure on valueSchema
+  // rather than properties, so surface it as a synthetic "«key»" child.
+  const mapEntry = prop.type === 'map' ? prop.valueSchema : null;
+  const childProps = prop.properties && Object.keys(prop.properties).length > 0 ? prop.properties : null;
+  const hasChildren = Boolean(childProps) || Boolean(mapEntry);
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -48,9 +52,11 @@ function SchemaProperty({ name, prop, depth = 0 }) {
           <span className={`${styles.typeBadge} ${TYPE_CLASS[prop.type] ?? styles.typeObject}`}>
             {prop.type}
           </span>
-          <span className={prop.required ? styles.required : styles.optional}>
-            {prop.required ? 'required' : 'optional'}
-          </span>
+          {!isMapKey && (
+            <span className={prop.required ? styles.required : styles.optional}>
+              {prop.required ? 'required' : 'optional'}
+            </span>
+          )}
         </div>
 
         {prop.description && (
@@ -70,9 +76,13 @@ function SchemaProperty({ name, prop, depth = 0 }) {
 
       {hasChildren && expanded && (
         <div className={styles.children}>
-          {Object.entries(prop.properties).map(([k, v]) => (
-            <SchemaProperty key={k} name={k} prop={v} depth={depth + 1} />
-          ))}
+          {childProps
+            ? Object.entries(childProps).map(([k, v]) => (
+                <SchemaProperty key={k} name={k} prop={v} depth={depth + 1} />
+              ))
+            : (
+                <SchemaProperty name="«key»" prop={mapEntry} depth={depth + 1} isMapKey />
+              )}
         </div>
       )}
     </div>
