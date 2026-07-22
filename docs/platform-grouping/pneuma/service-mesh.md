@@ -24,7 +24,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 | `istio-control-plane` | The Istio control plane (istiod) deployed via Helm on every cluster — manages traffic policy and mTLS certificate distribution |
 | `gateway` | A Kubernetes Gateway API `Gateway` (gatewayClassName `istio`) deployed only on pneuma clusters. istiod reconciles it and auto-provisions the `gateway-istio` data plane; it is exposed via a GCP Multi-Cluster Ingress global load balancer and zonal load balancers |
 | `waf-policy` | A Cloud Armor security policy attached to the ingress gateway (OWASP rules, rate limiting, adaptive DDoS) |
-| `http-route` | A Kubernetes Gateway API `HTTPRoute` defining routing for a host — pneuma manages the shared istio-test routes; teams author their own routes into their namespaces |
+| `http-route` | A Kubernetes Gateway API `HTTPRoute` defining routing for a host — pneuma renders one from each team's Logos-declared route intent, co-located with the backend `Service` in the team's namespace |
 | `destination-rule` | An Istio policy defining connection pool and circuit breaker settings for a destination |
 | `peer-authentication` | A mesh-wide policy enforcing strict mTLS between all services |
 
@@ -40,7 +40,7 @@ Clusters have one of two roles in the mesh:
 
 | Role | Clusters | Responsibilities |
 |---|---|---|
-| **Gateway** | `pt-pneuma-*` | Runs the Gateway API `Gateway` and its auto-provisioned `gateway-istio` data plane, the MCI global load balancer, Cloud Armor WAF, Datadog AAP, the shared istio-test `HTTPRoute`s, and hosts teams' `HTTPRoute`s |
+| **Gateway** | `pt-pneuma-*` | Runs the Gateway API `Gateway` and its auto-provisioned `gateway-istio` data plane, the MCI global load balancer, Cloud Armor WAF, Datadog AAP, and the `HTTPRoute`s pneuma renders from every team's Logos-declared route intent |
 | **Member** | `pt-kryptos-*` (and future team clusters) | Runs istiod for mTLS and sidecar injection; no gateway — receives traffic forwarded from the gateway via the mesh |
 
 ### DNS and Ingress Routing
@@ -62,9 +62,9 @@ Member team namespaces receive a team-key prefix when provisioned: a namespace d
 
 Because a `backendRef` must resolve to a `Service` that exists locally on the gateway cluster, pneuma creates a **selectorless stub `Service`** (and its namespace) on the gateway cluster for each peer team's istio-test backend. Fleet endpoint discovery fills that stub's endpoints from the owning team's clusters only — no pods with that service name exist on any other cluster — so traffic routes exclusively to the owning team without any explicit `DestinationRule` subset or locality filter. Because each `HTTPRoute` lives in the same namespace as its backend `Service`, no cross-namespace `ReferenceGrant` is required; the listener's `allowedRoutes` selector authorizes the cross-namespace attachment to the `Gateway`.
 
-### Team-Authored Routes
+### Logos-Declared Routes
 
-Pneuma owns the shared ingress infrastructure — the `Gateway`, TLS, Cloud Armor WAF, per-team listeners, and DNS — while teams own their route intent. The shared `Gateway` carries **an apex and wildcard listener per team**, generated from Logos team data: each listener pairs a `hostname` (`<subdomain>.osinfra.io` for the apex, `*.<subdomain>.osinfra.io` for the wildcard) with an `allowedRoutes.namespaces.from: Selector` matching the `osinfra.io/route-prefix` label. A team exposes a service by authoring an `HTTPRoute` in its own namespace on the pneuma gateway cluster (co-located with its backend `Service`) and attaching it to the shared `Gateway` via `parentRefs`; the listener hostname stops the team routing outside its subdomain, while the selector stops other teams attaching routes into it. Teams change routing through their own pipelines without a pneuma deploy. See [Subdomain Routing](./subdomain-routing.md) for the self-service workflow.
+Pneuma owns the shared ingress infrastructure — the `Gateway`, TLS, Cloud Armor WAF, per-team listeners, and DNS — while teams own their route intent in Logos. The shared `Gateway` carries **an apex and wildcard listener per team**, generated from Logos team data: each listener pairs a `hostname` (`<subdomain>.osinfra.io` for the apex, `*.<subdomain>.osinfra.io` for the wildcard) with an `allowedRoutes.namespaces.from: Selector` matching the `osinfra.io/route-prefix` label. A team exposes a service by declaring route intent (`service`, `port`, optional `path`) under the namespace in its Logos spec; pneuma renders that intent into an `HTTPRoute` co-located with the backend `Service` in the team's namespace on the gateway cluster and attaches it to the shared `Gateway` via `parentRefs`. Teams do not author `HTTPRoute`s directly — Istio multi-cluster propagates only service endpoints (not Gateway API config) and teams have no RBAC on the gateway clusters, so intent is declared centrally and rendered by pneuma. The listener hostname stops the team routing outside its subdomain, while the selector stops other teams attaching routes into it. Route changes take effect on the next pneuma pipeline run. See [Subdomain Routing](./subdomain-routing.md) for the full model.
 
 ### End-to-End Validation
 
@@ -74,7 +74,7 @@ The `istio-test` workspace deploys a lightweight metadata service into each team
 
 - mTLS is enforced on every cluster via `PeerAuthentication` in strict mode — no plaintext pod-to-pod traffic.
 - The Istio ingress gateway runs only on pneuma clusters — no member team cluster accepts external traffic directly.
-- Pneuma owns the shared `Gateway`, TLS, WAF, per-team listeners, and DNS; teams own their own `HTTPRoute`s attached to that Gateway.
+- Pneuma owns the shared `Gateway`, TLS, WAF, per-team listeners, and DNS; teams declare route intent in Logos, which pneuma renders as `HTTPRoute`s attached to that Gateway.
 - A team can serve traffic only on its own `<subdomain>.osinfra.io` subdomain (and labels beneath it), and only from namespaces labeled `osinfra.io/route-prefix` — enforced natively by each listener's hostname and `allowedRoutes` selector, with no admission controller in the path.
 - Member team namespace names carry the team-key prefix (`{team_key}-{namespace}`) — no two teams can collide on a service DNS name within the mesh.
 
@@ -97,7 +97,7 @@ The platform runs multiple GKE clusters — one set owned by pneuma and addition
 
 #### Decision
 
-Pneuma is the sole gateway owner. Only pneuma clusters run the ingress gateway (a Gateway API `Gateway` with its auto-provisioned `gateway-istio` data plane), MCI global load balancer, Cloud Armor WAF policy, and Datadog AAP external processor. All external DNS — including DNS for member team subdomains — points to pneuma's gateway IPs. The shared istio-test `HTTPRoute`s for all team hosts are defined centrally on pneuma's clusters and route traffic across the GKE Fleet mesh to the correct member cluster; teams may additionally author their own `HTTPRoute`s attached to the shared Gateway.
+Pneuma is the sole gateway owner. Only pneuma clusters run the ingress gateway (a Gateway API `Gateway` with its auto-provisioned `gateway-istio` data plane), MCI global load balancer, Cloud Armor WAF policy, and Datadog AAP external processor. All external DNS — including DNS for member team subdomains — points to pneuma's gateway IPs. Every team's `HTTPRoute`s — including the istio-test routes — are rendered by pneuma from Logos-declared route intent, defined centrally on pneuma's clusters, and route traffic across the GKE Fleet mesh to the correct member cluster.
 
 Member team clusters join the Fleet and run istiod for local mTLS and sidecar injection. They have no public endpoint of their own; they receive traffic exclusively via the cross-cluster mesh from pneuma's gateway.
 
@@ -109,9 +109,9 @@ Member team clusters join the Fleet and run istiod for local mTLS and sidecar in
 #### Consequences
 
 - All external TLS termination, WAF inspection, and threat detection happens at a single controlled point (pneuma gateway) for every team
-- Adding a new team cluster requires only a Logos spec change — Corpus creates the team's DNS zone and pneuma provisions its shared istio-test routes and stub backends; no gateway or load balancer changes are needed
+- Adding a new team cluster requires only a Logos spec change — Corpus creates the team's DNS zone and pneuma provisions its istio-test routes and stub backends; no gateway or load balancer changes are needed
 - Pneuma's gateway clusters are critical infrastructure — their availability determines the reachability of every team's workloads
-- Pneuma owns the shared Gateway, TLS, WAF, and DNS; teams own their own `HTTPRoute`s attached to that Gateway
+- Pneuma owns the shared Gateway, TLS, WAF, and DNS; teams declare route intent in Logos, which pneuma renders as `HTTPRoute`s attached to that Gateway
 
 ### Team-Prefixed Namespace Isolation in the Mesh
 
@@ -166,7 +166,7 @@ Ingress was expressed with proprietary Istio `Gateway` and `VirtualService` reso
 
 #### Decision
 
-Migrate north-south ingress to the vendor-neutral Kubernetes Gateway API. Pneuma owns a shared `Gateway` (gatewayClassName `istio`) plus TLS, Cloud Armor WAF, and DNS; istiod reconciles the `Gateway` and automatically provisions the `gateway-istio` data plane, so the Helm gateway release is dropped. Data-plane customization moves to an `infrastructure.parametersRef` ConfigMap. Routing moves from `VirtualService` to `HTTPRoute`: pneuma keeps the shared istio-test routes, and teams author their own `HTTPRoute`s in their namespaces, attaching to the shared Gateway via `allowedRoutes` and a `ReferenceGrant`. Cross-cluster backends resolve through selectorless stub `Service`s on the gateway cluster, with endpoints filled by Istio multicluster discovery.
+Migrate north-south ingress to the vendor-neutral Kubernetes Gateway API. Pneuma owns a shared `Gateway` (gatewayClassName `istio`) plus TLS, Cloud Armor WAF, and DNS; istiod reconciles the `Gateway` and automatically provisions the `gateway-istio` data plane, so the Helm gateway release is dropped. Data-plane customization moves to an `infrastructure.parametersRef` ConfigMap. Routing moves from `VirtualService` to `HTTPRoute`: pneuma renders every team's `HTTPRoute`s from Logos-declared route intent, co-located with the backend `Service` in the team's namespace and attaching to the shared Gateway via `allowedRoutes` (no `ReferenceGrant` needed). Cross-cluster backends resolve through selectorless stub `Service`s on the gateway cluster, with endpoints filled by Istio multicluster discovery.
 
 #### Alternatives Considered
 
@@ -175,7 +175,7 @@ Migrate north-south ingress to the vendor-neutral Kubernetes Gateway API. Pneuma
 
 #### Consequences
 
-- Routing is expressed in a vendor-neutral API; teams own their `HTTPRoute`s without a pneuma deploy
+- Routing is expressed in a vendor-neutral API; teams own their route intent in Logos and pneuma renders the `HTTPRoute`s
 - The data plane is Istio-owned and tracks istiod, removing the Helm gateway release and its values
 - GCP load balancer objects, policies, and selectors repoint to the generated `gateway-istio` service, label, and ServiceAccount
 - Cross-cluster `HTTPRoute` backends require a local `Service` object, so pneuma maintains selectorless stub `Service`s on the gateway cluster for peer teams
@@ -199,7 +199,7 @@ Migrate north-south ingress to the vendor-neutral Kubernetes Gateway API. Pneuma
 
 #### Context and Problem Statement
 
-Teams own their own `HTTPRoute`s on the shared `Gateway`, but a single `Gateway` listener with `allowedRoutes.namespaces.from: All` lets any namespace attach a route claiming any hostname — including another team's subdomain or the apex `osinfra.io`. Team-owned route intent is only safe if the platform can guarantee a team serves traffic **only** on its own `<subdomain>.osinfra.io` subdomain, without the Platform Team reviewing or editing anything per team, per route.
+Teams' route intent renders into `HTTPRoute`s on the shared `Gateway`, but a single `Gateway` listener with `allowedRoutes.namespaces.from: All` lets any namespace attach a route claiming any hostname — including another team's subdomain or the apex `osinfra.io`. Team-declared route intent is only safe if the platform can guarantee a team serves traffic **only** on its own `<subdomain>.osinfra.io` subdomain, without the Platform Team reviewing or editing anything per team, per route.
 
 #### Decision
 
