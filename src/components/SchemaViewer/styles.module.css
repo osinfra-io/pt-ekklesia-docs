@@ -108,6 +108,21 @@
   border-radius: 4px;
 }
 
+.mapKey {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #075985;
+  background: #e0f2fe;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+:global([data-theme='dark']) .mapKey {
+  color: #7dd3fc;
+  background: #0c2a3b;
+}
+
 :global([data-theme='dark']) .required {
   color: #86efac;
   background: #052e16;
