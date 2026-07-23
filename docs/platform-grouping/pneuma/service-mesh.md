@@ -60,11 +60,11 @@ The shared istio-test `HTTPRoute`s — including those for member team hosts —
 
 Member team namespaces receive a team-key prefix when provisioned: a namespace declared as `openbao` in the kryptos team spec is created as `pt-kryptos-openbao` in the cluster. This prefix scopes the backend `Service` to that team's own clusters (e.g. `istio-test` in `pt-kryptos-istio-test`).
 
-Because a `backendRef` must resolve to a `Service` that exists locally on the gateway cluster, pneuma creates a **selectorless stub `Service`** (and its namespace) on the gateway cluster for each peer team's istio-test backend. Fleet endpoint discovery fills that stub's endpoints from the owning team's clusters only — no pods with that service name exist on any other cluster — so traffic routes exclusively to the owning team without any explicit `DestinationRule` subset or locality filter. Because each `HTTPRoute` lives in the same namespace as its backend `Service`, no cross-namespace `ReferenceGrant` is required; the listener's `allowedRoutes` selector authorizes the cross-namespace attachment to the `Gateway`.
+Because a `backendRef` must resolve to a `Service` that exists locally on the gateway cluster, pneuma creates a **selectorless stub `Service`** (and its namespace) on the gateway cluster for each peer team's istio-test backend. Fleet endpoint discovery fills that stub's endpoints from the owning team's clusters only — no pods with that service name exist on any other cluster — so traffic routes exclusively to the owning team without any explicit `DestinationRule` subset or locality filter. Because each `HTTPRoute` lives in the same namespace as its backend `Service`, no cross-namespace `ReferenceGrant` is required; the shared `Gateway`'s single catch-all listener (`allowedRoutes.namespaces.from: All`) authorizes the cross-namespace attachment.
 
 ### Logos-Declared Routes
 
-Pneuma owns the shared ingress infrastructure — the `Gateway`, TLS, Cloud Armor WAF, per-team listeners, and DNS — while teams own their route intent in Logos. The shared `Gateway` carries **an apex and wildcard listener per team**, generated from Logos team data: each listener pairs a `hostname` (`<subdomain>.osinfra.io` for the apex, `*.<subdomain>.osinfra.io` for the wildcard) with an `allowedRoutes.namespaces.from: Selector` matching the `osinfra.io/route-prefix` label. A team exposes a service by declaring route intent (`service`, `port`, optional `path`) under the namespace in its Logos spec; pneuma renders that intent into an `HTTPRoute` co-located with the backend `Service` in the team's namespace on the gateway cluster and attaches it to the shared `Gateway` via `parentRefs`. Teams do not author `HTTPRoute`s directly — Istio multi-cluster propagates only service endpoints (not Gateway API config) and teams have no RBAC on the gateway clusters, so intent is declared centrally and rendered by pneuma. The listener hostname stops the team routing outside its subdomain, while the selector stops other teams attaching routes into it. Route changes take effect on the next pneuma pipeline run. See [Subdomain Routing](./subdomain-routing.md) for the full model.
+Pneuma owns the shared ingress infrastructure — the `Gateway`, TLS, Cloud Armor WAF, and DNS — while teams own their route intent in Logos. The shared `Gateway` carries a **single catch-all HTTPS listener** (no `hostname`, `allowedRoutes.namespaces.from: All`, wildcard TLS certificate). A team exposes a service by declaring route intent (`service`, `port`, optional `path`) under the namespace in its Logos spec; pneuma renders that intent into an `HTTPRoute` co-located with the backend `Service` in the team's namespace on the gateway cluster and attaches it to the shared `Gateway` via `parentRefs`. Crucially, pneuma sets each rendered route's `hostnames` from the team's **authoritative DNS zone** (`dns_subdomain`), keyed by team identity — never from team-supplied text — so a team can only ever be bound to its own `<subdomain>.osinfra.io`. Teams do not author `HTTPRoute`s directly: Istio multi-cluster propagates only service endpoints (not Gateway API config), teams have no RBAC on the gateway clusters, and only the pneuma pipeline applies manifests. Subdomain isolation therefore lives in the reviewed IaC and the deploy pipeline, not the runtime data plane. Route changes take effect on the next pneuma pipeline run. See [Subdomain Routing](./subdomain-routing.md) for the full model.
 
 ### End-to-End Validation
 
@@ -74,8 +74,8 @@ The `istio-test` workspace deploys a lightweight metadata service into each team
 
 - mTLS is enforced on every cluster via `PeerAuthentication` in strict mode — no plaintext pod-to-pod traffic.
 - The Istio ingress gateway runs only on pneuma clusters — no member team cluster accepts external traffic directly.
-- Pneuma owns the shared `Gateway`, TLS, WAF, per-team listeners, and DNS; teams declare route intent in Logos, which pneuma renders as `HTTPRoute`s attached to that Gateway.
-- A team can serve traffic only on its own `<subdomain>.osinfra.io` subdomain (and labels beneath it), and only from namespaces labeled `osinfra.io/route-prefix` — enforced natively by each listener's hostname and `allowedRoutes` selector, with no admission controller in the path.
+- Pneuma owns the shared `Gateway`, TLS, WAF, and DNS; teams declare route intent in Logos, which pneuma renders as `HTTPRoute`s attached to that Gateway.
+- A team can serve traffic only on its own `<subdomain>.osinfra.io` subdomain (and labels beneath it) — enforced because pneuma derives every rendered `HTTPRoute` hostname from the team's authoritative DNS zone, teams never supply hostnames, and only the pneuma pipeline applies manifests.
 - Member team namespace names carry the team-key prefix (`{team_key}-{namespace}`) — no two teams can collide on a service DNS name within the mesh.
 
 ## Architecture Decision Records
@@ -199,25 +199,28 @@ Migrate north-south ingress to the vendor-neutral Kubernetes Gateway API. Pneuma
 
 #### Context and Problem Statement
 
-Teams' route intent renders into `HTTPRoute`s on the shared `Gateway`, but a single `Gateway` listener with `allowedRoutes.namespaces.from: All` lets any namespace attach a route claiming any hostname — including another team's subdomain or the apex `osinfra.io`. Team-declared route intent is only safe if the platform can guarantee a team serves traffic **only** on its own `<subdomain>.osinfra.io` subdomain, without the Platform Team reviewing or editing anything per team, per route.
+Teams' route intent renders into `HTTPRoute`s on the shared `Gateway`. Each team must serve traffic **only** on its own `<subdomain>.osinfra.io` subdomain — never another team's host or the apex `osinfra.io` — without the Platform Team reviewing or editing anything per team, per route. The natural Gateway-native approach — a per-team HTTPS listener whose `hostname` constrains the routes that may attach — fails on GCP: the fronting global external Application Load Balancer (the Google Front End) does **not** forward the client's TLS SNI to backends, and there is no knob to make it. Per-team HTTPS `Terminate` listeners with concrete hostnames make Istio build only SNI-matched Envoy filter chains with no default chain, so every GFE-originated connection is rejected with `NR filter_chain_not_found` and the client sees a universal `502`.
 
 #### Decision
 
-Enforce subdomain ownership **natively with the Gateway API**. The shared `Gateway` carries an apex and a wildcard listener per team, generated from Logos team data (`dns_subdomain`). Each listener pairs two mechanisms that guard opposite directions:
+Keep a **single catch-all HTTPS listener** on the shared `Gateway` (no `hostname`, `allowedRoutes.namespaces.from: All`, wildcard TLS certificate) so the GFE→Envoy hop always matches a default filter chain, and move subdomain isolation from the runtime data plane to the **IaC/GitOps layer**:
 
-- **Listener `hostname`** — an apex listener (`<subdomain>.osinfra.io`) and a wildcard listener (`*.<subdomain>.osinfra.io`) covering labels beneath the subdomain. Gateway API intersects each attached route's `hostnames` with the listener hostname, so a route claiming another host or the bare apex intersects to empty and is not served. A team cannot route *out* of its subdomain.
-- **`allowedRoutes.namespaces.from: Selector`** matching the `osinfra.io/route-prefix` namespace label — only the owning team's labeled namespaces may attach. Other teams cannot route *into* the subdomain.
+- **Route intent in Logos** — teams declare `service`, `port`, and optional `path` under their namespace in their PR-reviewed Logos spec. They never author `HTTPRoute`s or supply hostnames.
+- **Hostnames derived from team identity** — pneuma renders each `HTTPRoute`'s `hostnames` from the team's authoritative DNS zone (`dns_subdomain`), keyed by team, never from team free-text.
+- **Workflow-exclusive apply** — only the pneuma pipeline applies manifests to the gateway clusters; teams have no RBAC there.
 
-Namespaces are labeled at provision time by the onboarding module; listeners are generated by the istio module. Both derive from the same `dns_subdomain` in the team's Logos spec, so adding a team requires no per-team platform action. Because each `HTTPRoute` is co-located with its backend `Service` in the team's own namespace, no cross-namespace `ReferenceGrant` is required.
+The trust boundary is the same one that governs every pneuma-managed resource: reviewed IaC applied by a controlled pipeline.
 
 #### Alternatives Considered
 
-- **OPA Gatekeeper admission policy** — Rejected. A `ConstraintTemplate` validating `HTTPRoute` hostnames against the namespace's team would enforce the same rule, but adds a Rego policy engine and admission webhook to the request path, a second source of truth to keep in sync with team data, and policy-authoring cognitive load — to replicate a guarantee the Gateway API expresses declaratively.
-- **Single `from: All` listener with manual review** — Rejected. Relies on the Platform Team catching cross-subdomain or apex claims in review, which does not scale and defeats team-owned route intent.
+- **Per-team SNI listeners (Gateway-native hostname isolation)** — Rejected. Constrains routes declaratively, but the GCP L7 ALB does not send client SNI to backends, so concrete-hostname HTTPS listeners return universal `502`s with no knob to fix it.
+- **L4 TLS-passthrough load balancer** — Rejected for now. Preserves real client SNI to Envoy and restores Gateway-native isolation, but drops the L7 ALB features the platform depends on (URL maps, Cloud Armor WAF) and requires public ACME certificates. Revisit only if teams gain direct `HTTPRoute` apply rights.
+- **OPA Gatekeeper admission policy** — Rejected. Adds a Rego policy engine and admission webhook to the request path plus a second source of truth to keep in sync with team data, to replicate a guarantee the IaC pipeline already provides.
 
 #### Consequences
 
-- Subdomain isolation is declarative and lives entirely in the `Gateway` spec and namespace labels — no admission controller, webhook, or Rego to operate.
-- A `*.osinfra.io` platform-wide wildcard route is not rejected outright, but the team's own listener hostnames constrain it to serve only the team's own subdomain, so isolation still holds.
-- The `Gateway`'s TLS certificate must cover every per-team listener hostname (a wildcard such as `*.osinfra.io` / `*.<env>.osinfra.io`).
-- Team subdomains are driven by `dns_subdomain` in Logos, keeping team topology the single source of truth for both namespace labels and Gateway listeners.
+- Subdomain isolation is enforced in reviewed IaC and the deploy pipeline, not the runtime data plane — no admission controller, webhook, Rego, or per-team listener to operate.
+- End-to-end TLS, the L7 ALB (URL maps, Cloud Armor WAF), and the Kubernetes Gateway API are all retained.
+- The `Gateway`'s wildcard TLS certificate (`*.osinfra.io` / `*.<env>.osinfra.io`) covers every team host, so adding a team requires no per-team platform action.
+- Residual risk (accepted): a rendering bug or a compromised pipeline could mis-bind a hostname — the same trust surface as all pneuma-managed resources. If teams ever gain direct `HTTPRoute` apply rights, runtime isolation (L4 passthrough) must return.
+- Team subdomains are driven by `dns_subdomain` in Logos, keeping team topology the single source of truth.
