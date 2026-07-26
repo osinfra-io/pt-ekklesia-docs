@@ -60,12 +60,74 @@ Each `HTTPRoute` lives in the same namespace as its backend `Service`, so no `Re
 
 ### Logos-Declared Routes
 
-Teams declare route intent (`service`, `port`, optional `path`) under their namespace in the Logos team spec. Pneuma renders each declaration into an `HTTPRoute` with:
+Teams declare route intent (`service`, `port`, optional `path`) under a mesh-enabled namespace in the Logos team spec. Routes may only be declared on namespaces with `istio_injection = "enabled"`. Pneuma renders each declaration into an `HTTPRoute` with:
 
 - `hostnames` derived from the team's authoritative DNS zone (`dns_subdomain`) — never team-supplied text
 - `backendRef` pointing to the `Service` in the team's prefixed namespace on the gateway cluster
 
-The shared `Gateway` carries a single catch-all HTTPS listener (no hostname filter, wildcard TLS cert). Route changes take effect on the next pneuma pipeline run. See [Subdomain Routing](./subdomain-routing.md) for the full model.
+The shared `Gateway` carries a single catch-all HTTPS listener (no hostname filter, wildcard TLS cert). Route changes take effect on the next pneuma pipeline run.
+
+**Example declaration** (in the team's Logos spec):
+
+```hcl
+namespaces = {
+  "api" = {
+    istio_injection = "enabled"
+
+    routes = {
+      "api" = {
+        path    = "/api"
+        port    = 8080
+        service = "api-service"
+      }
+    }
+  }
+}
+```
+
+Pneuma renders this as an `HTTPRoute` in the `st-ethos-api` namespace on the gateway cluster, serving `ethos.osinfra.io/api`:
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: api-ethos
+  namespace: st-ethos-api
+spec:
+  parentRefs:
+    - name: gateway
+      namespace: istio-ingress
+  hostnames:
+    - ethos.osinfra.io
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api
+      backendRefs:
+        - name: api-service
+          port: 8080
+```
+
+**What's served vs not:**
+
+| Scenario | Result |
+|---|---|
+| `ethos.osinfra.io/api` from a declared route | ✅ Served — pneuma binds the team's subdomain |
+| `us-east1.ethos.osinfra.io/api` (zonal probe) | ✅ Served — derived from the same subdomain |
+| A team claiming `other-team.osinfra.io` | ❌ Impossible — teams never supply a hostname |
+| An `HTTPRoute` applied directly to a gateway cluster | ❌ Teams have no RBAC there |
+
+**Troubleshooting** — if a route is not being served:
+
+1. Confirm the route is declared on a mesh-enabled namespace with correct `service` and `port`
+2. Confirm `dns_subdomain` is set for the team
+3. Confirm the backend `Service` exists on the gateway cluster and listens on the declared port
+4. Inspect the rendered route — `Accepted` and `ResolvedRefs` should both be `True`:
+
+   ```bash
+   kubectl get httproute -n st-ethos-api api-ethos -o yaml
+   ```
 
 ### End-to-End Validation
 
