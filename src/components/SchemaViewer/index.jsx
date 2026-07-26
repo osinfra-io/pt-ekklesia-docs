@@ -30,7 +30,7 @@ function SchemaProperty({ name, prop, depth = 0 }) {
       ? prop.valueSchema.properties
       : null;
   const ownProps = prop.properties && Object.keys(prop.properties).length > 0 ? prop.properties : null;
-  const childProps = ownProps ?? mapEntryProps;
+  const childProps = mapEntryProps ?? ownProps;
   const hasChildren = Boolean(childProps);
   const [expanded, setExpanded] = useState(false);
 

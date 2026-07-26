@@ -114,7 +114,7 @@ spec:
 | Scenario | Result |
 |---|---|
 | `ethos.osinfra.io/api` from a declared route | ✅ Served — pneuma binds the team's subdomain |
-| `us-east1.ethos.osinfra.io/api` (zonal probe) | ✅ Served — derived from the same subdomain |
+| `us-east1-b.ethos.osinfra.io/api` (zonal probe) | ✅ Served — derived from the same subdomain |
 | A team claiming `other-team.osinfra.io` | ❌ Impossible — teams never supply a hostname |
 | An `HTTPRoute` applied directly to a gateway cluster | ❌ Teams have no RBAC there |
 
@@ -197,7 +197,7 @@ For member teams, pneuma creates a selectorless stub `Service` on the gateway cl
 
 #### Alternatives Considered
 
-- **Explicit DestinationRule subsets with cluster labels** — Rejected. A DestinationRule per team per service that must stay in sync with topology changes.
+- **Explicit DestinationRule subsets with cluster labels** — Rejected. Requires a DestinationRule for each team/service, each of which must stay in sync with topology changes.
 - **Locality failover rules** — Rejected. Routes by proximity, not ownership — cannot guarantee traffic stays within a team's cluster.
 - **Separate gateways per team** — Rejected. Contradicts single-gateway-owner decision.
 
