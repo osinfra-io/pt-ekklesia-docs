@@ -631,6 +631,39 @@
             "disabled"
           ],
           "default": "disabled"
+        },
+        "routes": {
+          "description": "HTTP route intent for this namespace, keyed by route name. Pneuma renders each entry as a Gateway API HTTPRoute on the shared Istio gateway, serving the team's <subdomain>.osinfra.io host at the route's path prefix from the named Service. Routes may only be declared on mesh-enabled namespaces (istio_injection = enabled).",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/gkeRoute"
+          }
+        }
+      }
+    },
+    "gkeRoute": {
+      "description": "HTTP route intent rendered by pneuma as a Gateway API HTTPRoute on the shared Istio gateway.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "port",
+        "service"
+      ],
+      "properties": {
+        "path": {
+          "description": "URL path prefix to match for this route (PathPrefix). Defaults to \"/\" (match all paths under the host).",
+          "type": "string",
+          "default": "/"
+        },
+        "port": {
+          "description": "Port on the backend Service to route matched traffic to.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "service": {
+          "description": "Name of the backend Kubernetes Service in this namespace to route matched traffic to.",
+          "type": "string"
         }
       }
     },

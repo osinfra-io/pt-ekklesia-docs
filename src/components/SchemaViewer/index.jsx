@@ -21,7 +21,17 @@ const TYPE_CLASS = {
 };
 
 function SchemaProperty({ name, prop, depth = 0 }) {
-  const hasChildren = prop.properties && Object.keys(prop.properties).length > 0;
+  // Map types (additionalProperties) carry their per-entry structure on
+  // valueSchema rather than properties. Render those entry fields directly as
+  // children so each map expands in a single click; the ‹key› hint on the row
+  // signals the fields apply to each arbitrarily-named entry.
+  const mapEntryProps =
+    prop.type === 'map' && prop.valueSchema?.properties && Object.keys(prop.valueSchema.properties).length > 0
+      ? prop.valueSchema.properties
+      : null;
+  const ownProps = prop.properties && Object.keys(prop.properties).length > 0 ? prop.properties : null;
+  const childProps = mapEntryProps ?? ownProps;
+  const hasChildren = Boolean(childProps);
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -48,6 +58,11 @@ function SchemaProperty({ name, prop, depth = 0 }) {
           <span className={`${styles.typeBadge} ${TYPE_CLASS[prop.type] ?? styles.typeObject}`}>
             {prop.type}
           </span>
+          {mapEntryProps && (
+            <span className={styles.mapKey} title="Repeatable: the fields below apply to each entry, keyed by an arbitrary name">
+              &lsaquo;key&rsaquo;
+            </span>
+          )}
           <span className={prop.required ? styles.required : styles.optional}>
             {prop.required ? 'required' : 'optional'}
           </span>
@@ -70,7 +85,7 @@ function SchemaProperty({ name, prop, depth = 0 }) {
 
       {hasChildren && expanded && (
         <div className={styles.children}>
-          {Object.entries(prop.properties).map(([k, v]) => (
+          {Object.entries(childProps).map(([k, v]) => (
             <SchemaProperty key={k} name={k} prop={v} depth={depth + 1} />
           ))}
         </div>
