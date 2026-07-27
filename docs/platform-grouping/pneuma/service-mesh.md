@@ -4,11 +4,11 @@ sidebar_label: Service Mesh
 
 # Service Mesh
 
-Istio runs on every GKE cluster as a single multi-cluster mesh via GKE Fleet. It provides mTLS between services, traffic management, and an ingress gateway backed by Cloud Armor WAF and Datadog AAP. Ingress uses the vendor-neutral [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
+Istio runs on every GKE cluster as a single multi-cluster mesh via GKE Fleet. It provides mTLS between services, traffic management, centralized [gateway auth](./gateway-auth.md), and an ingress gateway backed by Cloud Armor WAF and Datadog AAP. Ingress uses the vendor-neutral [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
 
 - **mTLS**: All pod-to-pod traffic is encrypted and authenticated via per-cluster istiod instances
-- **Ingress gateway**: External traffic enters exclusively through pneuma's gateway — a Gateway API `Gateway` reconciled by istiod, backed by MCI global load balancer, Cloud Armor WAF, and Datadog AAP
-- **Routing**: Teams declare route intent in Logos; pneuma renders `HTTPRoute`s with hostnames derived from the team's authoritative DNS zone
+- **Ingress gateway**: External traffic enters exclusively through pneuma's gateway — a Gateway API `Gateway` reconciled by istiod, backed by MCI global load balancer, Cloud Armor WAF, Datadog AAP, and OAuth2 Proxy external authorization
+- **Routing and auth**: Teams declare route intent and auth policy in Logos; Pneuma renders `HTTPRoute`s and Istio auth policies with hostnames derived from the team's authoritative DNS zone
 - **cert-manager**: Istio's built-in CA is replaced by cert-manager via istio-csr for all workload mTLS certificates
 
 :::tip Architecture Decision Records
@@ -23,6 +23,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 |---|---|
 | `istio-control-plane` | istiod deployed via Helm on every cluster — manages traffic policy and mTLS certificate distribution |
 | `gateway` | Gateway API `Gateway` (gatewayClassName `istio`) on pneuma clusters only. istiod auto-provisions the `gateway-istio` data plane; exposed via MCI global and zonal load balancers |
+| `gateway-auth` | Istio `RequestAuthentication` and `AuthorizationPolicy` resources on the gateway data plane — validates Keycloak JWTs, invokes OAuth2 Proxy via ext_authz, and enforces route-scoped group/role claims |
 | `waf-policy` | Cloud Armor security policy on the ingress gateway (OWASP rules, rate limiting, adaptive DDoS) |
 | `http-route` | Gateway API `HTTPRoute` per team host, co-located with the backend `Service` in the team's namespace |
 | `destination-rule` | Istio connection pool and circuit breaker settings per destination |
@@ -67,6 +68,8 @@ Teams declare route intent (`service`, `port`, optional `path`) under a mesh-ena
 
 The shared `Gateway` carries a single catch-all HTTPS listener (no hostname filter, wildcard TLS cert). Route changes take effect on the next pneuma pipeline run.
 
+Teams may also declare `route_auth_policies` keyed by route name. Enforced routes require a valid Keycloak JWT and pass through OAuth2 Proxy external authorization unless the request path is a public path, OAuth2 callback path, or standard health path. Required groups and roles are enforced by Istio `AuthorizationPolicy` checks against validated JWT claims (`groups` and `realm_access.roles`). This keeps route authorization generated from the Logos contract and fail-closed at the gateway. See [Gateway Auth](./gateway-auth.md) for the full request evaluation order, ownership model, and operational expectations.
+
 **Example declaration** (in the team's Logos spec):
 
 ```hcl
@@ -79,6 +82,13 @@ namespaces = {
         path    = "/api"
         port    = 8080
         service = "api-service"
+      }
+    }
+
+    route_auth_policies = {
+      "api" = {
+        public_paths    = ["/api/healthz"]
+        required_groups = ["st-ethos-readers"]
       }
     }
   }
@@ -138,6 +148,7 @@ The `istio-test` workspace deploys a lightweight metadata service into each team
 - mTLS is enforced on every cluster via `PeerAuthentication` in strict mode — no plaintext pod-to-pod traffic.
 - The ingress gateway runs only on pneuma clusters — member clusters have no public endpoint.
 - `HTTPRoute` hostnames are derived from the team's `dns_subdomain` — teams cannot serve traffic on another team's subdomain.
+- Gateway auth is fail-closed: enforced routes require Keycloak JWT validation and OAuth2 Proxy ext_authz; the extension provider does not fail open.
 - Member namespace names carry the team-key prefix (`{team_key}-{namespace}`) — no cross-team endpoint aggregation in the mesh.
 
 ## Architecture Decision Records

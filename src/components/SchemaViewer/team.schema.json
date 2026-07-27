@@ -638,6 +638,13 @@
           "additionalProperties": {
             "$ref": "#/$defs/gkeRoute"
           }
+        },
+        "route_auth_policies": {
+          "description": "Route authentication and authorization intent for this namespace, keyed by an existing route name. Pneuma renders each entry as centralized gateway auth policy on the shared Istio gateway. Enforced policies default to fail-closed and require at least one required group or role.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/gkeRouteAuthPolicy"
+          }
         }
       }
     },
@@ -664,6 +671,83 @@
         "service": {
           "description": "Name of the backend Kubernetes Service in this namespace to route matched traffic to.",
           "type": "string"
+        }
+      }
+    },
+    "gkeRouteAuthPolicy": {
+      "description": "Gateway authentication and authorization intent for a single Logos-declared route.",
+      "type": "object",
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "not": {
+              "required": [
+                "enforced"
+              ],
+              "properties": {
+                "enforced": {
+                  "const": false
+                }
+              }
+            }
+          },
+          "then": {
+            "anyOf": [
+              {
+                "required": [
+                  "required_groups"
+                ],
+                "properties": {
+                  "required_groups": {
+                    "minItems": 1
+                  }
+                }
+              },
+              {
+                "required": [
+                  "required_roles"
+                ],
+                "properties": {
+                  "required_roles": {
+                    "minItems": 1
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "enforced": {
+          "description": "Whether gateway auth is enforced for this route. Defaults to true so routes fail closed unless explicitly made public.",
+          "type": "boolean",
+          "default": true
+        },
+        "public_paths": {
+          "description": "Path prefixes under the referenced route path that bypass gateway auth. Entries cannot be \"/\".",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^/.+",
+            "not": {
+              "const": "/"
+            }
+          }
+        },
+        "required_groups": {
+          "description": "Keycloak group claims accepted for this route when auth is enforced.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "required_roles": {
+          "description": "Keycloak realm role claims accepted for this route when auth is enforced.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
