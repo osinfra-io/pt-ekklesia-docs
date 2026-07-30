@@ -7,7 +7,7 @@ sidebar_label: Data Services
 Corpus provisions Private Services Access peering for the Shared VPC and Cloud SQL instances in team platform-managed projects, consuming Logos team configuration.
 
 - **Private Services Access**: A reserved IP range and peering connection enable Cloud SQL and Memorystore with private IP from any Shared VPC workload
-- **Cloud SQL**: One PostgreSQL instance per declared region in the team's platform-managed project, with private IP through the Shared VPC peering connection
+- **Cloud SQL**: One PostgreSQL instance per declared instance name and region in the team's platform-managed project, with private IP through the Shared VPC peering connection
 - **Pub/Sub**: No platform prerequisites required; Private Google Access on all subnets covers pod connectivity without NAT
 
 :::tip Architecture Decision Records
@@ -28,19 +28,19 @@ The primary resource is `service-networking-connection` — the VPC peering conn
 
 ### Cloud SQL Instance
 
-`cloud-sql-instance` is a managed PostgreSQL instance provisioned by Corpus in a team's platform-managed project — at most one per declared region. Created via `pt-arche-google-cloud-sql` with private IP through the Shared VPC peering connection (`ipv4_enabled = false`) and SSL enforced (`ssl_mode = "ENCRYPTED_ONLY"`).
+`cloud-sql-instance` is a managed PostgreSQL instance provisioned by Corpus in a team's platform-managed project. Teams declare one or more named instances under `cloud_sql` (keyed by a team-chosen instance name such as `authentik`), and Corpus provisions one instance per declared instance name and region. Created via `pt-arche-google-cloud-sql` with private IP through the Shared VPC peering connection (`ipv4_enabled = false`) and SSL enforced (`ssl_mode = "ENCRYPTED_ONLY"`).
 
 ## Glossary
 
 | Term | Meaning in this context |
 |---|---|
-| `cloud-sql-instance` | A managed PostgreSQL instance per region in the team's platform-managed project, accessible via private IP through the Shared VPC peering connection |
+| `cloud-sql-instance` | A managed PostgreSQL instance per declared instance name and region in the team's platform-managed project, accessible via private IP through the Shared VPC peering connection |
 | `managed-services-ip-range` | A reserved IP range in the host VPC allocated for Google managed services Private Services Access |
 | `service-networking-connection` | The VPC peering connection between the host VPC and Google's managed services network |
 
 ## Core Invariants
 
-- Each team has at most one Cloud SQL instance per declared region — never more than one instance per team per region.
+- Each team declares Cloud SQL instances by name under `cloud_sql`; Corpus provisions at most one instance per declared instance name and region — never more than one per instance name per region.
 - Every Cloud SQL instance has no public IP — private connectivity only, with SSL enforced.
 
 ## Architecture Decision Records
@@ -77,6 +77,6 @@ Stream-aligned teams without a platform-managed project provision their own inst
 #### Consequences
 
 - Cloud SQL and Memorystore Private IP are available to any workload on the Shared VPC after the one-time Corpus PR per environment
-- Teams declare `cloud_sql` in Logos; Corpus provisions the instance in their platform-managed project automatically on the next deployment
+- Teams declare named `cloud_sql` instances in Logos; Corpus provisions each instance in their platform-managed project automatically on the next deployment
 - Stream-aligned teams without a platform-managed project provision their own instances using the Arche module directly
 - The team topology expands to a dedicated data platform team only when shared data infrastructure appears on the roadmap

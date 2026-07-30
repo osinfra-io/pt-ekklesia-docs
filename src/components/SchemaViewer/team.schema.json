@@ -136,7 +136,11 @@
       "additionalProperties": false,
       "properties": {
         "cloud_sql": {
-          "$ref": "#/$defs/cloudSQL"
+          "description": "Cloud SQL instances keyed by team-chosen instance name (e.g. authentik). A team may declare multiple instances.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/cloudSQL"
+          }
         },
         "enable_datadog": {
           "description": "Enable Datadog integration for the platform-managed project.",
@@ -458,7 +462,7 @@
       }
     },
     "cloudSQL": {
-      "description": "Cloud SQL instance configuration. pt-corpus provisions one instance per declared region using the pt-arche-google-cloud-sql module. Each instance receives a private IP address through the Shared VPC peering connection managed by pt-corpus.",
+      "description": "Cloud SQL instance configuration. pt-corpus provisions one instance per declared region using the pt-arche-google-cloud-sql module. The instance name is the map key under cloud_sql. Each instance receives a private IP address through the Shared VPC peering connection managed by pt-corpus.",
       "type": "object",
       "additionalProperties": false,
       "required": [
