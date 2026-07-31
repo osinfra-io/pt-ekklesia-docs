@@ -4,11 +4,11 @@ sidebar_label: Service Mesh
 
 # Service Mesh
 
-Istio runs on every GKE cluster as a single multi-cluster mesh via GKE Fleet. It provides mTLS between services, traffic management, and an ingress gateway backed by Cloud Armor WAF and Datadog AAP. Ingress uses the vendor-neutral [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
+Istio runs on every GKE cluster as a single multi-cluster mesh via GKE Fleet. It provides mTLS between services, traffic management, centralized [gateway auth](./gateway-auth.md), and an ingress gateway backed by Cloud Armor WAF and Datadog AAP. Ingress uses the vendor-neutral [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
 
 - **mTLS**: All pod-to-pod traffic is encrypted and authenticated via per-cluster istiod instances
-- **Ingress gateway**: External traffic enters exclusively through pneuma's gateway — a Gateway API `Gateway` reconciled by istiod, backed by MCI global load balancer, Cloud Armor WAF, and Datadog AAP
-- **Routing**: Teams declare route intent in Logos; pneuma renders `HTTPRoute`s with hostnames derived from the team's authoritative DNS zone
+- **Ingress gateway**: External traffic enters exclusively through pneuma's gateway — a Gateway API `Gateway` reconciled by istiod, backed by MCI global load balancer, Cloud Armor WAF, Datadog AAP, and Authentik external authorization
+- **Routing and auth**: Teams declare route intent and auth policy in Logos; pneuma renders `HTTPRoute`s and Istio auth policies with hostnames derived from the team's authoritative DNS zone
 - **cert-manager**: Istio's built-in CA is replaced by cert-manager via istio-csr for all workload mTLS certificates
 
 :::tip Architecture Decision Records
@@ -23,6 +23,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 |---|---|
 | `istio-control-plane` | istiod deployed via Helm on every cluster — manages traffic policy and mTLS certificate distribution |
 | `gateway` | Gateway API `Gateway` (gatewayClassName `istio`) on pneuma clusters only. istiod auto-provisions the `gateway-istio` data plane; exposed via MCI global and zonal load balancers |
+| `gateway-auth` | Istio `RequestAuthentication` and `AuthorizationPolicy` resources on the gateway data plane — validates Authentik JWTs, forwards `browser` routes to the Authentik embedded outpost via ext_authz, and enforces route-scoped claims for `api-jwt` routes. See [Gateway Auth](./gateway-auth.md) |
 | `waf-policy` | Cloud Armor security policy on the ingress gateway (OWASP rules, rate limiting, adaptive DDoS) |
 | `http-route` | Gateway API `HTTPRoute` per team host, co-located with the backend `Service` in the team's namespace |
 | `destination-rule` | Istio connection pool and circuit breaker settings per destination |
@@ -128,6 +129,54 @@ spec:
    ```bash
    kubectl get httproute -n st-ethos-api api-ethos -o yaml
    ```
+
+### Gateway Auth Policies
+
+For any declared route, a team may attach a **gateway auth policy** so pneuma enforces authentication and authorization at the shared gateway through Authentik. Policies are declared under `route_auth_policies`, keyed by the matching route name, and may only be set on mesh-enabled namespaces. Each policy selects one of three **modes** (default `browser`):
+
+| Mode | Purpose | Required fields | Forbidden fields |
+|---|---|---|---|
+| `public` | No authentication — the route is open | none | `audiences`, `public_paths`, `required_groups`, `required_roles` |
+| `browser` | Interactive Authentik SSO for human users | at least one of `required_groups` / `required_roles` | `audiences` |
+| `api-jwt` | Machine-to-machine bearer JWT validation | at least one `audiences` value | none |
+
+`public_paths` (allowed on `browser` and `api-jwt`) list unauthenticated sub-paths under the route's `path` prefix — each must start with `/`, must not be `/`, and must fall under the route path. Entries are matched **as declared**: `/api/healthz` exempts only that exact path, so to exempt a subtree add a trailing wildcard (`/api/healthz/*`). A root or wildcard-only entry (`/`, `/*`, `*`) is rejected because it would exempt the whole route. `required_groups` and `required_roles` reference Authentik identity groups and application roles carried in the token claims.
+
+**Claim and path matching semantics:**
+
+- **Non-empty lists.** Logos rejects an empty `required_groups`/`required_roles` on a `browser` policy and an empty `audiences` on an `api-jwt` policy, so an enforced route always has at least one principal to match.
+- **OR within a list, AND across lists.** A request satisfies a single claim list if it carries **any one** of the listed values (OR). When more than one claim type is declared (e.g. `audiences` plus `required_roles` on an `api-jwt` route), the request must satisfy **each** list (AND).
+- **Route `path` is a prefix.** A route with `path = "/api"` matches `/api` and everything under it; a route that omits `path` defaults to `/` and matches all paths under the host. Enforcement covers the whole prefix except the declared `public_paths` and pneuma's built-in exemptions (Authentik callback and health-check paths).
+
+**Example declaration** (in the team's Logos spec):
+
+```hcl
+namespaces = {
+  "api" = {
+    istio_injection = "enabled"
+
+    route_auth_policies = {
+      "api" = {
+        mode            = "browser"
+        public_paths    = ["/api/healthz"]
+        required_groups = ["platform-engineers"]
+      }
+    }
+
+    routes = {
+      "api" = {
+        path    = "/api"
+        port    = 8080
+        service = "api-service"
+      }
+    }
+  }
+}
+```
+
+Pneuma renders `browser` policies as a forward-auth `AuthorizationPolicy` (Envoy `ext_authz` to the Authentik embedded outpost) that authenticates the interactive session; group and role authorization for `browser` routes is delegated to Authentik application-policy bindings, so a `browser` route is authenticated-only until those bindings exist. `api-jwt` policies render a `RequestAuthentication` plus a native-claim DENY `AuthorizationPolicy` that rejects any request without a validated JWT and any whose `audiences`, `required_groups`, or `required_roles` claims do not match. `public` routes and any declared `public_paths` are excluded from enforcement.
+
+See [Gateway Auth](./gateway-auth.md) for the full request evaluation order, component ownership, and operational expectations.
 
 ### End-to-End Validation
 

@@ -9,6 +9,7 @@ Pneuma is the breath of life animating the platform via Kubernetes — orchestra
 
 - **[Cluster Management](./cluster-management.md)**: GKE clusters with autoscaling node pools, Workload Identity, and Fleet enrollment
 - **[Service Mesh](./service-mesh.md)**: Istio with mTLS, traffic management, and Datadog AAP-backed ingress
+- **[Gateway Auth](./gateway-auth.md)**: Centralized Authentik and Istio auth policy enforcement for external routes
 - **[Certificate Management](./certificate-management.md)**: cert-manager with istio-csr as the mesh CA, issuing all workload mTLS certificates from a self-signed root
 - **[Policy Enforcement](./policy-enforcement.md)**: OPA Gatekeeper constraint templates and audit mode
 - **[Observability](./observability.md)**: Datadog Operator for cluster metrics, traces, and log collection
@@ -42,6 +43,7 @@ Pneuma consumes from Corpus (networking and project infrastructure) and Arche (t
 | Cluster | A GKE Kubernetes cluster deployed to one or more zones within a Corpus project |
 | Constraint | An OPA Gatekeeper policy rule enforced at admission time against incoming Kubernetes resources |
 | Fleet | A GCP construct grouping GKE clusters for unified management and policy |
+| Gateway auth | Centralized authentication and authorization at the Pneuma ingress gateway, generated from Logos `route_auth_policies` |
 | Operator | A Kubernetes controller deployed as an add-on (Datadog Operator, cert-manager) managing its resource lifecycle |
 | Policy | A set of constraints defining the compliance posture for a cluster |
 | Service mesh | The Istio control plane managing mTLS, traffic routing, and observability across all pods |
