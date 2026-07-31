@@ -139,7 +139,13 @@ For any declared route, a team may attach a **gateway auth policy** so pneuma en
 | `browser` | Interactive Authentik SSO for human users | at least one of `required_groups` / `required_roles` | `audiences` |
 | `api-jwt` | Machine-to-machine bearer JWT validation | at least one `audiences` value | none |
 
-`public_paths` (allowed on `browser` and `api-jwt`) list unauthenticated sub-paths under the route's `path` prefix — each must start with `/`, must not be `/`, and must fall under the route path. `required_groups` and `required_roles` reference Authentik identity groups and application roles carried in the token claims.
+`public_paths` (allowed on `browser` and `api-jwt`) list unauthenticated sub-paths under the route's `path` prefix — each must start with `/`, must not be `/`, and must fall under the route path. Entries are matched **as declared**: `/api/healthz` exempts only that exact path, so to exempt a subtree add a trailing wildcard (`/api/healthz/*`). A root or wildcard-only entry (`/`, `/*`, `*`) is rejected because it would exempt the whole route. `required_groups` and `required_roles` reference Authentik identity groups and application roles carried in the token claims.
+
+**Claim and path matching semantics:**
+
+- **Non-empty lists.** Logos rejects an empty `required_groups`/`required_roles` on a `browser` policy and an empty `audiences` on an `api-jwt` policy, so an enforced route always has at least one principal to match.
+- **OR within a list, AND across lists.** A request satisfies a single claim list if it carries **any one** of the listed values (OR). When more than one claim type is declared (e.g. `audiences` plus `required_roles` on an `api-jwt` route), the request must satisfy **each** list (AND).
+- **Route `path` is a prefix.** A route with `path = "/api"` matches `/api` and everything under it; a route that omits `path` defaults to `/` and matches all paths under the host. Enforcement covers the whole prefix except the declared `public_paths` and pneuma's built-in exemptions (Authentik callback and health-check paths).
 
 **Example declaration** (in the team's Logos spec):
 
@@ -167,7 +173,7 @@ namespaces = {
 }
 ```
 
-Pneuma renders `browser` policies as a forward-auth `AuthorizationPolicy` (Envoy `ext_authz` to the Authentik embedded outpost) plus a native-claim authorization check for the declared groups/roles, and `api-jwt` policies as a `RequestAuthentication` + `AuthorizationPolicy` validating the bearer token audience. `public` routes and any declared `public_paths` are excluded from enforcement.
+Pneuma renders `browser` policies as a forward-auth `AuthorizationPolicy` (Envoy `ext_authz` to the Authentik embedded outpost) that authenticates the interactive session; group and role authorization for `browser` routes is delegated to Authentik application-policy bindings, so a `browser` route is authenticated-only until those bindings exist. `api-jwt` policies render a `RequestAuthentication` plus a native-claim DENY `AuthorizationPolicy` that rejects any request without a validated JWT and any whose `audiences`, `required_groups`, or `required_roles` claims do not match. `public` routes and any declared `public_paths` are excluded from enforcement.
 
 ### End-to-End Validation
 
