@@ -129,6 +129,46 @@ spec:
    kubectl get httproute -n st-ethos-api api-ethos -o yaml
    ```
 
+### Gateway Auth Policies
+
+For any declared route, a team may attach a **gateway auth policy** so pneuma enforces authentication and authorization at the shared gateway through Authentik. Policies are declared under `route_auth_policies`, keyed by the matching route name, and may only be set on mesh-enabled namespaces. Each policy selects one of three **modes** (default `browser`):
+
+| Mode | Purpose | Required fields | Forbidden fields |
+|---|---|---|---|
+| `public` | No authentication — the route is open | none | `audiences`, `public_paths`, `required_groups`, `required_roles` |
+| `browser` | Interactive Authentik SSO for human users | at least one of `required_groups` / `required_roles` | `audiences` |
+| `api-jwt` | Machine-to-machine bearer JWT validation | at least one `audiences` value | none |
+
+`public_paths` (allowed on `browser` and `api-jwt`) list unauthenticated sub-paths under the route's `path` prefix — each must start with `/`, must not be `/`, and must fall under the route path. `required_groups` and `required_roles` reference Authentik identity groups and application roles carried in the token claims.
+
+**Example declaration** (in the team's Logos spec):
+
+```hcl
+namespaces = {
+  "api" = {
+    istio_injection = "enabled"
+
+    route_auth_policies = {
+      "api" = {
+        mode            = "browser"
+        public_paths    = ["/api/healthz"]
+        required_groups = ["platform-engineers"]
+      }
+    }
+
+    routes = {
+      "api" = {
+        path    = "/api"
+        port    = 8080
+        service = "api-service"
+      }
+    }
+  }
+}
+```
+
+Pneuma renders `browser` policies as a forward-auth `AuthorizationPolicy` (Envoy `ext_authz` to the Authentik embedded outpost) plus a native-claim authorization check for the declared groups/roles, and `api-jwt` policies as a `RequestAuthentication` + `AuthorizationPolicy` validating the bearer token audience. `public` routes and any declared `public_paths` are excluded from enforcement.
+
 ### End-to-End Validation
 
 The `istio-test` workspace deploys a lightweight metadata service into each team's prefixed istio-test namespace (`pt-pneuma-istio-test`, `pt-kryptos-istio-test`, etc.). A validation script checks every global and zonal endpoint, confirming the returned cluster name matches the expected team and zone.

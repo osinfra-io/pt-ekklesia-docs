@@ -636,6 +636,17 @@
           ],
           "default": "disabled"
         },
+        "route_auth_policies": {
+          "description": "Gateway auth policy intent for namespace routes, keyed by an existing route name. Pneuma renders each entry as gateway authentication and authorization policy for the matching route. Policies may only be declared on mesh-enabled namespaces (istio_injection = enabled).",
+          "type": "object",
+          "propertyNames": {
+            "pattern": "^[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?$"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/gkeRouteAuthPolicy"
+          },
+          "default": {}
+        },
         "routes": {
           "description": "HTTP route intent for this namespace, keyed by route name. Pneuma renders each entry as a Gateway API HTTPRoute on the shared Istio gateway, serving the team's <subdomain>.osinfra.io host at the route's path prefix from the named Service. Routes may only be declared on mesh-enabled namespaces (istio_injection = enabled).",
           "type": "object",
@@ -668,6 +679,69 @@
         "service": {
           "description": "Name of the backend Kubernetes Service in this namespace to route matched traffic to.",
           "type": "string"
+        }
+      }
+    },
+    "gkeRouteAuthPolicy": {
+      "description": "Gateway authentication and authorization policy intent for a namespace route.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "audiences": {
+          "description": "JWT audiences accepted for this route. Values must be non-empty and must not contain whitespace.",
+          "type": "array",
+          "uniqueItems": true,
+          "default": [],
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^\\S+$"
+          }
+        },
+        "mode": {
+          "description": "Gateway auth mode for this route. Defaults to browser.",
+          "type": "string",
+          "enum": [
+            "public",
+            "browser",
+            "api-jwt"
+          ],
+          "default": "browser"
+        },
+        "public_paths": {
+          "description": "Unauthenticated URL paths under the route path prefix. Each path must start with /, must not be /, and must not contain whitespace.",
+          "type": "array",
+          "uniqueItems": true,
+          "default": [],
+          "items": {
+            "type": "string",
+            "pattern": "^/\\S+$",
+            "not": {
+              "const": "/"
+            }
+          }
+        },
+        "required_groups": {
+          "description": "Identity groups allowed to access the route. Values must be non-empty and must not contain whitespace.",
+          "type": "array",
+          "uniqueItems": true,
+          "default": [],
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^\\S+$"
+          }
+        },
+        "required_roles": {
+          "description": "Application roles allowed to access the route. Values must be non-empty and must not contain whitespace.",
+          "type": "array",
+          "uniqueItems": true,
+          "default": [],
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^\\S+$"
+          }
         }
       }
     },
