@@ -76,21 +76,21 @@ Each `route_auth_policies` entry selects one of three modes (default `browser`):
 | `browser` | Interactive Authentik SSO for human users | at least one of `required_groups` / `required_roles` | `audiences` |
 | `api-jwt` | Machine-to-machine bearer JWT validation | at least one `audiences` value | none |
 
-- **`browser`** renders a CUSTOM `AuthorizationPolicy` that forwards the request to the Authentik embedded outpost, which authenticates the interactive session. Group and role authorization for `browser` routes is delegated to Authentik application-policy bindings, so a `browser` route is authenticated-only until those bindings exist.
-- **`api-jwt`** renders a `RequestAuthentication` plus a native-claim DENY `AuthorizationPolicy` that rejects any request without a validated JWT and any whose `audiences`, `required_groups`, or `required_roles` claims do not match.
+- **`browser`** renders a CUSTOM `AuthorizationPolicy` that forwards the request to the Authentik embedded outpost, which authenticates the interactive session. Group and role authorization for `browser` routes is delegated to Authentik application-policy bindings. Until the bindings matching the declared `required_groups` / `required_roles` are provisioned in Authentik, a `browser` route is **authenticated-only** — any authenticated user passes and the declared group/role restrictions are not yet enforced. Teams must provision and validate those bindings before relying on group or role restrictions for the route.
+- **`api-jwt`** renders a `RequestAuthentication` plus a native-claim DENY `AuthorizationPolicy` that rejects any request without a validated JWT, or whose JWT `aud`, `groups`, and `roles` claims do not satisfy the configured `audiences`, `required_groups`, and `required_roles` values respectively.
 - **`public`** renders no enforcement.
 
 Claim matching is **OR within a single list** (any one listed value matches) and **AND across lists** (each declared list must be satisfied). Authentik emits flat `groups` and `roles` claims.
 
 ## Team Consumption Model
 
-Teams do not apply Kubernetes auth resources to Pneuma clusters. They declare intent in Logos alongside their route declarations using `route_auth_policies`, a map keyed by an existing route name. Pneuma consumes the resolved Logos outputs through `module.core_helpers` and renders the gateway resources centrally.
+Teams do not apply Kubernetes auth resources to Pneuma clusters. They declare intent in Logos alongside their route declarations using `route_auth_policies`, a map keyed by an existing route name in a **mesh-enabled** namespace (`route_auth_policies` is only valid where `istio_injection = "enabled"` and is rejected on non-mesh namespaces). Pneuma consumes the resolved Logos outputs through `module.core_helpers` and renders the gateway resources centrally.
 
 Each policy supports:
 
 - `mode` — Optional. One of `public`, `browser`, or `api-jwt`. Defaults to `browser`.
 - `audiences` — Required for `api-jwt`, forbidden otherwise. JWT audiences accepted for the route.
-- `public_paths` — Optional list of unauthenticated paths under the referenced route path. Each path must start with `/`, cannot be `/`, and is matched as declared (add a trailing `/*` to exempt a subtree). Not allowed on `public`.
+- `public_paths` — Optional list of unauthenticated paths under the referenced route path. Each path must start with `/`, cannot be `/`, `/*`, or `*` (a route-root or wildcard-only bypass is rejected), and is matched as declared (add a trailing `/*` to a non-root subtree to exempt it, e.g. `/api/healthz/*`). Not allowed on `public`.
 - `required_groups` — Optional list of Authentik group claims accepted for the route.
 - `required_roles` — Optional list of Authentik role claims accepted for the route.
 
@@ -126,7 +126,7 @@ Auth decision logs, ext_authz denials, and gateway access logs are collected in 
 - Auth intent is declared in Logos, not as team-managed Kubernetes resources in Pneuma.
 - Enforced modes fail closed; an unknown mode is rejected before apply.
 - `browser` requires at least one allowed group or role; `api-jwt` requires at least one audience.
-- Public bypasses must be scoped below the route path and cannot make an entire host public by using `/`.
+- Public bypasses must be scoped below the route path and cannot make an entire host public by using `/`, `/*`, or `*`.
 - JWT validation happens at the gateway data plane against the Authentik JWKS before authorization decisions.
 
 ## Architecture Decision Records

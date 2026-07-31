@@ -36,9 +36,9 @@ Mesh-enabled Kubernetes namespaces can declare external route intent and route a
 
 - `public` — No authentication. Must declare nothing else.
 - `browser` — Interactive Authentik SSO. Requires at least one `required_groups` or `required_roles`; must not set `audiences`.
-- `api-jwt` — Bearer JWT validation. Requires at least one `audiences` value.
+- `api-jwt` — Machine-to-machine bearer JWT validation. Requires at least one `audiences` value.
 
-`public_paths` (allowed on `browser` and `api-jwt`) list unauthenticated paths under the referenced route path; each must start with `/`, cannot be `/`, and is matched as declared (add a trailing `/*` to exempt a subtree). `required_groups` and `required_roles` reference Authentik group and role claims. See [Gateway Auth](/platform-grouping/pneuma/gateway-auth) for the full enforcement model and ownership boundaries.
+`public_paths` (allowed on `browser` and `api-jwt`) list unauthenticated paths under the referenced route path; each must start with `/`, cannot be `/`, `/*`, or `*` (a route-root or wildcard-only bypass is rejected), and is matched as declared (add a trailing `/*` to a non-root subtree to exempt it, e.g. `/api/healthz/*`). `required_groups` and `required_roles` reference Authentik group and role claims. See [Gateway Auth](/platform-grouping/pneuma/gateway-auth) for the full enforcement model and ownership boundaries.
 
 ```hcl
 platform_managed_project = {
@@ -71,7 +71,7 @@ platform_managed_project = {
 }
 ```
 
-This declaration lets unauthenticated callers reach only the declared health and readiness paths. All other requests under `/api` must arrive with a valid Authentik-backed browser session and, once Authentik application-policy bindings exist, match one of the declared group or role claims.
+This declaration lets unauthenticated callers reach only the declared health and readiness paths. All other requests under `/api` must arrive with a valid Authentik-backed browser session and, once Authentik application-policy bindings exist, satisfy **every** declared claim list: at least one of the `required_groups` **and** at least one of the `required_roles` when both are set (any single value within a list satisfies that list).
 
 ## Core Invariants
 
