@@ -28,6 +28,51 @@ Each team is defined as an entry in the `teams` map inside a `.tfvars` file unde
 | `branch-protection` | Rules applied to default branch: required reviews, status checks, no force push |
 | `datadog-team` | An observability team in Datadog mirroring the Logos team — owns dashboards and monitors |
 
+## Declaring Mesh Route Auth
+
+Mesh-enabled Kubernetes namespaces can declare external route intent and route auth intent in the same Logos team spec. Logos is the source of truth; Pneuma consumes the resolved data through `module.core_helpers` and renders the Gateway API `HTTPRoute`, Istio `RequestAuthentication`, and Istio `AuthorizationPolicy` resources centrally. Teams should use the [Nomos Agent](/onboarding) to author these changes so the `pt-techne-mcp-server` schema validates the route and auth policy before a PR is opened.
+
+`route_auth_policies` is a map keyed by an existing `routes` entry in the same namespace. Each policy selects a `mode` (default `browser`):
+
+- `public` — No authentication. Must declare nothing else.
+- `browser` — Interactive Authentik SSO. Requires at least one `required_groups` or `required_roles`; must not set `audiences`.
+- `api-jwt` — Bearer JWT validation. Requires at least one `audiences` value.
+
+`public_paths` (allowed on `browser` and `api-jwt`) list unauthenticated paths under the referenced route path; each must start with `/`, cannot be `/`, and is matched as declared (add a trailing `/*` to exempt a subtree). `required_groups` and `required_roles` reference Authentik group and role claims. See [Gateway Auth](/platform-grouping/pneuma/gateway-auth) for the full enforcement model and ownership boundaries.
+
+```hcl
+platform_managed_project = {
+  kubernetes_engine = {
+    dns_subdomain = "ethos"
+
+    namespaces = {
+      "api" = {
+        istio_injection = "enabled"
+
+        routes = {
+          "api" = {
+            path    = "/api"
+            port    = 8080
+            service = "api-service"
+          }
+        }
+
+        route_auth_policies = {
+          "api" = {
+            mode            = "browser"
+            public_paths    = ["/api/healthz", "/api/readyz"]
+            required_groups = ["st-ethos-developers"]
+            required_roles  = ["ethos-api-reader"]
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+This declaration lets unauthenticated callers reach only the declared health and readiness paths. All other requests under `/api` must arrive with a valid Authentik-backed browser session and, once Authentik application-policy bindings exist, match one of the declared group or role claims.
+
 ## Core Invariants
 
 - Every team definition produces exactly one set of GCP, GitHub, and Datadog resources.

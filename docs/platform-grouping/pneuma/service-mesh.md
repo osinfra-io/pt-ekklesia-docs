@@ -4,11 +4,11 @@ sidebar_label: Service Mesh
 
 # Service Mesh
 
-Istio runs on every GKE cluster as a single multi-cluster mesh via GKE Fleet. It provides mTLS between services, traffic management, and an ingress gateway backed by Cloud Armor WAF and Datadog AAP. Ingress uses the vendor-neutral [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
+Istio runs on every GKE cluster as a single multi-cluster mesh via GKE Fleet. It provides mTLS between services, traffic management, centralized [gateway auth](./gateway-auth.md), and an ingress gateway backed by Cloud Armor WAF and Datadog AAP. Ingress uses the vendor-neutral [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
 
 - **mTLS**: All pod-to-pod traffic is encrypted and authenticated via per-cluster istiod instances
-- **Ingress gateway**: External traffic enters exclusively through pneuma's gateway — a Gateway API `Gateway` reconciled by istiod, backed by MCI global load balancer, Cloud Armor WAF, and Datadog AAP
-- **Routing**: Teams declare route intent in Logos; pneuma renders `HTTPRoute`s with hostnames derived from the team's authoritative DNS zone
+- **Ingress gateway**: External traffic enters exclusively through pneuma's gateway — a Gateway API `Gateway` reconciled by istiod, backed by MCI global load balancer, Cloud Armor WAF, Datadog AAP, and Authentik external authorization
+- **Routing and auth**: Teams declare route intent and auth policy in Logos; pneuma renders `HTTPRoute`s and Istio auth policies with hostnames derived from the team's authoritative DNS zone
 - **cert-manager**: Istio's built-in CA is replaced by cert-manager via istio-csr for all workload mTLS certificates
 
 :::tip Architecture Decision Records
@@ -23,6 +23,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 |---|---|
 | `istio-control-plane` | istiod deployed via Helm on every cluster — manages traffic policy and mTLS certificate distribution |
 | `gateway` | Gateway API `Gateway` (gatewayClassName `istio`) on pneuma clusters only. istiod auto-provisions the `gateway-istio` data plane; exposed via MCI global and zonal load balancers |
+| `gateway-auth` | Istio `RequestAuthentication` and `AuthorizationPolicy` resources on the gateway data plane — validates Authentik JWTs, forwards `browser` routes to the Authentik embedded outpost via ext_authz, and enforces route-scoped claims for `api-jwt` routes. See [Gateway Auth](./gateway-auth.md) |
 | `waf-policy` | Cloud Armor security policy on the ingress gateway (OWASP rules, rate limiting, adaptive DDoS) |
 | `http-route` | Gateway API `HTTPRoute` per team host, co-located with the backend `Service` in the team's namespace |
 | `destination-rule` | Istio connection pool and circuit breaker settings per destination |
@@ -174,6 +175,8 @@ namespaces = {
 ```
 
 Pneuma renders `browser` policies as a forward-auth `AuthorizationPolicy` (Envoy `ext_authz` to the Authentik embedded outpost) that authenticates the interactive session; group and role authorization for `browser` routes is delegated to Authentik application-policy bindings, so a `browser` route is authenticated-only until those bindings exist. `api-jwt` policies render a `RequestAuthentication` plus a native-claim DENY `AuthorizationPolicy` that rejects any request without a validated JWT and any whose `audiences`, `required_groups`, or `required_roles` claims do not match. `public` routes and any declared `public_paths` are excluded from enforcement.
+
+See [Gateway Auth](./gateway-auth.md) for the full request evaluation order, component ownership, and operational expectations.
 
 ### End-to-End Validation
 
