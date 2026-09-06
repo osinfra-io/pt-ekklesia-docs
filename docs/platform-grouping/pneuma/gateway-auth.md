@@ -83,7 +83,7 @@ Each `route_auth_policies` entry selects one of three modes (default `browser`):
 | `browser` | Interactive Authentik SSO for human users | at least one of `required_groups` / `required_roles` | `audiences` |
 | `api-jwt` | Machine-to-machine bearer JWT validation | at least one `audiences` value | none |
 
-- **`browser`** renders a CUSTOM `AuthorizationPolicy` that forwards the request to the Authentik embedded outpost, which authenticates the interactive session. Group and role authorization for `browser` routes is enforced by per-host Authentik application, provider, and policy-binding resources that Pneuma renders automatically from the declared `required_groups` / `required_roles` — no manual Authentik configuration is required to wire up the binding itself. The one remaining manual step is Authentik **group membership**: see the callout below.
+- **`browser`** renders a CUSTOM `AuthorizationPolicy` that forwards the request to the Authentik embedded outpost, which authenticates the interactive session. Group and role authorization is enforced by per-host Authentik application, provider, and policy-binding resources that Pneuma renders automatically from the declared `required_groups` / `required_roles`. See the callout above for the one remaining manual step (Authentik group membership).
 - **`api-jwt`** renders a `RequestAuthentication` plus a native-claim DENY `AuthorizationPolicy` that rejects any request without a validated JWT, or whose JWT `aud`, `groups`, and `roles` claims do not satisfy the configured `audiences`, `required_groups`, and `required_roles` values respectively.
 - **`public`** renders no enforcement.
 
@@ -123,7 +123,7 @@ RBAC and admission guardrails in Pneuma prevent app teams from managing gateway 
 - Standard health paths, Authentik callback paths (`/outpost.goauthentik.io`), and declared `public_paths` bypass enforcement; all other enforced paths require a valid identity and, for `api-jwt`, matching claims.
 - Authentik availability and Cloud SQL PostgreSQL persistence are gateway platform concerns owned by Pneuma.
 - Route-auth changes deploy on the next Logos-to-Pneuma pipeline run, the same as route changes.
-- Authentik group/role policy bindings are rendered automatically; Authentik group **membership** is not yet synced from Logos/Google Identity groups, so a user must be added to the matching Authentik group manually until [pt-pneuma#181](https://github.com/osinfra-io/pt-pneuma/issues/181) is resolved.
+- Group/role enforcement for a given user also depends on Authentik group membership — see the callout under [Request Evaluation Order](#request-evaluation-order).
 
 ## Observability
 
