@@ -122,7 +122,7 @@ The six domains — Cluster Management, Service Mesh, Gateway Auth, Certificate 
    - A seventh domain is added to Pneuma's scope
    - Any `pt-arche-kubernetes-*` module loses coverage or is removed without a replacement
    - Incident rate or on-call burden increases in a pattern consistent with cognitive overload
-   - The team drops below minimum headcount (fewer than 1 active engineer)
+   - The team drops below minimum headcount (fewer than 2 active engineers)
    - A stream-aligned team reports consistent delays in namespace provisioning or cluster support
 
 #### Alternatives Considered
