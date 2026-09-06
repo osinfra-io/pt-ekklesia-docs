@@ -127,7 +127,7 @@ RBAC and admission guardrails in Pneuma prevent app teams from managing gateway 
 
 ## Observability
 
-Auth decision logs, ext_authz denials, and gateway access logs are collected in Datadog. Pneuma owns monitors and dashboards for auth failure rate, denial spikes, embedded-outpost health, and Authentik availability. Teams should use those Datadog surfaces when troubleshooting access denials before escalating to Pneuma. See [Observability](./observability.md#gateway-auth-observability) for details.
+Auth decision logs, ext_authz denials, and gateway access logs are collected in Datadog through the same agent pipeline as the rest of Pneuma. There are no dedicated gateway-auth dashboards or monitors; teams and Pneuma both query the raw logs directly when troubleshooting access denials.
 
 ## Core Invariants
 
