@@ -53,11 +53,11 @@ Pneuma consumes from Corpus (networking and project infrastructure) and Arche (t
 
 ### Cognitive Load
 
-Pneuma is the most cognitively demanding platform team. It operates three domains of high inherent complexity simultaneously — Kubernetes clusters, an Istio service mesh, and a full PKI chain for workload certificates — alongside policy enforcement and observability. This is by design: these domains are inseparable at the cluster layer, and Arche modules carry the implementation weight so Pneuma engineers focus on orchestration and configuration rather than raw tooling.
+Pneuma is the most cognitively demanding platform team. It operates four domains of high inherent complexity simultaneously — Kubernetes clusters, an Istio service mesh, gateway authentication/authorization, and a full PKI chain for workload certificates — alongside policy enforcement and observability. This is by design: these domains are inseparable at the cluster layer, and Arche modules carry the implementation weight so Pneuma engineers focus on orchestration and configuration rather than raw tooling.
 
 | Working Domains | High Intrinsic Domains |
 |---|---|
-| 🔴 5 / 4 | 🟠 3 / 3 |
+| 🔴 6 / 4 | 🔴 4 / 3 |
 
 Cognitive load by domain:
 
@@ -65,15 +65,16 @@ Cognitive load by domain:
 |---|---|---|---|
 | Cluster Management | 🔴 High | Arche GKE module | GKE internals, Fleet enrollment |
 | Service Mesh | 🔴 High | Arche Istio module | mTLS, traffic policy |
+| Gateway Auth | 🔴 High | Arche Authentik module | Authentik, Istio authn/authz policy |
 | Certificate Management | 🔴 High | Arche cert-manager module | PKI chains, issuers |
 | Policy Enforcement | 🟡 Medium | Arche OPA module | Rego, constraint authoring |
 | Observability | 🟡 Medium | Arche Datadog module | Cluster metrics & traces |
 
-**Capacity**: 3 high-complexity domains — at the Team Topologies guideline of 2–3; team members hold 5 active domains — above the ~4 working-knowledge limit. Arche Kubernetes modules are the primary mitigation: all Helm-based add-on deployment is encapsulated, leaving Pneuma to own configuration and integration rather than implementation.
+**Capacity**: 4 high-complexity domains — above the Team Topologies guideline of 2–3; team members hold 6 active domains — above the ~4 working-knowledge limit. Arche Kubernetes modules are the primary mitigation: all Helm-based add-on deployment is encapsulated, leaving Pneuma to own configuration and integration rather than implementation.
 
 **Extraneous load is minimized by:**
 
-- Arche Kubernetes modules (`pt-arche-kubernetes-*`) wrap Istio, cert-manager, OPA Gatekeeper, and the Datadog Operator — no raw Helm chart management
+- Arche Kubernetes modules (`pt-arche-kubernetes-*`) wrap Istio, Authentik, cert-manager, OPA Gatekeeper, and the Datadog Operator — no raw Helm chart management
 - Corpus handles all networking prerequisites; Pneuma consumes them via `module.core_helpers`
 - Called workflows provide OpenTofu deployment pipelines — no CI/CD to build or maintain
 
@@ -81,6 +82,7 @@ Cognitive load by domain:
 
 - Cloud-native orchestration: GKE internals, autoscaling, Workload Identity, and Fleet enrollment
 - Zero-trust networking: Istio mTLS, traffic policy, and Datadog AAP integration
+- Centralized identity and access: Authentik forward-auth, Istio `RequestAuthentication`/`AuthorizationPolicy`, and Logos-driven route auth policy rendering
 - Applied PKI: ECDSA root CA chains, cert-manager issuers, and istio-csr for mesh certificate signing
 - Policy-as-code: Rego constraint authoring and audit-mode enforcement patterns
 
@@ -104,20 +106,20 @@ Cognitive load by domain:
 
 #### Context and Problem Statement
 
-Pneuma operates 5 working domains against the Team Topologies recommended limit of 4, with 3 high-intrinsic domains at the guideline ceiling of 3. This places the team formally at 🔴 over limit in the platform cognitive load table. The structural risk is that an overloaded team becomes a bottleneck, accrues technical debt faster, and is more vulnerable to failure when any single domain demands sustained attention. Acknowledging the overload without a documented mitigation and re-evaluation commitment leaves the risk unmanaged organizationally.
+Pneuma operates 6 working domains against the Team Topologies recommended limit of 4, with 4 high-intrinsic domains above the guideline ceiling of 3. This places the team formally at 🔴 over limit in the platform cognitive load table. The structural risk is that an overloaded team becomes a bottleneck, accrues technical debt faster, and is more vulnerable to failure when any single domain demands sustained attention. Acknowledging the overload without a documented mitigation and re-evaluation commitment leaves the risk unmanaged organizationally.
 
-The five domains — Cluster Management, Service Mesh, Certificate Management, Policy Enforcement, and Observability — cannot be separated without creating artificial coupling problems. cert-manager CRDs must exist before Istio certificate resources; OPA Gatekeeper runs against all workloads on the cluster. Splitting these concerns across teams would require tight coordination at every upgrade cycle and introduce more extraneous load than the split would remove.
+The six domains — Cluster Management, Service Mesh, Gateway Auth, Certificate Management, Policy Enforcement, and Observability — cannot be separated without creating artificial coupling problems. cert-manager CRDs must exist before Istio certificate resources; OPA Gatekeeper runs against all workloads on the cluster; gateway auth enforcement depends on both the mesh and cluster layers. Splitting these concerns across teams would require tight coordination at every upgrade cycle and introduce more extraneous load than the split would remove.
 
 #### Decision
 
-1. **Accept the 🔴 overload state as a managed risk.** The five domains are operationally inseparable at the cluster layer. This is a structural reality of the platform, not a resourcing failure. The risk is acknowledged, documented, and mitigated — not ignored.
+1. **Accept the 🔴 overload state as a managed risk.** The six domains are operationally inseparable at the cluster layer. This is a structural reality of the platform, not a resourcing failure. The risk is acknowledged, documented, and mitigated — not ignored.
 
-2. **Arche Kubernetes modules are the primary load mitigation.** Each of the five domains has a corresponding `pt-arche-kubernetes-*` module that encapsulates all Helm chart management and complex resource orchestration. Pneuma engineers own configuration and integration, not implementation. This mitigation is load-bearing: if Arche module coverage degrades, Pneuma's effective cognitive load increases proportionally.
+2. **Arche Kubernetes modules are the primary load mitigation.** Each of the six domains has a corresponding `pt-arche-kubernetes-*` module that encapsulates all Helm chart management and complex resource orchestration. Pneuma engineers own configuration and integration, not implementation. This mitigation is load-bearing: if Arche module coverage degrades, Pneuma's effective cognitive load increases proportionally.
 
-3. **Headcount of 1–2 engineers is an acknowledged trade-off.** One engineer can operate the domain within current scope because Arche modules absorb implementation complexity. A second engineer is the first scaling response when cluster count grows or parallel add-on upgrades become routine. This is a deliberate trade-off, not an oversight — a third engineer is not warranted while the scope remains at five domains and Arche coverage is intact.
+3. **Headcount of 1–2 engineers is an acknowledged trade-off.** One engineer can operate the domain within current scope because Arche modules absorb implementation complexity. A second engineer is the first scaling response when cluster count grows or parallel add-on upgrades become routine. This is a deliberate trade-off, not an oversight — a third engineer is not warranted while Arche coverage is intact, even at six domains.
 
 4. **Explicit trigger conditions govern when this decision must be re-evaluated:**
-   - A sixth domain is added to Pneuma's scope
+   - A seventh domain is added to Pneuma's scope
    - Any `pt-arche-kubernetes-*` module loses coverage or is removed without a replacement
    - Incident rate or on-call burden increases in a pattern consistent with cognitive overload
    - The team drops below minimum headcount (fewer than 1 active engineer)
@@ -125,7 +127,7 @@ The five domains — Cluster Management, Service Mesh, Certificate Management, P
 
 #### Alternatives Considered
 
-- **Split Pneuma into two teams (Cluster Management + Mesh/Add-ons)** — Rejected. The five domains are tightly coupled at deployment time: the `needs` dependency chain in the pipeline (cluster → onboarding → cert-manager → Istio → OPA → Datadog) requires a single owner who understands the full ordering. Splitting ownership would require cross-team coordination at every upgrade cycle, adding more extraneous load than the split removes.
+- **Split Pneuma into two teams (Cluster Management + Mesh/Add-ons)** — Rejected. The six domains are tightly coupled at deployment time: the `needs` dependency chain in the pipeline (cluster → onboarding → cert-manager → Istio → gateway auth → OPA → Datadog) requires a single owner who understands the full ordering. Splitting ownership would require cross-team coordination at every upgrade cycle, adding more extraneous load than the split removes.
 - **Reduce scope by removing Policy Enforcement or Observability** — Rejected. Both domains are required for the platform's baseline readiness guarantee: every cluster must have mTLS enforced, policy enforcement active, and observability running before any workload is accepted. Removing either breaks that guarantee.
 - **Add a third engineer proactively** — Deferred. Current headcount is sufficient while Arche module coverage is intact and cluster count is stable. Adding headcount ahead of a clear scaling signal increases coordination overhead without reducing cognitive load.
 

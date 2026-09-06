@@ -88,7 +88,7 @@ Team Topologies distinguishes three types of cognitive load — **intrinsic** (i
 | Kryptos | 🟢 2 / 4 | 🟡 2 / 3 |
 | Logos | 🟠 4 / 4 | 🟢 0 / 3 |
 | Corpus | 🟠 4 / 4 | 🟢 1 / 3 |
-| Pneuma | 🔴 5 / 4 · [ADR →](/platform-grouping/pneuma#pneuma-cognitive-load-mitigation) | 🟠 3 / 3 |
+| Pneuma | 🔴 6 / 4 · [ADR →](/platform-grouping/pneuma#pneuma-cognitive-load-mitigation) | 🔴 4 / 3 |
 
 _🟢 within limit · 🟡 approaching · 🟠 at limit · 🔴 over limit_
 
