@@ -89,7 +89,7 @@ Cognitive load by domain:
 ### Team Capacity
 
 - **Headcount**: 2–3 platform engineers
-- **Scale signal**: Add a second engineer when cluster count grows or multiple add-on upgrades run in parallel — the one team where headcount scales with the platform
+- **Scale signal**: Add a third engineer when cluster count grows or multiple add-on upgrades run in parallel — the one team where headcount scales with the platform
 
 ## Architecture Decision Records
 
