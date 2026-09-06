@@ -69,6 +69,18 @@ const categories = [
     ],
   },
   {
+    id: 'identity',
+    label: 'Identity & Access',
+    tools: [
+      {
+        name: 'Authentik',
+        logo: '/img/authentik.svg',
+        description: 'Open-source identity provider — platform-wide OIDC issuer and forward-auth for browser sessions at the gateway.',
+        href: 'https://goauthentik.io',
+      },
+    ],
+  },
+  {
     id: 'observability',
     label: 'Observability & Security',
     tools: [

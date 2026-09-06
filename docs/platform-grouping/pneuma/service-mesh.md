@@ -174,7 +174,7 @@ namespaces = {
 }
 ```
 
-Pneuma renders `browser` policies as a forward-auth `AuthorizationPolicy` (Envoy `ext_authz` to the Authentik embedded outpost) that authenticates the interactive session; group and role authorization for `browser` routes is delegated to Authentik application-policy bindings, so a `browser` route is authenticated-only until those bindings exist. `api-jwt` policies render a `RequestAuthentication` plus a native-claim DENY `AuthorizationPolicy` that rejects any request without a validated JWT and any whose `audiences`, `required_groups`, or `required_roles` claims do not match. `public` routes and any declared `public_paths` are excluded from enforcement.
+Pneuma renders `browser` policies as a forward-auth `AuthorizationPolicy` (Envoy `ext_authz` to the Authentik embedded outpost) that authenticates the interactive session; group and role authorization for `browser` routes is enforced by per-host Authentik application, provider, and policy-binding resources that Pneuma renders automatically from the declared `required_groups` / `required_roles`. The one remaining manual step is Authentik group **membership** itself, which is not yet synced from Logos/Google Identity groups (tracked in [pt-pneuma#181](https://github.com/osinfra-io/pt-pneuma/issues/181)). `api-jwt` policies render a `RequestAuthentication` plus a native-claim DENY `AuthorizationPolicy` that rejects any request without a validated JWT and any whose `audiences`, `required_groups`, or `required_roles` claims do not match. `public` routes and any declared `public_paths` are excluded from enforcement.
 
 See [Gateway Auth](./gateway-auth.md) for the full request evaluation order, component ownership, and operational expectations.
 

@@ -71,7 +71,7 @@ platform_managed_project = {
 }
 ```
 
-This declaration lets unauthenticated callers reach only the declared health and readiness paths. All other requests under `/api` must arrive with a valid Authentik-backed browser session and, once Authentik application-policy bindings exist, satisfy **every** declared claim list: at least one of the `required_groups` **and** at least one of the `required_roles` when both are set (any single value within a list satisfies that list).
+This declaration lets unauthenticated callers reach only the declared health and readiness paths. All other requests under `/api` must arrive with a valid Authentik-backed browser session and satisfy **every** declared claim list: at least one of the `required_groups` **and** at least one of the `required_roles` when both are set (any single value within a list satisfies that list). Pneuma renders the matching Authentik group/role policy bindings automatically from this declaration; the one remaining manual step is Authentik group membership itself, which is not yet synced from Logos/Google Identity groups (see [Gateway Auth](/platform-grouping/pneuma/gateway-auth) for the tracked gap).
 
 ## Core Invariants
 
