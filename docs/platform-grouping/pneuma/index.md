@@ -88,7 +88,7 @@ Cognitive load by domain:
 
 ### Team Capacity
 
-- **Headcount**: 1–2 platform engineers
+- **Headcount**: 2–3 platform engineers
 - **Scale signal**: Add a second engineer when cluster count grows or multiple add-on upgrades run in parallel — the one team where headcount scales with the platform
 
 ## Architecture Decision Records
@@ -116,7 +116,7 @@ The six domains — Cluster Management, Service Mesh, Gateway Auth, Certificate 
 
 2. **Arche Kubernetes modules are the primary load mitigation.** Each of the six domains has a corresponding `pt-arche-kubernetes-*` module that encapsulates all Helm chart management and complex resource orchestration. Pneuma engineers own configuration and integration, not implementation. This mitigation is load-bearing: if Arche module coverage degrades, Pneuma's effective cognitive load increases proportionally.
 
-3. **Headcount of 1–2 engineers is an acknowledged trade-off.** One engineer can operate the domain within current scope because Arche modules absorb implementation complexity. A second engineer is the first scaling response when cluster count grows or parallel add-on upgrades become routine. This is a deliberate trade-off, not an oversight — a third engineer is not warranted while Arche coverage is intact, even at six domains.
+3. **Headcount of 2–3 engineers reflects the six-domain scope.** Arche modules absorb implementation complexity, but the domain count now exceeds what one engineer can reliably carry. Two engineers is the baseline for coverage and redundancy; a third is the scaling response when cluster count grows or parallel add-on upgrades become routine.
 
 4. **Explicit trigger conditions govern when this decision must be re-evaluated:**
    - A seventh domain is added to Pneuma's scope
