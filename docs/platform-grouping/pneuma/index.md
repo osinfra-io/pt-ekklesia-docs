@@ -114,7 +114,7 @@ The six domains — Cluster Management, Service Mesh, Gateway Auth, Certificate 
 
 1. **Accept the 🔴 overload state as a managed risk.** The six domains are operationally inseparable at the cluster layer. This is a structural reality of the platform, not a resourcing failure. The risk is acknowledged, documented, and mitigated — not ignored.
 
-2. **Arche Kubernetes modules are the primary load mitigation.** Each of the six domains has a corresponding `pt-arche-kubernetes-*` module that encapsulates all Helm chart management and complex resource orchestration. Pneuma engineers own configuration and integration, not implementation. This mitigation is load-bearing: if Arche module coverage degrades, Pneuma's effective cognitive load increases proportionally.
+2. **Arche Kubernetes modules are the primary load mitigation.** Five of the six domains are covered by a dedicated `pt-arche-kubernetes-*` module (Service Mesh, Gateway Auth, Certificate Management, Policy Enforcement, Observability); Cluster Management is covered by `pt-arche-google-kubernetes-engine`. Together these encapsulate all Helm chart management and complex resource orchestration across every domain, so Pneuma engineers own configuration and integration, not implementation. This mitigation is load-bearing: if Arche module coverage degrades, Pneuma's effective cognitive load increases proportionally.
 
 3. **Headcount of 2–3 engineers reflects the six-domain scope.** Arche modules absorb implementation complexity, but the domain count now exceeds what one engineer can reliably carry. Two engineers is the baseline for coverage and redundancy; a third is the scaling response when cluster count grows or parallel add-on upgrades become routine.
 

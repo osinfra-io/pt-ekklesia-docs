@@ -73,6 +73,12 @@ Pneuma automatically renders the per-host Authentik application, provider, and g
 
 :::
 
+:::caution Same-host browser routes share one Authentik policy set
+
+The per-host Authentik application, provider, and policy bindings are scoped to the **host**, not the individual route path, and Authentik's default `Any` policy-engine mode applies. If two `browser` routes on the same host declare different `required_groups` / `required_roles`, a user satisfying either route's requirement currently passes the shared host-level check for both routes. This gap is tracked in [pt-pneuma#183](https://github.com/osinfra-io/pt-pneuma/issues/183).
+
+:::
+
 ## Auth Modes
 
 Each `route_auth_policies` entry selects one of three modes (default `browser`):
@@ -83,7 +89,7 @@ Each `route_auth_policies` entry selects one of three modes (default `browser`):
 | `browser` | Interactive Authentik SSO for human users | at least one of `required_groups` / `required_roles` | `audiences` |
 | `api-jwt` | Machine-to-machine bearer JWT validation | at least one `audiences` value | none |
 
-- **`browser`** renders a CUSTOM `AuthorizationPolicy` that forwards the request to the Authentik embedded outpost, which authenticates the interactive session. Group and role authorization is enforced by per-host Authentik application, provider, and policy-binding resources that Pneuma renders automatically from the declared `required_groups` / `required_roles`. See the callout above for the one remaining manual step (Authentik group membership).
+- **`browser`** renders a CUSTOM `AuthorizationPolicy` that forwards the request to the Authentik embedded outpost, which authenticates the interactive session. Group and role authorization is enforced by per-host Authentik application, provider, and policy-binding resources that Pneuma renders automatically from the declared `required_groups` / `required_roles`. See the callouts above for the two known gaps (group membership sync, same-host policy scoping).
 - **`api-jwt`** renders a `RequestAuthentication` plus a native-claim DENY `AuthorizationPolicy` that rejects any request without a validated JWT, or whose JWT `aud`, `groups`, and `roles` claims do not satisfy the configured `audiences`, `required_groups`, and `required_roles` values respectively.
 - **`public`** renders no enforcement.
 
