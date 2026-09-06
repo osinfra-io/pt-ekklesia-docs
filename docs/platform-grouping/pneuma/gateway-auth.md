@@ -125,10 +125,6 @@ RBAC and admission guardrails in Pneuma prevent app teams from managing gateway 
 - Route-auth changes deploy on the next Logos-to-Pneuma pipeline run, the same as route changes.
 - Group/role enforcement for a given user also depends on Authentik group membership — see the callout under [Request Evaluation Order](#request-evaluation-order).
 
-## Observability
-
-Auth decision logs, ext_authz denials, and gateway access logs are collected in Datadog through the same agent pipeline as the rest of Pneuma. There are no dedicated gateway-auth dashboards or monitors; teams and Pneuma both query the raw logs directly when troubleshooting access denials.
-
 ## Core Invariants
 
 - Auth intent is declared in Logos, not as team-managed Kubernetes resources in Pneuma.
