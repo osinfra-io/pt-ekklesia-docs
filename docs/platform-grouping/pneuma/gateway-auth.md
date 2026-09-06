@@ -45,6 +45,7 @@ flowchart LR
 |---|---|---|
 | Authentik | Pneuma via Arche | Platform-wide OIDC issuer and IAM layer deployed on gateway clusters by the `pt-pneuma` regional `authentik` workspace. The `pt-arche-kubernetes-authentik` module deploys the Helm release and persists state in Cloud SQL PostgreSQL. |
 | Authentik embedded outpost | Pneuma via Arche | Forward-auth (`ext_authz`) endpoint for browser sessions, configured by the regional `authentik-config` workspace. It is registered in Istio `MeshConfig` as the `authentik` ext_authz `ExtensionProvider`. |
+| Authentik application, provider, and policy bindings | Pneuma via Arche | Per-host resources rendered automatically from Logos `route_auth_policies` for `browser` routes — one Authentik application/proxy provider per host, plus a policy binding per declared group or role. Wired into the embedded outpost's `protocol_providers`. |
 | Istio `RequestAuthentication` | Pneuma | `gateway-authentik-jwt` validates JWTs against the Authentik issuer and JWKS at the gateway data plane before authorization decisions are evaluated. |
 | Istio `AuthorizationPolicy` | Pneuma | `browser` routes get an `action: CUSTOM` policy that forwards to the Authentik embedded outpost. `api-jwt` routes get a native-claim `action: DENY` policy that rejects requests lacking a validated principal or a matching `audiences`, `groups`, or `roles` claim. Standard health paths, Authentik callback paths, and declared public paths are excluded. |
 | Logos `route_auth_policies` | Logos | Source-of-truth team intent keyed by route name. App teams change this contract through Logos, usually with the Nomos self-serve flow. |
@@ -66,6 +67,18 @@ Enforced auth policies do not fail open. An unknown mode or a missing enforcemen
 
 :::
 
+:::caution Authentik group membership is not yet synced
+
+Pneuma automatically renders the per-host Authentik application, provider, and group/role policy-binding resources for `browser` routes — no manual Authentik configuration is needed to wire up enforcement. However, **Authentik group membership itself is not synced from Logos/Google Identity groups yet**. A user must be manually added to the matching Authentik group (or role) before `required_groups` / `required_roles` enforcement takes effect for them. This gap is tracked in [pt-pneuma#181](https://github.com/osinfra-io/pt-pneuma/issues/181).
+
+:::
+
+:::caution Same-host browser routes share one Authentik policy set
+
+The per-host Authentik application, provider, and policy bindings are scoped to the **host**, not the individual route path, and Authentik's default `Any` policy-engine mode applies. If two `browser` routes on the same host declare different `required_groups` / `required_roles`, a user satisfying either route's requirement currently passes the shared host-level check for both routes. This gap is tracked in [pt-pneuma#183](https://github.com/osinfra-io/pt-pneuma/issues/183).
+
+:::
+
 ## Auth Modes
 
 Each `route_auth_policies` entry selects one of three modes (default `browser`):
@@ -76,7 +89,7 @@ Each `route_auth_policies` entry selects one of three modes (default `browser`):
 | `browser` | Interactive Authentik SSO for human users | at least one of `required_groups` / `required_roles` | `audiences` |
 | `api-jwt` | Machine-to-machine bearer JWT validation | at least one `audiences` value | none |
 
-- **`browser`** renders a CUSTOM `AuthorizationPolicy` that forwards the request to the Authentik embedded outpost, which authenticates the interactive session. Group and role authorization for `browser` routes is delegated to Authentik application-policy bindings. Until the bindings matching the declared `required_groups` / `required_roles` are provisioned in Authentik, a `browser` route is **authenticated-only** — any authenticated user passes and the declared group/role restrictions are not yet enforced. Teams must provision and validate those bindings before relying on group or role restrictions for the route.
+- **`browser`** renders a CUSTOM `AuthorizationPolicy` that forwards the request to the Authentik embedded outpost, which authenticates the interactive session. Group and role authorization is enforced by per-host Authentik application, provider, and policy-binding resources that Pneuma renders automatically from the declared `required_groups` / `required_roles`. See the callouts above for the two known gaps (group membership sync, same-host policy scoping).
 - **`api-jwt`** renders a `RequestAuthentication` plus a native-claim DENY `AuthorizationPolicy` that rejects any request without a validated JWT, or whose JWT `aud`, `groups`, and `roles` claims do not satisfy the configured `audiences`, `required_groups`, and `required_roles` values respectively.
 - **`public`** renders no enforcement.
 
@@ -116,10 +129,7 @@ RBAC and admission guardrails in Pneuma prevent app teams from managing gateway 
 - Standard health paths, Authentik callback paths (`/outpost.goauthentik.io`), and declared `public_paths` bypass enforcement; all other enforced paths require a valid identity and, for `api-jwt`, matching claims.
 - Authentik availability and Cloud SQL PostgreSQL persistence are gateway platform concerns owned by Pneuma.
 - Route-auth changes deploy on the next Logos-to-Pneuma pipeline run, the same as route changes.
-
-## Observability
-
-Auth decision logs, ext_authz denials, and gateway access logs are collected in Datadog. Pneuma owns monitors and dashboards for auth failure rate, denial spikes, embedded-outpost health, and Authentik availability. Teams should use those Datadog surfaces when troubleshooting access denials before escalating to Pneuma. See [Observability](./observability.md#gateway-auth-observability) for details.
+- Group/role enforcement for a given user also depends on Authentik group membership — see the callout under [Request Evaluation Order](#request-evaluation-order).
 
 ## Core Invariants
 
@@ -162,3 +172,36 @@ Centralize authn/authz at Pneuma gateway clusters. Logos remains the contract wh
 - Pneuma is the single operational owner for gateway auth availability, denial behavior, and observability.
 - Schema validation in Techne and PR review in Logos become part of the security boundary.
 - Gateway auth outages deny enforced traffic instead of failing open.
+
+### Per-Host Browser Group and Role Enforcement
+
+<table>
+  <thead>
+    <tr><th>Status</th><th>Date</th><th>Deciders</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Accepted ✅</td><td>September 2026</td><td>Pneuma, Arche</td></tr>
+  </tbody>
+</table>
+
+#### Context and Problem Statement
+
+`browser`-mode routes validated only that a user had an authenticated Authentik session — the declared `required_groups` and `required_roles` on a route's `route_auth_policies` had no enforcement path. Any authenticated user could reach a `browser` route regardless of group or role membership, because no Authentik application, provider, or policy binding existed to evaluate those claims for a specific host.
+
+#### Decision
+
+Pneuma's `authentik-config` workspace now renders, per gateway host, an Authentik application and proxy provider plus one policy binding per declared group or role, sourced directly from each route's Logos `route_auth_policies`. The embedded outpost's `protocol_providers` list is updated to include every rendered browser provider so forward-auth actually evaluates the binding. This closes the enforcement gap without requiring any manual Authentik configuration per route.
+
+The one remaining manual step — provisioning **Authentik group membership** itself from Logos/Google Identity groups — is out of scope for this decision and is tracked separately as [pt-pneuma#181](https://github.com/osinfra-io/pt-pneuma/issues/181).
+
+#### Alternatives Considered
+
+- **Manual per-route Authentik configuration** — Rejected. Requires an operator to hand-configure an application, provider, and policy binding in the Authentik UI for every enforced route, which does not scale, is not reviewable through Logos, and is easy to forget or get wrong.
+- **A single shared Authentik application for all browser routes** — Rejected. Cannot express per-route group/role differences; any policy binding would apply uniformly across every host behind the embedded outpost.
+- **Enforcing groups/roles entirely in Istio via JWT claims** — Rejected. Authentik's browser flow issues a session, not a JWT with claims usable by Istio's native `AuthorizationPolicy`; enforcement has to happen at the Authentik layer for interactive sessions.
+
+#### Consequences
+
+- `browser` routes with `required_groups` / `required_roles` are now actually enforced, closing the gap between declared Logos intent and rendered behavior.
+- Adding or changing group/role requirements on a route is a Logos-only change; Pneuma re-renders the Authentik resources automatically.
+- Authentik group membership sync remains an open gap ([pt-pneuma#181](https://github.com/osinfra-io/pt-pneuma/issues/181)) — enforcement is only as strong as the manual group assignments behind it until that is resolved.

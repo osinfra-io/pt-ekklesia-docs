@@ -42,17 +42,6 @@ Autodiscovery rules are pre-configured for the following cluster components:
 - **Cilium**: Scrapes Cilium eBPF dataplane metrics from the agent endpoint using OpenMetrics
 - **Envoy (Istio sidecars)**: Scrapes Envoy proxy metrics from the Istio stats endpoint and collects Envoy access logs
 
-## Gateway Auth Observability
-
-Centralized gateway auth emits its operational signals through the same Datadog collection path as the rest of Pneuma:
-
-- **Auth decision logs**: Authentik and Envoy access logs show whether a request was allowed, redirected, or denied.
-- **Denial visibility**: Ext_authz denials and unauthenticated gateway rejections are visible in Datadog logs and dashboards for troubleshooting team access issues.
-- **Health monitoring**: Pneuma monitors the Authentik embedded outpost health, Authentik availability, and auth failure rate so enforced routes remain fail-closed without becoming silent outages.
-- **Mode coverage**: `browser` forward-auth sessions and `api-jwt` bearer-token validation both traverse the gateway path, so both client types appear in the gateway auth logs.
-
-Teams should check the Datadog gateway auth dashboards and denial logs before escalating an access issue to Pneuma.
-
 ## Components
 
 | Component | Description |
