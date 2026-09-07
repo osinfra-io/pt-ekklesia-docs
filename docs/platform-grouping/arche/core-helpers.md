@@ -66,7 +66,6 @@ Consumed outputs include the GCP environment folder ID for the current team (use
 | `zone` | both | Deployment zone, e.g. `b`; `null` for regional workspaces |
 | `labels` | root | Standard label map for all GCP resources |
 | `team` | root | Team identifier, e.g. `pt-corpus` |
-| `team_prefix` | root | Team type prefix: `pt`, `st`, `ct`, `et` |
 | `environment_folder_id` | root | GCP folder ID for the current team and environment from Logos state |
 | `project_naming` | root | Struct with `prefix` and `description` for project creation |
 | `teams` | root | Full map of all team data aggregated from Logos workspaces |

@@ -276,75 +276,6 @@ function ApiAutocomplete({ value, onChange }) {
   );
 }
 
-function StaticAutocomplete({ id, options, value, onChange, placeholder, className }) {
-  const [query, setQuery]         = useState('');
-  const [suggestions, setSugs]    = useState([]);
-  const [showDrop, setShowDrop]   = useState(false);
-  const [activeIdx, setActiveIdx] = useState(-1);
-  const inputRef = useRef(null);
-  const dropRef  = useRef(null);
-
-  useEffect(() => {
-    if (!query) { setSugs([]); return; }
-    setSugs(options.filter(o => o.toLowerCase().includes(query.toLowerCase())).slice(0, 20));
-    setActiveIdx(-1);
-  }, [query, options]);
-
-  function pick(opt) {
-    onChange(opt);
-    setQuery('');
-    setSugs([]);
-    setShowDrop(false);
-    inputRef.current?.focus();
-  }
-
-  function handleInput(e) {
-    setQuery(e.target.value);
-    setShowDrop(true);
-    onChange(e.target.value);
-  }
-
-  function handleKey(e) {
-    if (!showDrop || !suggestions.length) return;
-    if (e.key === 'ArrowDown') { e.preventDefault(); setActiveIdx(i => Math.min(i + 1, suggestions.length - 1)); }
-    else if (e.key === 'ArrowUp') { e.preventDefault(); setActiveIdx(i => Math.max(i - 1, -1)); }
-    else if (e.key === 'Enter' && activeIdx >= 0) { e.preventDefault(); pick(suggestions[activeIdx]); }
-    else if (e.key === 'Escape') { setShowDrop(false); }
-  }
-
-  return (
-    <div className={styles.apiWrap}>
-      <input
-        ref={inputRef}
-        id={id}
-        className={className || styles.input}
-        value={value}
-        onFocus={() => { setQuery(value); setShowDrop(true); }}
-        onChange={handleInput}
-        onKeyDown={handleKey}
-        onBlur={() => setTimeout(() => setShowDrop(false), 150)}
-        placeholder={placeholder}
-        autoComplete="off"
-      />
-      {showDrop && suggestions.length > 0 && (
-        <ul ref={dropRef} className={styles.apiDrop} role="listbox">
-          {suggestions.map((s, i) => (
-            <li
-              key={s}
-              role="option"
-              aria-selected={i === activeIdx}
-              className={`${styles.apiOpt} ${i === activeIdx ? styles.apiOptActive : ''}`}
-              onMouseDown={() => pick(s)}
-            >
-              {s}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-}
-
 function ProductGroup({ color, label, children }) {
   return (
     <div className={styles.productGroup}>
@@ -614,13 +545,19 @@ function PromptBuilderInner() {
                   </div>
                   <div className={styles.subField}>
                     <label className={styles.subLabel} htmlFor="pb-sql-tier">Machine tier <span className={styles.required}>required</span></label>
-                    <StaticAutocomplete
-                      id="pb-sql-tier"
-                      options={SQL_TIERS}
-                      value={cloudSqlTier}
-                      onChange={setCloudSqlTier}
-                      placeholder="db-g1-small"
-                    />
+                    <>
+                      <input
+                        id="pb-sql-tier"
+                        list="pb-sql-tier-options"
+                        className={styles.input}
+                        value={cloudSqlTier}
+                        onChange={e => setCloudSqlTier(e.target.value)}
+                        placeholder="db-g1-small"
+                      />
+                      <datalist id="pb-sql-tier-options">
+                        {SQL_TIERS.map(tier => <option key={tier} value={tier} />)}
+                      </datalist>
+                    </>
                   </div>
                   <div className={styles.subField}>
                     <label className={styles.subLabel}>Regions <span className={styles.required}>required</span></label>
