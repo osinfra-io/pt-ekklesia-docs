@@ -44,7 +44,7 @@ flowchart LR
 | Component | Owner | Description |
 |---|---|---|
 | Authentik | Pneuma via Arche | Platform-wide OIDC issuer and IAM layer deployed on gateway clusters by the `pt-pneuma` regional `authentik` workspace. The `pt-arche-kubernetes-authentik` module deploys the Helm release and persists state in Cloud SQL PostgreSQL. |
-| Authentik embedded outpost | Pneuma via Arche | Forward-auth (`ext_authz`) endpoint for browser sessions, configured by the regional `authentik-config` workspace. It is registered in Istio `MeshConfig` as the `authentik` ext_authz `ExtensionProvider`. |
+| Authentik embedded outpost | Pneuma via Arche | Forward-auth (`ext_authz`) endpoint for browser sessions, configured by the regional `authentik-config` workspace. It is registered in Istio `MeshConfig` as the `authentik` ext_authz `ExtensionProvider`; Pneuma also routes `/outpost.goauthentik.io` on every protected host directly to the outpost so OAuth callbacks can complete. |
 | Authentik application, provider, and policy bindings | Pneuma via Arche | Per-host resources rendered automatically from Logos `route_auth_policies` for `browser` routes — one Authentik application/proxy provider per host, plus a policy binding per declared group or role. Wired into the embedded outpost's `protocol_providers`. |
 | Istio `RequestAuthentication` | Pneuma | `gateway-authentik-jwt` validates JWTs against the Authentik issuer and JWKS at the gateway data plane before authorization decisions are evaluated. |
 | Istio `AuthorizationPolicy` | Pneuma | `browser` routes get an `action: CUSTOM` policy that forwards to the Authentik embedded outpost. `api-jwt` routes get a native-claim `action: DENY` policy that rejects requests lacking a validated principal or a matching `audiences`, `groups`, or `roles` claim. Standard health paths, Authentik callback paths, and declared public paths are excluded. |
@@ -58,7 +58,7 @@ Every external request follows this order at the gateway:
 2. **TLS terminates at the gateway** using the shared wildcard certificate and Gateway API listener.
 3. **Istio `RequestAuthentication` validates JWTs** against the Authentik JWKS on the `gateway-istio` data plane. Requests carrying a token get a validated request principal; requests without one are unauthenticated.
 4. **Authorization is enforced by mode** — `browser` routes forward to the Authentik embedded outpost via `ext_authz`; `api-jwt` routes are evaluated by a native-claim DENY policy. Health, Authentik callback, and declared public paths are exempt.
-5. **Gateway API `HTTPRoute` routing** selects the team backend service from Logos-declared route intent.
+5. **Gateway API `HTTPRoute` routing** sends `/outpost.goauthentik.io` callbacks on protected browser hosts to Authentik and selects the team backend service for application paths.
 6. **Mesh-level mTLS and authorization** protect service-to-service traffic in the workload clusters after the request enters the mesh.
 
 :::warning Fail-closed by default
