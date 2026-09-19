@@ -20,20 +20,28 @@ Authentik is the platform identity provider. It is available at `authentik.<env>
 
 ```mermaid
 flowchart LR
-    Client([User or API client]) --> Armor[Cloud Armor]
-    Armor --> Gateway[Pneuma gateway]
+    classDef client fill:#5F6368,stroke:#5F6368,color:#fff
+    classDef gcp fill:#4285F4,stroke:#4285F4,color:#fff
+    classDef istio fill:#466BB0,stroke:#466BB0,color:#fff
+    classDef authentik fill:#FD4B2D,stroke:#FD4B2D,color:#fff
+    classDef kubernetes fill:#326CE5,stroke:#326CE5,color:#fff
+    classDef logos fill:#2E7D32,stroke:#2E7D32,color:#fff
+    classDef decision fill:#F9AB00,stroke:#F9AB00,color:#202124
+
+    Client([User or API client]):::client --> Armor[Cloud Armor]:::gcp
+    Armor --> Gateway[Pneuma gateway]:::istio
     Gateway --> Mode{Auth mode}
-    Mode -->|browser| Outpost[Authentik embedded outpost]
-    Mode -->|api-jwt| JWT[Istio JWT validation]
-    Mode -->|public| Route[Gateway API HTTPRoute]
+    Mode:::decision -->|browser| Outpost[Authentik embedded outpost]:::authentik
+    Mode -->|api-jwt| JWT[Istio JWT validation]:::istio
+    Mode -->|public| Route[Gateway API HTTPRoute]:::kubernetes
     Outpost --> Route
     JWT --> Route
-    Route --> Mesh[Service mesh]
-    Mesh --> Workload[Team workload]
+    Route --> Mesh[Service mesh]:::istio
+    Mesh --> Workload[Team workload]:::kubernetes
 
-    Logos[Logos route_auth_policies] --> Pneuma[Pneuma rendering]
+    Logos[Logos route_auth_policies]:::logos --> Pneuma[Pneuma rendering]:::gcp
     Pneuma --> Gateway
-    Authentik[Authentik] --> Outpost
+    Authentik[Authentik]:::authentik --> Outpost
     Authentik --> JWT
 ```
 
