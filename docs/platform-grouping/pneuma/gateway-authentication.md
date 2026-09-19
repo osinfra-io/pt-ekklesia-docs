@@ -19,7 +19,7 @@ Gateway auth runs on the Pneuma gateway data plane (`gateway-istio`). It combine
 Authentik is the platform identity provider. It is available at `authentik.<env>.osinfra.io`; production omits the environment segment. The `pt-pneuma` `authentik` and `authentik-config` workspaces deploy and configure it through `pt-arche-kubernetes-authentik`. Authentik stores persistent data in Cloud SQL PostgreSQL, and its embedded outpost provides the Envoy `ext_authz` endpoint for browser sessions.
 
 ```mermaid
-flowchart LR
+flowchart TD
     classDef client fill:#5F6368,stroke:#5F6368,color:#fff
     classDef gcp fill:#4285F4,stroke:#4285F4,color:#fff
     classDef istio fill:#466BB0,stroke:#466BB0,color:#fff
