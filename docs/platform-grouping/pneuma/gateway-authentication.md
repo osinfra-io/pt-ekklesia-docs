@@ -89,7 +89,7 @@ For claim lists, matching is **OR within a list** and **AND across lists**. For 
 
 For browser routes, Pneuma represents both `required_groups` and `required_roles` as Authentik group-backed policy bindings. API JWT routes evaluate the corresponding `groups` and `roles` token claims directly.
 
-### Browser Identity Headers
+## Browser Identity Headers
 
 The browser contract ends at the trusted headers injected after Authentik authorizes the request. Applications must not expect an Authentik JWT on a `browser` route. The gateway authorization integration controls the `x-authentik-*` namespace so values supplied directly by an external client are not a trusted identity source.
 
