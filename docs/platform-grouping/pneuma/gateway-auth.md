@@ -109,6 +109,8 @@ Each policy supports:
 
 A `browser` policy must include at least one required group or role; an `api-jwt` policy must include at least one audience. Use the [Nomos Agent](/onboarding) to author or update the Logos spec; Nomos validates the request against the `pt-techne-mcp-server` schema before opening the change.
 
+The platform's `istio-test` route is the deployed browser-auth verification path. It uses `mode = "browser"` with `required_groups = ["all"]`, so interactive application requests require an Authentik session from a provisioned user. `/istio-test/metadata/cluster-name` remains in `public_paths` because Datadog synthetics and the endpoint-check workflow use it for anonymous infrastructure health verification.
+
 ## Ownership Boundaries
 
 | Boundary | Responsibility |
