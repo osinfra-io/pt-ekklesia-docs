@@ -9,7 +9,7 @@ Pneuma is the breath of life animating the platform via Kubernetes — orchestra
 
 - **[Cluster Management](./cluster-management.md)**: GKE clusters with autoscaling node pools, Workload Identity, and Fleet enrollment
 - **[Service Mesh](./service-mesh.md)**: Istio with mTLS, traffic management, and Datadog AAP-backed ingress
-- **[Gateway Auth](./gateway-auth.md)**: Centralized Authentik and Istio auth policy enforcement for external routes
+- **[Gateway Authentication](./gateway-authentication.md)**: Centralized Authentik and Istio authentication and authorization policy enforcement for external routes
 - **[Certificate Management](./certificate-management.md)**: cert-manager with istio-csr as the mesh CA, issuing all workload mTLS certificates from a self-signed root
 - **[Policy Enforcement](./policy-enforcement.md)**: OPA Gatekeeper constraint templates and audit mode
 - **[Observability](./observability.md)**: Datadog Operator for cluster metrics, traces, and log collection
@@ -65,7 +65,7 @@ Cognitive load by domain:
 |---|---|---|---|
 | Cluster Management | 🔴 High | Arche GKE module | GKE internals, Fleet enrollment |
 | Service Mesh | 🔴 High | Arche Istio module | mTLS, traffic policy |
-| Gateway Auth | 🔴 High | Arche Authentik module | Authentik, Istio authn/authz policy |
+| Gateway Authentication | 🔴 High | Arche Authentik module | Authentik, Istio authentication and authorization policy |
 | Certificate Management | 🔴 High | Arche cert-manager module | PKI chains, issuers |
 | Policy Enforcement | 🟡 Medium | Arche OPA module | Rego, constraint authoring |
 | Observability | 🟡 Medium | Arche Datadog module | Cluster metrics & traces |
@@ -108,13 +108,13 @@ Cognitive load by domain:
 
 Pneuma operates 6 working domains against the Team Topologies recommended limit of 4, with 4 high-intrinsic domains above the guideline ceiling of 3. This places the team formally at 🔴 over limit in the platform cognitive load table. The structural risk is that an overloaded team becomes a bottleneck, accrues technical debt faster, and is more vulnerable to failure when any single domain demands sustained attention. Acknowledging the overload without a documented mitigation and re-evaluation commitment leaves the risk unmanaged organizationally.
 
-The six domains — Cluster Management, Service Mesh, Gateway Auth, Certificate Management, Policy Enforcement, and Observability — cannot be separated without creating artificial coupling problems. cert-manager CRDs must exist before Istio certificate resources; OPA Gatekeeper runs against all workloads on the cluster; gateway auth enforcement depends on both the mesh and cluster layers. Splitting these concerns across teams would require tight coordination at every upgrade cycle and introduce more extraneous load than the split would remove.
+The six domains — Cluster Management, Service Mesh, Gateway Authentication, Certificate Management, Policy Enforcement, and Observability — cannot be separated without creating artificial coupling problems. cert-manager CRDs must exist before Istio certificate resources; OPA Gatekeeper runs against all workloads on the cluster; gateway authentication enforcement depends on both the mesh and cluster layers. Splitting these concerns across teams would require tight coordination at every upgrade cycle and introduce more extraneous load than the split would remove.
 
 #### Decision
 
 1. **Accept the 🔴 overload state as a managed risk.** The six domains are operationally inseparable at the cluster layer. This is a structural reality of the platform, not a resourcing failure. The risk is acknowledged, documented, and mitigated — not ignored.
 
-2. **Arche Kubernetes modules are the primary load mitigation.** Five of the six domains are covered by a dedicated `pt-arche-kubernetes-*` module (Service Mesh, Gateway Auth, Certificate Management, Policy Enforcement, Observability); Cluster Management is covered by `pt-arche-google-kubernetes-engine`. Together these encapsulate all Helm chart management and complex resource orchestration across every domain, so Pneuma engineers own configuration and integration, not implementation. This mitigation is load-bearing: if Arche module coverage degrades, Pneuma's effective cognitive load increases proportionally.
+2. **Arche Kubernetes modules are the primary load mitigation.** Five of the six domains are covered by a dedicated `pt-arche-kubernetes-*` module (Service Mesh, Gateway Authentication, Certificate Management, Policy Enforcement, Observability); Cluster Management is covered by `pt-arche-google-kubernetes-engine`. Together these encapsulate all Helm chart management and complex resource orchestration across every domain, so Pneuma engineers own configuration and integration, not implementation. This mitigation is load-bearing: if Arche module coverage degrades, Pneuma's effective cognitive load increases proportionally.
 
 3. **Headcount of 2–3 engineers reflects the six-domain scope.** Arche modules absorb implementation complexity, but the domain count now exceeds what one engineer can reliably carry. Two engineers is the baseline for coverage and redundancy; a third is the scaling response when cluster count grows or parallel add-on upgrades become routine.
 
