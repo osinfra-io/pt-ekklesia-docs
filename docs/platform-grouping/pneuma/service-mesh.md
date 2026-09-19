@@ -4,7 +4,7 @@ sidebar_label: Service Mesh
 
 # Service Mesh
 
-Istio runs on every GKE cluster as a single multi-cluster mesh via GKE Fleet. It provides mTLS between services, traffic management, centralized [gateway auth](./gateway-auth.md), and an ingress gateway backed by Cloud Armor WAF and Datadog AAP. Ingress uses the vendor-neutral [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
+Istio runs on every GKE cluster as a single multi-cluster mesh via GKE Fleet. It provides mTLS between services, traffic management, centralized [gateway authentication](./gateway-authentication.md), and an ingress gateway backed by Cloud Armor WAF and Datadog AAP. Ingress uses the vendor-neutral [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
 
 - **mTLS**: All pod-to-pod traffic is encrypted and authenticated via per-cluster istiod instances
 - **Ingress gateway**: External traffic enters exclusively through pneuma's gateway — a Gateway API `Gateway` reconciled by istiod, backed by MCI global load balancer, Cloud Armor WAF, Datadog AAP, and Authentik external authorization
@@ -23,7 +23,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 |---|---|
 | `istio-control-plane` | istiod deployed via Helm on every cluster — manages traffic policy and mTLS certificate distribution |
 | `gateway` | Gateway API `Gateway` (gatewayClassName `istio`) on pneuma clusters only. istiod auto-provisions the `gateway-istio` data plane; exposed via MCI global and zonal load balancers |
-| `gateway-auth` | Istio `RequestAuthentication` and `AuthorizationPolicy` resources on the gateway data plane — validates Authentik JWTs, forwards `browser` routes to the Authentik embedded outpost via ext_authz, and enforces route-scoped claims for `api-jwt` routes. See [Gateway Auth](./gateway-auth.md) |
+| `gateway-auth` | Istio `RequestAuthentication` and `AuthorizationPolicy` resources on the gateway data plane — validates Authentik JWTs, forwards `browser` routes to the Authentik embedded outpost via ext_authz, and enforces route-scoped claims for `api-jwt` routes. See [Gateway Authentication](./gateway-authentication.md) |
 | `waf-policy` | Cloud Armor security policy on the ingress gateway (OWASP rules, rate limiting, adaptive DDoS) |
 | `http-route` | Gateway API `HTTPRoute` per team host, co-located with the backend `Service` in the team's namespace |
 | `destination-rule` | Istio connection pool and circuit breaker settings per destination |
@@ -130,7 +130,7 @@ spec:
    kubectl get httproute -n st-ethos-api api-ethos -o yaml
    ```
 
-### Gateway Auth Policies
+### Gateway Authentication Policies
 
 For any declared route, a team may attach a **gateway auth policy** so pneuma enforces authentication and authorization at the shared gateway through Authentik. Policies are declared under `route_auth_policies`, keyed by the matching route name, and may only be set on mesh-enabled namespaces. Each policy selects one of three **modes** (default `browser`):
 
@@ -176,7 +176,7 @@ namespaces = {
 
 Pneuma renders `browser` policies as a forward-auth `AuthorizationPolicy` (Envoy `ext_authz` to the Authentik embedded outpost) that authenticates the interactive session; group and role authorization for `browser` routes is enforced by per-host Authentik application, provider, and policy-binding resources that Pneuma renders automatically from the declared `required_groups` / `required_roles`. The one remaining manual step is Authentik group **membership** itself, which is not yet synced from Logos/Google Identity groups (tracked in [pt-pneuma#181](https://github.com/osinfra-io/pt-pneuma/issues/181)). `api-jwt` policies render a `RequestAuthentication` plus a native-claim DENY `AuthorizationPolicy` that rejects any request without a validated JWT or whose `aud`, `groups`, or `roles` claims do not satisfy the configured `audiences`, `required_groups`, or `required_roles` values. `public` routes and any declared `public_paths` are excluded from enforcement.
 
-See [Gateway Auth](./gateway-auth.md) for the full request evaluation order, component ownership, and operational expectations.
+See [Gateway Authentication](./gateway-authentication.md) for the full request evaluation order, component ownership, and operational expectations.
 
 ### End-to-End Validation
 

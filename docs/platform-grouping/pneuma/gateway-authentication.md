@@ -1,8 +1,8 @@
 ---
-sidebar_label: Gateway Auth
+sidebar_label: Gateway Authentication
 ---
 
-# Gateway Auth
+# Gateway Authentication
 
 Pneuma enforces authentication and authorization for external application routes at the shared gateway. Teams declare route-level intent in Logos; Pneuma renders the required Istio and Authentik resources before traffic reaches a workload cluster.
 
@@ -174,7 +174,7 @@ OAuth callback requests under `/outpost.goauthentik.io` are routed directly to t
 
 ## Architecture Decision Records
 
-### Centralized Gateway Auth Enforcement
+### Centralized Gateway Authentication Enforcement
 
 <table>
   <thead>
