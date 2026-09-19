@@ -120,13 +120,13 @@ namespaces = {
 |---|---|
 | `mode` | Optional. `public`, `browser`, or `api-jwt`; defaults to `browser`. |
 | `audiences` | JWT audiences accepted by an `api-jwt` route. Required for `api-jwt` and forbidden for other modes. |
-| `public_paths` | Unauthenticated paths beneath an enforced route. Entries must start with `/` and cannot be `/`, `/*`, or `*`. Add `/*` to exempt a subtree. |
+| `public_paths` | Unauthenticated paths beneath an enforced route. Entries must start with `/` and cannot be `/`, `/*`, or `*`. Append `/*` to a concrete path to exempt a subtree, such as `/api/healthz/*`. |
 | `required_groups` | Authentik groups accepted by the route. |
 | `required_roles` | Authentik application roles accepted by the route. |
 
 Use the [Nomos Agent](/onboarding) to create or update the Logos declaration. Nomos validates the policy before opening the change.
 
-### Browser Auth Limitations
+## Browser Auth Limitations
 
 :::caution Group membership is not synchronized
 

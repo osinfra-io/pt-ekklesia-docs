@@ -130,7 +130,7 @@ spec:
    kubectl get httproute -n st-ethos-api api-ethos -o yaml
    ```
 
-### Gateway Authentication Policies
+## Gateway Authentication Policies
 
 For any declared route, a team may attach a **gateway auth policy** so pneuma enforces authentication and authorization at the shared gateway through Authentik. Policies are declared under `route_auth_policies`, keyed by the matching route name, and may only be set on mesh-enabled namespaces. Each policy selects one of three **modes** (default `browser`):
 
