@@ -14,9 +14,11 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 ## Architecture
 
-Gateway auth runs on the Pneuma gateway data plane (`gateway-istio`). It combines Authentik, Istio JWT validation, and Envoy external authorization so application teams do not need to operate an ingress authentication stack.
+Gateway auth runs on the Pneuma gateway data plane (`gateway-istio`). It combines Authentik browser-session enforcement, Istio JWT validation for API clients, and Envoy external authorization so application teams do not need to operate an ingress authentication stack.
 
 Authentik is the platform identity provider. It is available at `authentik.<env>.osinfra.io`; production omits the environment segment. The `pt-pneuma` `authentik` and `authentik-config` workspaces deploy and configure it through `pt-arche-kubernetes-authentik`. Authentik stores persistent data in Cloud SQL PostgreSQL, and its embedded outpost provides the Envoy `ext_authz` endpoint for browser sessions.
+
+Browser identity does not reach the workload as a bearer JWT. After the embedded outpost authorizes the session, the gateway forwards trusted Authentik identity headers such as `x-authentik-username`, `x-authentik-email`, `x-authentik-name`, `x-authentik-uid`, `x-authentik-groups`, and `x-authentik-entitlements`. Workloads behind a `browser` route use these gateway-controlled headers when they need the signed-in user's identity.
 
 ```mermaid
 flowchart TD
@@ -34,7 +36,7 @@ flowchart TD
     Mode:::decision -->|browser| Outpost[Authentik embedded outpost]:::authentik
     Mode -->|api-jwt| JWT[Istio JWT validation]:::istio
     Mode -->|public| Route[Gateway API HTTPRoute]:::kubernetes
-    Outpost --> Route
+    Outpost -->|x-authentik-* identity headers| Route
     JWT --> Route
     Route --> Mesh[Service mesh]:::istio
     Mesh --> Workload[Team workload]:::kubernetes
@@ -51,7 +53,7 @@ flowchart TD
 |---|---|---|
 | Logos `route_auth_policies` | Logos | Source of truth for route-level auth intent. Policies are keyed by an existing route name. |
 | Authentik | Pneuma via Arche | Platform OIDC provider and identity layer deployed on the gateway clusters. |
-| Embedded outpost | Pneuma via Arche | Forward-auth endpoint for browser sessions. Istio registers it as the `authentik` external authorization provider. |
+| Embedded outpost | Pneuma via Arche | Forward-auth endpoint for browser sessions. Istio registers it as the `authentik` external authorization provider and forwards its trusted `x-authentik-*` identity headers to authorized workloads. |
 | Authentik applications and policies | Pneuma via Arche | Per-host application, proxy provider, and policy bindings generated from browser-route group and role requirements. |
 | Istio `RequestAuthentication` | Pneuma | Validates bearer JWTs against the Authentik issuer and JWKS. |
 | Istio `AuthorizationPolicy` | Pneuma | Sends browser requests to Authentik or enforces API JWT claims natively. |
@@ -60,13 +62,12 @@ flowchart TD
 
 1. Cloud Armor evaluates edge security policy.
 2. TLS terminates at the shared gateway.
-3. Istio validates a presented JWT against the Authentik JWKS.
-4. The route's auth mode determines enforcement:
-   - `browser` sends the request to the Authentik embedded outpost.
-   - `api-jwt` evaluates the validated JWT principal and claims.
+3. The route's auth mode determines enforcement:
+   - `browser` sends the request to the Authentik embedded outpost, which validates the browser session and returns trusted `x-authentik-*` identity headers for the upstream request.
+   - `api-jwt` has Istio validate the bearer JWT against the Authentik JWKS, then evaluates the validated principal and claims.
    - `public` skips auth enforcement.
-5. Gateway API routes Authentik callbacks to the embedded outpost and application traffic to the team service.
-6. Mesh mTLS and workload authorization protect traffic after it enters the service mesh.
+4. Gateway API routes Authentik callbacks to the embedded outpost and application traffic to the team service.
+5. Mesh mTLS and workload authorization protect traffic after it enters the service mesh.
 
 :::warning Fail-closed by default
 
@@ -87,6 +88,12 @@ Each `route_auth_policies` entry selects one of three modes. The default is `bro
 For claim lists, matching is **OR within a list** and **AND across lists**. For example, a route with two audiences and one required role accepts either audience, but the role must also match.
 
 For browser routes, Pneuma represents both `required_groups` and `required_roles` as Authentik group-backed policy bindings. API JWT routes evaluate the corresponding `groups` and `roles` token claims directly.
+
+### Browser Identity Headers
+
+The browser contract ends at the trusted headers injected after Authentik authorizes the request. Applications must not expect an Authentik JWT on a `browser` route. The gateway authorization integration controls the `x-authentik-*` namespace so values supplied directly by an external client are not a trusted identity source.
+
+Common headers include the authenticated username, email, display name, stable user ID, groups, and entitlements. Applications should consume only the fields they require and continue to rely on the gateway to enforce the route's declared group and role policy.
 
 ## Declaring a Policy
 
@@ -142,15 +149,16 @@ Browser applications and policy bindings are scoped to a host, not an individual
 
 ## Verification
 
-The platform `istio-test` route is the deployed browser-auth check:
+The platform `istio-test` route exposes separate public probes and a protected browser-identity diagnostic:
 
 | Request | Expected result |
 |---|---|
-| `/istio-test` without an Authentik session | Redirect to Authentik |
-| `/istio-test` after signing in as a member of `all` | Application response |
-| `/istio-test/metadata/cluster-name` without a session | `200 OK` |
+| `/istio-test/health` without an Authentik session | Public health JSON response; no Authentik redirect |
+| `/istio-test/metadata/cluster-name` without an Authentik session | Public metadata response; no Authentik redirect |
+| `/istio-test/auth` without an Authentik session | Redirect to Authentik |
+| `/istio-test/auth` after signing in as a member of `all` | JSON diagnostic showing the trusted `x-authentik-*` identity headers received by the workload |
 
-The route uses `mode = "browser"` and `required_groups = ["all"]`. The cluster-name endpoint is explicitly included in `public_paths` because Datadog synthetics and the endpoint-check workflow use it for anonymous infrastructure health checks.
+The route uses `mode = "browser"` and `required_groups = ["all"]`. `/istio-test/health` and the metadata endpoints are explicitly included in `public_paths` so infrastructure health and metadata checks remain anonymous. These public checks should return their application response directly; a redirect to Authentik means the public-path bypass is not working. `/istio-test/auth` is intentionally protected and makes the browser identity handoff observable without requiring another application to implement a diagnostic endpoint.
 
 OAuth callback requests under `/outpost.goauthentik.io` are routed directly to the embedded outpost on every protected browser host. This routing is required for the browser flow to return to the original application.
 
@@ -167,7 +175,7 @@ OAuth callback requests under `/outpost.goauthentik.io` are routed directly to t
 ## Operational Expectations
 
 - Unauthenticated requests to enforced application paths are denied before reaching a team backend.
-- Standard health paths, Authentik callbacks, and declared `public_paths` bypass enforcement.
+- The `istio-test` health and metadata diagnostics, Authentik callbacks, and other declared `public_paths` bypass enforcement without redirecting to Authentik.
 - Route-auth changes deploy through the normal Logos-to-Pneuma pipeline.
 - Pneuma owns Authentik availability, Cloud SQL persistence, and gateway auth observability.
 - Browser authorization depends on current Authentik group and role membership.
@@ -178,7 +186,8 @@ OAuth callback requests under `/outpost.goauthentik.io` are routed directly to t
 - Enforced routes fail closed.
 - `browser` requires at least one group or role; `api-jwt` requires at least one audience.
 - Public bypasses cannot expose an entire route using `/`, `/*`, or `*`.
-- JWT validation occurs at the gateway before authorization.
+- API JWT validation occurs at the gateway before authorization.
+- Browser identity reaches workloads only through gateway-controlled Authentik headers after the session is authorized.
 
 ## Architecture Decision Records
 
@@ -244,5 +253,6 @@ The one remaining manual step — provisioning **Authentik group membership** it
 #### Consequences
 
 - `browser` routes with `required_groups` / `required_roles` are now actually enforced, closing the gap between declared Logos intent and rendered behavior.
+- Authorized browser identity is forwarded to workloads through trusted `x-authentik-*` headers rather than an application-facing JWT.
 - Adding or changing group/role requirements on a route is a Logos-only change; Pneuma re-renders the Authentik resources automatically.
 - Authentik group membership sync remains an open gap ([pt-pneuma#181](https://github.com/osinfra-io/pt-pneuma/issues/181)) — enforcement is only as strong as the manual group assignments behind it until that is resolved.
