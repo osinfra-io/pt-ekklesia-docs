@@ -18,6 +18,8 @@ Gateway auth runs on the Pneuma gateway data plane (`gateway-istio`). It combine
 
 Authentik is the platform identity provider. It is available at `authentik.<env>.osinfra.io`; production omits the environment segment. The `pt-pneuma` `authentik` and `authentik-config` workspaces deploy and configure it through `pt-arche-kubernetes-authentik`. Authentik stores persistent data in Cloud SQL PostgreSQL, and its embedded outpost provides the Envoy `ext_authz` endpoint for browser sessions.
 
+The sandbox login at `authentik.sb.osinfra.io` uses the same dark visual identity as the documentation site: osinfra.io logos, a Mirko favicon, charcoal backgrounds, and gold accents. Its authentication flow displays **Welcome to osinfra.io sandbox!** while retaining Authentik's built-in identification, password, MFA, and login stages.
+
 Browser identity does not reach the workload as a bearer JWT. After the embedded outpost authorizes the session, the gateway forwards trusted Authentik identity headers such as `x-authentik-username`, `x-authentik-email`, `x-authentik-name`, `x-authentik-uid`, `x-authentik-groups`, and `x-authentik-entitlements`. Workloads behind a `browser` route use these gateway-controlled headers when they need the signed-in user's identity.
 
 ```mermaid
