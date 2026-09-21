@@ -30,7 +30,7 @@ The policy is defined once in `pt-arche-kubernetes-opa-gatekeeper` and parameter
 
 | Parameter | Description |
 |---|---|
-| `allowed_users` | Usernames and service-account identities permitted to manage the protected resources. Pneuma allow-lists its GitHub Actions deployer, which is bound as a namespaced `User` rather than a member of `system:masters`. |
+| `allowed_users` | Usernames and service-account identities permitted to manage the protected resources. Pneuma allow-lists its GitHub Actions deployer, which authenticates as an individual `User` rather than a member of `system:masters`. |
 | `allowed_groups` | Break-glass groups. Defaults to `system:masters`. |
 | `protected_kinds` | The `apiGroup` and `kind` pairs the guardrail protects. Defaults to the Istio `EnvoyFilter`, `AuthorizationPolicy`, and `RequestAuthentication` resources. |
 | `protected_namespaces` | Namespaces whose lifecycle and `Secrets` are protected. Pneuma protects the Authentik namespace. |
@@ -102,7 +102,7 @@ Enforce `K8sBlockIngress` via OPA Gatekeeper across all clusters. All external t
 
 #### Context and Problem Statement
 
-The `K8sProtectGatewayAuth` guardrail originally hardcoded its break-glass allow-list to the `system:masters` group, along with the protected kinds and namespaces. That assumption does not hold for every consumer. Pneuma's GitHub Actions deployer is bound as a namespaced `User` and is not a member of `system:masters`, so the guardrail would have denied Pneuma's own deployments of the very resources it renders. Pneuma worked around this by forking the template, Rego policy, and constraint into its own repository — leaving two copies of the same policy that rendered identical Kubernetes object names and drifted apart.
+The `K8sProtectGatewayAuth` guardrail originally hardcoded its break-glass allow-list to the `system:masters` group, along with the protected kinds and namespaces. That assumption does not hold for every consumer. Pneuma's GitHub Actions deployer authenticates as an individual `User` and is not a member of `system:masters`, so the guardrail would have denied Pneuma's own deployments of the very resources it renders. Pneuma worked around this by forking the template, Rego policy, and constraint into its own repository — leaving two copies of the same policy that rendered identical Kubernetes object names and drifted apart.
 
 #### Decision
 
