@@ -627,17 +627,13 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "istio_injection": {
-          "description": "Whether to enable Istio sidecar injection in this namespace. Defaults to disabled.",
-          "type": "string",
-          "enum": [
-            "enabled",
-            "disabled"
-          ],
-          "default": "disabled"
+        "mesh_enabled": {
+          "description": "Whether this namespace is enrolled in the ambient Istio mesh. Defaults to disabled.",
+          "type": "boolean",
+          "default": false
         },
         "route_auth_policies": {
-          "description": "Gateway auth policy intent for namespace routes, keyed by an existing route name. Pneuma renders each entry as gateway authentication and authorization policy for the matching route. Policies may only be declared on mesh-enabled namespaces (istio_injection = enabled).",
+          "description": "Gateway auth policy intent for namespace routes, keyed by an existing route name. Pneuma renders each entry as gateway authentication and authorization policy for the matching route. Policies may only be declared on mesh-enabled namespaces (mesh_enabled = true).",
           "type": "object",
           "propertyNames": {
             "pattern": "^[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?$"
@@ -648,7 +644,7 @@
           "default": {}
         },
         "routes": {
-          "description": "HTTP route intent for this namespace, keyed by route name. Pneuma renders each entry as a Gateway API HTTPRoute on the shared Istio gateway, serving the team's <subdomain>.osinfra.io host at the route's path prefix from the named Service. Routes may only be declared on mesh-enabled namespaces (istio_injection = enabled).",
+          "description": "HTTP route intent for this namespace, keyed by route name. Pneuma renders each entry as a Gateway API HTTPRoute on the shared Istio gateway, serving the team's <subdomain>.osinfra.io host at the route's path prefix from the named Service. Routes may only be declared on mesh-enabled namespaces (mesh_enabled = true).",
           "type": "object",
           "additionalProperties": {
             "$ref": "#/$defs/gkeRoute"
