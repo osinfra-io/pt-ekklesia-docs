@@ -10,7 +10,7 @@ Istio runs on every GKE cluster as a single multi-cluster ambient mesh via GKE F
 - **Ingress gateway**: External traffic enters exclusively through pneuma's dedicated Gateway API Envoy data plane, backed by MCI global load balancer, Cloud Armor WAF, Datadog AAP, and Authentik external authorization.
 - **Routing and auth**: Teams declare route intent and auth policy in Logos; pneuma renders `HTTPRoute`s and gateway policies for namespaces enrolled in the ambient mesh.
 - **Waypoint-on-demand**: Advanced L7 routing, traffic shaping, and richer observability require a waypoint; workloads stay ambient by default without always-on proxies.
-- **cert-manager**: `cert-manager-istio-csr` signs ztunnel identities for workload mTLS certificates across the mesh.
+- **cert-manager**: `cert-manager-istio-csr` signs workload identities requested by `ztunnel` for mTLS across the mesh.
 
 :::tip Architecture Decision Records
 
@@ -189,7 +189,7 @@ The `istio-test` workspace deploys a lightweight metadata service into each team
 
 ## Core Invariants
 
-- Ambient mTLS is enforced on every cluster via `ztunnel` and `PeerAuthentication` in strict mode — no plaintext pod-to-pod traffic.
+- Ambient mTLS is enforced on every cluster via `ztunnel` and `PeerAuthentication` in strict mode — no plaintext traffic between workloads enrolled in the ambient mesh.
 - The ingress gateway runs only on pneuma clusters — member clusters have no public endpoint.
 - `HTTPRoute` hostnames are derived from the team's `dns_subdomain` — teams cannot serve traffic on another team's subdomain.
 - Member namespace names carry the team-key prefix (`{team_key}-{namespace}`) — no cross-team endpoint aggregation in the mesh.
