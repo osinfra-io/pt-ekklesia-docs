@@ -102,7 +102,7 @@ Each layer maps to a subdirectory workspace in `pt-pneuma`, deployed in order vi
 
 #### Context and Problem Statement
 
-Namespace provisioning needs a single source of truth. Letting each team manage namespaces from its own repo would fragment cluster credentials across many pipelines and make cluster-wide invariants (naming, Workload Identity, sidecar injection) impossible to enforce.
+Namespace provisioning needs a single source of truth. Letting each team manage namespaces from its own repo would fragment cluster credentials across many pipelines and make cluster-wide invariants (naming, Workload Identity, ambient mesh enrollment) impossible to enforce.
 
 At the same time, each team needs to deploy workloads from its own CI/CD pipeline without accessing other teams' namespaces or the cluster itself.
 
@@ -122,7 +122,7 @@ Teams deploy into their own namespaces from their own pipelines. No cross-team a
 
 #### Consequences
 
-- Cluster-wide invariants (naming, Workload Identity, sidecar policy) are enforced in one place
+- Cluster-wide invariants (naming, Workload Identity, ambient mesh policy) are enforced in one place
 - Each team can self-serve deployments into its own namespaces only
 - Every namespace gets a Workload Identity service account; runtime GCP bindings are requested separately via the Nomos Agent
 - The cluster set must reach zone workspaces as `TF_VAR_clusters` because provider `for_each` cannot read module outputs

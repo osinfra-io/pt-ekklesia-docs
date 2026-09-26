@@ -40,7 +40,8 @@ These features are disabled by default and carry additional per-host cost when e
 Autodiscovery rules are pre-configured for the following cluster components:
 
 - **Cilium**: Scrapes Cilium eBPF dataplane metrics from the agent endpoint using OpenMetrics
-- **Envoy (Istio sidecars)**: Scrapes Envoy proxy metrics from the Istio stats endpoint and collects Envoy access logs
+- **Envoy ingress gateway**: Scrapes gateway proxy metrics from the Envoy stats endpoint and collects access logs for shared ingress traffic
+- **Ambient mesh telemetry**: Collects `ztunnel` and workload mesh telemetry through the mesh data plane so service-to-service traffic can be correlated without workload sidecars
 
 ## Components
 

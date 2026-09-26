@@ -102,7 +102,7 @@ Teams declare auth intent in Logos beside the corresponding route. `route_auth_p
 ```hcl
 namespaces = {
   "api" = {
-    istio_injection = "enabled"
+mesh_enabled = true
 
     route_auth_policies = {
       "api" = {
@@ -213,7 +213,7 @@ Centralize authn/authz at Pneuma gateway clusters. Logos remains the contract wh
 #### Alternatives Considered
 
 - **Team-managed gateway auth resources** — Rejected. Direct Kubernetes ownership would bypass the reviewed Logos contract and make route isolation, fail-closed behavior, and incident ownership inconsistent.
-- **Per-application forward-auth sidecars** — Rejected. Duplicates auth infrastructure in every app, complicates upgrades, and does not protect requests before they enter workload clusters.
+- **Per-application forward-auth proxies** — Rejected. Duplicates auth infrastructure in every app, complicates upgrades, and does not protect requests before they enter workload clusters.
 - **Application-only authorization** — Rejected. Leaves unauthenticated traffic to reach teams and makes centralized denial observability impossible.
 
 #### Consequences
