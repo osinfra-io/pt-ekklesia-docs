@@ -7,7 +7,7 @@ description: The assembly of the called-out — where distinct capabilities are 
 
 Ekklesia is the assembly of the called-out — where distinct capabilities are gathered into a unified body, deliberating and acting in concert toward shared platform purpose. This is that assembly.
 
-Ekklesia operates as the platform's innersource documentation hub: a single centralized documentation site where any team member can contribute, rather than maintaining scattered per-repo READMEs or per-team wikis. See the [documentation hub ADR](#ekklesia-as-an-innersource-documentation-hub) for the rationale.
+Ekklesia operates as the platform's innersource documentation hub. Repository READMEs remain the concise source for local development and module use; Ekklesia owns cross-team service contracts, onboarding, architecture, and operational guidance. See the [documentation hub ADR](#ekklesia-as-an-innersource-documentation-hub) for the rationale.
 
 - **[Documentation](./documentation.md)**: Docusaurus site structure, contribution model, and authoring conventions for the platform documentation hub
 
@@ -100,7 +100,7 @@ Operate a single Docusaurus site (`pt-ekklesia-docs`) as the canonical platform 
 
 #### Alternatives Considered
 
-- **Per-repo README files** — Rejected. Scattered across dozens of repositories; no single place to understand how the platform fits together. Engineers must know which repo to look in before they can find anything.
+- **Per-repo README files as the only documentation** — Rejected. READMEs remain useful for repository-local setup and interfaces, but they cannot provide a coherent cross-team platform view.
 - **Per-team wikis (GitHub Wiki / Confluence)** — Rejected. Edited outside of Git, bypassing the PR review process. Content drifts from reality with no mechanism to catch it.
 
 #### Consequences

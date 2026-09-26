@@ -5,17 +5,17 @@
 
 Platform documentation site for [osinfra.io](https://docs.osinfra.io), built with [Docusaurus](https://docusaurus.io) and deployed via GitHub Pages.
 
-## Local Development
+## Local development
 
-**Prerequisites:** Node.js >= 20
+**Prerequisites:** Node.js 20 or newer and Yarn.
 
 ```bash
-yarn
-yarn start       # dev server at http://localhost:3000
-yarn build       # production build — run before pushing to catch broken links
+yarn install --frozen-lockfile
+yarn start       # local site at http://localhost:3000
+yarn build       # production build and link validation
 ```
 
-## Project Structure
+## Project structure
 
 | Path | Purpose |
 | --- | --- |
@@ -39,7 +39,7 @@ Check the [Docusaurus changelog](https://github.com/facebook/docusaurus/blob/mai
 yarn build
 ```
 
-## Upgrading All Dependencies
+## Upgrading all dependencies
 
 Upgrade all dependencies to their latest versions:
 
@@ -49,4 +49,6 @@ yarn upgrade --latest
 
 ## Contributing
 
-Branch off `main`, make your changes, and open a pull request. The test deployment workflow runs automatically on PRs to verify the build succeeds before merging.
+Keep repository READMEs focused on local development and module use. Put cross-team service contracts, onboarding, architecture, and operational guidance in this site.
+
+Branch from `main`, make the smallest complete documentation change, run `yarn build`, and open a pull request. The test deployment workflow validates the site before merge.

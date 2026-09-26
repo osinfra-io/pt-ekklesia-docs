@@ -9,20 +9,32 @@ import DocCard from '@theme/DocCard';
 
 # Platform Grouping
 
-The **platform grouping** is the Team Topologies (2nd edition) term for a collection of platform teams that together provide a coherent internal platform product. Each platform team within the grouping owns a distinct context; together they expose a single, coherent interface to stream-aligned teams.
+The **platform grouping** is the set of platform teams that together provide the internal platform. Consumers should start with the capability they need, not the repository that implements it.
 
-<DocCard item={{ type: 'link', href: '/onboarding', label: 'Onboarding your team', description: 'Use the Nomos Agent to provision your GCP folder, identity groups, GitHub team, and Datadog setup from a single prompt.' }} />
+<DocCard item={{ type: 'link', href: '/onboarding', label: 'Onboarding your team', description: 'Describe your team and optional platform needs; Nomos prepares the reviewed changes across the owning repositories.' }} />
+
+## Service catalog
+
+| Need | Owning team | What the consumer provides |
+| --- | --- | --- |
+| Team, repository, access, or organization setup | Logos | Team identity, maintainers, members, repositories, and requested features |
+| GCP project, networking, DNS, registry, database, or CI identity | Corpus | Project requirements, APIs, connectivity, data-service, and access needs |
+| Kubernetes namespace, ingress, authentication, certificates, policy, or telemetry | Pneuma | Workload identity, routes, auth requirements, image location, and observability needs |
+| Reusable OpenTofu capability | Arche | A clear reusable infrastructure contract and consuming use case |
+| Secrets service or OpenBao policy | Kryptos | Workload identity, environment, secret type, paths, and lease or rotation needs |
+| Workflows, hooks, development environment, or agents | Techne | Repository workflow and developer-experience requirements |
+| Platform documentation | Ekklesia | Audience, task, ownership, and verified implementation behavior |
 
 ## Teams
 
 <CardGrid>
-  <Card item={{ icon: '🏛️', title: 'Logos', note: 'The foundational principle of order across systems — integrating multi-provider infrastructure, establishing boundaries, governance, and stable standards for teams to operate autonomously.', link: '/platform-grouping/logos', linkText: 'Learn more →' }} />
-  <Card item={{ icon: '🌐', title: 'Corpus', note: 'The embodiment of that order — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate.', link: '/platform-grouping/corpus', linkText: 'Learn more →' }} />
-  <Card item={{ icon: '☸️', title: 'Pneuma', note: 'The breath of life animating the platform via Kubernetes — orchestrating dynamic, self-healing, and scalable services atop the Logos foundation.', link: '/platform-grouping/pneuma', linkText: 'Learn more →' }} />
-  <Card item={{ icon: '🧱', title: 'Arche', note: 'The origin and first cause — the primordial source from which all platform foundations draw their initial form and essential nature.', link: '/platform-grouping/arche', linkText: 'View modules →' }} />
-  <Card item={{ icon: '📖', title: 'Ekklesia', note: 'The assembly of the called-out — where distinct capabilities are gathered into a unified body, deliberating and acting in concert toward shared platform purpose.', link: '/platform-grouping/ekklesia', linkText: 'Learn more →' }} />
-  <Card item={{ icon: '🔐', title: 'Kryptos', note: 'The hidden foundation of platform security — managing cryptographic primitives, secrets infrastructure, and security controls that underpin all teams on the platform.', link: '/platform-grouping/kryptos', linkText: 'Learn more →' }} />
-  <Card item={{ icon: '🛠️', title: 'Techne', note: 'The practiced art of making — the disciplined craft through which raw materials of infrastructure are shaped into purposeful, refined platform instruments.', link: '/platform-grouping/techne', linkText: 'Learn more →' }} />
+  <Card item={{ icon: '🏛️', title: 'Logos', note: 'Team structure, identity, repositories, and organization governance.', link: '/platform-grouping/logos', linkText: 'Learn more →' }} />
+  <Card item={{ icon: '🌐', title: 'Corpus', note: 'GCP projects, networking, DNS, registries, state, and managed data foundations.', link: '/platform-grouping/corpus', linkText: 'Learn more →' }} />
+  <Card item={{ icon: '☸️', title: 'Pneuma', note: 'Managed GKE runtime, service mesh, gateway authentication, certificates, policy, and telemetry.', link: '/platform-grouping/pneuma', linkText: 'Learn more →' }} />
+  <Card item={{ icon: '🧱', title: 'Arche', note: 'Reusable OpenTofu modules used to implement consistent platform capabilities.', link: '/platform-grouping/arche', linkText: 'View modules →' }} />
+  <Card item={{ icon: '📖', title: 'Ekklesia', note: 'Customer-facing platform documentation and contribution standards.', link: '/platform-grouping/ekklesia', linkText: 'Learn more →' }} />
+  <Card item={{ icon: '🔐', title: 'Kryptos', note: 'OpenBao runtime, secrets policy, authentication, and secret-engine lifecycle.', link: '/platform-grouping/kryptos', linkText: 'Learn more →' }} />
+  <Card item={{ icon: '🛠️', title: 'Techne', note: 'Reusable workflows, hooks, development environments, agents, and platform tooling.', link: '/platform-grouping/techne', linkText: 'Learn more →' }} />
 </CardGrid>
 
 ## Team context
@@ -31,7 +43,7 @@ Each team owns a distinct context with explicit upstream/downstream relationship
 
 ### Team dependencies
 
-The primary flow is a supply chain — Logos feeds team and identity data into Corpus, which feeds networking and project infrastructure into Pneuma. Arche, Ekklesia, and Techne are shared services used by all platform teams.
+The deployment supply chain is Logos → Corpus → Pneuma → Kryptos. Kryptos depends on Pneuma for runtime but exposes secrets services back to all teams. Arche, Ekklesia, and Techne are shared capabilities used across the grouping.
 
 ```mermaid
 flowchart TD

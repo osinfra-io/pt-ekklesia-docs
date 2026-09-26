@@ -112,7 +112,7 @@ const categories = [
       {
         name: 'GitHub Actions',
         logo: '/img/githubactions.png',
-        description: 'All 151 deployment pipelines run on a single reusable called workflow — consistent, auditable, and secure via OIDC.',
+        description: 'Platform repositories use shared called workflows for consistent, auditable OpenTofu deployments with OIDC authentication.',
         href: 'https://github.com/features/actions',
       },
       {

@@ -7,7 +7,7 @@ description: The hidden foundation of platform security — managing cryptograph
 
 Kryptos is the hidden foundation of platform security — managing cryptographic primitives, secrets infrastructure, and security controls that underpin all teams on the platform.
 
-- **[OpenBao](./open-bao.md)**: Dynamic secrets, PKI certificate issuance, and short-lived credentials for all teams — deployed on a dedicated Pneuma-managed cluster
+- **[OpenBao](./open-bao.md)**: Platform secrets runtime deployed across two Pneuma-managed GKE zones; authentication methods, policies, and engines are managed by Kryptos
 
 ## Repositories
 
@@ -19,7 +19,7 @@ Kryptos is the hidden foundation of platform security — managing cryptographic
 
 ## Context
 
-Kryptos consumes from Pneuma (runs OpenBao on Pneuma-managed clusters) and supplies secrets management to all teams. See [team dependencies](/platform-grouping#team-dependencies).
+Kryptos consumes cluster runtime from Pneuma and provides a secrets-management service to platform and workload teams. It owns OpenBao configuration and secret policy, not the underlying clusters or consumer applications. See [team dependencies](/platform-grouping#team-dependencies).
 
 ### Glossary
 

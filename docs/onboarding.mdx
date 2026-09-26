@@ -19,7 +19,7 @@ export const iconStyle = { fontSize: '2rem', marginBottom: '0.75rem', display: '
 
 # Onboarding your team
 
-The fastest way to get your team onto the platform is the **Nomos Agent** — your self-serve interface to the osinfra.io platform. Tell it what your team needs and it opens a pull request with every change. No local setup, no YAML to write by hand.
+Use the **Nomos Agent** to submit a structured onboarding request. It validates team data and proposes changes through pull requests in the repositories that own each capability.
 
 <div style={ctaWrap}>
   <div style={ctaCard}>
@@ -35,7 +35,7 @@ The fastest way to get your team onto the platform is the **Nomos Agent** — yo
   <div style={stepCard}>
     <span style={iconStyle}>📋</span>
     <p style={cardTitle}>1. Collect your details</p>
-    <p style={cardBody}>Gather your team key, display name, description, GitHub usernames, and admin email before you start.</p>
+    <p style={cardBody}>Gather the team key, display name, purpose, GitHub usernames, and administrator email.</p>
   </div>
   <div style={stepCard}>
     <span style={iconStyle}>💬</span>
@@ -44,8 +44,8 @@ The fastest way to get your team onto the platform is the **Nomos Agent** — yo
   </div>
   <div style={stepCard}>
     <span style={iconStyle}>🚀</span>
-    <p style={cardTitle}>3. Merge and go live</p>
-    <p style={cardBody}>The agent opens a pull request. Once it merges, your GCP folder, identity groups, and GitHub team are created automatically.</p>
+    <p style={cardTitle}>3. Review and promote</p>
+    <p style={cardBody}>Review the proposed pull request. Logos creates the team foundation; optional Corpus, Pneuma, or Kryptos changes follow their own promotion workflows.</p>
   </div>
 </div>
 
@@ -53,7 +53,7 @@ The fastest way to get your team onto the platform is the **Nomos Agent** — yo
 
 :::tip[You have all the details]
 
-Fill in the form, hit **Copy**, then paste the result into the Nomos Agent. The agent will confirm each detail and open a pull request on `pt-logos`. Toggle **Optional** to reveal additional fields.
+Fill in the form, select **Copy**, and paste the result into Nomos. The agent confirms the requested scope and opens the required pull request or pull requests. Toggle **Optional** for cloud, workflow, database, and Kubernetes capabilities.
 
 :::
 
@@ -65,9 +65,9 @@ Fill in the form, hit **Copy**, then paste the result into the Nomos Agent. The 
   <div style={invokeCard}>
     <span style={iconStyle}>💻</span>
     <p style={cardTitle}>Copilot CLI</p>
-    <p style={{...cardBody, marginBottom: '0.75rem'}}>Install the onboarding plugin once, then run the Copilot CLI from any directory:</p>
-    <pre style={{fontSize: '0.8rem', margin: 0}}>{'copilot plugin marketplace add osinfra-io/pt-ai-plugins\ncopilot plugin install techne-onboarding@osinfra-io\ncopilot'}</pre>
-    <p style={{...cardBody, marginTop: '0.5rem'}}>Type <code>/agent</code>, select <strong>Nomos Agent</strong>, and paste your prompt. Installing the plugin also registers the <code>pt-techne-mcp-server</code> tools automatically.</p>
+    <p style={{...cardBody, marginBottom: '0.75rem'}}>With Docker available, install the plugin and start Copilot CLI:</p>
+    <pre style={{fontSize: '0.8rem', margin: 0}}>{'copilot plugin marketplace add osinfra-io/pt-ai-plugins\ncopilot plugin install techne-agents@osinfra-io\ncopilot'}</pre>
+    <p style={{...cardBody, marginTop: '0.5rem'}}>Set <code>NOMOS_GITHUB_TOKEN</code>, type <code>/agent</code>, select <strong>Nomos Agent</strong>, and paste your prompt. The plugin registers its version-pinned MCP server automatically.</p>
   </div>
   <div style={invokeCard}>
     <span style={iconStyle}>🌐</span>

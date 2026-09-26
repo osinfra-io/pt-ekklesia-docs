@@ -39,7 +39,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 | Agent | Description |
 |---|---|
-| `techne-nomos` | The self-serve interface to the osinfra.io platform — onboard teams, manage members and repositories, request infrastructure, and configure platform resources through a single conversation |
+| `nomos` | The self-serve interface to the osinfra.io platform — onboard teams, manage members and repositories, request infrastructure, and configure platform resources through a single conversation |
 
 ## Core Invariant
 
@@ -51,14 +51,15 @@ The [`pt-ai-plugins`](https://github.com/osinfra-io/pt-ai-plugins) repository is
 
 | Plugin | Bundles | Source |
 |---|---|---|
-| `platform-conventions` | Cross-cutting platform skills (for example `create-pull-request`) | `pt-ai-plugins` |
-| `techne-onboarding` | The `techne-nomos` agent and the `pt-techne-mcp-server` MCP tools | federated from `pt-techne-agents` |
+| `platform-grouping` | Cross-cutting platform skills, including pull-request, review, release, and local authentication workflows | `pt-ai-plugins` |
+| `techne-agents` | The Nomos agent and the `pt-techne-mcp-server` MCP tools | federated from `pt-techne-agents` |
 
-The `techne-onboarding` plugin is **federated**: its manifest lives in `pt-techne-agents` and the marketplace references the repository directly, so the agent stays canonical there and its Promptfoo evaluations keep testing the real file. Its `.mcp.json` pins the server image to a release tag rather than `:latest`. Install both halves at once:
+The `techne-agents` plugin is **federated**: its manifest lives in `pt-techne-agents` and the marketplace references a released version, so the agent remains canonical with its Promptfoo evaluations. Its `.mcp.json` pins the server image to a release tag rather than `:latest`.
 
 ```bash
 copilot plugin marketplace add osinfra-io/pt-ai-plugins
-copilot plugin install techne-onboarding@osinfra-io
+copilot plugin install platform-grouping@osinfra-io
+copilot plugin install techne-agents@osinfra-io
 ```
 
 Plugins **complement**, and do not replace, custom instructions: `plugin.json` has no field for `copilot-instructions.md` or `*.instructions.md`, which continue to load via `COPILOT_CUSTOM_INSTRUCTIONS_DIRS` and per-repo files.

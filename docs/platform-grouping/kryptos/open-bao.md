@@ -4,19 +4,26 @@ sidebar_label: OpenBao
 
 # OpenBao
 
-OpenBao is an open-source secrets management platform — a Linux Foundation fork of HashiCorp Vault — planned for deployment on a dedicated Pneuma-managed GKE cluster as the platform's canonical source of dynamic credentials, PKI certificates, and short-lived secrets for all teams.
+OpenBao is the platform secrets service. Kryptos deploys the OpenBao Helm release into the `pt-kryptos-openbao` namespace on Pneuma-managed GKE clusters in `us-east1-b` and `us-east4-a`.
 
-:::note Status
+## Current service
 
-`pt-kryptos` does not yet contain an OpenBao deployment. This page describes the intended scope; component details will land here once the implementation does.
+| Kryptos owns | Pneuma owns | Consumers own |
+| --- | --- | --- |
+| OpenBao release, configuration, authentication methods, policies, and secret-engine lifecycle | GKE clusters, cluster connectivity, and cluster-level add-ons | Workload identities and requests for approved secret or policy paths |
 
-:::
+The current implementation establishes the OpenBao runtime. Kubernetes authentication, PKI, KV, database engines, and consumer-specific policies are added only when their lifecycle and ownership model are defined.
 
-- **[Kubernetes auth](https://openbao.org/docs/auth/kubernetes/)**: Maps Kubernetes service accounts to OpenBao roles using the cluster's token review API — no static credentials required
-- **[PKI engine](https://openbao.org/docs/secrets/pki/)**: Issues and renews X.509 certificates on demand; integrates with cert-manager for automated workload certificate lifecycle
-- **[KV engine](https://openbao.org/docs/secrets/kv/)**: Versioned key-value store for static secrets that cannot be dynamically generated
-- **[Database engine](https://openbao.org/docs/secrets/databases/)**: Generates short-lived database credentials on demand and revokes them automatically on lease expiry
+## Requesting access or a capability
 
-## Core Invariant
+Provide the workload identity, environment, required secret type, expected rotation or lease behavior, and the minimum paths or operations needed. Kryptos reviews the request and implements the policy or engine as code.
 
-All secrets distributed to consumers are dynamic or short-lived — no static credentials are stored in consumer repositories or CI environments.
+Do not place static credentials in source repositories, OpenTofu variables, or CI environment settings while waiting for an integration.
+
+## Deployment lifecycle
+
+Pull requests deploy sandbox, merges to `main` deploy non-production, and successful non-production runs promote to production. The two zonal OpenBao workspaces deploy in parallel after their Pneuma runtime is available.
+
+## Core invariant
+
+Secrets are delivered through approved OpenBao identities and policies with the shortest practical lifetime and least privilege.
