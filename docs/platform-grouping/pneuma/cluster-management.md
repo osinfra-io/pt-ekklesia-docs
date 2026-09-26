@@ -8,6 +8,8 @@ Pneuma provisions one GKE cluster per zone for every team that declares `platfor
 
 Clusters are named `{team}-{zone}` (e.g., `pt-pneuma-us-east1-b`) and filtered per environment: sandbox and non-production deploy two zones (one per region), production deploys all six.
 
+Pneuma's own clusters use a single `e2-standard-4` node in each active zone. The four-vCPU, 16 GB shape leaves enough allocatable capacity for the mandatory Istio, cert-manager, Datadog, Gatekeeper, and Authentik workloads while preserving the one-node sandbox topology.
+
 ## Namespace Provisioning
 
 Teams declare `kubernetes_engine.namespaces` in their Logos team spec. Pneuma's onboarding workspace provisions those namespaces and for each one:
