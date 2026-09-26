@@ -66,7 +66,7 @@ Fill in the form, select **Copy**, and paste the result into Nomos. The agent co
     <span style={iconStyle}>💻</span>
     <p style={cardTitle}>Copilot CLI</p>
     <p style={{...cardBody, marginBottom: '0.75rem'}}>With Docker available, install the plugin, set <code>NOMOS_GITHUB_TOKEN</code>, and start Copilot CLI:</p>
-    <pre style={{fontSize: '0.8rem', margin: 0}}>{'copilot plugin marketplace add osinfra-io/pt-ai-plugins\ncopilot plugin install techne-agents@osinfra-io\nread -r -s -p \'NOMOS_GITHUB_TOKEN: \' NOMOS_GITHUB_TOKEN\nprintf \'\\n\'\nexport NOMOS_GITHUB_TOKEN\ncopilot'}</pre>
+    <pre style={{fontSize: '0.8rem', margin: 0}}>{'copilot plugin marketplace add osinfra-io/pt-ai-plugins\ncopilot plugin install techne-agents@osinfra-io\nprintf \'NOMOS_GITHUB_TOKEN: \'\nread -rs NOMOS_GITHUB_TOKEN\nprintf \'\\n\'\nexport NOMOS_GITHUB_TOKEN\ncopilot'}</pre>
     <p style={{...cardBody, marginTop: '0.5rem'}}>Type <code>/agent</code>, select <strong>Nomos Agent</strong>, and paste your prompt. The plugin registers its version-pinned MCP server automatically.</p>
   </div>
   <div style={invokeCard}>
