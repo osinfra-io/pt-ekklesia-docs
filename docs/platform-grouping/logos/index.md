@@ -5,14 +5,22 @@ description: The foundational principle of order across systems, integrating mul
 
 # Logos
 
-Logos is the foundational principle of order across systems — integrating multi-provider infrastructure, establishing boundaries, governance, and stable standards for teams to operate autonomously. It is the platform's primordial principle from which all other structure emerges.
+Logos is the source of truth for team structure, organizational identity, repositories, and access boundaries across GCP, GitHub, and Datadog.
 
 - **[Resource Hierarchy](./resource-hierarchy.md)**: GCP folder structure with environment-scoped folders for sandbox, non-production, and production
 - **[Identity & Access](./identity-access.md)**: Google Identity groups and centralized user management
 - **[Team Topology](./team-topology.md)**: GitHub teams and repositories, Datadog teams, and branch protection
 - **[SaaS Governance](./saas-governance.md)**: GitHub and Datadog organization-level settings and policies
 
-All downstream platform teams consume Logos data via [Arche](/platform-grouping/arche).
+All downstream platform teams consume Logos data through [Arche core helpers](/platform-grouping/arche/core-helpers).
+
+## Service contract
+
+| Consumers provide | Logos returns |
+| --- | --- |
+| Team key, purpose, maintainers, members, repositories, and optional feature flags | GCP folders and groups, GitHub teams and repositories, Datadog team configuration, and structured outputs for downstream layers |
+
+Use [team onboarding](/onboarding) for new teams and the same reviewed configuration path for membership, repository, or capability changes. Consumers do not manage Logos-owned resources directly.
 
 ## Repositories
 

@@ -5,7 +5,7 @@ description: The embodiment of the order Logos defines — the structural form w
 
 # Corpus
 
-Corpus is the embodiment of the order Logos defines — the structural form where networks, shared services, and core infrastructure take shape, preparing the body that Pneuma will animate. The abstract principles of Logos are translated here into tangible, reliable infrastructure.
+Corpus provides governed Google Cloud foundations for platform and workload teams. It turns Logos team definitions into projects, networking, DNS, registries, deployment identities, encrypted state, and supported managed data services.
 
 - **[Tenancy](./tenancy.md)**: CIS-compliant GCP project creation, centralized log governance, and audit log routing for all platform projects
 - **[Networking](./networking.md)**: Shared VPC, subnets, DNS zones, Cloud NAT
@@ -13,6 +13,14 @@ Corpus is the embodiment of the order Logos defines — the structural form wher
 - **[CI/CD Enablement](./ci-cd-enablement.md)**: GitHub Actions workload identity, Artifact Registry, encrypted OpenTofu state buckets
 
 Corpus consumes Logos outputs and provides the foundation for Pneuma workload environments.
+
+## Service contract
+
+| Consumers provide | Corpus returns |
+| --- | --- |
+| Required environments, APIs, connectivity, DNS, registry, workload identity, and managed data needs | Governed projects, Shared VPC connectivity, regional networking, delegated DNS, Artifact Registry, CI identities, encrypted state, and private service connectivity |
+
+Consumers own application configuration and request supported platform capabilities; Corpus retains ownership of shared networking, KMS, state, and foundational IAM.
 
 ## Repositories
 

@@ -22,13 +22,14 @@ Built on [Docusaurus 3](https://docusaurus.io/) with the following features enab
 
 ## Contributing
 
-Every page in the docs has an **Edit this page** link at the bottom that opens the source file directly on GitHub. Changes follow the standard GitHub Flow: branch, edit, open a pull request.
+Every page has an **Edit this page** link that opens its source on GitHub. Keep content task-oriented: state who owns the capability, what a consumer provides, what the platform returns, and where the lifecycle is managed. Avoid duplicating module inputs or implementation details that are already clear in a repository README.
 
-When adding a new page:
+Changes follow standard GitHub Flow. When adding a page:
 
 1. Create the Markdown file under `docs/`
 2. Register it in `sidebars.js` — the page will not appear in navigation until it is added there
-3. Open a pull request — the test build will validate there are no broken links before merge
+3. Run `yarn build`
+4. Open a pull request — the test workflow validates the production build before merge
 
 ## Components
 

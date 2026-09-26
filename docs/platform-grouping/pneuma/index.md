@@ -5,16 +5,24 @@ description: The breath of life animating the platform via Kubernetes, orchestra
 
 # Pneuma
 
-Pneuma is the breath of life animating the platform via Kubernetes — orchestrating dynamic, self-healing, and scalable services atop the Logos foundation. Where Corpus gives form, Pneuma gives life, transforming infrastructure into workload environments capable of receiving and running application teams.
+Pneuma provides the managed Kubernetes runtime on top of Corpus projects and networking. It owns GKE clusters and shared cluster services while workload teams retain ownership of their applications.
 
 - **[Cluster Management](./cluster-management.md)**: GKE clusters with autoscaling node pools, Workload Identity, and Fleet enrollment
 - **[Service Mesh](./service-mesh.md)**: Istio with mTLS, traffic management, and Datadog AAP-backed ingress
 - **[Gateway Authentication](./gateway-authentication.md)**: Centralized Authentik and Istio authentication and authorization policy enforcement for external routes
 - **[Certificate Management](./certificate-management.md)**: cert-manager with istio-csr as the mesh CA, issuing all workload mTLS certificates from a self-signed root
-- **[Policy Enforcement](./policy-enforcement.md)**: OPA Gatekeeper constraint templates and audit mode
+- **[Policy Enforcement](./policy-enforcement.md)**: OPA Gatekeeper admission enforcement and audit reporting
 - **[Observability](./observability.md)**: Datadog Operator for cluster metrics, traces, and log collection
 
-Pneuma consumes Corpus networking and Logos team data to create fully operational Kubernetes environments.
+Pneuma consumes Corpus networking and Logos team data to create managed Kubernetes environments.
+
+## Service contract
+
+| Consumers provide | Pneuma returns |
+| --- | --- |
+| Workload identity, namespace needs, container image location, routes, authentication rules, certificate needs, and observability options | Managed clusters, namespace access, workload identity integration, ingress and mesh connectivity, gateway authentication, certificates, telemetry, enforced admission policy, and audit reporting |
+
+Pneuma does not own application manifests or secrets policy. Kryptos owns OpenBao services deployed on Pneuma-managed runtime.
 
 :::tip Architecture Decision Records
 

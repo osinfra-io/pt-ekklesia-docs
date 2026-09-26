@@ -9,9 +9,9 @@ import styles from './index.module.css';
 
 const features = [
   {
-    title: 'Secure by default — not your problem to configure',
+    title: 'Guardrails by default',
     description:
-      'Your infrastructure is CIS-compliant before you write a line of application code. Hardened GCP projects, KMS-encrypted state, and audit logging are built in — your team inherits a secure foundation without having to build or maintain it.',
+      'Platform-managed projects include established security controls, encrypted state, audit logging, and policy enforcement. Your team owns its workload while the platform owns the shared guardrails.',
     icon: '🔐',
   },
   {
@@ -21,9 +21,9 @@ const features = [
     icon: '📦',
   },
   {
-    title: 'AI agents, not tickets',
+    title: 'A self-service entry point',
     description:
-      'The platform is built around GitHub Copilot agents — the Nomos Agent handles team onboarding end-to-end. No YAML to write, no support ticket to file. Just describe what you need.',
+      'The Nomos Agent collects team requirements, validates them, and proposes reviewed infrastructure changes through pull requests.',
     icon: '🤖',
   },
   {
@@ -38,7 +38,7 @@ const cards = [
   {
     icon: '🚀',
     title: 'Onboard your team',
-    note: 'New to the platform? The Nomos Agent guides you through onboarding step by step. No prior platform knowledge needed.',
+    note: 'Use the Nomos Agent to describe your team, required repositories, and optional infrastructure capabilities.',
     link: '/onboarding',
     linkText: 'Get started →',
   },
@@ -77,7 +77,7 @@ const whatYouGet = [
   {
     icon: '🐶',
     title: 'Observability and incident response',
-    note: 'Logs, metrics, Application Performance Monitoring, and Universal Service Monitoring in Datadog from day one — service catalog, API catalog, cloud cost management, and incident response included.',
+    note: 'Platform-managed Datadog integrations provide cluster telemetry and can enable logs, APM, security features, and cloud-cost visibility where configured.',
   },
 ];
 
@@ -218,10 +218,10 @@ function GettingStarted() {
       <div className={styles.gettingStartedInner}>
         <div className={styles.gettingStartedLeft}>
           <Heading as="h2" className={styles.gettingStartedHeading}>
-            Your team, on the platform in minutes
+            Start with one clear request
           </Heading>
           <p className={styles.gettingStartedBody}>
-            The <strong>Nomos Agent</strong> asks the right questions and takes care of the platform details. Use the interactive prompt builder to describe what your team needs — the agent opens a pull request with every change.
+            The <strong>Nomos Agent</strong> turns team requirements into validated, reviewable pull requests. Use the prompt builder to provide the information needed by Logos and any downstream platform services.
           </p>
           <Link
             to="/onboarding"
