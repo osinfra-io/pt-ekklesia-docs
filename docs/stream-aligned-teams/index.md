@@ -5,13 +5,10 @@ description: Stream-aligned teams work directly on the flow of change to deliver
 
 import Card from '@site/src/components/Card';
 import CardGrid from '@site/src/components/CardGrid';
-import DocCard from '@theme/DocCard';
 
 # Stream-Aligned Teams
 
 Stream-aligned teams work directly on the flow of change to deliver value to end users. They operate independently while consuming the infrastructure, tooling, and services provided by the platform teams.
-
-<DocCard item={{ type: 'link', href: '/onboarding', label: 'Onboarding your team', description: 'Use the Nomos Agent to provision your GCP folder, identity groups, GitHub team, and Datadog setup from a single prompt.' }} />
 
 ## Teams
 

@@ -8,7 +8,7 @@ Istio runs on every GKE cluster as a single multi-cluster ambient mesh via GKE F
 
 - **Ambient data plane**: `ztunnel` runs on each node and establishes identity-based mTLS and L4 policy enforcement without per-pod sidecars.
 - **Ingress gateway**: External traffic enters exclusively through pneuma's dedicated Gateway API Envoy data plane, backed by MCI global load balancer, Cloud Armor WAF, Datadog AAP, and Authentik external authorization.
-- **Routing and auth**: Teams declare route intent and auth policy in Logos; pneuma renders `HTTPRoute`s and gateway policies for namespaces enrolled in the ambient mesh.
+- **Routing and auth**: Teams request routes and auth policy through the Nomos Agent, which records them in Logos; pneuma renders `HTTPRoute`s and gateway policies for namespaces enrolled in the ambient mesh.
 - **Waypoint-on-demand**: Advanced L7 routing, traffic shaping, and richer observability require a waypoint; workloads stay ambient by default without always-on proxies.
 - **cert-manager**: `cert-manager-istio-csr` signs workload identities requested by `ztunnel` for mTLS across the mesh.
 
@@ -26,7 +26,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 | `ztunnel` | Per-node ambient dataplane component that provides identity, mTLS, L4 policy enforcement, and telemetry for workloads in mesh-enabled namespaces |
 | `waypoint` | Optional L7 proxy provisioned on demand when a namespace or service needs advanced routing, policy, or observability beyond ambient L4 functionality |
 | `gateway` | Gateway API `Gateway` (gatewayClassName `istio`) on pneuma clusters only. The dedicated Envoy data plane terminates external traffic and is separate from ambient workload mode |
-| `gateway-auth` | Istio `RequestAuthentication` and `AuthorizationPolicy` resources on the gateway data plane — validates Authentik JWTs, forwards `browser` routes to the Authentik embedded outpost via `ext_authz`, and enforces route-scoped claims for `api-jwt` routes. See [Gateway Authentication](./gateway-authentication.md) |
+| `gateway-auth` | Istio `RequestAuthentication` and `AuthorizationPolicy` resources on the gateway data plane. See [Gateway Authentication](./gateway-authentication.md) |
 | `waf-policy` | Cloud Armor security policy on the ingress gateway (OWASP rules, rate limiting, adaptive DDoS) |
 | `http-route` | Gateway API `HTTPRoute` per team host, co-located with the backend `Service` in the team's namespace |
 | `destination-rule` | Ambient traffic policy configuration for cross-cluster routing and service selection when a waypoint or explicit policy is needed |
@@ -64,7 +64,7 @@ Each `HTTPRoute` lives in the same namespace as its backend `Service`, so no `Re
 
 ### Logos-Declared Routes
 
-Teams declare route intent (`service`, `port`, optional `path`) under a mesh-enabled namespace in the Logos team spec. Routes may only be declared on namespaces with `mesh_enabled = true`. Pneuma renders each declaration into an `HTTPRoute` with:
+Teams request routes (`service`, `port`, optional `path`) on a mesh-enabled namespace through the Nomos Agent, which records them in the Logos team spec; the consumer flow is documented in [Expose and Protect a Route](../../getting-started/expose-a-route.md). Pneuma renders each declaration into an `HTTPRoute` with:
 
 - `hostnames` derived from the team's authoritative DNS zone (`dns_subdomain`) — never team-supplied text
 - `backendRef` pointing to the `Service` in the team's prefixed namespace on the gateway cluster
@@ -72,25 +72,7 @@ Teams declare route intent (`service`, `port`, optional `path`) under a mesh-ena
 
 The shared `Gateway` carries a single catch-all HTTPS listener (no hostname filter, wildcard TLS cert). Route changes take effect on the next pneuma pipeline run.
 
-**Example declaration** (in the team's Logos spec):
-
-```hcl
-namespaces = {
-  "api" = {
-    mesh_enabled = true
-
-    routes = {
-      "api" = {
-        path    = "/api"
-        port    = 8080
-        service = "api-service"
-      }
-    }
-  }
-}
-```
-
-Pneuma renders this as an `HTTPRoute` in the `st-ethos-api` namespace on the gateway cluster, serving `ethos.osinfra.io/api`:
+For the route declared in the consumer example, Pneuma renders an `HTTPRoute` in the `st-ethos-api` namespace on the gateway cluster, serving `ethos.osinfra.io/api`:
 
 ```yaml
 apiVersion: gateway.networking.k8s.io/v1
@@ -123,67 +105,13 @@ spec:
 | A team claiming `other-team.osinfra.io` | ❌ Impossible — teams never supply a hostname |
 | An `HTTPRoute` applied directly to a gateway cluster | ❌ Teams have no RBAC there |
 
-**Troubleshooting** — if a route is not being served:
+Consumer troubleshooting steps are in [Expose and Protect a Route](../../getting-started/expose-a-route.md#troubleshooting).
 
-1. Confirm the route is declared on a mesh-enabled namespace with correct `service` and `port`
-2. Confirm `dns_subdomain` is set for the team
-3. Confirm the backend `Service` exists on the gateway cluster and listens on the declared port
-4. Confirm the namespace is enrolled in the ambient mesh (`mesh_enabled = true`)
-5. Inspect the rendered route — `Accepted` and `ResolvedRefs` should both be `True`:
+## Gateway Authentication
 
-   ```bash
-   kubectl get httproute -n st-ethos-api api-ethos -o yaml
-   ```
+Auth enforcement happens at the gateway data plane, independent of workload ambient mode. See [Gateway Authentication](./gateway-authentication.md) for rendering, request flow, and ownership, and [Expose and Protect a Route](../../getting-started/expose-a-route.md#choose-an-authentication-mode) for the declaration contract.
 
-## Gateway Authentication Policies
-
-For any declared route, a team may attach a **gateway auth policy** so pneuma enforces authentication and authorization at the shared gateway through Authentik. Policies are declared under `route_auth_policies`, keyed by the matching route name, and may only be set on mesh-enabled namespaces. Each policy selects one of three **modes** (default `browser`). The gateway data plane is the auth enforcement boundary; workload ambient mode is independent of it.
-
-| Mode | Purpose | Required fields | Forbidden fields |
-|---|---|---|---|
-| `public` | No authentication — the route is open | none | `audiences`, `public_paths`, `required_groups`, `required_roles` |
-| `browser` | Interactive Authentik SSO for human users | at least one of `required_groups` / `required_roles` | `audiences` |
-| `api-jwt` | Machine-to-machine bearer JWT validation | at least one `audiences` value | none |
-
-`public_paths` (allowed on `browser` and `api-jwt`) list unauthenticated sub-paths under the route's `path` prefix — each must start with `/`, must not be `/`, and must fall under the route path. Entries are matched **as declared**: `/api/healthz` exempts only that exact path, so to exempt a subtree add a trailing wildcard (`/api/healthz/*`). A root or wildcard-only entry (`/`, `/*`, `*`) is rejected because it would exempt the whole route. `required_groups` and `required_roles` reference Authentik identity groups and application roles carried in the token claims.
-
-**Claim and path matching semantics:**
-
-- **Non-empty lists.** Logos rejects an empty `required_groups`/`required_roles` on a `browser` policy and an empty `audiences` on an `api-jwt` policy, so an enforced route always has at least one principal to match.
-- **OR within a list, AND across lists.** A request satisfies a single claim list if it carries **any one** of the listed values (OR). When more than one claim type is declared (e.g. `audiences` plus `required_roles` on an `api-jwt` route), the request must satisfy **each** list (AND).
-- **Route `path` is a prefix.** A route with `path = "/api"` matches `/api` and everything under it; a route that omits `path` defaults to `/` and matches all paths under the host. Enforcement covers the whole prefix except the declared `public_paths` and pneuma's built-in exemptions (Authentik callback and health-check paths).
-
-**Example declaration** (in the team's Logos spec):
-
-```hcl
-namespaces = {
-  "api" = {
-    mesh_enabled = true
-
-    route_auth_policies = {
-      "api" = {
-        mode            = "browser"
-        public_paths    = ["/api/healthz"]
-        required_groups = ["platform-engineers"]
-      }
-    }
-
-    routes = {
-      "api" = {
-        path    = "/api"
-        port    = 8080
-        service = "api-service"
-      }
-    }
-  }
-}
-```
-
-Pneuma renders `browser` policies as a forward-auth `AuthorizationPolicy` (Envoy `ext_authz` to the Authentik embedded outpost) that authenticates the interactive session; group and role authorization for `browser` routes is enforced by per-host Authentik application, provider, and policy-binding resources that Pneuma renders automatically from the declared `required_groups` / `required_roles`. Because these resources are host-scoped, all browser routes for a team must declare identical `required_groups` and `required_roles`; Logos rejects conflicting requirements rather than allowing one route's policy to authorize another route on the same host. The one remaining manual step is Authentik group **membership** itself, which is not yet synced from Logos/Google Identity groups (tracked in [pt-pneuma#181](https://github.com/osinfra-io/pt-pneuma/issues/181)). `api-jwt` policies render a `RequestAuthentication` plus a native-claim DENY `AuthorizationPolicy` that rejects any request without a validated JWT or whose `aud`, `groups`, or `roles` claims do not satisfy the configured `audiences`, `required_groups`, or `required_roles` values. `public` routes and any declared `public_paths` are excluded from enforcement.
-
-See [Gateway Authentication](./gateway-authentication.md) for the full request evaluation order, component ownership, and operational expectations.
-
-### End-to-End Validation
+## End-to-End Validation
 
 The `istio-test` workspace deploys a lightweight metadata service into each team's prefixed istio-test namespace (`pt-pneuma-istio-test`, `pt-kryptos-istio-test`, etc.). A validation script checks every global and zonal endpoint, confirming the returned cluster name matches the expected team and zone.
 
@@ -230,7 +158,7 @@ Pneuma standardizes on an ambient-only workload mesh. All mesh-enabled namespace
 - Platform operators maintain a simpler upgrade path because the mesh has one primary data plane.
 
 - TLS termination, WAF, and threat detection happen at a single controlled point for every team
-- Adding a team requires only a Logos spec change — no gateway or load balancer changes
+- Adding a team requires only a Nomos request — no gateway or load balancer changes
 - Pneuma gateway clusters are critical infrastructure — their availability determines reachability of all teams
 
 ### Team-Prefixed Namespace Isolation in the Mesh
@@ -321,7 +249,7 @@ Each team must serve traffic only on its own `<subdomain>.osinfra.io` host. The 
 
 Keep a single catch-all HTTPS listener (no hostname filter, wildcard cert, `allowedRoutes.namespaces.from: All`) so the GFE→Envoy hop always matches. Move subdomain isolation to the IaC layer:
 
-- Teams declare route intent in Logos (PR-reviewed); they never supply hostnames
+- Teams request routes through Nomos (PR-reviewed); they never supply hostnames
 - Pneuma derives `HTTPRoute` hostnames from the team's `dns_subdomain`
 - Only the pneuma pipeline applies manifests to gateway clusters; teams have no RBAC there
 

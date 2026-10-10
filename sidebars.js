@@ -10,6 +10,16 @@ const sidebars = {
   docs: [
     {
       type: 'category',
+      label: 'Getting Started',
+      link: { type: 'doc', id: 'getting-started/index' },
+      items: [
+        'getting-started/onboarding',
+        'getting-started/expose-a-route',
+        'getting-started/glossary',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Platform Grouping',
       link: { type: 'doc', id: 'platform-grouping/index' },
       items: [
@@ -87,6 +97,7 @@ const sidebars = {
           ],
         },
         // endregion: platform-grouping
+        'platform-grouping/operating-model',
       ],
     },
     {

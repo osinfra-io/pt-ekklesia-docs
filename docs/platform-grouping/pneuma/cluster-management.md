@@ -4,13 +4,13 @@ sidebar_label: Cluster Management
 
 # Cluster Management
 
-Pneuma provisions one GKE cluster per zone for every team that declares `platform_managed_project.kubernetes_engine_locations` in its Logos team spec. Each cluster has a regional control plane (HA across three zones) with nodes pinned to a single zone — keeping Istio's locality-aware routing within the zone and preventing cross-zone scheduling hot spots.
+Pneuma provisions one GKE cluster per zone for every team whose Logos entry lists `platform_managed_project.kubernetes_engine.locations`, requested through the Nomos Agent. Each cluster has a regional control plane (HA across three zones) with nodes pinned to a single zone — keeping Istio's locality-aware routing within the zone and preventing cross-zone scheduling hot spots.
 
 Clusters are named `{team}-{zone}` (e.g., `pt-pneuma-us-east1-b`) and filtered per environment: sandbox and non-production deploy two zones (one per region), production deploys all six.
 
 ## Namespace Provisioning
 
-Teams declare `kubernetes_engine.namespaces` in their Logos team spec. Pneuma's onboarding workspace provisions those namespaces and for each one:
+Teams request namespaces through the Nomos Agent, which records them as `platform_managed_project.kubernetes_engine.namespaces` in the team's Logos entry. Pneuma's onboarding workspace provisions those namespaces and for each one:
 
 - creates a dedicated Workload Identity service account, and
 - binds the team's GitHub Actions service account (from Corpus) as a namespace-scoped `namespace-admin` via RBAC.
@@ -69,7 +69,7 @@ The cluster topology must also work with Istio's locality-aware routing — spre
 
 #### Decision
 
-Each team declares cluster locations in its Logos team spec under `platform_managed_project.kubernetes_engine`. Corpus provisions the GCP project; Pneuma provisions clusters for every declared location. Adding a cluster requires only a Logos change.
+Teams request cluster locations through the Nomos Agent, recorded under `platform_managed_project.kubernetes_engine.locations` in Logos. Corpus provisions the GCP project; Pneuma provisions clusters for every declared location. Adding a cluster requires only a Nomos request.
 
 **Regional control plane with single-zone node placement.** Each cluster has a regional control plane (HA across three zones) but nodes pinned to one zone via `node_locations`. This keeps Istio routing zone-local by default and avoids cross-zone scheduling hot spots. Clusters scale by adding zones; each zone is independently upgradeable and recoverable.
 
@@ -116,7 +116,7 @@ At the same time, each team needs to deploy workloads from its own CI/CD pipelin
 
 #### Decision
 
-Pneuma centralizes all namespace provisioning in a single pipeline via per-cluster provider `for_each`. Teams declare namespaces in their Logos team spec; Pneuma creates them and grants each team scoped access through RBAC:
+Pneuma centralizes all namespace provisioning in a single pipeline via per-cluster provider `for_each`. Teams request namespaces through Nomos; Pneuma creates them and grants each team scoped access through RBAC:
 
 - A dedicated Workload Identity service account per namespace
 - The team's GitHub Actions service account (from Corpus) bound as a namespace-scoped `namespace-admin`

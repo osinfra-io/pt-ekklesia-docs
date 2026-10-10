@@ -12,32 +12,49 @@ const defaultMessages = [
     role: 'agent',
     content: (
       <>
-        <p>👋 Hi! I'm the Nomos Agent — onboarding a new team for you now.</p>
-        <p>Give me just a moment while I look you up…</p>
+        <p>👋 Hi! I'm the Nomos Agent — your self-serve interface to the osinfra.io platform. Give me just a moment while I look you up…</p>
         <p className={styles.meta}>✓ get_me → joesmith · joe@osinfra.io · osinfra-io member</p>
-        <p className={styles.meta}>✓ lookup_user → no existing team memberships found</p>
-        <p>Welcome! I have everything I need from your prompt. Here's what I'll create for <strong>st-fides</strong>:</p>
-        <ul>
-          <li>📁 GCP folder — <code>Fides</code> with Sandbox / Non-Production / Production sub-folders</li>
-          <li>👥 Google Identity groups — admin, reader, writer per environment</li>
-          <li>🐙 GitHub parent team <code>st-fides</code> + 4 standard child teams</li>
-          <li>🐶 Datadog team — <strong>Fides</strong>, admin: joe@osinfra.io</li>
-        </ul>
-        <p>Any optional features to enable — Google Cloud project, OpenTofu state management, or additional GitHub repositories?</p>
+        <p className={styles.meta}>✓ lookup_user → no existing team memberships</p>
+        <p>Team key <code>st-fides</code> is a stream-aligned team. Suggested display name: <strong>Fides</strong>. Confirm, and share a one or two sentence team description — or I can suggest one.</p>
       </>
     ),
   },
   {
     role: 'user',
-    text: 'Enable google project and workflows. Add repo st-fides-api.',
+    text: 'Fides is right. Suggest a description.',
   },
   {
     role: 'agent',
     content: (
       <>
-        <p className={styles.meta}>✓ open_team_pr → PR #142 opened on pt-logos</p>
-        <p>Done — PR #142 is open on <code>pt-logos</code>. Once it merges, your team structure and access foundations will be created.</p>
-        <p>Optional cloud and Kubernetes capabilities are proposed through the owning platform repositories and follow their sandbox, non-production, and production workflows.</p>
+        <p>Suggested description: <em>"Fides — the platform's trust and verification service."</em> Keep it or rewrite it?</p>
+      </>
+    ),
+  },
+  {
+    role: 'user',
+    text: 'Keep it.',
+  },
+  {
+    role: 'agent',
+    content: (
+      <>
+        <p>Next, Datadog: should I use <code>joe@osinfra.io</code> as the admin? Then I'll collect GitHub maintainers and Google Cloud groups, one group at a time.</p>
+        <p className={styles.meta}>… required fields, then an optional menu: GitHub Actions + GCP OIDC, repositories, GKE, Cloud SQL, projects</p>
+      </>
+    ),
+  },
+  {
+    role: 'user',
+    text: 'Yes. Enable workflows and add repo st-fides-api.',
+  },
+  {
+    role: 'agent',
+    content: (
+      <>
+        <p className={styles.meta}>✓ open_team_pr → PR opened on pt-logos</p>
+        <p className={styles.meta}>✓ open_team_docs_pr → PR opened on pt-ekklesia-docs</p>
+        <p>Done. Once the <code>pt-logos</code> PR merges, your team structure and access foundations are created. Cloud and Kubernetes capabilities follow through Corpus and Pneuma.</p>
       </>
     ),
   },

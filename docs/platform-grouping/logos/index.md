@@ -12,15 +12,7 @@ Logos is the source of truth for team structure, organizational identity, reposi
 - **[Team Topology](./team-topology.md)**: GitHub teams and repositories, Datadog teams, and branch protection
 - **[SaaS Governance](./saas-governance.md)**: GitHub and Datadog organization-level settings and policies
 
-All downstream platform teams consume Logos data through [Arche core helpers](/platform-grouping/arche/core-helpers).
-
-## Service contract
-
-| Consumers provide | Logos returns |
-| --- | --- |
-| Team key, purpose, maintainers, members, repositories, and optional feature flags | GCP folders and groups, GitHub teams and repositories, Datadog team configuration, and structured outputs for downstream layers |
-
-Use [team onboarding](/onboarding) for new teams and the same reviewed configuration path for membership, repository, or capability changes. Consumers do not manage Logos-owned resources directly.
+All downstream platform teams consume Logos data through [Arche core helpers](../arche/core-helpers.md).
 
 ## Repositories
 

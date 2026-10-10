@@ -16,20 +16,6 @@ Pneuma provides the managed Kubernetes runtime on top of Corpus projects and net
 
 Pneuma consumes Corpus networking and Logos team data to create managed Kubernetes environments.
 
-## Service contract
-
-| Consumers provide | Pneuma returns |
-| --- | --- |
-| Workload identity, namespace needs, container image location, routes, authentication rules, certificate needs, and observability options | Managed clusters, namespace access, workload identity integration, ingress and mesh connectivity, gateway authentication, certificates, telemetry, enforced admission policy, and audit reporting |
-
-Pneuma does not own application manifests or secrets policy. Kryptos owns OpenBao services deployed on Pneuma-managed runtime.
-
-:::tip Architecture Decision Records
-
-This page includes [Architecture Decision Records](#architecture-decision-records) documenting the key design decisions.
-
-:::
-
 ## Repositories
 
 - **[pt-pneuma](https://github.com/osinfra-io/pt-pneuma)**: OpenTofu configuration for GKE clusters and Kubernetes add-ons (cert-manager, Istio, OPA Gatekeeper, Datadog Operator)

@@ -21,12 +21,6 @@ const features = [
     icon: '📦',
   },
   {
-    title: 'A self-service entry point',
-    description:
-      'The Nomos Agent collects team requirements, validates them, and proposes reviewed infrastructure changes through pull requests.',
-    icon: '🤖',
-  },
-  {
     title: 'Innersource, not a bottleneck',
     description:
       'Arche, Ekklesia, and Techne run as innersource repositories — any engineer can open a pull request, and platform engineers from staffed teams review. Stream-aligned teams unblock themselves by contributing fixes and new capabilities directly to the platform.',
@@ -37,22 +31,22 @@ const features = [
 const cards = [
   {
     icon: '🚀',
-    title: 'Onboard your team',
-    note: 'Use the Nomos Agent to describe your team, required repositories, and optional infrastructure capabilities.',
-    link: '/onboarding',
+    title: 'Building on the platform',
+    note: 'You own a service and want to run it here. One interface, the Nomos Agent, onboards your team and requests everything the platform provides.',
+    link: '/getting-started',
     linkText: 'Get started →',
   },
   {
-    icon: '🗺️',
-    title: 'Explore the Platform',
-    note: 'Understand the team topology — how the platform is organized, what each team owns, and how the layers fit together.',
+    icon: '🛠️',
+    title: 'Building the platform',
+    note: 'You own a technical area. Find what each team owns, its interfaces, and the decisions behind them.',
     link: '/platform-grouping',
     linkText: 'See the teams →',
   },
   {
     icon: '🌐',
-    title: 'Explore the Ecosystem',
-    note: 'The open-source tools and infrastructure that power the platform — GCP, OpenTofu, GKE, Istio, Datadog, OpenBao, GitHub Actions, and more.',
+    title: 'Learning from the stack',
+    note: 'These docs are the reference implementation: every page describes the live platform, open source end to end.',
     link: '/ecosystem',
     linkText: 'See the stack →',
   },
@@ -62,17 +56,17 @@ const whatYouGet = [
   {
     icon: '🏭',
     title: 'Continuous delivery enablement',
-    note: 'GitHub team structure with branch protection, Workload Identity and OIDC federation for keyless GCP auth, Artifact Registry, encrypted state buckets, reusable GitHub Actions called workflows, and Datadog CI Visibility and Test Optimization.',
+    note: 'GitHub teams and repositories, keyless GCP authentication, Artifact Registry, and reusable deployment workflows.',
   },
   {
     icon: '🏗️',
     title: 'Cloud foundation',
-    note: 'CIS-compliant GCP projects with audit logging, billing budgets, and KMS-encrypted state across sandbox, non-production, and production — with Shared VPC networking, per-team DNS subdomain zones, Cloud NAT, managed data services (Cloud SQL, Private Services Access), and namespace provisioning with Workload Identity bindings.',
+    note: 'CIS-compliant GCP projects across sandbox, non-production, and production, with KMS-encrypted state, shared networking, DNS, and Kubernetes namespaces.',
   },
   {
     icon: '🔒',
     title: 'Security',
-    note: 'OpenBao for dynamic credentials, KV2 paths, and a Kubernetes secrets operator — plus Cloud Armor WAF, Istio mTLS with automated certificate rotation, OPA Gatekeeper admission control, CIS-hardened GKE clusters, GitHub secret scanning and Dependabot, and Datadog Application Security Management, SIEM, Cloud Security Posture Management, and Code Security.',
+    note: 'OpenBao secrets, Istio mTLS, OPA Gatekeeper admission control, Cloud Armor WAF, hardened GKE clusters, and Datadog security monitoring.',
   },
   {
     icon: '🐶',
@@ -132,9 +126,6 @@ function HomeFooter() {
       <div className={styles.homeFooterInner}>
         <div className={styles.homeFooterBrand}>
           <img src="/img/osinfra-logo-full.png" alt="osinfra.io" className={styles.homeFooterLogo} />
-          <p className={styles.homeFooterTagline}>
-            A team-first, vendor-light, open source reference implementation for cloud infrastructure.
-          </p>
         </div>
         <div className={styles.homeFooterLinks}>
           <div className={styles.homeFooterCol}>
@@ -186,6 +177,14 @@ function Hero() {
         <p className={styles.heroSubtitle}>
           A team-first, vendor-light, open source reference implementation for cloud infrastructure.
         </p>
+        <div className={styles.heroActions}>
+          <Link to="/getting-started" className={styles.gettingStartedCta}>
+            Get started →
+          </Link>
+          <Link to="/platform-grouping" className={styles.heroSecondaryCta}>
+            Explore the teams
+          </Link>
+        </div>
       </div>
     </header>
   );
@@ -243,6 +242,9 @@ function CallToAction() {
   return (
     <section className={styles.cta}>
       <div className="container">
+        <Heading as="h2" className={styles.ctaHeading}>
+          Platform docs, written for the people who use and build it.
+        </Heading>
         <CardGrid>
           {cards.map((card) => (
             <Card key={card.title} item={card} />
@@ -258,11 +260,11 @@ export default function Home() {
     <Layout noFooter description="A team-first, vendor-light, open source reference implementation for cloud infrastructure.">
       <Hero />
       <main>
-        <Features />
+        <CallToAction />
         <GettingStarted />
+        <Features />
         <WhatYouGet />
         <TechStrip />
-        <CallToAction />
       </main>
       <HomeFooter />
     </Layout>

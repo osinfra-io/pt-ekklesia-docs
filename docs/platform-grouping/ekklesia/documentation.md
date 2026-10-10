@@ -22,7 +22,11 @@ Built on [Docusaurus 3](https://docusaurus.io/) with the following features enab
 
 ## Contributing
 
-Every page has an **Edit this page** link that opens its source on GitHub. Keep content task-oriented: state who owns the capability, what a consumer provides, what the platform returns, and where the lifecycle is managed. Avoid duplicating module inputs or implementation details that are already clear in a repository README.
+Every page has an **Edit this page** link that opens its source on GitHub. Keep content task-oriented: state who owns the capability, what a consumer provides, what the platform returns, and where the lifecycle is managed.
+
+Write for two audiences and keep them apart. **Consumer** guides live under `docs/getting-started/` and own the declaration contract (fields, examples, validation, verification) exactly once. **Owner** pages under `docs/platform-grouping/<team>/` describe how the capability is built and operated, link to the consumer guide instead of repeating its fields or examples, and keep their ADRs at the bottom.
+
+Avoid duplicating module inputs or implementation details that are already clear in a repository README.
 
 Changes follow standard GitHub Flow. When adding a page:
 
