@@ -27,6 +27,18 @@ const defaultMessages = [
     role: 'agent',
     content: (
       <>
+        <p>Suggested description: <em>"Fides — the platform's trust and verification service."</em> Keep it or rewrite it?</p>
+      </>
+    ),
+  },
+  {
+    role: 'user',
+    text: 'Keep it.',
+  },
+  {
+    role: 'agent',
+    content: (
+      <>
         <p>Next, Datadog: should I use <code>joe@osinfra.io</code> as the admin? Then I'll collect GitHub maintainers and Google Cloud groups, one group at a time.</p>
         <p className={styles.meta}>… required fields, then an optional menu: GitHub Actions + GCP OIDC, repositories, GKE, Cloud SQL, projects</p>
       </>

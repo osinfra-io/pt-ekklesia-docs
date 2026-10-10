@@ -73,7 +73,7 @@ Clone the template repo and run the Copilot CLI from within it — then type `/a
 ```none
 git clone https://github.com/osinfra-io/pt-arche-child-module-template
 cd pt-arche-child-module-template
-gh copilot
+copilot --enable-all-github-mcp-tools
 ```
 
 :::tip GitHub access
