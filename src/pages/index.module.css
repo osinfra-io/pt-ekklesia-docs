@@ -38,6 +38,32 @@
   margin: 0;
 }
 
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.heroSecondaryCta {
+  display: inline-block;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.65rem 1.4rem;
+  border: 1px solid #606060;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: border-color 0.15s ease;
+}
+
+.heroSecondaryCta:hover {
+  border-color: #ffb400;
+  color: #ffffff;
+  text-decoration: none;
+}
+
 /* Tech Strip */
 
 .techStrip {
@@ -135,7 +161,7 @@
 
 .features {
   padding: 4rem 0;
-  background-color: #232323;
+  background-color: #1e1e1e;
 }
 
 .featureGrid {
@@ -292,8 +318,15 @@
 /* Call to Action */
 
 .cta {
-  padding: 3rem 0 5rem;
-  background-color: #1e1e1e;
+  padding: 3rem 0 3rem;
+  background-color: #232323;
+}
+
+.ctaHeading {
+  font-size: 1.6rem;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 /* Home Footer */

@@ -18,6 +18,15 @@ This layer provides platform teams with common networking resources. It is manag
 - **DNS zones**: A public `osinfra.io` zone, a private zone for internal resolution, and per-team subdomain zones with NS delegation records in the parent zone
 - **Private service networking**: A reserved IP range and service networking connection enable private connectivity to managed services (e.g., Cloud SQL)
 
+```mermaid
+flowchart TD
+    Host["Shared VPC host project<br/>(one per environment)"] --> Subnet["Per-zone subnets<br/>nodes + pod and service ranges"]
+    Host --> NAT["Cloud NAT<br/>outbound only"]
+    Host --> DNS["DNS zones<br/>osinfra.io + team subdomains"]
+    Host --> PSA["Private service networking<br/>e.g. Cloud SQL"]
+    Subnet --> Svc["Team service projects<br/>GKE clusters"]
+```
+
 :::tip Architecture Decision Records
 
 This page includes [Architecture Decision Records](#architecture-decision-records) documenting the key design decisions.

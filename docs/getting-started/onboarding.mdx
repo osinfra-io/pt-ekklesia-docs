@@ -1,7 +1,8 @@
 ---
 description: Get your team onto the osinfra.io platform using the Nomos Agent.
-displayed_sidebar: null
-title: Onboarding your team
+sidebar_label: Onboard Your Team
+slug: /onboarding
+title: Onboarding Your Team
 ---
 
 import Link from '@docusaurus/Link';
@@ -17,7 +18,7 @@ export const cardTitle = { fontSize: '1rem', fontWeight: 700, color: 'var(--ifm-
 export const cardBody = { fontSize: '0.875rem', color: 'var(--ifm-color-content-secondary)', flex: 1, lineHeight: 1.55, margin: 0 };
 export const iconStyle = { fontSize: '2rem', marginBottom: '0.75rem', display: 'block' };
 
-# Onboarding your team
+# Onboarding Your Team
 
 Use the **Nomos Agent** to submit a structured onboarding request. It validates team data and proposes changes through pull requests in the repositories that own each capability.
 
@@ -29,7 +30,7 @@ Use the **Nomos Agent** to submit a structured onboarding request. It validates 
   </div>
 </div>
 
-## How it works
+## How It Works
 
 <div style={stepWrap}>
   <div style={stepCard}>
@@ -49,7 +50,7 @@ Use the **Nomos Agent** to submit a structured onboarding request. It validates 
   </div>
 </div>
 
-## Build your agent prompt
+## Build Your Agent Prompt
 
 :::tip[You have all the details]
 
@@ -59,14 +60,14 @@ Fill in the form, select **Copy**, and paste the result into Nomos. The agent co
 
 <PromptBuilder />
 
-## How to invoke the agent
+## How to Invoke the Agent
 
 <div style={invokeWrap}>
   <div style={invokeCard}>
     <span style={iconStyle}>💻</span>
     <p style={cardTitle}>Copilot CLI</p>
     <p style={{...cardBody, marginBottom: '0.75rem'}}>With Docker available, install the plugin, set <code>NOMOS_GITHUB_TOKEN</code>, and start Copilot CLI:</p>
-    <pre style={{fontSize: '0.8rem', margin: 0}}>{'copilot plugin marketplace add osinfra-io/pt-ai-plugins\ncopilot plugin install techne-agents@osinfra-io\nprintf \'NOMOS_GITHUB_TOKEN: \'\nread -rs NOMOS_GITHUB_TOKEN\nprintf \'\\n\'\nexport NOMOS_GITHUB_TOKEN\ncopilot'}</pre>
+    <pre style={{fontSize: '0.8rem', margin: 0}}>{'copilot plugin marketplace add osinfra-io/pt-ai-plugins\ncopilot plugin install techne-agents@osinfra-io\nprintf \'NOMOS_GITHUB_TOKEN: \'\nread -rs NOMOS_GITHUB_TOKEN\nprintf \'\\n\'\nexport NOMOS_GITHUB_TOKEN\ncopilot --enable-all-github-mcp-tools'}</pre>
     <p style={{...cardBody, marginTop: '0.5rem'}}>Type <code>/agent</code>, select <strong>Nomos Agent</strong>, and paste your prompt. The plugin registers its version-pinned MCP server automatically.</p>
   </div>
   <div style={invokeCard}>
@@ -81,19 +82,8 @@ Fill in the form, select **Copy**, and paste the result into Nomos. The agent co
   </div>
 </div>
 
-:::warning GitHub MCP — configuration required
+:::tip GitHub access
 
-The agent opens pull requests and reads repository state using the [GitHub MCP server](https://github.com/github/github-mcp-server). It must be enabled with **write** toolsets.
-
-Configure the GitHub MCP server with a **fine-grained Personal Access Token** scoped to the `osinfra-io` organization with the following permissions:
-
-| Permission | Access |
-|---|---|
-| Contents | Read and write |
-| Issues | Read and write |
-| Pull requests | Read and write |
-| Workflows | Read and write |
-
-Fine-grained PATs are created at [github.com/settings/personal-access-tokens/new](https://github.com/settings/personal-access-tokens/new). Set the resource owner to the **`osinfra-io` organization**.
+The agent opens pull requests through the GitHub MCP server. In Copilot CLI, start with `--enable-all-github-mcp-tools` so write tools are available; no separate GitHub token is needed. `NOMOS_GITHUB_TOKEN` above is only for the Nomos plugin's own MCP server.
 
 :::

@@ -78,13 +78,13 @@ const config = {
         },
         items: [
           {
-            to: '/platform-grouping',
-            label: 'Teams',
+            to: '/getting-started',
+            label: 'Getting Started',
             position: 'left',
           },
           {
-            to: '/onboarding',
-            label: 'Onboarding',
+            to: '/platform-grouping',
+            label: 'Teams',
             position: 'left',
           },
           {

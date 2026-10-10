@@ -4,7 +4,13 @@ sidebar_label: Gateway Authentication
 
 # Gateway Authentication
 
-Pneuma enforces authentication and authorization for external application routes at the shared gateway. Teams declare route-level intent in Logos; Pneuma renders the required Istio and Authentik resources before traffic reaches a workload cluster.
+Pneuma enforces authentication and authorization for external application routes at the shared gateway. Teams request route-level intent through the Nomos Agent, which records it in Logos; Pneuma renders the required Istio and Authentik resources before traffic reaches a workload cluster.
+
+:::info Consuming teams
+
+This page is for Pneuma owners. To request a route and its authentication policy, see [Expose and Protect a Route](../../getting-started/expose-a-route.md).
+
+:::
 
 :::tip Architecture Decision Records
 
@@ -18,7 +24,7 @@ Gateway auth runs on the Pneuma gateway data plane (`gateway-istio`). It combine
 
 Authentik is the platform identity provider. It is available at `authentik.<env>.osinfra.io`; production omits the environment segment. The `pt-pneuma` `authentik` and `authentik-config` workspaces deploy and configure it through `pt-arche-kubernetes-authentik`. Authentik stores persistent data in Cloud SQL PostgreSQL, and its embedded outpost provides the Envoy `ext_authz` endpoint for browser sessions.
 
-Browser identity does not reach the workload as a bearer JWT. After the embedded outpost authorizes the session, the gateway forwards trusted Authentik identity headers such as `x-authentik-username`, `x-authentik-email`, `x-authentik-name`, `x-authentik-uid`, `x-authentik-groups`, and `x-authentik-entitlements`. Workloads behind a `browser` route use these gateway-controlled headers when they need the signed-in user's identity.
+Browser identity reaches workloads as gateway-controlled `x-authentik-*` headers, not a bearer JWT. The gateway owns that namespace, so a value supplied by an external client is never a trusted identity source.
 
 ```mermaid
 flowchart TD
@@ -53,7 +59,7 @@ flowchart TD
 |---|---|---|
 | Logos `route_auth_policies` | Logos | Source of truth for route-level auth intent. Policies are keyed by an existing route name. |
 | Authentik | Pneuma via Arche | Platform OIDC provider and identity layer deployed on the gateway clusters. |
-| Embedded outpost | Pneuma via Arche | Forward-auth endpoint for browser sessions. Istio registers it as the `authentik` external authorization provider and forwards its trusted `x-authentik-*` identity headers to authorized workloads. |
+| Embedded outpost | Pneuma via Arche | Forward-auth endpoint for browser sessions. Istio registers it as the `authentik` external authorization provider. |
 | Authentik applications and policies | Pneuma via Arche | Per-host application, proxy provider, and policy bindings generated from browser-route group and role requirements. |
 | Istio `RequestAuthentication` | Pneuma | Validates bearer JWTs against the Authentik issuer and JWKS. |
 | Istio `AuthorizationPolicy` | Pneuma | Sends browser requests to Authentik or enforces API JWT claims natively. |
@@ -75,153 +81,78 @@ Enforced routes do not fail open. Configuration with an unknown or incomplete au
 
 :::
 
-## Auth Modes
+## Browser Authorization
 
-Each `route_auth_policies` entry selects one of three modes. The default is `browser`.
-
-| Mode | Purpose | Required fields | Forbidden fields |
-|---|---|---|---|
-| `public` | No authentication — the route is open | none | `audiences`, `public_paths`, `required_groups`, `required_roles` |
-| `browser` | Interactive Authentik SSO for human users | at least one of `required_groups` / `required_roles` | `audiences` |
-| `api-jwt` | Machine-to-machine bearer JWT validation | at least one `audiences` value | none |
-
-For claim lists, matching is **OR within a list** and **AND across lists**. For example, a route with two audiences and one required role accepts either audience, but the role must also match.
-
-For browser routes, Pneuma represents both `required_groups` and `required_roles` as Authentik group-backed policy bindings. Because Authentik forward-auth applications are host-scoped, every browser route for a team must use identical `required_groups` and `required_roles`; Logos rejects conflicting browser requirements across routes on the same team host. API JWT routes evaluate the corresponding `groups` and `roles` token claims directly.
-
-## Browser Identity Headers
-
-The browser contract ends at the trusted headers injected after Authentik authorizes the request. Applications must not expect an Authentik JWT on a `browser` route. The gateway authorization integration controls the `x-authentik-*` namespace so values supplied directly by an external client are not a trusted identity source.
-
-Common headers include the authenticated username, email, display name, stable user ID, groups, and entitlements. Applications should consume only the fields they require and continue to rely on the gateway to enforce the route's declared group and role policy.
-
-## Declaring a Policy
-
-Teams declare auth intent in Logos beside the corresponding route. `route_auth_policies` is keyed by route name and is valid only in a mesh-enabled namespace.
-
-```hcl
-namespaces = {
-  "api" = {
-mesh_enabled = true
-
-    route_auth_policies = {
-      "api" = {
-        mode            = "browser"
-        public_paths    = ["/api/healthz"]
-        required_groups = ["platform-engineers"]
-      }
-    }
-
-    routes = {
-      "api" = {
-        path    = "/api"
-        port    = 8080
-        service = "api-service"
-      }
-    }
-  }
-}
-```
-
-| Field | Description |
-|---|---|
-| `mode` | Optional. `public`, `browser`, or `api-jwt`; defaults to `browser`. |
-| `audiences` | JWT audiences accepted by an `api-jwt` route. Required for `api-jwt` and forbidden for other modes. |
-| `public_paths` | Unauthenticated paths beneath an enforced route. Entries must start with `/` and cannot be `/`, `/*`, or `*`. Append `/*` to a concrete path to exempt a subtree, such as `/api/healthz/*`. |
-| `required_groups` | Authentik groups accepted by the route. |
-| `required_roles` | Authentik application roles accepted by the route. |
-
-Use the [Nomos Agent](/onboarding) to create or update the Logos declaration. Nomos validates the policy before opening the change.
-
-## Browser Auth Limitations
-
-### Team-owned group contract
-
-Logos supports explicit per-environment application-access declarations through [`authentik_groups`](../logos/team-topology.md#authentik-application-access-declarations). Group names include the owning Team Topologies key and preserve application branding, for example `pt-pneuma: agentgateway Admins`. These names contain spaces; group matching must compare whole names, not space-separated words.
-
-The reusable Authentik configuration accepts resolved application groups. Its Google source mapping assigns membership from a verified OAuth email during enrollment and sign-in, while configuration deployment reconciles already-verified Google users. Declared identities that have not completed verified enrollment are reported as pending; no accounts or passwords are pre-provisioned. Application groups are non-superuser groups and do not inherit ordinary team membership.
-
-The proposed cloud Authentik workspace exposes `pending_application_members`, keyed by stable team/group identifiers, for members awaiting verified Google enrollment. This email-bearing output is sensitive and suppressed in ordinary output; inspect it only through approved state-access procedures, never by copying identities into public workflow logs or PR comments. An empty pending list does not establish route authorization or prove a successful browser test.
-
-Consumer deployment and request-level authorization remain separate rollout requirements. Do not infer same-host path isolation or existing-session revocation from group synchronization alone. Until those are verified, retain the restrictions below and do not activate differently authorized browser paths on one host.
-
-The checked-out local fixtures consume Pneuma's actual Logos declaration and select its sandbox member list. Their shared gateway renderer strips inbound identity headers, authenticates with `ext_authz`, and then enforces managed requirements against the current declared emails. The Authentik proxy mapping supplies a dedicated Google-established identity header; an ordinary email header or cached application-group claim cannot grant managed access. The guard protects the UI and its supporting admin paths without adding implicit public health exceptions.
-
-This local integration is not a cloud rollout. Real Google browser sign-in, independent-path allow/deny checks, and removal with an existing session must pass before releasing modules or relaxing the cloud host-scoping restriction. After rollout, membership changes require Logos deployment followed by the relevant manually dispatched Pneuma reconciliation workflows; merging a declaration alone does not change live access.
-
-The proposed cloud gateway adapter selects application memberships from `module.core_helpers.teams` using the current long environment name and passes them to the same shared renderer. It creates a cluster-owned post-auth guard only when a browser route requires a managed group; existing browser and API JWT routes retain their current behavior. This adapter does not itself expose the agentgateway UI.
-
-For temporary branch testing, the Pneuma feature branch pins Authentik and Istio to immutable, unreleased feature-branch commits. The Authentik consumer passes environment-selected application groups through the same team-access adapter. These test pins must be replaced by released post-merge SHAs before promotion; they do not establish a cloud deployment or activate UI routes.
-
-Sandbox agentgateway deployment uses separate zonal runtime and manifest workspaces. Runtime runs after Istio and installs the controller and CRDs; the separate manifests workspace owns only `AgentgatewayParameters`, whose schema must exist before planning. It waits for Authentik configuration before enabling the proxy's admin listener. Both stages target only Pneuma-owned sandbox clusters. Jobs use dedicated approval environments managed through Logos: `Sandbox agentgateway: <zone>` for runtime and `Sandbox agentgateway Manifests: <zone>` for manifests, with `pt-pneuma-sandbox-approvers` as reviewers.
-
-The proposed admin endpoint mirrors Authentik's dedicated-host implementation: `agentgateway.sb.osinfra.io` is added to the same Corpus-owned environment DNS zone and shared global gateway DNS/certificate inputs. It does not receive a team-apex or zonal hostname. The Istio manifests workspace routes that host to the ClusterIP-only `agentgateway-proxy-admin` Service on port `15000`. Its entire `/` path requires `pt-pneuma: agentgateway Admins`; only the more-specific Authentik outpost callback path bypasses this requirement. Authentik creates a dedicated host-scoped provider/group binding, and the shared request guard checks current declared memberships after authentication.
-
-The Istio manifests workspace owns the admin Service, routes, and authorization policies together. A separate workload-scoped mesh allow policy permits the agentgateway proxy service account to reach its controller on discovery port `9978`, so the proxy can become ready under mesh default-deny. It creates the Service only after the ingress-only mesh policies and browser authorization filters are applied. Mesh policies allow only the Istio ingress service-account principal to reach the admin port and explicitly deny all other principals. No direct public admin load balancer is created. This platform-owned route is distinct from stream-aligned teams' Logos namespace routes, while consuming the same team-owned membership contract. Exposure is sandbox-only until the cloud flow is verified; no non-production or production hostname or admin deployment is enabled by this change.
-
-:::caution Released consumer rollout remains pending
-
-The released Pneuma consumer does not yet synchronize the new Logos application-group contract. The feature-branch test configuration wires this contract to an unreleased Authentik commit, but merging a declaration alone does not deploy it. Existing unmanaged groups still require direct membership assignment until migrated. This rollout is tracked in [pt-pneuma#181](https://github.com/osinfra-io/pt-pneuma/issues/181).
-
-:::
+Pneuma renders one Authentik application and proxy provider per gateway host, with policy bindings for the declared `required_groups` and `required_roles`. API JWT routes evaluate the `groups` and `roles` token claims directly in Istio. Consumer-facing rules are in [Expose and Protect a Route](../../getting-started/expose-a-route.md#browser-routes).
 
 :::caution Policies are scoped per host
 
-Browser applications and policy bindings are scoped to a host, not an individual path. If two browser routes on the same host declare different requirements, Authentik's `Any` policy-engine mode allows a user who satisfies either policy to access both routes. This gap is tracked in [pt-pneuma#183](https://github.com/osinfra-io/pt-pneuma/issues/183).
+Authentik applications and bindings are scoped to a host, not a path. Two browser routes on one host with different requirements would let a user satisfying either policy reach both, because Authentik uses its `Any` policy-engine mode. Logos rejects conflicting requirements until request-level isolation and existing-session revocation are verified. Tracked in [pt-pneuma#183](https://github.com/osinfra-io/pt-pneuma/issues/183).
 
 :::
 
+:::caution Group membership sync is pending
+
+Authentik group membership is not yet synchronized from Logos in the released Pneuma consumer, so existing unmanaged groups still need direct membership assignment. Merging a declaration alone does not change live access. Tracked in [pt-pneuma#181](https://github.com/osinfra-io/pt-pneuma/issues/181).
+
+:::
+
+### Team-owned application groups
+
+Logos declares per-environment application access through [`authentik_groups`](../logos/team-topology.md#authentik-application-access-declarations). Group names carry the owning team key and preserve application branding, for example `pt-pneuma: agentgateway Admins`. Names contain spaces, so matching must compare whole names.
+
+| Aspect | Behavior |
+|---|---|
+| Membership source | The Authentik Google source mapping assigns membership from a verified OAuth email at enrollment and sign-in; configuration deployment reconciles already-verified users. No accounts or passwords are pre-provisioned. |
+| Group type | Non-superuser groups that do not inherit ordinary team membership. |
+| Pending members | `pending_application_members` lists declared identities without verified enrollment. It is sensitive: inspect it only through approved state-access procedures, never in workflow logs or PR comments. An empty list does not prove authorization works. |
+| Post-auth guard | The shared renderer creates a cluster-owned guard only when a browser route requires a managed group. It strips inbound identity headers, authenticates with `ext_authz`, and checks the current declared emails against a dedicated Google-established identity header. An ordinary email header or cached group claim cannot grant managed access. |
+| Membership changes | Deploy Logos, then manually dispatch the Pneuma reconciliation workflows. |
+
+### Agentgateway admin endpoint (sandbox only)
+
+| Aspect | Behavior |
+|---|---|
+| Host | `agentgateway.sb.osinfra.io`, a dedicated host in the Corpus environment DNS zone and shared gateway DNS and certificate inputs. No team-apex or zonal hostname. |
+| Backend | The ClusterIP-only `agentgateway-proxy-admin` Service on port `15000`; no public load balancer. |
+| Authorization | All of `/` requires `pt-pneuma: agentgateway Admins`. Only the Authentik outpost callback path bypasses it. |
+| Mesh policy | Only the Istio ingress service account may reach the admin port; all other principals are denied. A separate workload-scoped allow lets the proxy reach its controller on port `9978` under default-deny. |
+| Workspaces | Runtime installs the controller and CRDs after Istio. A separate manifests workspace owns `AgentgatewayParameters` and the admin Service, routes, and policies, and waits for Authentik configuration. Both target only Pneuma-owned sandbox clusters. |
+| Approvals | `Sandbox agentgateway: <zone>` and `Sandbox agentgateway Manifests: <zone>` environments, managed through Logos, with `pt-pneuma-sandbox-approvers` as reviewers. |
+
+Non-production and production hostnames and admin deployments are not enabled. Do not activate differently authorized browser paths on one host until same-host path isolation and existing-session revocation are verified.
+
 ## Verification
 
-The platform `istio-test` route exposes separate public probes and a protected browser-identity diagnostic:
+The platform `istio-test` route exposes public probes and a protected diagnostic. It uses `mode = "browser"` and `required_groups = ["all"]`, with the health and metadata paths in `public_paths`.
 
 | Request | Expected result |
 |---|---|
-| `/istio-test/health` without an Authentik session | Public health JSON response; no Authentik redirect |
-| `/istio-test/metadata/cluster-name` without an Authentik session | Public metadata response; no Authentik redirect |
-| `/istio-test/auth` without an Authentik session | Redirect to Authentik |
-| `/istio-test/auth` after signing in as a member of `all` | JSON diagnostic showing the trusted `x-authentik-*` identity headers received by the workload |
+| `/istio-test/health` or `/istio-test/metadata/cluster-name`, no session | Application response, no redirect. A redirect means the public-path bypass is broken. |
+| `/istio-test/auth`, no session | Redirect to Authentik |
+| `/istio-test/auth`, signed in as a member of `all` | JSON showing the trusted `x-authentik-*` headers the workload received |
 
-The route uses `mode = "browser"` and `required_groups = ["all"]`. `/istio-test/health` and the metadata endpoints are explicitly included in `public_paths` so infrastructure health and metadata checks remain anonymous. These public checks should return their application response directly; a redirect to Authentik means the public-path bypass is not working. `/istio-test/auth` is intentionally protected and makes the browser identity handoff observable without requiring another application to implement a diagnostic endpoint.
+OAuth callbacks under `/outpost.goauthentik.io` route directly to the embedded outpost on every protected browser host.
 
-OAuth callback requests under `/outpost.goauthentik.io` are routed directly to the embedded outpost on every protected browser host. This routing is required for the browser flow to return to the original application.
+### Local integration checks
 
-### Optional pre-sandbox checks
+For complex browser-auth or gateway changes, use `/platform-grouping:test-local-gateway-stack`. It is optional, not a CI or pre-push requirement. The Kubernetes fixture exercises direct Istio routing and the Istio-to-agentgateway-to-workload path using the checked-out modules. Full verification needs real Google sign-in, the trusted identity JSON, public-path bypasses, forged-header denial, and ambient mTLS; a redirect alone proves nothing. See [Module Development](../arche/module-development.md#optional-local-integration-tests) for the fixture convention and cloud-parity limits. Google browser verification and the cloud rollout remain separate requirements.
 
-Developers can use `/platform-grouping:test-local-gateway-stack` for complex browser-auth and gateway configuration changes. This is an optional local integration workflow, not an additional CI or pre-push requirement.
-
-The Kubernetes fixture exercises both direct Istio routing and the Istio-to-agentgateway-to-workload path, using the checked-out configuration modules. Full verification includes real Google sign-in, the trusted identity JSON, public-path bypasses, denial of forged identity headers, and ambient mTLS. An HTTP redirect alone does not establish end-to-end success. See [Module Development](../arche/module-development.md#optional-local-integration-tests) for the shared fixture convention and cloud-parity limits.
-
-Pneuma's `regional/authentik-config/authentication` child module owns the sandbox brand, custom flow, four stage bindings, two conditional password/MFA policy bindings, and shared identification settings. Both the cloud root and local Authentik fixture call it, so local iteration exercises the actual sandbox CSS and authentication-stage wiring, not an independent visual approximation. The existing built-in identification stage is managed by Arche using those shared settings and reused in the custom flow. Domain and titles are explicit caller inputs; local values are `authentik.localhost` and Development titles.
-
-Cloud stage/policy discovery, imports, Google credentials, groups, and environment enablement remain in the cloud root. Custom-flow creation remains sandbox-only; production and non-production still manage the default identification stage without creating the sandbox brand. Root `moved.tofu` blocks preserve all four resource families during extraction, and the fixture moves its existing Development brand into the shared module. Local verification checks the live brand, flow, stage/policy bindings, and identification settings against applied configuration; Google browser verification remains a separate requirement.
-
-## Ownership Boundaries
-
-| Boundary | Responsibility |
-|---|---|
-| Application teams | Declare routes and auth intent in Logos; own application behavior behind the gateway. |
-| Logos | Stores the team, namespace, route, and `route_auth_policies` contract. |
-| Pneuma | Renders and operates gateway routing, Authentik, Istio auth policy, RBAC, and admission guardrails. |
-| Arche | Provides the reusable `pt-arche-kubernetes-authentik` deployment and configuration module. |
-| Techne | Provides schema tooling and the Nomos self-service workflow. |
+Pneuma's `regional/authentik-config/authentication` child module owns the sandbox brand, custom flow, stage and policy bindings, and shared identification settings. The cloud root and the local fixture both call it, so local runs exercise the real sandbox configuration. Domain and titles are caller inputs (`authentik.localhost` locally). Custom-flow creation is sandbox-only; other environments keep the default identification stage. Root `moved.tofu` blocks preserve resources during extraction.
 
 ## Operational Expectations
 
-- Unauthenticated requests to enforced application paths are denied before reaching a team backend.
-- The `istio-test` health and metadata diagnostics, Authentik callbacks, and other declared `public_paths` bypass enforcement without redirecting to Authentik.
 - Route-auth changes deploy through the normal Logos-to-Pneuma pipeline.
 - Pneuma owns Authentik availability, Cloud SQL persistence, and gateway auth observability.
 - Browser authorization depends on current Authentik group and role membership.
 
 ## Core Invariants
 
-- Auth intent is declared in Logos, not in team-managed gateway resources.
-- Enforced routes fail closed.
-- `browser` requires at least one group or role; `api-jwt` requires at least one audience.
-- Public bypasses cannot expose an entire route using `/`, `/*`, or `*`.
-- API JWT validation occurs at the gateway before authorization.
-- Browser identity reaches workloads only through gateway-controlled Authentik headers after the session is authorized.
+- Auth intent is declared in Logos, never in team-managed gateway resources.
+- Enforced routes fail closed, and unauthenticated requests are denied before reaching a team backend.
+- Public bypasses cannot expose an entire route (`/`, `/*`, or `*`).
+- API JWTs are validated at the gateway before authorization.
+- Browser identity reaches workloads only through gateway-controlled `x-authentik-*` headers after the session is authorized.
 
 ## Architecture Decision Records
 

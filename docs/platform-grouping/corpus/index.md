@@ -14,14 +14,6 @@ Corpus provides governed Google Cloud foundations for platform and workload team
 
 Corpus consumes Logos outputs and provides the foundation for Pneuma workload environments.
 
-## Service contract
-
-| Consumers provide | Corpus returns |
-| --- | --- |
-| Required environments, APIs, connectivity, DNS, registry, workload identity, and managed data needs | Governed projects, Shared VPC connectivity, regional networking, delegated DNS, Artifact Registry, CI identities, encrypted state, and private service connectivity |
-
-Consumers own application configuration and request supported platform capabilities; Corpus retains ownership of shared networking, KMS, state, and foundational IAM.
-
 ## Repositories
 
 - **[pt-corpus](https://github.com/osinfra-io/pt-corpus)**: OpenTofu configuration for GCP projects, shared VPC and networking, GitHub Actions service accounts, and encrypted state buckets

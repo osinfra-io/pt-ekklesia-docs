@@ -18,19 +18,12 @@ Platform teams may use cert-manager for other certificate needs beyond Istio mTL
 
 ## Components
 
-### Certificate Authority
+Terms are defined in the [Glossary](#glossary).
 
-The trust anchor of the mesh is `root-ca` — an ECDSA P-256 self-signed certificate (CN: `opentofu-self-signed-ca.osinfra.io`, 30-year validity) generated in the main workspace by OpenTofu and passed to regional workspaces via remote state. It establishes the chain of trust for every workload certificate in the mesh.
-
-| Component | Description |
-|---|---|
-| `istio-intermediate-ca` | cert-manager Issuer in `istio-system` backed by the root CA Secret; issues the `istio-ca` intermediate Certificate |
-| `istio-ca` | 720h intermediate CA Certificate (CN: `istio-intermediate-ca.osinfra.io`) stored as the Kubernetes Secret named `istio-ca` in `istio-system` |
-| `istio-ca-issuer` | cert-manager Issuer backed by the `istio-ca` Secret; cert-manager-istio-csr uses it to sign CSRs for ambient workload identities requested by `ztunnel` |
-
-### Workload Certificate
-
-`workload-certificate` is a short-lived mTLS leaf certificate for a workload identity requested by `ztunnel`; cert-manager-istio-csr issues it and cert-manager automatically rotates it.
+```mermaid
+flowchart LR
+    Root["root-ca<br/>30-year trust anchor"] --> Issuer["istio-intermediate-ca<br/>Issuer"] --> CA["istio-ca<br/>720h intermediate"] --> CAI["istio-ca-issuer<br/>Issuer"] --> Leaf["workload-certificate<br/>short-lived mTLS leaf"]
+```
 
 ## Glossary
 

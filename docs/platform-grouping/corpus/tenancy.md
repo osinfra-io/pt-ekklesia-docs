@@ -31,7 +31,7 @@ Corpus creates up to two distinct GCP projects per team, driven entirely by team
 
 The **platform-managed project** is the shared workload project for a team. Its presence is declared in pt-logos and the project is created by pt-corpus. Its contents — GKE clusters, data services — are provisioned by pt-pneuma and stream-aligned team repositories consuming Arche modules.
 
-A team declares a platform-managed project by adding a `platform_managed_project` block to their `.tfvars` entry. Within that block, `kubernetes_engine` is optional — a team may have:
+A team requests a platform-managed project through the Nomos Agent, which records a `platform_managed_project` block in the team's Logos entry. Within that block, `kubernetes_engine` is optional — a team may have:
 
 - **GKE only** — `platform_managed_project.kubernetes_engine` with `locations`; no data services
 - **Data services only** — `platform_managed_project` block present, `kubernetes_engine` omitted

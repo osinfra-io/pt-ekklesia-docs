@@ -28,7 +28,7 @@ The primary resource is `service-networking-connection` — the VPC peering conn
 
 ### Cloud SQL Instance
 
-`cloud-sql-instance` is a managed PostgreSQL instance provisioned by Corpus in a team's platform-managed project. Teams declare one or more named instances under `cloud_sql` (keyed by a team-chosen instance name such as `authentik`), and Corpus provisions one instance per declared instance name and region. Created via `pt-arche-google-cloud-sql` with private IP through the Shared VPC peering connection (`ipv4_enabled = false`) and SSL enforced (`ssl_mode = "ENCRYPTED_ONLY"`).
+`cloud-sql-instance` is a managed PostgreSQL instance provisioned by Corpus in a team's platform-managed project. Teams request one or more named instances through the Nomos Agent, which records them under `cloud_sql` (keyed by a team-chosen instance name such as `authentik`), and Corpus provisions one instance per declared instance name and region. Created via `pt-arche-google-cloud-sql` with private IP through the Shared VPC peering connection (`ipv4_enabled = false`) and SSL enforced (`ssl_mode = "ENCRYPTED_ONLY"`).
 
 ## Glossary
 
@@ -40,7 +40,7 @@ The primary resource is `service-networking-connection` — the VPC peering conn
 
 ## Core Invariants
 
-- Each team declares Cloud SQL instances by name under `cloud_sql`; Corpus provisions at most one instance per declared instance name and region — never more than one per instance name per region.
+- Teams request Cloud SQL instances by name through Nomos, recorded under `cloud_sql`; Corpus provisions at most one instance per declared instance name and region — never more than one per instance name per region.
 - Every Cloud SQL instance has no public IP — private connectivity only, with SSL enforced.
 
 ## Architecture Decision Records
@@ -77,6 +77,6 @@ Stream-aligned teams without a platform-managed project provision their own inst
 #### Consequences
 
 - Cloud SQL and Memorystore Private IP are available to any workload on the Shared VPC after the one-time Corpus PR per environment
-- Teams declare named `cloud_sql` instances in Logos; Corpus provisions each instance in their platform-managed project automatically on the next deployment
+- Teams request named instances through Nomos, which records them in Logos; Corpus provisions each instance in their platform-managed project automatically on the next deployment
 - Stream-aligned teams without a platform-managed project provision their own instances using the Arche module directly
 - The team topology expands to a dedicated data platform team only when shared data infrastructure appears on the roadmap

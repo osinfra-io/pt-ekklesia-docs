@@ -31,7 +31,9 @@ yarn build      # production build to verify before pushing
 - `docusaurus.config.js` — Site configuration
 - `sidebars.js` — Docs sidebar structure
 
-Docs are grouped into four top-level Team Topologies sections, each with its own
+`docs/getting-started/` is the consumer front door (onboarding with Nomos, exposing routes, glossary). It is not a Team Topologies section; keep it free of team internals and link to owner pages instead.
+
+Docs are otherwise grouped into four top-level Team Topologies sections, each with its own
 section `index.md` and one folder per team beneath it:
 
 | Section slug | Topology |
@@ -43,7 +45,7 @@ section `index.md` and one folder per team beneath it:
 
 ## PromptBuilder Component
 
-`src/components/PromptBuilder/index.jsx` renders the onboarding prompt builder on `docs/onboarding.mdx`. It imports `team.schema.json` from `src/components/SchemaViewer/` and uses it as the single source of truth for field descriptions and validation patterns.
+`src/components/PromptBuilder/index.jsx` renders the onboarding prompt builder on `docs/getting-started/onboarding.mdx`. It imports `team.schema.json` from `src/components/SchemaViewer/` and uses it as the single source of truth for field descriptions and validation patterns.
 
 **Every field hint must use the schema description exactly** — pull it from the imported schema object (e.g. `schema.github_repositories.description`, `defs.usernameList.description`) and never add custom or appended text. If the schema description is wrong or missing, fix it in `schema/team.schema.json` in `pt-techne-mcp-server` and sync the copy here — do not work around it in the component.
 
