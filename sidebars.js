@@ -112,6 +112,12 @@ const sidebars = {
           link: { type: 'doc', id: 'stream-aligned-teams/ethos/index' },
           items: [],
         },
+        {
+          type: 'category',
+          label: "Tiger",
+          link: { type: 'doc', id: "stream-aligned-teams/tiger/index" },
+          items: [],
+        },
         // endregion: stream-aligned-teams
       ],
     },
