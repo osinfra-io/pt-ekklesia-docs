@@ -27,7 +27,7 @@ flowchart LR
 | --- | --- | --- | --- |
 | Logos | Team key, purpose, maintainers, members, repositories, optional feature flags | GCP folders and groups, GitHub teams and repositories, Datadog team configuration | You never manage Logos-owned resources directly; changes go through reviewed configuration. |
 | Corpus | Environments, APIs, connectivity, DNS, registry, workload identity, managed data needs | Governed projects, Shared VPC, regional networking, delegated DNS, Artifact Registry, CI identities, encrypted state, private service connectivity | You own application configuration; Corpus owns shared networking, KMS, state, and foundational IAM. |
-| Pneuma | Workload identity, namespace needs, image location, routes, auth rules, certificate and observability needs | Managed clusters, namespace access, ingress and mesh, gateway authentication, certificates, telemetry, admission policy | You own application manifests; secrets policy belongs to Kryptos. |
+| Pneuma | Workload identity, namespace needs, image location, routes, auth rules, certificate and observability needs | Managed clusters, namespace access, ingress and mesh, gateway authentication, certificates, telemetry, admission policy | You own application manifests; secrets policy is requested through Pneuma. |
 
 ## Need Something Else?
 
