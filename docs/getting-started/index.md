@@ -35,5 +35,5 @@ flowchart LR
 | --- | --- |
 | Reusable OpenTofu module | [Arche](../platform-grouping/arche/index.md) |
 | Workflows, hooks, dev environment, or agents | [Techne](../platform-grouping/techne/index.md) |
-| Secrets service or OpenBao policy | [Kryptos](../platform-grouping/kryptos/index.md) |
+| Secrets service or OpenBao policy | [Pneuma](../platform-grouping/pneuma/open-bao.md) |
 | Fix or extend these docs | [Documentation](../platform-grouping/ekklesia/documentation.md) |

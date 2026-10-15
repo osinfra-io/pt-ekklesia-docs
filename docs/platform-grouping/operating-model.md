@@ -18,7 +18,6 @@ Team Topologies defines three interaction modes — **X-as-a-Service** (consume 
 | Pneuma | <nobr>🔵 X-as-a-Service</nobr> |
 | Arche | <nobr>🔵 X-as-a-Service</nobr> |
 | Ekklesia | <nobr>🟢 Facilitating</nobr> |
-| Kryptos | <nobr>🔵 X-as-a-Service</nobr> |
 | Techne | <nobr>🟢 Facilitating</nobr> |
 
 _🔵 X-as-a-Service · 🟡 Collaboration · 🟢 Facilitating_
@@ -32,7 +31,6 @@ Team Topologies distinguishes three types of cognitive load — **intrinsic** (i
 | Ekklesia | 🟢 1 / 4 | 🟢 0 / 3 |
 | Techne | 🟡 3 / 4 | 🟢 0 / 3 |
 | Arche | 🟢 3 / 4 | 🟢 1 / 3 |
-| Kryptos | 🟢 2 / 4 | 🟡 2 / 3 |
 | Logos | 🟠 4 / 4 | 🟢 0 / 3 |
 | Corpus | 🟠 4 / 4 | 🟢 1 / 3 |
 | Pneuma | 🔴 6 / 4 · [ADR →](/platform-grouping/pneuma#pneuma-cognitive-load-mitigation) | 🔴 4 / 3 |
@@ -67,7 +65,6 @@ Each staffed team starts with one platform engineer who owns the team's context 
 | Logos | 1 | Owns org structure, identity, GitHub, and Datadog team management |
 | Corpus | 1 | Owns GCP projects, shared VPC, state buckets, and workload identity |
 | Pneuma | 1 | Owns GKE clusters, service mesh, policy enforcement, and cluster add-ons — currently flagged 🔴 over limit, candidate for a second engineer |
-| Kryptos | 1 | Owns secrets infrastructure, PKI, and cryptographic controls |
 | Arche | — | Innersource — no dedicated engineer |
 | Ekklesia | — | Innersource — no dedicated engineer |
 | Techne | — | Innersource — no dedicated engineer |
@@ -81,7 +78,7 @@ Arche, Ekklesia, and Techne operate without dedicated engineers. Instead, they r
 How it works:
 
 - Any engineer may open a pull request to an innersource repo
-- Platform engineers from staffed teams (Logos, Corpus, Pneuma, Kryptos) serve as code owners and reviewers
+- Platform engineers from staffed teams (Logos, Corpus, Pneuma) serve as code owners and reviewers
 - The Platform Lead has final approval authority on structural or architectural changes
 - Stream-aligned teams can unblock themselves by contributing fixes or enhancements directly, rather than filing tickets and waiting
 

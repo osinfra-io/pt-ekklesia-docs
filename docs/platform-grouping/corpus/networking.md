@@ -73,8 +73,6 @@ VPC: standard-shared
       <NetworkCard cluster="pt-pneuma-us-east4-a" logo="/img/gke.svg" primary="10.60.48.0/20" pods="10.6.0.0/15" services="10.62.16.0/20" master="10.63.192.48/28" />
       <NetworkCard cluster="pt-pneuma-us-east4-b" logo="/img/gke.svg" primary="10.60.64.0/20" pods="10.8.0.0/15" services="10.62.32.0/20" master="10.63.192.64/28" />
       <NetworkCard cluster="pt-pneuma-us-east4-c" logo="/img/gke.svg" primary="10.60.80.0/20" pods="10.10.0.0/15" services="10.62.48.0/20" master="10.63.192.80/28" />
-      <NetworkCard cluster="pt-kryptos-us-east1-b" logo="/img/gke.svg" primary="10.60.96.0/20" pods="10.12.0.0/15" services="10.62.64.0/20" master="10.63.192.96/28" />
-      <NetworkCard cluster="pt-kryptos-us-east4-a" logo="/img/gke.svg" primary="10.60.112.0/20" pods="10.14.0.0/15" services="10.62.80.0/20" master="10.63.192.112/28" />
     </CardGrid>
 
   </TabItem>

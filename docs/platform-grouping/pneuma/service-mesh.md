@@ -43,7 +43,7 @@ Each cluster runs its own `istiod` control plane and has `ztunnel` deployed on t
 | Role | Clusters | Responsibilities |
 |---|---|---|
 | **Gateway** | `pt-pneuma-*` | Shared ingress gateway, MCI global load balancer, Cloud Armor WAF, Datadog AAP, and `HTTPRoute` rendering for all teams |
-| **Member** | `pt-kryptos-*` (and future teams) | `ztunnel` ambient dataplane and optional waypoint proxies; no public gateway — receives traffic from the mesh |
+| **Member** | Future team clusters | `ztunnel` ambient dataplane and optional waypoint proxies; no public gateway — receives traffic from the mesh |
 
 ### DNS and Ingress Routing
 
@@ -54,7 +54,7 @@ All external DNS points to pneuma's gateway IPs:
 | `{team}.{env}.osinfra.io` | MCI global IP (anycast, lowest-latency zone) |
 | `{zone}.{team}.{env}.osinfra.io` | Zonal load balancer in that zone |
 
-Traffic to `kryptos.sb.osinfra.io` enters pneuma's gateway, matches the `HTTPRoute` for that host, and forwards across the mesh to the kryptos cluster. Member clusters have no public IP.
+Traffic to a member team's host (for example `{team}.sb.osinfra.io`) enters pneuma's gateway, matches the `HTTPRoute` for that host, and forwards across the mesh to the team's cluster. Member clusters have no public IP.
 
 ### Cross-Cluster Routing
 
@@ -134,7 +134,7 @@ client -> shared Istio Gateway -> Authentik browser authorization -> internal Ag
 
 ## End-to-End Validation
 
-The `istio-test` workspace deploys a lightweight metadata service into each team's prefixed istio-test namespace (`pt-pneuma-istio-test`, `pt-kryptos-istio-test`, etc.). A validation script checks every global and zonal endpoint, confirming the returned cluster name matches the expected team and zone.
+The `istio-test` workspace deploys a lightweight metadata service into each team's prefixed istio-test namespace (`pt-pneuma-istio-test`, etc.). A validation script checks every global and zonal endpoint, confirming the returned cluster name matches the expected team and zone.
 
 ## Core Invariants
 
@@ -199,7 +199,7 @@ In a single Fleet mesh, cross-cluster endpoint discovery aggregates endpoints by
 
 #### Decision
 
-All team namespaces are provisioned with a team-key prefix: `{name}` in the team spec becomes `{team_key}-{name}` in the cluster (e.g., `pt-kryptos-istio-test`). Pneuma is prefixed the same way — no platform-team exception.
+All team namespaces are provisioned with a team-key prefix: `{name}` in the team spec becomes `{team_key}-{name}` in the cluster (e.g., `pt-pneuma-istio-test`). Pneuma is prefixed the same way — no platform-team exception.
 
 For member teams, pneuma creates a selectorless stub `Service` on the gateway cluster in the prefixed namespace. Fleet discovery returns endpoints only from the owning team's clusters, achieving isolation through naming alone.
 
