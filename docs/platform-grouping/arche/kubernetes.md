@@ -45,6 +45,14 @@ Kubernetes add-on modules for service mesh, certificate management, policy enfor
   </div>
   <div className="col col--4 margin-bottom--lg">
     <ModuleCard
+      image="/img/agentgateway.svg"
+      title="pt-arche-kubernetes-agentgateway"
+      description="OpenTofu module that deploys the AgentGateway controller and an internal, ClusterIP-only AgentGateway proxy enrolled in Istio ambient mesh. Istio remains the public edge and Authentik enforcement point. Provides ordinary HTTP connectivity only; LLM, MCP, and A2A connectivity are not configured."
+      href="https://github.com/osinfra-io/pt-arche-kubernetes-agentgateway"
+    />
+  </div>
+  <div className="col col--4 margin-bottom--lg">
+    <ModuleCard
       image="/img/authentik.svg"
       title="pt-arche-kubernetes-authentik"
       description="OpenTofu module that deploys Authentik on GKE via Helm and configures it as the centralized gateway identity provider, providing both an OIDC identity provider for Istio RequestAuthentication and an embedded outpost for the Istio ext_authz check endpoint"
