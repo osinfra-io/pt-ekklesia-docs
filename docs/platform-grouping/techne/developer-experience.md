@@ -84,7 +84,7 @@ Once complete, stay current by running the generated update script.
 Every engineer uses the same directory layout. After authenticating the GitHub CLI (`gh auth login`), run the clone script from [pt-techne-development-setup](https://github.com/osinfra-io/pt-techne-development-setup):
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/osinfra-io/pt-techne-development-setup/main/clone-repositories.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/osinfra-io/pt-techne-development-setup/main/ubuntu/clone-repositories.sh)"
 ```
 
 The script clones every `pt-*` repository into `~/repositories/osinfra-io/platform-group/<team>/<repository>` (for example `techne/pt-techne-development-setup`), with `pt-ai-*` repositories directly under `platform-group/`. Existing clones are skipped, so it is safe to re-run.
