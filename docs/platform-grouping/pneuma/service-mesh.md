@@ -111,6 +111,27 @@ Consumer troubleshooting steps are in [Expose and Protect a Route](../../getting
 
 Auth enforcement happens at the gateway data plane, independent of workload ambient mode. See [Gateway Authentication](./gateway-authentication.md) for rendering, request flow, and ownership, and [Expose and Protect a Route](../../getting-started/expose-a-route.md#choose-an-authentication-mode) for the declaration contract.
 
+## AgentGateway
+
+AgentGateway is the platform's first internal application gateway. It is a baseline for ordinary HTTP connectivity only; LLM providers, MCP servers, A2A routing, provider credentials, inference routing, and AgentGateway-native MCP OAuth are deferred and not available.
+
+```text
+client -> shared Istio Gateway -> Authentik browser authorization -> internal AgentGateway -> workload
+```
+
+| Concern | Owner |
+|---|---|
+| Public TLS, Cloud Armor, Datadog AAP, routing, Authentik enforcement | The shared Istio ingress gateway. AgentGateway adds no load balancer, DNS name, certificate, or Cloud Armor policy. |
+| AgentGateway controller, CRDs, proxy, and `Gateway` | [`pt-arche-kubernetes-agentgateway`](../arche/kubernetes.md), consumed by Pneuma's `regional/agentgateway` workspaces on gateway clusters only. |
+| Namespace | Declared in Logos and created by Pneuma onboarding. The `agentgateway` namespace is mesh-enabled, so the proxy is enrolled in ambient Istio. |
+| Exposure | A `ClusterIP` service reachable only through Istio ingress. Mesh policy denies every other principal on the admin port. |
+
+**Deployment order:** Istio, then the AgentGateway runtime (controller and CRDs), then the manifests workspace, which waits for Authentik configuration. Teardown runs in reverse and a failed AgentGateway teardown blocks Istio removal. The admin endpoint and approvals are described in [Gateway Authentication](./gateway-authentication.md#agentgateway-admin-endpoint-sandbox-only).
+
+**Version policy:** the module pins the latest stable AgentGateway release proven against the platform's unchanged Istio version. Istio is never downgraded, and an older AgentGateway is never used as a workaround. A release that fails the local ambient compatibility gate blocks rollout until a reproducible upstream issue is filed or linked. Compatibility is exercised with the [local gateway stack skill](../arche/module-development.md#optional-local-integration-tests), which does not replace sandbox verification.
+
+**Current rollout:** sandbox only. Non-production and production are not enabled.
+
 ## End-to-End Validation
 
 The `istio-test` workspace deploys a lightweight metadata service into each team's prefixed istio-test namespace (`pt-pneuma-istio-test`, `pt-kryptos-istio-test`, etc.). A validation script checks every global and zonal endpoint, confirming the returned cluster name matches the expected team and zone.
