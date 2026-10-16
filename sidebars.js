@@ -57,6 +57,7 @@ const sidebars = {
             'platform-grouping/pneuma/certificate-management',
             'platform-grouping/pneuma/policy-enforcement',
             'platform-grouping/pneuma/observability',
+            'platform-grouping/pneuma/open-bao',
           ],
         },
         {
@@ -76,14 +77,6 @@ const sidebars = {
           link: { type: 'doc', id: 'platform-grouping/ekklesia/index' },
           items: [
             'platform-grouping/ekklesia/documentation',
-          ],
-        },
-        {
-          type: 'category',
-          label: 'Kryptos',
-          link: { type: 'doc', id: 'platform-grouping/kryptos/index' },
-          items: [
-            'platform-grouping/kryptos/open-bao',
           ],
         },
         {

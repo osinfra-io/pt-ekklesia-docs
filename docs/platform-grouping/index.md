@@ -18,7 +18,6 @@ The **platform grouping** is the set of platform teams that together provide the
   <Card item={{ icon: '☸️', title: 'Pneuma', note: 'Managed GKE runtime, service mesh, gateway authentication, certificates, policy, and telemetry.', link: '/platform-grouping/pneuma', linkText: 'Learn more →' }} />
   <Card item={{ icon: '🧱', title: 'Arche', note: 'Reusable OpenTofu modules used to implement consistent platform capabilities.', link: '/platform-grouping/arche', linkText: 'View modules →' }} />
   <Card item={{ icon: '📖', title: 'Ekklesia', note: 'Customer-facing platform documentation and contribution standards.', link: '/platform-grouping/ekklesia', linkText: 'Learn more →' }} />
-  <Card item={{ icon: '🔐', title: 'Kryptos', note: 'OpenBao runtime, secrets policy, authentication, and secret-engine lifecycle.', link: '/platform-grouping/kryptos', linkText: 'Learn more →' }} />
   <Card item={{ icon: '🛠️', title: 'Techne', note: 'Reusable workflows, hooks, development environments, agents, and platform tooling.', link: '/platform-grouping/techne', linkText: 'Learn more →' }} />
 </CardGrid>
 
@@ -28,7 +27,7 @@ Each team owns a distinct context with explicit upstream/downstream relationship
 
 ### Team dependencies
 
-The deployment supply chain is Logos → Corpus → Pneuma → Kryptos. Kryptos depends on Pneuma for runtime but exposes secrets services back to all teams. Arche, Ekklesia, and Techne are shared capabilities used across the grouping.
+The deployment supply chain is Logos → Corpus → Pneuma. Pneuma supplies runtime and platform services, including secrets, to all teams. Arche, Ekklesia, and Techne are shared capabilities used across the grouping.
 
 ```mermaid
 flowchart TD
@@ -45,14 +44,12 @@ flowchart TD
         direction LR
         Logos["🏛️ Logos"] --> Corpus["🌐 Corpus"]
         Corpus --> Pneuma["☸️ Pneuma"]
-        Pneuma --> Kryptos["🔐 Kryptos"]
     end
 
     sk ==> cs
     Ekklesia ==> AllTeams
     Techne ==> AllTeams
     Pneuma --> AllTeams
-    Kryptos --> AllTeams
 ```
 
 

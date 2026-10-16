@@ -27,7 +27,7 @@ Pneuma consumes Corpus networking and Logos team data to create managed Kubernet
 
 ## Context
 
-Pneuma consumes from Corpus (networking and project infrastructure) and Arche (team data originating in Logos). It supplies Kubernetes clusters to all teams that need one — including Kryptos, which runs OpenBao on a Pneuma-managed cluster. See [team dependencies](/platform-grouping#team-dependencies).
+Pneuma consumes from Corpus (networking and project infrastructure) and Arche (team data originating in Logos). It supplies Kubernetes clusters to all teams that need one, and runs [OpenBao](./open-bao.md) as the platform secrets service. See [team dependencies](/platform-grouping#team-dependencies).
 
 ### Glossary
 

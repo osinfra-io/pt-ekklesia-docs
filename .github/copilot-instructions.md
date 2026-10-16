@@ -38,7 +38,7 @@ section `index.md` and one folder per team beneath it:
 
 | Section slug | Topology |
 | --- | --- |
-| `platform-grouping` | Platform teams (Logos, Corpus, Pneuma, Arche, Ekklesia, Kryptos, Techne) |
+| `platform-grouping` | Platform teams (Logos, Corpus, Pneuma, Arche, Ekklesia, Techne) |
 | `stream-aligned-teams` | Stream-aligned teams |
 | `complicated-subsystem-teams` | Complicated subsystem teams |
 | `enabling-teams` | Enabling teams |
