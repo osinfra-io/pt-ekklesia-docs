@@ -37,6 +37,14 @@ Kubernetes add-on modules for service mesh, certificate management, policy enfor
   </div>
   <div className="col col--4 margin-bottom--lg">
     <ModuleCard
+      image="/img/openbao.svg"
+      title="pt-arche-kubernetes-openbao"
+      description="OpenTofu module that deploys OpenBao via Helm with high-availability Raft storage, the agent injector, and audit storage. Service type and annotations are inputs so cloud-specific exposure stays in the consuming root."
+      href="https://github.com/osinfra-io/pt-arche-kubernetes-openbao"
+    />
+  </div>
+  <div className="col col--4 margin-bottom--lg">
+    <ModuleCard
       image="/img/opa.png"
       title="pt-arche-kubernetes-opa-gatekeeper"
       description="OpenTofu module that deploys OPA Gatekeeper via Helm and manages ConstraintTemplate and Constraint resources for admission-time policy enforcement across GKE clusters"
