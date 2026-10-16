@@ -15,7 +15,7 @@ Kubernetes add-on modules for service mesh, certificate management, policy enfor
     <ModuleCard
       image="/img/istio.png"
       title="pt-arche-kubernetes-istio"
-      description="OpenTofu module that deploys the Istio service mesh on GKE using Helm charts with optional ingress gateway, Cloud Armor WAF with adaptive protection and rate limiting, and cert-manager integration for ingress gateway TLS"
+      description="OpenTofu module that deploys the Istio service mesh on GKE using Helm charts with optional ingress gateway and cert-manager integration for ingress gateway TLS. Gateway ingress references shared Cloud Armor and SSL policies managed by the Pneuma main workspace."
       href="https://github.com/osinfra-io/pt-arche-kubernetes-istio"
     />
   </div>

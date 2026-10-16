@@ -7,7 +7,7 @@ sidebar_label: Service Mesh
 Istio runs on every GKE cluster as a single multi-cluster ambient mesh via GKE Fleet. It provides workload identity and mTLS via `ztunnel`, L4 policy enforcement in the data plane, centralized [gateway authentication](./gateway-authentication.md), and an ingress gateway backed by Cloud Armor WAF and Datadog AAP. Ingress uses the vendor-neutral [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
 
 - **Ambient data plane**: `ztunnel` runs on each node and establishes identity-based mTLS and L4 policy enforcement without per-pod sidecars.
-- **Ingress gateway**: External traffic enters exclusively through pneuma's dedicated Gateway API Envoy data plane, backed by MCI global load balancer, Cloud Armor WAF, Datadog AAP, and Authentik external authorization.
+- **Ingress gateway**: External traffic to mesh workloads enters exclusively through pneuma's dedicated Gateway API Envoy data plane, backed by MCI global load balancer, Cloud Armor WAF, Datadog AAP, and Authentik external authorization. [OpenBao](./open-bao.md#ingress) is outside the mesh and has separate ingress endpoints.
 - **Routing and auth**: Teams request routes and auth policy through the Nomos Agent, which records them in Logos; pneuma renders `HTTPRoute`s and gateway policies for namespaces enrolled in the ambient mesh.
 - **Waypoint-on-demand**: Advanced L7 routing, traffic shaping, and richer observability require a waypoint; workloads stay ambient by default without always-on proxies.
 - **cert-manager**: `cert-manager-istio-csr` signs workload identities requested by `ztunnel` for mTLS across the mesh.
@@ -27,7 +27,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 | `waypoint` | Optional L7 proxy provisioned on demand when a namespace or service needs advanced routing, policy, or observability beyond ambient L4 functionality |
 | `gateway` | Gateway API `Gateway` (gatewayClassName `istio`) on pneuma clusters only. The dedicated Envoy data plane terminates external traffic and is separate from ambient workload mode |
 | `gateway-auth` | Istio `RequestAuthentication` and `AuthorizationPolicy` resources on the gateway data plane. See [Gateway Authentication](./gateway-authentication.md) |
-| `waf-policy` | Cloud Armor security policy on the ingress gateway (OWASP rules, rate limiting, adaptive DDoS) |
+| `pneuma-ingress` policies | Shared Cloud Armor security policy (OWASP rules, rate limiting, adaptive DDoS) and SSL policy, both managed by the Pneuma main workspace |
 | `http-route` | Gateway API `HTTPRoute` per team host, co-located with the backend `Service` in the team's namespace |
 | `destination-rule` | Ambient traffic policy configuration for cross-cluster routing and service selection when a waypoint or explicit policy is needed |
 | `peer-authentication` | Mesh-wide mTLS enforcement at the ambient dataplane boundary |
@@ -47,7 +47,7 @@ Each cluster runs its own `istiod` control plane and has `ztunnel` deployed on t
 
 ### DNS and Ingress Routing
 
-All external DNS points to pneuma's gateway IPs:
+External DNS for mesh routes points to pneuma's gateway IPs:
 
 | Record | Target |
 |---|---|
@@ -55,6 +55,12 @@ All external DNS points to pneuma's gateway IPs:
 | `{zone}.{team}.{env}.osinfra.io` | Zonal load balancer in that zone |
 
 Traffic to a member team's host (for example `{team}.sb.osinfra.io`) enters pneuma's gateway, matches the `HTTPRoute` for that host, and forwards across the mesh to the team's cluster. Member clusters have no public IP.
+
+### Shared Ingress Policies
+
+The Pneuma main workspace owns the Cloud Armor security policy and the SSL policy, both named `pneuma-ingress`. These are shared ingress infrastructure, not resources owned by the Arche Istio module.
+
+The Istio gateway and [OpenBao](./open-bao.md#ingress) use separate, service-specific `BackendConfig` resources that reference the shared Cloud Armor security policy. Their ingress `FrontendConfig` resources reference the shared SSL policy. Sharing these policies does not share backend configuration or route OpenBao traffic through Istio.
 
 ### Cross-Cluster Routing
 
