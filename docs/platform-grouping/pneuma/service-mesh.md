@@ -134,7 +134,7 @@ client -> shared Istio Gateway -> Authentik browser authorization -> internal Ag
 
 **Deployment order:** Istio, then the AgentGateway runtime (controller and CRDs), then the manifests workspace, which waits for Authentik configuration. Teardown runs in reverse and a failed AgentGateway teardown blocks Istio removal. The admin endpoint and approvals are described in [Gateway Authentication](./gateway-authentication.md#agentgateway-admin-endpoint-sandbox-only).
 
-**Version policy:** the module pins the latest stable AgentGateway release proven against the platform's unchanged Istio version. Istio is never downgraded, and an older AgentGateway is never used as a workaround. A release that fails the local ambient compatibility gate blocks rollout until a reproducible upstream issue is filed or linked. Compatibility is exercised with the [test-pneuma-stack skill](../arche/module-development.md#optional-local-integration-tests), which does not replace sandbox verification.
+**Version policy:** the module pins the latest stable AgentGateway release proven against the platform's unchanged Istio version. Istio is never downgraded, and an older AgentGateway is never used as a workaround. A release that fails the local ambient compatibility gate blocks rollout until a reproducible upstream issue is filed or linked. Compatibility is exercised with the [test-local-integration skill](../arche/module-development.md#optional-local-integration-tests), which does not replace sandbox verification.
 
 **Current rollout:** sandbox only. Non-production and production are not enabled.
 
