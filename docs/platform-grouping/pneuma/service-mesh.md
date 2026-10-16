@@ -27,7 +27,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 | `waypoint` | Optional L7 proxy provisioned on demand when a namespace or service needs advanced routing, policy, or observability beyond ambient L4 functionality |
 | `gateway` | Gateway API `Gateway` (gatewayClassName `istio`) on pneuma clusters only. The dedicated Envoy data plane terminates external traffic and is separate from ambient workload mode |
 | `gateway-auth` | Istio `RequestAuthentication` and `AuthorizationPolicy` resources on the gateway data plane. See [Gateway Authentication](./gateway-authentication.md) |
-| `pneuma-ingress` policies | Shared Cloud Armor security policy (OWASP rules, rate limiting, adaptive DDoS) and SSL policy, both managed by the Pneuma main workspace |
+| `shared-ingress` policies | Shared Cloud Armor security policy (OWASP rules, rate limiting, adaptive DDoS) and SSL policy, both managed by the Pneuma main workspace |
 | `http-route` | Gateway API `HTTPRoute` per team host, co-located with the backend `Service` in the team's namespace |
 | `destination-rule` | Ambient traffic policy configuration for cross-cluster routing and service selection when a waypoint or explicit policy is needed |
 | `peer-authentication` | Mesh-wide mTLS enforcement at the ambient dataplane boundary |
@@ -58,7 +58,7 @@ Traffic to a member team's host (for example `{team}.sb.osinfra.io`) enters pneu
 
 ### Shared Ingress Policies
 
-The Pneuma main workspace owns the Cloud Armor security policy and the SSL policy, both named `pneuma-ingress`. These are shared ingress infrastructure, not resources owned by the Arche Istio module.
+The Pneuma main workspace owns the Cloud Armor security policy and the SSL policy, both named `shared-ingress`. These are shared ingress infrastructure, not resources owned by the Arche Istio module.
 
 The Istio gateway and [OpenBao](./open-bao.md#ingress) use separate, service-specific `BackendConfig` resources that reference the shared Cloud Armor security policy. Their ingress `FrontendConfig` resources reference the shared SSL policy. Sharing these policies does not share backend configuration or route OpenBao traffic through Istio.
 
