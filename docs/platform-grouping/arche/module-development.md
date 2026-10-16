@@ -138,7 +138,7 @@ The `helpers.tofu` in the skeleton is pre-pinned to the current `pt-arche-core-h
 For complex application configuration changes, developers can choose to exercise Authentik, Istio, and agentgateway together before pushing to sandbox:
 
 ```none
-/platform-grouping:test-local-gateway-stack
+/platform-grouping:test-pneuma-stack
 ```
 
 The [platform-grouping plugin](https://github.com/osinfra-io/pt-ai-plugins/tree/main/plugins/platform-grouping) owns the setup and verification runbook. Participating repositories keep component fixtures under `tests/kubernetes/`, with directly runnable `setup.sh`, `verify.sh`, and `teardown.sh` entry points. Fixtures use checked-out modules so local edits are exercised; generated state and credentials stay in ignored `.work/` directories. Do not maintain parallel Docker Compose fixtures. This workflow is opt-in, not a mandatory pre-push or CI gate, and remains separate from mocked OpenTofu tests.
