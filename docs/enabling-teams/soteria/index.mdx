@@ -1,0 +1,58 @@
+---
+sidebar_label: Soteria
+description: The keeper of safety and preservation — embedding security practices, threat modeling, and compliance into the flow of every team.
+---
+
+import Card from '@site/src/components/Card';
+import CardGrid from '@site/src/components/CardGrid';
+import Leader from '@site/src/components/Leader';
+
+# Soteria
+
+The keeper of safety and preservation — embedding security practices, threat modeling, and compliance controls into the flow of every team rather than treating security as a gate.
+
+## Security leadership
+
+Soteria is led by the platform's founder, who is accountable for the security of everything osinfra.io publishes and operates.
+
+<Leader person={{
+  name: 'Brett Curtis',
+  avatar: 'https://github.com/brettcurtis.png?size=192',
+  role: 'Founder & Security Lead, osinfra.io',
+  bio: 'Taking a 🔨 to the foundations of Infrastructure as Code. Accountable for platform security architecture, vulnerability response, and security testing across every osinfra-io repository.',
+  links: [
+    { label: 'GitHub', href: 'https://github.com/brettcurtis' },
+    { label: 'osinfra-io organization', href: 'https://github.com/osinfra-io' },
+    { label: 'osinfra.io', href: 'https://osinfra.io' },
+  ],
+}} />
+
+## What Soteria owns
+
+<CardGrid>
+  <Card item={{ icon: '🔐', title: 'Secure by default', note: 'CIS-aligned GCP projects, workload identity federation instead of long-lived keys, encrypted state, and OPA Gatekeeper policy enforcement on every cluster.' }} />
+  <Card item={{ icon: '📌', title: 'Supply-chain integrity', note: 'Every module source and GitHub Action is pinned to a full commit SHA, with Dependabot and pre-commit security hooks keeping dependencies current.' }} />
+  <Card item={{ icon: '🕸️', title: 'Zero-trust networking', note: 'Istio ambient service mesh, mutual TLS, gateway authentication with Authentik, and secrets management with OpenBao.' }} />
+  <Card item={{ icon: '🧪', title: 'Security testing', note: 'End-to-end testing of the platform and the third-party components it integrates, performed only against systems osinfra-io owns and operates.' }} />
+</CardGrid>
+
+## Defensive and offensive functions
+
+Soteria combines defensive engineering with offensive testing so that controls are validated by attempting to break them. All activity targets only systems osinfra-io owns and operates.
+
+<CardGrid>
+  <Card item={{ icon: '🛡️', title: 'Blue team — defense', note: 'Designs and maintains preventive and detective controls: IAM and least privilege, policy enforcement, secrets management, hardened pipelines, monitoring and alerting, and incident response.' }} />
+  <Card item={{ icon: '⚔️', title: 'Red team — offense', note: 'Emulates realistic adversaries against our own deployments: attack-path analysis, privilege escalation and lateral-movement testing, and attempts to bypass mesh, gateway, and policy controls.' }} />
+  <Card item={{ icon: '🔍', title: 'Vulnerability research', note: 'Reviews code, OpenTofu, Kubernetes, and CI/CD configuration for misconfigurations and weaknesses, then triages findings by severity and exploitability.' }} />
+  <Card item={{ icon: '🤝', title: 'Purple teaming', note: 'Feeds every offensive finding back into detections, guardrails, and documentation, so each test leaves the platform measurably harder to attack.' }} />
+</CardGrid>
+
+Offensive work follows defined rules of engagement: it runs only against our own GitHub organization and GCP environments, never against third-party or shared systems, and every finding is fixed and disclosed through the process below.
+
+## Vulnerability disclosure
+
+Every repository publishes a [security policy](https://github.com/osinfra-io/pt-ekklesia-docs/blob/main/SECURITY.md). Report vulnerabilities privately by drafting a GitHub security advisory in the affected repository; Soteria triages, fixes, and publishes the outcome.
+
+## Scope
+
+osinfra.io is an open-source reference implementation, so its code, configuration, and architecture are public by design. Security testing covers only the systems the osinfra-io organization owns and operates: its GitHub organization and its own GCP environments. Third-party platforms are tested only within our own deployments of them.

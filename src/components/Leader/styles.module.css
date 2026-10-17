@@ -1,0 +1,49 @@
+.leader {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background-color: var(--ifm-background-surface-color);
+  border-radius: var(--ifm-card-border-radius);
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 180, 0, 0.6);
+}
+
+.name {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--ifm-heading-color);
+}
+
+.role {
+  margin: 0.25rem 0 0.5rem;
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+}
+
+.bio {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .leader {
+    flex-direction: column;
+    text-align: center;
+  }
+}
