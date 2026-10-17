@@ -11,6 +11,7 @@
   flex-shrink: 0;
   width: 6rem;
   height: 6rem;
+  object-fit: cover;
   border-radius: 50%;
   border: 3px solid rgba(255, 180, 0, 0.6);
 }
