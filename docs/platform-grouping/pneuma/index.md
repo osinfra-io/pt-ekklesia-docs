@@ -25,6 +25,12 @@ Pneuma consumes Corpus networking and Logos team data to create managed Kubernet
 
 - **[pt-pneuma-ai-context](https://github.com/osinfra-io/pt-pneuma-ai-context)**: Team-level Copilot instructions for `pt-pneuma-*` repositories
 
+:::tip Architecture Decision Records
+
+This page includes [Architecture Decision Records](#architecture-decision-records) documenting the key design decisions.
+
+:::
+
 ## Context
 
 Pneuma consumes from Corpus (networking and project infrastructure) and Arche (team data originating in Logos). It supplies Kubernetes clusters to all teams that need one, and runs [OpenBao](./open-bao.md) as the platform secrets service. See [team dependencies](/platform-grouping#team-dependencies).
@@ -49,9 +55,10 @@ Pneuma consumes from Corpus (networking and project infrastructure) and Arche (t
 
 Pneuma is the most cognitively demanding platform team. It operates four domains of high inherent complexity simultaneously — Kubernetes clusters, an Istio service mesh, gateway authentication/authorization, and a full PKI chain for workload certificates — alongside policy enforcement and observability. This is by design: these domains are inseparable at the cluster layer, and Arche modules carry the implementation weight so Pneuma engineers focus on orchestration and configuration rather than raw tooling.
 
-| Working Domains | High Intrinsic Domains |
-|---|---|
-| 🔴 6 / 4 | 🔴 4 / 3 |
+| Score | Working Domains | High Intrinsic Domains |
+|---|---|---|
+| Current | 🔴 6 / 4 | 🔴 4 / 3 |
+| Target | ≤4 / 4 | ≤3 / 3 |
 
 Cognitive load by domain:
 
@@ -64,7 +71,7 @@ Cognitive load by domain:
 | Policy Enforcement | 🟡 Medium | Arche OPA module | Rego, constraint authoring |
 | Observability | 🟡 Medium | Arche Datadog module | Cluster metrics & traces |
 
-**Capacity**: 4 high-complexity domains — above the Team Topologies guideline of 2–3; team members hold 6 active domains — above the ~4 working-knowledge limit. Arche Kubernetes modules are the primary mitigation: all Helm-based add-on deployment is encapsulated, leaving Pneuma to own configuration and integration rather than implementation.
+**Capacity**: Current score is 4 high-complexity domains — above the Team Topologies guideline of 2–3 — and 6 active domains, above the ~4 working-knowledge limit. The target is no more than 3 high-intrinsic and 4 working domains. Arche Kubernetes modules are the primary mitigation: all Helm-based add-on deployment is encapsulated, leaving Pneuma to own configuration and integration rather than implementation. Module coverage reduces implementation toil but does not by itself justify lowering either score.
 
 **Extraneous load is minimized by:**
 
@@ -118,6 +125,15 @@ The six domains — Cluster Management, Service Mesh, Gateway Authentication, Ce
    - Incident rate or on-call burden increases in a pattern consistent with cognitive overload
    - The team drops below minimum headcount (fewer than 2 active engineers)
    - A stream-aligned team reports consistent delays in namespace provisioning or cluster support
+
+5. **Set a measurable target and review progress quarterly.** Reduce the score to no more than 4 working domains and 3 high-intrinsic domains. Review the score and progress every quarter, and whenever any trigger above occurs. Reassess domain boundaries and ownership as well as automation and Arche coverage; do not lower a score solely because implementation has been encapsulated. Keep the current 🔴 score until evidence supports a change.
+
+6. **Track the mitigation as prioritized work under [pt-pneuma#225](https://github.com/osinfra-io/pt-pneuma/issues/225):**
+   - **P1:** [Inventory Pneuma extraneous-load reduction opportunities](https://github.com/osinfra-io/pt-pneuma/issues/249)
+   - **P2:** [Agree a credible path to Pneuma cognitive-load targets](https://github.com/osinfra-io/pt-pneuma/issues/250) — depends on the P1 inventory
+   - **P3:** [Deliver the highest-value Pneuma load reduction](https://github.com/osinfra-io/pt-pneuma/issues/251) — follows the target decision
+
+   Initial candidates for the P1 audit are the repeated zone/service job definitions across environment workflows (any generation must preserve cross-zone `needs` dependencies) and the provider-specific OpenBao ingress, certificate, DNS, and multi-cluster resources maintained in Pneuma rather than Arche. The existing OpenBao Arche module intentionally leaves cloud-specific exposure to consumers, so further abstraction should proceed only if the audit demonstrates a reusable boundary and meaningful load reduction.
 
 #### Alternatives Considered
 
