@@ -85,13 +85,13 @@ Enforced routes do not fail open. Configuration with an unknown or incomplete au
 
 Pneuma owners configure a separate Google OAuth **Web application** client for each environment. Set the Google Auth Platform audience to **Internal** in the platform's Google Workspace organization. Follow the [Authentik Google OAuth setup](https://docs.goauthentik.io/users-sources/sources/social-logins/google/cloud/) and register the exact authorized redirect URI, including the trailing slash:
 
-| Environment | Authorized redirect URI | Repository Actions secret |
-|---|---|---|
-| Sandbox | `https://authentik.sb.osinfra.io/source/oauth/callback/google/` | `GOOGLE_OAUTH_CLIENT_SECRET_SB` |
-| Non-production | `https://authentik.nonprod.osinfra.io/source/oauth/callback/google/` | `GOOGLE_OAUTH_CLIENT_SECRET_NONPROD` |
-| Production | `https://authentik.osinfra.io/source/oauth/callback/google/` | `GOOGLE_OAUTH_CLIENT_SECRET_PROD` |
+| Environment | Authorized redirect URI |
+|---|---|
+| Sandbox | `https://authentik.sb.osinfra.io/source/oauth/callback/google/` |
+| Non-production | `https://authentik.nonprod.osinfra.io/source/oauth/callback/google/` |
+| Production | `https://authentik.osinfra.io/source/oauth/callback/google/` |
 
-Set each non-sensitive `google_oauth_client_id` in the matching `pt-pneuma/regional/authentik-config/environments/{sandbox,non-production,production}.tfvars` file. Store its matching client secret directly in the `pt-pneuma` repository's Actions secrets using the name above, never in source control, chat, or deployment output. Each workflow passes that secret to the Authentik Config workspace. Keep the client ID, secret, and callback URI paired with the same environment when rotating credentials.
+Set each non-sensitive `google_oauth_client_id` in the matching `pt-pneuma/regional/authentik-config/environments/{sandbox,non-production,production}.tfvars` file. Keep the client ID, secret, and callback URI paired with the same environment when rotating credentials.
 
 The Google source is enabled only when both its client ID and secret are non-empty. Managed application groups require that source to be enabled. An Internal audience controls who can sign in with Google; it does not grant application access or replace group-based authorization.
 
