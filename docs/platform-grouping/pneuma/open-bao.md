@@ -6,6 +6,10 @@ sidebar_label: OpenBao
 
 OpenBao is the platform secrets service. Pneuma deploys the OpenBao Helm release into the `pt-pneuma-openbao` namespace on its GKE clusters in every active zone.
 
+Each deployment runs one OpenBao server replica with persistent Raft storage in every environment, including production. Raft mode remains enabled, but a single replica provides no server-level failover: pod restarts, node maintenance, and storage unavailability interrupt that deployment. Separate deployments do not automatically replicate their Raft data.
+
+Before reducing an existing multi-member Raft cluster to one replica, back up its data and remove the retiring voters through the supported Raft peer-removal procedure while quorum is available. Changing the Helm replica count alone does not change Raft membership. Reusing PVCs after a Helm uninstall also preserves that membership; do not delete storage or reinitialize OpenBao as a scaling shortcut.
+
 ## Current service
 
 | Pneuma owns | Consumers own |
