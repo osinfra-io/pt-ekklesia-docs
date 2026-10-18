@@ -34,6 +34,8 @@ OpenBao unseals itself with a Cloud KMS key, so pods that restart (node upgrades
 
 A new cluster still needs a one-time `bao operator init`; the output is recovery keys rather than unseal keys. An existing cluster initialized with Shamir keys must be migrated once, node by node, following the OpenBao [seal migration procedure](https://openbao.org/docs/concepts/seal/): back up first, then for each standby in turn update its seal configuration, restart it, and submit the threshold number of Shamir shares with `bao operator unseal -migrate`; once all standbys are migrated, step down the active node, let a migrated standby take over, allow the migration to replicate, and migrate the former active node last.
 
+The service account also requires `roles/cloudkms.viewer`, scoped to the unseal key, for the `cloudkms.cryptoKeys.get` metadata lookup during [seal initialization](https://openbao.org/docs/configuration/seal/gcpckms/#authentication--permissions). The encrypt/decrypt role alone does not include this permission. If OpenBao crash-loops with `IAM_PERMISSION_DENIED` for `cloudkms.cryptoKeys.get`, apply the main workspace's key-level IAM bindings and allow IAM propagation; crash-looping pods retry automatically. Do not recreate the key or reinitialize existing OpenBao storage to resolve this error.
+
 ## Requesting access or a capability
 
 Provide the workload identity, environment, required secret type, expected rotation or lease behavior, and the minimum paths or operations needed. Pneuma reviews the request and implements the policy or engine as code.
