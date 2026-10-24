@@ -14,9 +14,51 @@ Before reducing an existing multi-member Raft cluster to one replica, back up it
 
 | Pneuma owns | Consumers own |
 | --- | --- |
-| GKE clusters, cluster add-ons, OpenBao release, configuration, authentication methods, policies, and secret-engine lifecycle | Workload identities and requests for approved secret or policy paths |
+| GKE clusters, cluster add-ons, OpenBao release, OIDC configuration, team policies, and secret-engine lifecycle | Workload identities and requests for approved secret or policy paths |
 
-The current implementation establishes the OpenBao runtime. Kubernetes authentication, PKI, KV, database engines, and consumer-specific policies are added only when their lifecycle and ownership model are defined.
+OpenBao provides Google-backed Authentik OIDC login and a KV v2 engine for Pneuma team secrets. Consumers must use the supported endpoint and approved team paths; they must not assume that data or authentication is replicated between zonal OpenBao installations.
+
+## Supported endpoint and data scope
+
+The global endpoint routes only to the `us-east1-b` OpenBao instance:
+
+| Environment | Endpoint |
+| --- | --- |
+| Sandbox | `openbao.sb.osinfra.io` |
+| Non-production | `openbao.nonprod.osinfra.io` |
+| Production | `openbao.osinfra.io` |
+
+OpenBao is deployed in multiple zones, but each installation has independent Raft data. The supported global hostname is deliberately backed only by `us-east1-b`; there is no cross-zone data replication. Use the environment's endpoint for all supported logins and secret access.
+
+## Google-backed login and team access
+
+OpenBao authenticates users through the dedicated Authentik OIDC provider, with Google as Authentik's upstream identity source. Authentik's `groups` claim maps membership to team-scoped policies. Team membership is managed per environment through the existing Logos/Nomos onboarding process.
+
+The `team-kv` KV v2 mount scopes policies by the stable team key. The three group keys are:
+
+| Group | Capabilities |
+| --- | --- |
+| `openbao-secret-readers` | Read secret values and list paths under the team's prefix; no writes |
+| `openbao-secret-writers` | Create and update secrets under the team's prefix; no delete, undelete, destroy, or metadata deletion |
+| `openbao-secret-admins` | Manage secret data, metadata, and versions under the team's prefix; no OpenBao system or mount administration |
+
+For example, Pneuma's team prefix is `pt-pneuma`; use the KV path `team-kv/pt-pneuma/<secret-name>`. Policies are enforced against the KV v2 API paths and do not grant access to another team's prefix. OIDC tokens have a maximum lifetime of one hour. Removing a user from a group prevents future logins from receiving that group's policy, but does not revoke an already-issued token; it expires within the configured maximum lifetime.
+
+Set `BAO_ADDR` to the endpoint for the environment. The UI offers OIDC login, and a browser-enabled CLI can authenticate with:
+
+```bash
+BAO_ADDR=https://openbao.sb.osinfra.io bao login -method=oidc -path=oidc role=default
+```
+
+Replace the sandbox endpoint with the non-production or production endpoint when appropriate.
+
+## GitHub Actions operator bootstrap
+
+Before the first `openbao-config` deployment in each environment, an OpenBao operator must bootstrap the GitHub Actions JWT auth mount and roles through a trusted administrative session. This is a one-time setup per environment; the OpenBao configuration workspace does not create its own credentials.
+
+Configure the `github-actions` JWT auth mount to trust GitHub's issuer and JWKS endpoint (`https://token.actions.githubusercontent.com`). Create distinct `pt-pneuma-openbao-plan` and `pt-pneuma-openbao-apply` roles with the `pt-pneuma-openbao` audience. Bind the plan role to the Pneuma repository/ref and grant only the read capabilities required to plan the configuration workspace. Bind the apply role to the matching protected GitHub deployment environment and grant only the configuration capabilities required by that workspace. Review the exact repository, refs, and environment claims against the workflow before enabling the roles.
+
+The reusable workflow exchanges a job-scoped GitHub OIDC token for an OpenBao token and passes the masked token only to the corresponding OpenTofu process. Do not store an OpenBao root token or long-lived OpenBao token in GitHub. Apply continues to use the existing protected `OpenBao: us-east1-b` environment gate; an operator must not bypass or approve that gate as part of bootstrap.
 
 ## Ingress
 
