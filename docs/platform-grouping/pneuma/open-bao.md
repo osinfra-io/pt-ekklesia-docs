@@ -56,6 +56,18 @@ Replace the sandbox endpoint with the non-production or production endpoint when
 
 Before the first `openbao-config` deployment in each environment, an OpenBao operator must bootstrap the GitHub Actions JWT auth mount and roles through a trusted administrative session. This is a one-time setup per environment; the OpenBao configuration workspace does not create its own credentials.
 
+From the `pt-pneuma` repository root, use the checked-in bootstrap script with `bao`, `jq`, and an existing administrative login:
+
+```bash
+export BAO_ADDR=https://openbao.sb.osinfra.io
+bao login -no-print
+bash scripts/bootstrap/openbao-github-actions.sh sandbox 266
+```
+
+Replace `266` with the sandbox PR number. The script configures the mount, policies, and roles without running workflows or approving gates. Rerunning it updates the configuration and replaces the previously allowed sandbox PR. It refuses a `BAO_ADDR` that differs from the selected environment or an existing non-JWT mount at `github-actions/`. It assumes GitHub's default OIDC subject format.
+
+For the other environments, log into their OpenBao endpoint and run `bash scripts/bootstrap/openbao-github-actions.sh non-production` or `bash scripts/bootstrap/openbao-github-actions.sh production`. Those roles accept main-branch push and manual-dispatch runs; sandbox accepts only the selected PR-triggered run. The apply policy is privileged configuration administration, not team secret access, and currently manages the `pt-pneuma-openbao-*` policies. Extend that policy scope deliberately when onboarding another team.
+
 Configure the `github-actions` JWT auth mount to trust GitHub's issuer and JWKS endpoint (`https://token.actions.githubusercontent.com`). Create distinct `pt-pneuma-openbao-plan` and `pt-pneuma-openbao-apply` roles with the `pt-pneuma-openbao` audience. Bind the plan role to the Pneuma repository/ref and grant only the read capabilities required to plan the configuration workspace. Bind the apply role to the matching protected GitHub deployment environment and grant only the configuration capabilities required by that workspace. Review the exact repository, refs, and environment claims against the workflow before enabling the roles.
 
 The reusable workflow uses `hashicorp/vault-action` to exchange a job-scoped GitHub OIDC token for an OpenBao token. OpenBao maintains compatibility with Vault API clients; see the [OpenBao discussion](https://github.com/orgs/openbao/discussions/2310). The action masks the token and returns it as a step output, passed only to the corresponding OpenTofu step rather than a job output or job-wide environment variable. Do not store an OpenBao root token or long-lived OpenBao token in GitHub. Apply continues to use the existing protected `OpenBao: us-east1-b` environment gate; an operator must not bypass or approve that gate as part of bootstrap.
