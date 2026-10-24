@@ -54,7 +54,7 @@ Replace the sandbox endpoint with the non-production or production endpoint when
 
 ## GitHub Actions operator bootstrap
 
-Before the first `openbao-config` deployment in each environment, an OpenBao operator must bootstrap the GitHub Actions JWT auth mount and roles through a trusted administrative session. This is a one-time setup per environment; the OpenBao configuration workspace does not create its own credentials.
+Before the first `openbao-config` deployment in each environment, an OpenBao operator must bootstrap the GitHub Actions JWT auth mount, policies, and roles through a trusted administrative session. The workspace then adopts all five resources with configuration-driven `import` blocks and manages them declaratively. Leave the import blocks in place; subsequent runs do not reimport resources already in state.
 
 From the `pt-pneuma` repository root, use the checked-in bootstrap script with `bao`, `jq`, and an existing administrative login:
 
@@ -64,7 +64,9 @@ bao login -no-print
 bash scripts/bootstrap/openbao-github-actions.sh sandbox
 ```
 
-The script configures the mount, policies, and roles without running workflows or approving gates. Sandbox roles accept Pneuma PR runs using `refs/pull/*/merge`; bootstrap is not required for each PR. Apply still requires the protected environment gate. Rerunning the script updates the configuration. It refuses a `BAO_ADDR` that differs from the selected environment or an existing non-JWT mount at `github-actions/`. It assumes GitHub's default OIDC subject format.
+The script configures the mount, policies, and roles without running workflows or approving gates. Sandbox roles accept Pneuma PR runs using `refs/pull/*/merge`; bootstrap is not required for each PR. Apply still requires the protected environment gate. The script and workspace read the same policy files from `regional/openbao-config/policies/`. It refuses a `BAO_ADDR` that differs from the selected environment or an existing non-JWT mount at `github-actions/`. It assumes GitHub's default OIDC subject format.
+
+If the environment was bootstrapped before these imports were added, rerun the updated script once before the first importing plan. This grants the plan role read access to the GitHub JWT configuration and grants the apply role permission to manage it. After adoption, make routine changes in `openbao-config`; retain the script for new installations and administrative recovery. An approved apply can change its own future authentication and permissions, controlled by GitHub review and protected environment approvals.
 
 For the other environments, log into their OpenBao endpoint and run `bash scripts/bootstrap/openbao-github-actions.sh non-production` or `bash scripts/bootstrap/openbao-github-actions.sh production`. Those roles accept main-branch push and manual-dispatch runs; sandbox accepts PR-triggered runs. The apply policy is privileged configuration administration, not team secret access, and currently manages the `pt-pneuma-openbao-*` policies. Extend that policy scope deliberately when onboarding another team.
 
