@@ -34,6 +34,10 @@ OpenBao is deployed in multiple zones, but each installation has independent Raf
 
 OpenBao authenticates users through the dedicated Authentik OIDC provider, with Google as Authentik's upstream identity source. Authentik's `groups` claim maps membership to team-scoped policies. Team membership is managed per environment through the existing Logos/Nomos onboarding process.
 
+Logos team declarations are the source of truth for OpenBao onboarding. A declared OpenBao group is registered by Nomos Helpers whether its membership list is empty or populated, and whether or not that team has GKE clusters or projects. Empty membership is therefore a valid onboarding state: it creates the declared team-policy inputs without granting access to any user.
+
+Membership changes flow from Logos through Nomos Helpers and then through Pneuma reconciliation. The declared membership in Logos and the live access currently applied in OpenBao are separate states; an update is not effective until the corresponding Pneuma reconciliation has completed. Plan is read-only and may read only team-key prefixes beginning with `pt-`, `st-`, `ct-`, or `et-`. A protected apply manages only the exact OpenBao policy names declared from those groups, rather than granting general write access to every team's secrets.
+
 The `kv2` KV v2 mount scopes policies by the stable team key. The three group keys are:
 
 | Group | Capabilities |
@@ -76,7 +80,9 @@ The script configures the mount, policies, and roles without running workflows o
 
 If the environment was bootstrapped before these imports were added, rerun the updated script once before the first importing plan. This grants the plan role read access to the GitHub JWT configuration and grants the apply role permission to manage it. After adoption, make routine changes in `openbao-config`; retain the script for new installations and administrative recovery. An approved apply can change its own future authentication and permissions, controlled by GitHub review and protected environment approvals.
 
-For the other environments, log into their OpenBao endpoint and run `bash scripts/bootstrap/openbao-github-actions.sh non-production` or `bash scripts/bootstrap/openbao-github-actions.sh production`. Those roles accept main-branch push and manual-dispatch runs; sandbox accepts PR-triggered runs. The apply policy is privileged configuration administration, not team secret access, and currently manages the `pt-pneuma-openbao-*` policies. Extend that policy scope deliberately when onboarding another team.
+For the other environments, log into their OpenBao endpoint and run `bash scripts/bootstrap/openbao-github-actions.sh non-production` or `bash scripts/bootstrap/openbao-github-actions.sh production`. Those roles accept main-branch push and manual-dispatch runs; sandbox accepts PR-triggered runs. The apply policy is privileged configuration administration, not team secret access. Bootstrap does not by itself grant automatic write access to every team's policies or secrets: protected applies manage the exact declared OpenBao policy names derived from the Logos groups. When a team is added or its groups change, let the Logos/Nomos declaration and subsequent Pneuma reconciliation establish the required policy scope.
+
+OpenBao ACL authorization remains in force until the team-policy and group cleanup has run. Removing a declaration or membership from Logos therefore does not make already-applied authorization disappear immediately; verify that Pneuma reconciliation has removed the corresponding OpenBao policies and group bindings before treating access as gone.
 
 Configure the `github-actions` JWT auth mount to trust GitHub's issuer and JWKS endpoint (`https://token.actions.githubusercontent.com`). Create distinct `pt-pneuma-openbao-plan` and `pt-pneuma-openbao-apply` roles with the `pt-pneuma-openbao` audience. Bind the plan role to the Pneuma repository/ref and grant only the read capabilities required to plan the configuration workspace. Bind the apply role to the matching protected GitHub deployment environment and grant only the configuration capabilities required by that workspace. Review the exact repository, refs, and environment claims against the workflow before enabling the roles.
 
