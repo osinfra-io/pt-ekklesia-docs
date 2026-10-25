@@ -22,7 +22,7 @@ Reusable GitHub Actions called workflows that standardize OpenTofu deployments a
 
 **Key rule:** All OpenTofu state lives in GitHub Actions. Local `tofu apply` against remote state is not permitted.
 
-The `plan-and-apply.yml` workflow accepts extra variables through `opentofu_var_json`. Each top-level key becomes `TF_VAR_<key>`: strings are passed without JSON quotes, while other values remain JSON-encoded so OpenTofu can parse structured types.
+The `plan-and-apply.yml` workflow accepts extra variables through `opentofu_var_json`. Each top-level key becomes `TF_VAR_<key>`: strings are passed without JSON quotes, while other values remain JSON-encoded so OpenTofu can parse structured types. GitHub's multiline environment-file format preserves multiline strings, such as PEM certificates, without interpreting embedded lines as separate environment variables.
 
 ## Core Invariants
 
