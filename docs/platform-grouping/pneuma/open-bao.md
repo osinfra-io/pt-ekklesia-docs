@@ -34,7 +34,7 @@ OpenBao is deployed in multiple zones, but each installation has independent Raf
 
 OpenBao authenticates users through the dedicated Authentik OIDC provider, with Google as Authentik's upstream identity source. Authentik's `groups` claim maps membership to team-scoped policies. Team membership is managed per environment through the existing Logos/Nomos onboarding process.
 
-The `team-kv` KV v2 mount scopes policies by the stable team key. The three group keys are:
+The `team-kv2` KV v2 mount scopes policies by the stable team key. The three group keys are:
 
 | Group | Capabilities |
 | --- | --- |
@@ -42,7 +42,7 @@ The `team-kv` KV v2 mount scopes policies by the stable team key. The three grou
 | `openbao-secret-writers` | Create and update secrets under the team's prefix; no delete, undelete, destroy, or metadata deletion |
 | `openbao-secret-admins` | Manage secret data, metadata, and versions under the team's prefix; no OpenBao system or mount administration |
 
-For example, Pneuma's team prefix is `pt-pneuma`; use the KV path `team-kv/pt-pneuma/<secret-name>`. Policies are enforced against the KV v2 API paths and do not grant access to another team's prefix. OIDC tokens have a maximum lifetime of one hour. Removing a user from a group prevents future logins from receiving that group's policy, but does not revoke an already-issued token; it expires within the configured maximum lifetime.
+For example, Pneuma's team prefix is `pt-pneuma`; use the KV path `team-kv2/pt-pneuma/<secret-name>`. Policies are enforced against the KV v2 API paths and do not grant access to another team's prefix. OIDC tokens have a maximum lifetime of one hour. Removing a user from a group prevents future logins from receiving that group's policy, but does not revoke an already-issued token; it expires within the configured maximum lifetime.
 
 Set `BAO_ADDR` to the endpoint for the environment. The UI offers OIDC login, and a browser-enabled CLI can authenticate with:
 
