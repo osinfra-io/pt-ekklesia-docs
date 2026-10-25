@@ -34,7 +34,7 @@ OpenBao is deployed in multiple zones, but each installation has independent Raf
 
 OpenBao authenticates users through the dedicated Authentik OIDC provider, with Google as Authentik's upstream identity source. Authentik's `groups` claim maps membership to team-scoped policies. Team membership is managed per environment through the existing Logos/Nomos onboarding process.
 
-The `team-kv2` KV v2 mount scopes policies by the stable team key. The three group keys are:
+The `kv2` KV v2 mount scopes policies by the stable team key. The three group keys are:
 
 | Group | Capabilities |
 | --- | --- |
@@ -42,7 +42,7 @@ The `team-kv2` KV v2 mount scopes policies by the stable team key. The three gro
 | `openbao-secret-writers` | Create and update secrets under the team's prefix; no delete, undelete, destroy, or metadata deletion |
 | `openbao-secret-admins` | Manage secret data, metadata, and versions under the team's prefix; no OpenBao system or mount administration |
 
-For example, Pneuma's team prefix is `pt-pneuma`; use the KV path `team-kv2/pt-pneuma/<secret-name>`. Policies are enforced against the KV v2 API paths and do not grant access to another team's prefix. OIDC tokens have a maximum lifetime of one hour. Removing a user from a group prevents future logins from receiving that group's policy, but does not revoke an already-issued token; it expires within the configured maximum lifetime.
+For example, Pneuma's team prefix is `pt-pneuma`; use the KV path `kv2/pt-pneuma/<secret-name>`. Policies are enforced against the KV v2 API paths and do not grant access to another team's prefix. OIDC tokens have a maximum lifetime of one hour. Removing a user from a group prevents future logins from receiving that group's policy, but does not revoke an already-issued token; it expires within the configured maximum lifetime.
 
 The login page advertises the `oidc/` mount as its primary login tab for Google-backed Authentik login. The GitHub Actions JWT mount stays hidden from the unauthenticated mount listing. OpenBao's stock UI retains an **Other** tab with generic method choices; those choices do not mean the methods are enabled. Token authentication remains available there for administrative recovery.
 
@@ -53,6 +53,12 @@ BAO_ADDR=https://openbao.sb.osinfra.io bao login -method=oidc -path=oidc role=de
 ```
 
 Replace the sandbox endpoint with the non-production or production endpoint when appropriate.
+
+### Renaming the existing KV v2 mount
+
+Existing installations migrate `team-kv2/` to `kv2/` through the provider's in-place remount operation, preserving secret data and versions. The OpenTofu resource address stays unchanged. The apply updates its workflow policies before moving the mount; remount permission is constrained to that source and destination. Read access to the old mount is retained for pre-migration refresh.
+
+Schedule the apply while the mount is not in use. Confirm the plan updates the mount in place rather than destroying and recreating it. Team policies change to `kv2/<team-key>/...`; callers must update their paths, and access can be briefly interrupted while the mount and policies are updated. Do not manually disable the old mount: disabling a secrets engine deletes its data.
 
 ## GitHub Actions operator bootstrap
 
