@@ -64,7 +64,7 @@ bao login -no-print
 bash scripts/bootstrap/openbao-github-actions.sh sandbox
 ```
 
-The script configures the mount, policies, and roles without running workflows or approving gates. Sandbox roles accept Pneuma PR runs using `refs/pull/*/merge`; bootstrap is not required for each PR. Apply still requires the protected environment gate. The script and workspace read the same policy files from `regional/openbao-config/policies/`. It refuses a `BAO_ADDR` that differs from the selected environment or an existing non-JWT mount at `github-actions/`. It assumes GitHub's default OIDC subject format.
+The script configures the mount, policies, and roles without running workflows or approving gates. Sandbox roles accept Pneuma PR runs using `refs/pull/*/merge`; bootstrap is not required for each PR. Apply still requires the protected environment gate. The script and workspace read the same policy files from `regional/openbao-config/policies/`. It refuses a `BAO_ADDR` that differs from the selected environment or an existing non-JWT mount at `github-actions/`. It assumes GitHub's default OIDC subject format, including `%3A` for colons inside environment names.
 
 If the environment was bootstrapped before these imports were added, rerun the updated script once before the first importing plan. This grants the plan role read access to the GitHub JWT configuration and grants the apply role permission to manage it. After adoption, make routine changes in `openbao-config`; retain the script for new installations and administrative recovery. An approved apply can change its own future authentication and permissions, controlled by GitHub review and protected environment approvals.
 
@@ -107,6 +107,8 @@ Do not place static credentials in source repositories, OpenTofu variables, or C
 ## Deployment lifecycle
 
 Pull requests deploy sandbox, merges to `main` deploy non-production, and successful non-production runs promote to production. The zonal OpenBao workspaces deploy in parallel after the cluster runtime is available.
+
+For the dedicated local integration fixture, `tests/integration/openbao/teardown.sh` removes its routing and runtime without requiring an administrative API session. This supports recovery when OpenBao is sealed or its local initialization file is missing. It verifies cluster ownership and namespace tracking, then clears local configuration state and initialization keys only after the OpenBao namespace and its data volumes have been removed.
 
 ## Core invariant
 
