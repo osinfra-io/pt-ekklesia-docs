@@ -44,7 +44,9 @@ The `team-kv2` KV v2 mount scopes policies by the stable team key. The three gro
 
 For example, Pneuma's team prefix is `pt-pneuma`; use the KV path `team-kv2/pt-pneuma/<secret-name>`. Policies are enforced against the KV v2 API paths and do not grant access to another team's prefix. OIDC tokens have a maximum lifetime of one hour. Removing a user from a group prevents future logins from receiving that group's policy, but does not revoke an already-issued token; it expires within the configured maximum lifetime.
 
-Set `BAO_ADDR` to the endpoint for the environment. The UI offers OIDC login, and a browser-enabled CLI can authenticate with:
+The login page advertises the `oidc/` mount as its primary login tab for Google-backed Authentik login. The GitHub Actions JWT mount stays hidden from the unauthenticated mount listing. OpenBao's stock UI retains an **Other** tab with generic method choices; those choices do not mean the methods are enabled. Token authentication remains available there for administrative recovery.
+
+Set `BAO_ADDR` to the endpoint for the environment. A browser-enabled CLI can authenticate with:
 
 ```bash
 BAO_ADDR=https://openbao.sb.osinfra.io bao login -method=oidc -path=oidc role=default
