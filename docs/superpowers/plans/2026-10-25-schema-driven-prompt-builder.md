@@ -144,6 +144,6 @@ Expected: PASS; all helper tests pass and Docusaurus builds with the full recurs
 
 Start the site with `yarn start --host 127.0.0.1 --port 3000`. In a browser, verify required fields are shown initially, optional fields appear when enabled, an Authentik group can be added with nested fields, an optional boolean can be set to `false` and reset to unset, and the preview contains the JSON configuration while invalid configurations cannot be copied.
 
-- [ ] **Step 4: Run required pre-commit checks and commit**
+- [x] **Step 4: Run required pre-commit checks and commit**
 
 Run `pre-commit autoupdate --freeze` once in this repository for the session, then `pre-commit run -a`. Include any resulting `.pre-commit-config.yaml` update in the commit. Commit the design, plan, implementation, and tests together with a sentence-case message and the required Co-authored-by trailer.
