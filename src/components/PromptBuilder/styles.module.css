@@ -226,6 +226,14 @@ select.input {
   color: #c0392b !important;
 }
 
+.copyError {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  color: #e74c3c;
+  background: #2f2e2d;
+  font-size: 0.75rem;
+}
+
 .inputError {
   border-color: #c0392b !important;
 }
@@ -325,4 +333,104 @@ select.input {
   overflow-wrap: break-word;
   background: transparent;
   border: none;
+}
+
+/* ── Schema-driven controls ── */
+
+.schemaForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.schemaField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.schemaFieldset {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.schemaFieldset legend {
+  float: none;
+  width: auto;
+  margin: 0;
+  padding: 0 0.35rem;
+}
+
+.schemaTitle {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ifm-color-content-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.schemaChildren {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding-left: 0.5rem;
+}
+
+.schemaMapEntry,
+.schemaArrayEntry {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.schemaMapEntry {
+  flex-direction: column;
+  padding: 0.75rem;
+  border-left: 2px solid var(--ifm-color-emphasis-300);
+}
+
+.schemaMapEntry > :first-child {
+  width: 100%;
+}
+
+.schemaArrayEntry > :first-child {
+  flex: 1 1 auto;
+}
+
+.schemaAddRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.schemaAction,
+.schemaUnset {
+  flex: 0 0 auto;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+  padding: 0.3rem 0.55rem;
+  color: var(--ifm-color-content-secondary);
+  background: var(--ifm-background-surface-color);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.schemaAction:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.schemaAction:hover:not(:disabled),
+.schemaUnset:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
 }
