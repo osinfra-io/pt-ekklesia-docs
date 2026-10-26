@@ -69,6 +69,13 @@ test('optional capabilities preserve dependencies and generate normalized prompt
   await kubernetes.check();
   await page.getByRole('combobox', {name: 'Locations (zones)'}).click();
   await page.getByRole('option', {name: 'us-east1-b'}).click();
+  const regionPill = page.locator('.mantine-Pill-root').filter({hasText: /^us-east1$/});
+  await expect(regionPill).toHaveCSS('align-items', 'center');
+  expect(await regionPill.evaluate(element => parseFloat(getComputedStyle(element).borderRadius))).toBeGreaterThan(0);
+  await regionPill.getByRole('button', {includeHidden: true}).click();
+  await expect(regionPill).toHaveCount(0);
+  await page.getByRole('combobox', {name: 'Regions'}).click();
+  await page.getByRole('option', {name: 'us-east1'}).click();
 
   await page.getByRole('textbox', {name: 'Team key'}).fill(' ST-Fides ');
   await page.getByRole('textbox', {name: 'Display name'}).fill('Fides');
