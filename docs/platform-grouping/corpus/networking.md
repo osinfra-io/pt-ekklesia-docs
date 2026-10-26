@@ -109,12 +109,12 @@ VPC: standard-shared
     Unused address space within `10.0.0.0/10` after all 30 cluster slots are allocated.
 
     <CardGrid>
-      <Card item={{ icon: '⬜', title: '10.63.193.224/27', note: '10.63.193.224 – 10.63.193.255' }} />
-      <Card item={{ icon: '⬜', title: '10.63.194.0/23', note: '10.63.194.0 – 10.63.195.255' }} />
-      <Card item={{ icon: '⬜', title: '10.63.196.0/22', note: '10.63.196.0 – 10.63.199.255' }} />
-      <Card item={{ icon: '⬜', title: '10.63.200.0/21', note: '10.63.200.0 – 10.63.207.255' }} />
-      <Card item={{ icon: '⬜', title: '10.63.208.0/20', note: '10.63.208.0 – 10.63.223.255' }} />
-      <Card item={{ icon: '⬜', title: '10.63.224.0/19', note: '10.63.224.0 – 10.63.255.255' }} />
+      <Card item={{ icon: 'square', title: '10.63.193.224/27', note: '10.63.193.224 – 10.63.193.255' }} />
+      <Card item={{ icon: 'square', title: '10.63.194.0/23', note: '10.63.194.0 – 10.63.195.255' }} />
+      <Card item={{ icon: 'square', title: '10.63.196.0/22', note: '10.63.196.0 – 10.63.199.255' }} />
+      <Card item={{ icon: 'square', title: '10.63.200.0/21', note: '10.63.200.0 – 10.63.207.255' }} />
+      <Card item={{ icon: 'square', title: '10.63.208.0/20', note: '10.63.208.0 – 10.63.223.255' }} />
+      <Card item={{ icon: 'square', title: '10.63.224.0/19', note: '10.63.224.0 – 10.63.255.255' }} />
     </CardGrid>
 
   </TabItem>

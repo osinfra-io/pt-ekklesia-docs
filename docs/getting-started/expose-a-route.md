@@ -7,10 +7,9 @@ description: Ask the Nomos Agent to expose a service at your team hostname and c
 
 Make a service reachable from outside the platform and choose who may call it. Ask the [Nomos Agent](/onboarding); it collects the details, validates them, and opens the pull request. Pneuma then renders the gateway routing and authentication. How the gateway works is documented for owners in [Service Mesh](../platform-grouping/pneuma/service-mesh.md) and [Gateway Authentication](../platform-grouping/pneuma/gateway-authentication.md).
 
-```mermaid
-flowchart LR
-    You["You ask Nomos"] --> PR["Nomos opens a<br/>Logos pull request"] --> Pneuma["Pneuma renders<br/>route + auth policy"] --> Gateway["Shared gateway<br/>enforces auth"] --> Workload["Your service"]
-```
+import ExposeRouteTimeline from '@site/src/components/ExposeRouteTimeline';
+
+<ExposeRouteTimeline />
 
 ## Before You Ask
 

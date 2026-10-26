@@ -1,5 +1,11 @@
 import { createContext, useContext, useState } from 'react';
-import styles from './styles.module.css';
+import {Button, Group, Switch, Text} from '@mantine/core';
+import '@mantine/core/styles/UnstyledButton.css';
+import '@mantine/core/styles/Button.css';
+import '@mantine/core/styles/Group.css';
+import '@mantine/core/styles/InlineInput.css';
+import '@mantine/core/styles/Switch.css';
+import '@mantine/core/styles/Text.css';
 
 export const OnboardingFilterContext = createContext(null);
 
@@ -24,28 +30,22 @@ export function useOnboardingFilter() {
 export function FilterBar({ requiredCount, optionalCount }) {
   const { showOptional, setShowOptional } = useOnboardingFilter();
   return (
-    <div className={styles.filterBar}>
-      <span className={styles.filterLabel}>Filter:</span>
-      <span className={`${styles.pill} ${styles.pillRequired}`} aria-label={`Required fields (${requiredCount})`}>
-        ✓ Required ({requiredCount})
-      </span>
-      <button
-        type="button"
-        aria-pressed={showOptional}
-        onClick={() => setShowOptional(v => !v)}
-        className={`${styles.pill} ${styles.pillOptional} ${showOptional ? styles.pillActive : ''}`}
-      >
-        {showOptional ? '✓' : '○'} Optional ({optionalCount})
-      </button>
+    <Group gap="md" my="md">
+      <Text component="span" size="sm" c="dimmed">Required ({requiredCount})</Text>
+      <Switch
+        checked={showOptional}
+        onChange={event => setShowOptional(event.currentTarget.checked)}
+        label={`Optional (${optionalCount})`}
+      />
       {showOptional && (
-        <button
-          type="button"
+        <Button
+          variant="subtle"
+          size="compact-xs"
           onClick={() => setShowOptional(false)}
-          className={styles.reset}
         >
           Reset
-        </button>
+        </Button>
       )}
-    </div>
+    </Group>
   );
 }

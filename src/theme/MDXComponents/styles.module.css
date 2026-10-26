@@ -1,0 +1,32 @@
+.table {
+  display: table;
+  margin-bottom: var(--ifm-spacing-vertical);
+}
+
+.table th,
+.table td {
+  border: 0;
+  vertical-align: top;
+}
+
+.table th {
+  text-align: start;
+  color: var(--ifm-heading-color);
+  background: var(--ifm-background-surface-color);
+  font-weight: 600;
+}
+
+.table tr,
+.table tr:nth-child(2n) {
+  background: transparent;
+  border-top: 0;
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.table td code {
+  font-size: 0.85em;
+}
+
+.table td:first-child > code:only-child {
+  white-space: nowrap;
+}

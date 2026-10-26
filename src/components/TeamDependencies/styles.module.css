@@ -1,0 +1,84 @@
+.view {
+  margin-block: 1.5rem;
+}
+
+.layer {
+  background: var(--ifm-background-surface-color);
+}
+
+.label {
+  margin: 0 0 1rem;
+  color: var(--ifm-color-content-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.teamHeading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.teamHeading a {
+  color: var(--ifm-heading-color);
+  font-weight: 600;
+}
+
+.description {
+  margin: 0.35rem 0 0;
+  color: var(--ifm-color-content-secondary);
+  font-size: 0.85rem;
+  overflow-wrap: anywhere;
+}
+
+.chain {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.chain li {
+  position: relative;
+}
+
+.chain li + li::before {
+  content: '→';
+  position: absolute;
+  left: -1.5rem;
+  color: var(--ifm-color-content-secondary);
+}
+
+.connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  color: var(--ifm-color-content-secondary);
+  font-size: 0.8rem;
+}
+
+.connector svg {
+  flex-shrink: 0;
+}
+
+.consumer {
+  font-size: 1rem;
+  margin: 0;
+}
+
+@media (max-width: 767px) {
+  .chain {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .chain li + li::before {
+    content: '↓';
+    left: 0;
+    top: -1.75rem;
+  }
+}

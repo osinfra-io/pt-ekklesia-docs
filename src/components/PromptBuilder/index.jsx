@@ -1,4 +1,29 @@
 import { useState, useMemo, useRef, useEffect, useCallback, useContext } from 'react';
+import {
+  Alert,
+  Autocomplete,
+  ActionIcon,
+  Collapse,
+  MultiSelect,
+  Paper,
+  Select,
+  Switch,
+  Textarea,
+  TextInput,
+} from '@mantine/core';
+import '@mantine/core/styles/Alert.css';
+import {IconCheck, IconCopy} from '@tabler/icons-react';
+import '@mantine/core/styles/ActionIcon.css';
+import '@mantine/core/styles/CloseButton.css';
+import '@mantine/core/styles/Combobox.css';
+import '@mantine/core/styles/Input.css';
+import '@mantine/core/styles/Paper.css';
+import '@mantine/core/styles/Pill.css';
+import '@mantine/core/styles/PillsInput.css';
+import '@mantine/core/styles/Popover.css';
+import '@mantine/core/styles/ScrollArea.css';
+import '@mantine/core/styles/Switch.css';
+import '@mantine/core/styles/UnstyledButton.css';
 import teamSchema from '@site/src/components/SchemaViewer/team.schema.json';
 import { useOnboardingFilter, FilterBar, OnboardingFilterContext, OnboardingFilterProvider } from '@site/src/components/OnboardingFilter';
 import styles from './styles.module.css';
@@ -160,11 +185,6 @@ function buildPrompt(f) {
   return lines.join('\n').trim();
 }
 
-function FieldError({ msg }) {
-  if (!msg) return null;
-  return <p className={styles.fieldError}>⚠ {msg}</p>;
-}
-
 function ApiAutocomplete({ value, onChange }) {
   const [allApis, setAllApis]       = useState([]);
   const [query, setQuery]           = useState('');
@@ -243,10 +263,10 @@ function ApiAutocomplete({ value, onChange }) {
 
   return (
     <div className={styles.apiWrap}>
-      <textarea
+      <Textarea
         ref={inputRef}
         id="pb-gcp-apis"
-        className={styles.textarea}
+        classNames={{ input: styles.fieldInput }}
         value={value}
         onFocus={fetchApis}
         onChange={handleInput}
@@ -254,6 +274,7 @@ function ApiAutocomplete({ value, onChange }) {
         placeholder="run.googleapis.com, pubsub.googleapis.com"
         rows={2}
         autoComplete="off"
+        aria-describedby="pb-gcp-apis-description"
       />
       {fetchState === 'loading' && <p className={styles.apiHint}>Loading Google APIs…</p>}
       {fetchState === 'error'   && <p className={styles.apiHint}>Could not load API list — type manually.</p>}
@@ -278,13 +299,13 @@ function ApiAutocomplete({ value, onChange }) {
 
 function ProductGroup({ color, label, children }) {
   return (
-    <div className={styles.productGroup}>
+    <Paper className={styles.productGroup} withBorder>
       <div className={styles.productHeader}>
         <span className={styles.productDot} style={{ background: color }} />
         <span className={styles.productLabel}>{label}</span>
       </div>
       {children}
-    </div>
+    </Paper>
   );
 }
 
@@ -320,7 +341,7 @@ function PromptBuilderInner() {
   const [gkeLocations,           setGkeLocations]           = useState([]);
   const [gkeDnsSubdomain,        setGkeDnsSubdomain]        = useState('');
   const [enableGkeDatadog,       setEnableGkeDatadog]       = useState(false);
-  const [copied,                 setCopied]                 = useState(false);
+  const [copyStatus,             setCopyStatus]             = useState('idle');
   const [copyAttempted,          setCopyAttempted]          = useState(false);
 
   const { showOptional } = useOnboardingFilter();
@@ -343,30 +364,27 @@ function PromptBuilderInner() {
   const hasErrors = Object.keys(errors).length > 0;
 
   const prompt = buildPrompt(fields);
+  const promptRef = useRef(prompt);
+  promptRef.current = prompt;
 
-  const handleCopy = () => {
+  useEffect(() => {
+    setCopyStatus('idle');
+  }, [prompt]);
+
+  const handleCopy = async () => {
     setCopyAttempted(true);
     const currentErrors = validate(fields, true);
     if (Object.keys(currentErrors).length > 0) return;
-    const onSuccess = () => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    };
-    if (navigator.clipboard?.writeText) {
-      navigator.clipboard.writeText(prompt).then(onSuccess).catch(() => setCopied(false));
-    } else {
-      try {
-        const ta = document.createElement('textarea');
-        ta.value = prompt;
-        ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        onSuccess();
-      } catch {
-        setCopied(false);
-      }
+    if (!navigator.clipboard?.writeText) {
+      setCopyStatus('unavailable');
+      return;
+    }
+    const promptToCopy = prompt;
+    try {
+      await navigator.clipboard.writeText(promptToCopy);
+      if (promptRef.current === promptToCopy) setCopyStatus('success');
+    } catch {
+      if (promptRef.current === promptToCopy) setCopyStatus('error');
     }
   };
 
@@ -379,45 +397,43 @@ function PromptBuilderInner() {
         {/* ── General ── */}
         <ProductGroup color="#ffb400" label="General">
           <div className={styles.section}>
-            <label className={styles.label} htmlFor="pb-team-key">Team key</label>
-            <p className={styles.hint}>{schema.team_key.description}</p>
-            <input
+            <TextInput
               id="pb-team-key"
-              className={`${styles.input} ${errors.teamKey ? styles.inputError : ''}`}
+              classNames={{ input: styles.fieldInput, label: styles.label, description: styles.hint, error: styles.fieldError }}
+              label="Team key"
+              description={schema.team_key.description}
+              error={errors.teamKey}
               value={teamKey}
               onChange={e => setTeamKey(e.target.value)}
               placeholder="st-fides"
             />
-            <FieldError msg={errors.teamKey} />
           </div>
 
           <div className={styles.section}>
-            <label className={styles.label} htmlFor="pb-display-name">Display name</label>
-            <p className={styles.hint}>{schema.display_name.description}</p>
-            <input
+            <TextInput
               id="pb-display-name"
-              className={`${styles.input} ${errors.displayName ? styles.inputError : ''}`}
+              classNames={{ input: styles.fieldInput, label: styles.label, description: styles.hint, error: styles.fieldError }}
+              label="Display name"
+              description={schema.display_name.description}
+              error={errors.displayName}
               value={displayName}
               onChange={e => setDisplayName(e.target.value)}
               placeholder="Fides"
             />
-            <FieldError msg={errors.displayName} />
           </div>
 
           <div className={styles.section}>
-            <label className={styles.label} htmlFor="pb-description">
-              Description <span className={styles.required}>required</span>
-            </label>
-            <p className={styles.hint}>{schema.display_name_comment.description}</p>
-            <textarea
+            <Textarea
               id="pb-description"
-              className={`${styles.textarea} ${errors.description ? styles.inputError : ''}`}
+              classNames={{ input: styles.fieldInput, label: styles.label, description: styles.hint, error: styles.fieldError }}
+              label={<>Description <span className={styles.required}>required</span></>}
+              description={schema.display_name_comment.description}
+              error={errors.description}
               value={description}
               onChange={e => setDescription(e.target.value)}
               placeholder="Trust and reliability for the platform."
               rows={2}
             />
-            <FieldError msg={errors.description} />
           </div>
 
         </ProductGroup>
@@ -425,53 +441,47 @@ function PromptBuilderInner() {
         {/* ── GitHub ── */}
         <ProductGroup color="#8b949e" label="GitHub">
           <div className={styles.section}>
-            <label className={styles.label} htmlFor="pb-maintainers">
-              Maintainers <span className={styles.required}>required</span>
-            </label>
-            <p className={styles.hint}>{schema.github_parent_team_memberships.description}</p>
-            <textarea
+            <Textarea
               id="pb-maintainers"
-              className={`${styles.textarea} ${errors.maintainers ? styles.inputError : ''}`}
+              classNames={{ input: styles.fieldInput, label: styles.label, description: styles.hint, error: styles.fieldError }}
+              label={<>Maintainers <span className={styles.required}>required</span></>}
+              description={schema.github_parent_team_memberships.description}
+              error={errors.maintainers}
               value={maintainers}
               onChange={e => setMaintainers(e.target.value)}
               placeholder="brettcurtis"
               rows={2}
             />
-            <FieldError msg={errors.maintainers} />
           </div>
 
           {showOptional && (
             <>
               <div className={styles.section}>
-                <label className={styles.label} htmlFor="pb-members">
-                  Members <span className={styles.optional}>optional</span>
-                </label>
-                <p className={styles.hint}>{defs.usernameList.description}</p>
-                <textarea
+                <Textarea
                   id="pb-members"
-                  className={`${styles.textarea} ${errors.members ? styles.inputError : ''}`}
+                  classNames={{ input: styles.fieldInput, label: styles.label, description: styles.hint, error: styles.fieldError }}
+                  label={<>Members <span className={styles.optional}>optional</span></>}
+                  description={defs.usernameList.description}
+                  error={errors.members}
                   value={members}
                   onChange={e => setMembers(e.target.value)}
                   placeholder="joesmith, janesmith"
                   rows={2}
                 />
-                <FieldError msg={errors.members} />
               </div>
 
               <div className={styles.section}>
-                <label className={styles.label} htmlFor="pb-repos">
-                  Repositories <span className={styles.optional}>optional</span>
-                </label>
-                <p className={styles.hint}>{schema.github_repositories.description}</p>
-                <textarea
+                <Textarea
                   id="pb-repos"
-                  className={`${styles.textarea} ${errors.githubRepositories ? styles.inputError : ''}`}
+                  classNames={{ input: styles.fieldInput, label: styles.label, description: styles.hint, error: styles.fieldError }}
+                  label={<>Repositories <span className={styles.optional}>optional</span></>}
+                  description={schema.github_repositories.description}
+                  error={errors.githubRepositories}
                   value={githubRepositories}
                   onChange={e => setGithubRepositories(e.target.value)}
                   placeholder={normalizedKey ? `${normalizedKey}, ${normalizedKey}-api` : 'st-fides, st-fides-api'}
                   rows={2}
                 />
-                <FieldError msg={errors.githubRepositories} />
               </div>
             </>
           )}
@@ -481,150 +491,130 @@ function PromptBuilderInner() {
         {showOptional && (
           <ProductGroup color="#4285F4" label="Google Cloud">
             <div className={styles.section}>
-              <label className={styles.label}>
-                Features <span className={styles.optional}>optional</span>
-              </label>
+              <p className={styles.label}>Features <span className={styles.optional}>optional</span></p>
               <div className={styles.checkboxGroup}>
-                <label className={styles.checkboxLabel}>
-                  <input type="checkbox" checked={enableGoogleProject} onChange={e => setEnableGoogleProject(e.target.checked)} />
-                  <span><code>enable_google_project</code> — {schema.enable_google_project.description}</span>
-                </label>
-                <label className={styles.checkboxLabel}>
-                  <input type="checkbox" checked={enableWorkflows} onChange={e => setEnableWorkflows(e.target.checked)} />
-                  <span><code>enable_workflows</code> — {schema.enable_workflows.description}</span>
-                </label>
-                <label className={styles.checkboxLabel}>
-                  <input
-                    type="checkbox"
-                    checked={enableStateManagement}
-                    disabled={!enableWorkflows}
-                    onChange={e => setEnableStateManagement(e.target.checked)}
-                  />
-                  <span style={{opacity: enableWorkflows ? 1 : 0.45}}>
-                    <code>enable_opentofu_state_management</code> — {schema.enable_opentofu_state_management.description}
-                  </span>
-                </label>
+                <Switch
+                  label={<code>enable_google_project</code>}
+                  description={schema.enable_google_project.description}
+                  checked={enableGoogleProject}
+                  onChange={e => setEnableGoogleProject(e.target.checked)}
+                />
+                <Switch
+                  label={<code>enable_workflows</code>}
+                  description={schema.enable_workflows.description}
+                  checked={enableWorkflows}
+                  onChange={e => setEnableWorkflows(e.target.checked)}
+                />
+                <Switch
+                  label={<code>enable_opentofu_state_management</code>}
+                  description={schema.enable_opentofu_state_management.description}
+                  checked={enableStateManagement}
+                  disabled={!enableWorkflows}
+                  onChange={e => setEnableStateManagement(e.target.checked)}
+                />
               </div>
             </div>
 
             <div className={styles.section}>
-              <label className={styles.label} htmlFor="pb-gcp-apis">
-                Additional APIs <span className={styles.optional}>optional</span>
-              </label>
-              <p className={styles.hint}>{schema.google_project_services.description}</p>
+              <label className={styles.label} htmlFor="pb-gcp-apis">Additional APIs <span className={styles.optional}>optional</span></label>
+              <p className={styles.hint} id="pb-gcp-apis-description">{schema.google_project_services.description}</p>
               <ApiAutocomplete
                 value={googleProjectServices}
                 onChange={setGoogleProjectServices}
               />
-              <FieldError msg={errors.googleProjectServices} />
+              {errors.googleProjectServices && <p className={styles.fieldError}>{errors.googleProjectServices}</p>}
             </div>
 
             {/* platform_managed_project.cloud_sql */}
             <div className={styles.section}>
-              <label className={styles.label}>
-                Cloud SQL <span className={styles.optional}>optional</span>
-              </label>
-              <p className={styles.hint}>{defs.cloudSQL.description}</p>
-              <label className={styles.checkboxLabel}>
-                <input type="checkbox" checked={enableCloudSQL} onChange={e => setEnableCloudSQL(e.target.checked)} />
-                <span>Enable <code>platform_managed_project.cloud_sql</code></span>
-              </label>
-              {enableCloudSQL && (
-                <div className={styles.subFields}>
-                  <div className={styles.subField}>
-                    <label className={styles.subLabel} htmlFor="pb-sql-version">Database version <span className={styles.required}>required</span></label>
-                    <select
-                      id="pb-sql-version"
-                      className={styles.input}
-                      value={cloudSqlVersion}
-                      onChange={e => setCloudSqlVersion(e.target.value)}
-                    >
-                      <option value="">— select —</option>
-                      {SQL_VERSIONS.map(v => <option key={v} value={v}>{v}</option>)}
-                    </select>
+              <p className={styles.label}>Cloud SQL <span className={styles.optional}>optional</span></p>
+              <Switch
+                label={<>Enable <code>platform_managed_project.cloud_sql</code></>}
+                description={defs.cloudSQL.description}
+                checked={enableCloudSQL}
+                aria-controls="pb-cloud-sql-fields"
+                aria-expanded={enableCloudSQL}
+                onChange={e => setEnableCloudSQL(e.target.checked)}
+              />
+              <Collapse expanded={enableCloudSQL}>
+                {enableCloudSQL && (
+                  <div className={styles.subFields} id="pb-cloud-sql-fields">
+                    <Select
+                      classNames={{ input: styles.fieldInput, label: styles.label, description: styles.hint }}
+                      label={<>Database version <span className={styles.required}>required</span></>}
+                      description={defs.cloudSQL.properties.database_version.description}
+                      data={SQL_VERSIONS}
+                      value={cloudSqlVersion || null}
+                      onChange={value => setCloudSqlVersion(value || '')}
+                      placeholder="— select —"
+                      allowDeselect={false}
+                    />
+                    <Autocomplete
+                      classNames={{ input: styles.fieldInput, label: styles.label, description: styles.hint }}
+                      label={<>Machine tier <span className={styles.required}>required</span></>}
+                      description={defs.cloudSQL.properties.machine_tier.description}
+                      data={SQL_TIERS}
+                      value={cloudSqlTier}
+                      onChange={setCloudSqlTier}
+                      placeholder="db-g1-small"
+                    />
+                    <MultiSelect
+                      classNames={{ input: styles.fieldInput, label: styles.label, description: styles.hint }}
+                      label={<>Regions <span className={styles.required}>required</span></>}
+                      description={defs.cloudSQL.properties.regions.description}
+                      data={SQL_REGIONS}
+                      value={cloudSqlRegions}
+                      onChange={setCloudSqlRegions}
+                      searchable
+                      clearable={false}
+                    />
                   </div>
-                  <div className={styles.subField}>
-                    <label className={styles.subLabel} htmlFor="pb-sql-tier">Machine tier <span className={styles.required}>required</span></label>
-                    <>
-                      <input
-                        id="pb-sql-tier"
-                        list="pb-sql-tier-options"
-                        className={styles.input}
-                        value={cloudSqlTier}
-                        onChange={e => setCloudSqlTier(e.target.value)}
-                        placeholder="db-g1-small"
-                      />
-                      <datalist id="pb-sql-tier-options">
-                        {SQL_TIERS.map(tier => <option key={tier} value={tier} />)}
-                      </datalist>
-                    </>
-                  </div>
-                  <div className={styles.subField}>
-                    <label className={styles.subLabel}>Regions <span className={styles.required}>required</span></label>
-                    <div className={styles.checkboxRow}>
-                      {SQL_REGIONS.map(r => (
-                        <label key={r} className={styles.checkboxLabel}>
-                          <input
-                            type="checkbox"
-                            checked={cloudSqlRegions.includes(r)}
-                            onChange={() => setCloudSqlRegions(prev =>
-                              prev.includes(r) ? prev.filter(x => x !== r) : [...prev, r]
-                            )}
-                          />
-                          <span>{r}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
+                )}
+              </Collapse>
             </div>
 
             {/* platform_managed_project.kubernetes_engine */}
             <div className={styles.section}>
-              <label className={styles.label}>
-                Kubernetes Engine <span className={styles.optional}>optional</span>
-              </label>
-              <p className={styles.hint}>{defs.kubernetesEngine.description}</p>
-              <label className={styles.checkboxLabel}>
-                <input type="checkbox" checked={enableKubernetes} onChange={e => setEnableKubernetes(e.target.checked)} />
-                <span>Enable <code>platform_managed_project.kubernetes_engine</code></span>
-              </label>
-              {enableKubernetes && (
-                <div className={styles.subFields}>
-                  <div className={styles.subField}>
-                    <label className={styles.subLabel}>Locations (zones) <span className={styles.required}>required</span></label>
-                    <div className={styles.checkboxRow}>
-                      {GKE_ZONES.map(z => (
-                        <label key={z} className={styles.checkboxLabel}>
-                          <input
-                            type="checkbox"
-                            checked={gkeLocations.includes(z)}
-                            onChange={() => setGkeLocations(prev =>
-                              prev.includes(z) ? prev.filter(x => x !== z) : [...prev, z]
-                            )}
-                          />
-                          <span>{z}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  <div className={styles.subField}>
-                    <label className={styles.subLabel} htmlFor="pb-gke-dns">DNS subdomain <span className={styles.optional}>optional</span></label>
-                    <input
+              <p className={styles.label}>Kubernetes Engine <span className={styles.optional}>optional</span></p>
+              <Switch
+                label={<>Enable <code>platform_managed_project.kubernetes_engine</code></>}
+                description={defs.kubernetesEngine.description}
+                checked={enableKubernetes}
+                aria-controls="pb-kubernetes-fields"
+                aria-expanded={enableKubernetes}
+                onChange={e => setEnableKubernetes(e.target.checked)}
+              />
+              <Collapse expanded={enableKubernetes}>
+                {enableKubernetes && (
+                  <div className={styles.subFields} id="pb-kubernetes-fields">
+                    <MultiSelect
+                      classNames={{ input: styles.fieldInput, label: styles.label, description: styles.hint }}
+                      label={<>Locations (zones) <span className={styles.required}>required</span></>}
+                      description={defs.kubernetesEngine.properties.locations.description}
+                      data={GKE_ZONES}
+                      value={gkeLocations}
+                      onChange={setGkeLocations}
+                      searchable
+                      clearable={false}
+                    />
+                    <TextInput
                       id="pb-gke-dns"
-                      className={styles.input}
+                      classNames={{ input: styles.fieldInput, label: styles.label, description: styles.hint }}
+                      label={<>DNS subdomain <span className={styles.optional}>optional</span></>}
+                      description={defs.kubernetesEngine.properties.dns_subdomain.description}
                       value={gkeDnsSubdomain}
                       onChange={e => setGkeDnsSubdomain(e.target.value)}
                       placeholder="fides"
                     />
+                    <Switch
+                      label={<code>enable_datadog_apm</code>}
+                      description={defs.kubernetesEngine.properties.enable_datadog_apm.description}
+                      checked={enableGkeDatadog}
+                      onChange={e => setEnableGkeDatadog(e.target.checked)}
+                    />
                   </div>
-                  <label className={styles.checkboxLabel}>
-                    <input type="checkbox" checked={enableGkeDatadog} onChange={e => setEnableGkeDatadog(e.target.checked)} />
-                    <span><code>enable_datadog_apm</code> — {defs.kubernetesEngine.properties.enable_datadog_apm.description}</span>
-                  </label>
-                </div>
-              )}
+                )}
+              </Collapse>
             </div>
           </ProductGroup>
         )}
@@ -632,31 +622,29 @@ function PromptBuilderInner() {
         {/* ── Datadog ── */}
         <ProductGroup color="#632CA6" label="Datadog">
           <div className={styles.section}>
-            <label className={styles.label} htmlFor="pb-admin-email">
-              Admin email <span className={styles.required}>required</span>
-            </label>
-            <p className={styles.hint}>{schema.datadog_team_memberships.description}</p>
-            <input
+            <TextInput
               id="pb-admin-email"
-              className={`${styles.input} ${errors.adminEmail ? styles.inputError : ''}`}
+              classNames={{ input: styles.fieldInput, label: styles.label, description: styles.hint, error: styles.fieldError }}
+              label={<>Admin email <span className={styles.required}>required</span></>}
+              description={schema.datadog_team_memberships.description}
+              error={errors.adminEmail}
               type="email"
               value={adminEmail}
               onChange={e => setAdminEmail(e.target.value)}
               placeholder="joe@osinfra.io"
             />
-            <FieldError msg={errors.adminEmail} />
           </div>
 
           {showOptional && (
             <div className={styles.section}>
-              <label className={styles.label}>
-                Features <span className={styles.optional}>optional</span>
-              </label>
+              <p className={styles.label}>Features <span className={styles.optional}>optional</span></p>
               <div className={styles.checkboxGroup}>
-                <label className={styles.checkboxLabel}>
-                  <input type="checkbox" checked={enableProjectDatadog} onChange={e => setEnableProjectDatadog(e.target.checked)} />
-                  <span><code>google_project_enable_datadog</code> — {schema.google_project_enable_datadog.description}</span>
-                </label>
+                <Switch
+                  label={<code>google_project_enable_datadog</code>}
+                  description={schema.google_project_enable_datadog.description}
+                  checked={enableProjectDatadog}
+                  onChange={e => setEnableProjectDatadog(e.target.checked)}
+                />
               </div>
             </div>
           )}
@@ -667,17 +655,36 @@ function PromptBuilderInner() {
       <div className={styles.preview}>
         <div className={styles.previewHeader}>
           <span className={styles.previewTitle}>Generated prompt</span>
-          <button
-            className={`${styles.copyBtn} ${copied ? styles.copyBtnCopied : ''} ${hasErrors ? styles.copyBtnDisabled : ''}`}
-            onClick={hasErrors ? undefined : handleCopy}
+          <ActionIcon
+            className={styles.copyBtn}
+            variant="transparent"
+            color={copyStatus === 'success' ? 'green' : 'gray'}
+            size="md"
+            onClick={handleCopy}
             disabled={hasErrors}
+            aria-label="Copy prompt"
             type="button"
-            title={hasErrors ? 'Fix validation errors before copying' : undefined}
+            title={hasErrors ? 'Fix validation errors before copying' : copyStatus === 'success' ? 'Copied' : 'Copy prompt'}
           >
-            {copied ? '✓ Copied' : hasErrors ? '⚠ Fix errors' : 'Copy'}
-          </button>
+            {copyStatus === 'success' ? <IconCheck size={18} aria-hidden="true" /> : <IconCopy size={18} aria-hidden="true" />}
+          </ActionIcon>
         </div>
         <pre className={styles.previewBody}>{prompt}</pre>
+        {copyStatus === 'success' && (
+          <Alert className={styles.copyAlert} color="green" role="status">
+            Prompt copied to clipboard.
+          </Alert>
+        )}
+        {copyStatus === 'error' && (
+          <Alert className={styles.copyAlert} color="red" role="alert">
+            Could not copy to clipboard. Check browser permissions and copy the prompt below manually.
+          </Alert>
+        )}
+        {copyStatus === 'unavailable' && (
+          <Alert className={styles.copyAlert} color="yellow" role="alert">
+            Clipboard access is unavailable. Copy the prompt below manually.
+          </Alert>
+        )}
       </div>
     </div>
   );

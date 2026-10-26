@@ -7,16 +7,13 @@ title: Onboarding Your Team
 
 import Link from '@docusaurus/Link';
 import PromptBuilder from '@site/src/components/PromptBuilder';
+import OnboardingSteps from '@site/src/components/OnboardingSteps';
+import InvocationTabs, {InvocationPanel} from '@site/src/components/InvocationTabs';
 
 export const ctaWrap = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem', margin: '1.5rem 0 2rem' };
 export const ctaCard = { background: 'var(--ifm-background-surface-color)', border: '1px solid var(--ifm-color-emphasis-300)', borderRadius: '8px', padding: '1.5rem', display: 'flex', flexDirection: 'column' };
-export const stepWrap = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', margin: '1rem 0 2rem' };
-export const stepCard = { ...ctaCard, cursor: 'default' };
-export const invokeWrap = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', margin: '1rem 0 2rem' };
-export const invokeCard = { ...ctaCard };
 export const cardTitle = { fontSize: '1rem', fontWeight: 700, color: 'var(--ifm-heading-color)', margin: '0 0 0.5rem' };
 export const cardBody = { fontSize: '0.875rem', color: 'var(--ifm-color-content-secondary)', flex: 1, lineHeight: 1.55, margin: 0 };
-export const iconStyle = { fontSize: '2rem', marginBottom: '0.75rem', display: 'block' };
 
 # Onboarding Your Team
 
@@ -32,23 +29,7 @@ Use the **Nomos Agent** to submit a structured onboarding request. It validates 
 
 ## How It Works
 
-<div style={stepWrap}>
-  <div style={stepCard}>
-    <span style={iconStyle}>📋</span>
-    <p style={cardTitle}>1. Collect your details</p>
-    <p style={cardBody}>Gather the team key, display name, purpose, GitHub usernames, and administrator email.</p>
-  </div>
-  <div style={stepCard}>
-    <span style={iconStyle}>💬</span>
-    <p style={cardTitle}>2. Build your prompt</p>
-    <p style={cardBody}>Use the prompt builder below, then paste the generated text straight into the Nomos Agent.</p>
-  </div>
-  <div style={stepCard}>
-    <span style={iconStyle}>🚀</span>
-    <p style={cardTitle}>3. Review and promote</p>
-    <p style={cardBody}>Review the proposed pull request. Logos creates the team foundation; optional Corpus or Pneuma changes follow their own promotion workflows.</p>
-  </div>
-</div>
+<OnboardingSteps />
 
 ## Build Your Agent Prompt
 
@@ -62,25 +43,22 @@ Fill in the form, select **Copy**, and paste the result into Nomos. The agent co
 
 ## How to Invoke the Agent
 
-<div style={invokeWrap}>
-  <div style={invokeCard}>
-    <span style={iconStyle}>💻</span>
+<InvocationTabs>
+  <InvocationPanel value="cli">
     <p style={cardTitle}>Copilot CLI</p>
     <p style={{...cardBody, marginBottom: '0.75rem'}}>With Docker available, install the plugin, set <code>NOMOS_GITHUB_TOKEN</code>, and start Copilot CLI:</p>
     <pre style={{fontSize: '0.8rem', margin: 0}}>{'copilot plugin marketplace add osinfra-io/pt-ai-plugins\ncopilot plugin install techne-agents@osinfra-io\nprintf \'NOMOS_GITHUB_TOKEN: \'\nread -rs NOMOS_GITHUB_TOKEN\nprintf \'\\n\'\nexport NOMOS_GITHUB_TOKEN\ncopilot --enable-all-github-mcp-tools'}</pre>
     <p style={{...cardBody, marginTop: '0.5rem'}}>Type <code>/agent</code>, select <strong>Nomos Agent</strong>, and paste your prompt. The plugin registers its version-pinned MCP server automatically.</p>
-  </div>
-  <div style={invokeCard}>
-    <span style={iconStyle}>🌐</span>
+  </InvocationPanel>
+  <InvocationPanel value="github">
     <p style={cardTitle}>GitHub UI</p>
     <p style={cardBody}>Navigate to <a href="https://github.com/osinfra-io/pt-techne-agents/agents" target="_blank" rel="noopener noreferrer">pt-techne-agents/agents</a> on GitHub, select the <strong>Nomos Agent</strong>, and paste your prompt. The agent opens a PR automatically.</p>
-  </div>
-  <div style={invokeCard}>
-    <span style={iconStyle}>🤖</span>
+  </InvocationPanel>
+  <InvocationPanel value="vscode">
     <p style={cardTitle}>VS Code</p>
     <p style={cardBody}>Open <code>pt-techne-agents</code> in VS Code, start a Copilot Chat session, type <code>/agent</code>, select <strong>Nomos Agent</strong>, and paste your prompt.</p>
-  </div>
-</div>
+  </InvocationPanel>
+</InvocationTabs>
 
 :::tip GitHub access
 

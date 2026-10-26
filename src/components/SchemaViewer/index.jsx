@@ -1,120 +1,104 @@
-import { useState } from 'react';
-
-import { useOnboardingFilter, FilterBar, OnboardingFilterProvider } from '@site/src/components/OnboardingFilter';
+import {Accordion, Badge, Code, Group} from '@mantine/core';
+import '@mantine/core/styles/UnstyledButton.css';
+import '@mantine/core/styles/Accordion.css';
+import '@mantine/core/styles/Badge.css';
+import '@mantine/core/styles/Code.css';
+import '@mantine/core/styles/Group.css';
+import {useOnboardingFilter, FilterBar, OnboardingFilterProvider} from '@site/src/components/OnboardingFilter';
 import teamSchema from './team.schema.json';
 import resolveSchema from './resolveSchema';
 import styles from './styles.module.css';
 
 const resolved = resolveSchema(teamSchema);
-
-const REQUIRED_COUNT = Object.values(resolved).filter((p) => p.required).length;
-const OPTIONAL_COUNT = Object.values(resolved).filter((p) => !p.required).length;
-
-const TYPE_CLASS = {
-  string: styles.typeString,
-  boolean: styles.typeBoolean,
-  number: styles.typeNumber,
-  'string[]': styles.typeArray,
-  'number[]': styles.typeArray,
-  object: styles.typeObject,
-  map: styles.typeMap,
+const REQUIRED_COUNT = Object.values(resolved).filter(prop => prop.required).length;
+const OPTIONAL_COUNT = Object.values(resolved).filter(prop => !prop.required).length;
+const typeColors = {
+  string: 'blue', boolean: 'violet', number: 'orange',
+  'string[]': 'teal', 'number[]': 'teal', object: 'gold', map: 'cyan',
 };
 
-function SchemaProperty({ name, prop, depth = 0 }) {
-  // Map types (additionalProperties) carry their per-entry structure on
-  // valueSchema rather than properties. Render those entry fields directly as
-  // children so each map expands in a single click; the ‹key› hint on the row
-  // signals the fields apply to each arbitrarily-named entry.
-  const mapEntryProps =
-    prop.type === 'map' && prop.valueSchema?.properties && Object.keys(prop.valueSchema.properties).length > 0
-      ? prop.valueSchema.properties
-      : null;
-  const ownProps = prop.properties && Object.keys(prop.properties).length > 0 ? prop.properties : null;
-  const childProps = mapEntryProps ?? ownProps;
-  const hasChildren = Boolean(childProps);
-  const [expanded, setExpanded] = useState(false);
-
+function PropertyDetails({prop}) {
   return (
-    <div className={styles.property}>
-      <div
-        className={`${styles.header} ${hasChildren ? styles.expandable : ''}`}
-        style={{ paddingLeft: `${depth * 1.5 + 1}rem` }}
-        role={hasChildren ? 'button' : undefined}
-        tabIndex={hasChildren ? 0 : undefined}
-        aria-expanded={hasChildren ? expanded : undefined}
-        onClick={hasChildren ? () => setExpanded((v) => !v) : undefined}
-        onKeyDown={hasChildren ? (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            setExpanded((v) => !v);
-          }
-        } : undefined}
-      >
-        <div className={styles.meta}>
-          <span className={styles.chevron}>
-            {hasChildren ? (expanded ? '▾' : '▸') : ' '}
-          </span>
-          <code className={styles.name}>{name}</code>
-          <span className={`${styles.typeBadge} ${TYPE_CLASS[prop.type] ?? styles.typeObject}`}>
-            {prop.type}
-          </span>
-          {mapEntryProps && (
-            <span className={styles.mapKey} title="Repeatable: the fields below apply to each entry, keyed by an arbitrary name">
-              &lsaquo;key&rsaquo;
-            </span>
-          )}
-          <span className={prop.required ? styles.required : styles.optional}>
-            {prop.required ? 'required' : 'optional'}
-          </span>
-        </div>
-
-        {prop.description && (
-          <p className={styles.description}>{prop.description}</p>
-        )}
-
-        {prop.enum && (
-          <div className={styles.enums}>
-            {prop.enum.map((v) => (
-              <code key={v} className={styles.enumVal}>
-                &quot;{v}&quot;
-              </code>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {hasChildren && expanded && (
-        <div className={styles.children}>
-          {Object.entries(childProps).map(([k, v]) => (
-            <SchemaProperty key={k} name={k} prop={v} depth={depth + 1} />
-          ))}
-        </div>
+    <div className={styles.details}>
+      {prop.description && <p className={styles.description}>{prop.description}</p>}
+      {prop.enum && (
+        <Group gap="xs" mt="xs">
+          {prop.enum.map(value => <Code key={value}>&quot;{value}&quot;</Code>)}
+        </Group>
       )}
     </div>
   );
 }
 
-function SchemaViewerInner({ title }) {
-  const { showOptional } = useOnboardingFilter();
-  const entries = Object.entries(resolved).filter(([, prop]) => prop.required || showOptional);
+function SchemaProperty({name, prop}) {
+  // A map expands straight to its entry fields, not a second object wrapper.
+  const mapProps = prop.type === 'map' ? prop.valueSchema?.properties : null;
+  const children = mapProps ?? prop.properties;
+  const hasChildren = children && Object.keys(children).length > 0;
+  const summary = (
+    <span className={styles.meta}>
+      <Code className={styles.name}>{name}</Code>
+      <Badge className={styles.type} component="span" color={typeColors[prop.type] ?? 'gray'} variant="light" size="xs">{prop.type}</Badge>
+      {mapProps && <span className={styles.mapKey} title="Fields apply to each named entry">‹key›</span>}
+      <span className={prop.required ? styles.required : styles.optional}>
+        {prop.required ? 'required' : 'optional'}
+      </span>
+    </span>
+  );
 
+  if (!hasChildren) {
+    return (
+      <div className={`${styles.property} ${styles.leaf}`}>
+        {summary}
+        <PropertyDetails prop={prop} />
+      </div>
+    );
+  }
+
+  return (
+    <Accordion
+      className={styles.property}
+      multiple
+      variant="default"
+      chevronPosition="left"
+      chevronSize={14}
+      classNames={{
+        control: styles.control,
+        chevron: styles.chevron,
+        label: styles.controlLabel,
+        content: styles.content,
+      }}
+    >
+      <Accordion.Item value={name}>
+        <Accordion.Control>{summary}</Accordion.Control>
+        <PropertyDetails prop={prop} />
+        <Accordion.Panel>
+          <div className={styles.children}>
+            {Object.entries(children).map(([key, child]) => (
+              <SchemaProperty key={key} name={key} prop={child} />
+            ))}
+          </div>
+        </Accordion.Panel>
+      </Accordion.Item>
+    </Accordion>
+  );
+}
+
+function SchemaViewerInner({title}) {
+  const {showOptional} = useOnboardingFilter();
   return (
     <>
       <FilterBar requiredCount={REQUIRED_COUNT} optionalCount={OPTIONAL_COUNT} />
       <div className={styles.viewer}>
         {title && <div className={styles.title}>{title}</div>}
-        {entries.map(([name, prop]) => (
-          <SchemaProperty key={name} name={name} prop={prop} depth={0} />
-        ))}
+        {Object.entries(resolved)
+          .filter(([, prop]) => prop.required || showOptional)
+          .map(([name, prop]) => <SchemaProperty key={name} name={name} prop={prop} />)}
       </div>
     </>
   );
 }
 
-export default function SchemaViewer({ title }) {
-  return (
-    <OnboardingFilterProvider>
-      <SchemaViewerInner title={title} />
-    </OnboardingFilterProvider>
-  );
+export default function SchemaViewer({title}) {
+  return <OnboardingFilterProvider><SchemaViewerInner title={title} /></OnboardingFilterProvider>;
 }
