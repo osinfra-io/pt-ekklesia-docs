@@ -5,15 +5,13 @@ description: Start here if your team uses the platform. Find what you need by ca
 
 import Card from '@site/src/components/Card';
 import CardGrid from '@site/src/components/CardGrid';
+import GettingStartedTimeline from '@site/src/components/GettingStartedTimeline';
 
 # Getting Started
 
 For teams **using** the platform. The platform teams expose one coherent interface: the [Nomos Agent](/onboarding). You only need to know how to ask it for what you need and how to verify the result. How each capability is built and operated is documented for owners under [Platform Grouping](../platform-grouping/index.md).
 
-```mermaid
-flowchart LR
-    A["1. Onboard<br/>with Nomos"] --> B["2. Request<br/>capabilities"] --> C["3. Review and merge<br/>the pull requests"] --> D["4. Verify<br/>the capability"]
-```
+<GettingStartedTimeline />
 
 <CardGrid>
   <Card item={{ icon: '🚀', title: 'Onboard Your Team', note: 'Team, repositories, access, GCP projects, databases, Kubernetes namespaces, and secrets. Nomos opens the pull requests.', link: '/onboarding', linkText: 'Start onboarding →' }} />

@@ -14,6 +14,11 @@ Built on [Docusaurus 3](https://docusaurus.io/) with the following features enab
 - **Local search** — full-text search with highlighted results, no external service
 - **Syntax highlighting** — HCL and Bash in addition to Docusaurus defaults
 - **Edit on GitHub** — every page has a direct link to edit the source on GitHub
+- **Mantine UI** — shared cards, responsive grids, onboarding form controls, schema accordions, invocation tabs, and static timelines use a single dark/gold theme, with Tabler outline icons and no icon backgrounds
+
+The site-wide Mantine provider lives in `src/theme/Root/index.jsx`. Import only the styles needed by each component (including dependency styles such as `Paper.css` for `Card`); do not import Mantine's global reset or full stylesheet, which can override Docusaurus styling. The provider emits the base CSS variables explicitly, so component-only imports retain correct sizing and spacing.
+
+For UI changes, run `yarn build` followed by `yarn test:ui`. Install the browser once with `yarn playwright install --with-deps chromium`. The browser checks exercise the production build on a temporary local server and cover responsive layouts, keyboard navigation, schema expansion, prompt generation, clipboard feedback, and invocation instructions.
 
 ## Deployment
 
