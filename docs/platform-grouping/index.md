@@ -32,4 +32,4 @@ The deployment supply chain is Logos → Corpus → Pneuma. Pneuma supplies runt
 
 <TeamDependencies />
 
-Interaction modes, cognitive load, staffing, and the innersource model are in the [Operating Model](./operating-model.md).
+Interaction modes, cognitive load, staffing, and the innersource model are in the [Operating Model](./operating-model.mdx).

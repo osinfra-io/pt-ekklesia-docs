@@ -23,3 +23,28 @@ test('wide Markdown tables scroll within the page on mobile', async ({page}) => 
   await expect(container).toHaveCSS('overflow-x', 'auto');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });
+
+test('Team Topologies pages use centered outline icons for load indicators', async ({page}) => {
+  const paths = [
+    '/platform-grouping/operating-model',
+    '/platform-grouping/arche',
+    '/platform-grouping/corpus',
+    '/platform-grouping/ekklesia',
+    '/platform-grouping/logos',
+    '/platform-grouping/pneuma',
+    '/platform-grouping/techne',
+  ];
+
+  for (const path of paths) {
+    await page.goto(path);
+    const indicators = page.locator('.status-indicator');
+    await expect(indicators.first()).toBeVisible();
+    await expect(indicators.locator('svg[aria-hidden="true"]')).toHaveCount(
+      await indicators.count(),
+    );
+    await expect(page.locator('article')).not.toContainText(/[🔵🟡🟢🟠🔴]/);
+    await expect(indicators.first()).toHaveCSS('display', 'inline-flex');
+    await expect(indicators.first()).toHaveCSS('align-items', 'center');
+    await expect(indicators.first()).toHaveCSS('vertical-align', 'middle');
+  }
+});

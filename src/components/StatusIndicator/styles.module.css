@@ -1,0 +1,11 @@
+.indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.indicator svg {
+  flex: 0 0 auto;
+}

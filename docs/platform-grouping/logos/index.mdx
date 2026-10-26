@@ -3,6 +3,8 @@ sidebar_label: Logos
 description: The foundational principle of order across systems, integrating multi-provider infrastructure, establishing boundaries, governance, and stable standards for teams to operate autonomously.
 ---
 
+import StatusIndicator from '@site/src/components/StatusIndicator';
+
 # Logos
 
 Logos is the source of truth for team structure, organizational identity, repositories, and access boundaries across GCP, GitHub, and Datadog.
@@ -57,16 +59,16 @@ Logos spans four domains across three SaaS providers — all driven from a singl
 
 | Working Domains | High Intrinsic Domains |
 |---|---|
-| 🟠 4 / 4 | 🟢 0 / 3 |
+| <StatusIndicator status="atLimit">4 / 4</StatusIndicator> | <StatusIndicator status="withinLimit">0 / 3</StatusIndicator> |
 
 Cognitive load by domain:
 
 | Domain | Intrinsic | Extraneous Reduced By | Germane Expertise |
 |---|---|---|---|
-| Resource Hierarchy | 🟡 Medium | IaC, no manual ops | GCP org & folder design |
-| Identity & Access | 🟡 Medium | IaC, no manual ops | Identity federation |
-| Team Topology | 🟡 Medium | One tfvars → three providers | Cross-provider team modeling |
-| SaaS Governance | 🟢 Low | Stable config, rarely changes | Org compliance policy |
+| Resource Hierarchy | <StatusIndicator status="medium" /> | IaC, no manual ops | GCP org & folder design |
+| Identity & Access | <StatusIndicator status="medium" /> | IaC, no manual ops | Identity federation |
+| Team Topology | <StatusIndicator status="medium" /> | One tfvars → three providers | Cross-provider team modeling |
+| SaaS Governance | <StatusIndicator status="low" /> | Stable config, rarely changes | Org compliance policy |
 
 **Capacity**: 0 high-complexity domains (Team Topologies guideline: 2–3); team members hold 4 active domains — at the ~4 working-knowledge limit.
 

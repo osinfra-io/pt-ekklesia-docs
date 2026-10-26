@@ -3,6 +3,8 @@ sidebar_label: Pneuma
 description: The breath of life animating the platform via Kubernetes, orchestrating dynamic, self-healing, and scalable services atop the Logos foundation.
 ---
 
+import StatusIndicator from '@site/src/components/StatusIndicator';
+
 # Pneuma
 
 Pneuma provides the managed Kubernetes runtime on top of Corpus projects and networking. It owns GKE clusters and shared cluster services while workload teams retain ownership of their applications.
@@ -57,19 +59,19 @@ Pneuma is the most cognitively demanding platform team. It operates four domains
 
 | Score | Working Domains | High Intrinsic Domains |
 |---|---|---|
-| Current | 🔴 6 / 4 | 🔴 4 / 3 |
+| Current | <StatusIndicator status="overLimit">6 / 4</StatusIndicator> | <StatusIndicator status="overLimit">4 / 3</StatusIndicator> |
 | Target | ≤4 / 4 | ≤3 / 3 |
 
 Cognitive load by domain:
 
 | Domain | Intrinsic | Extraneous Reduced By | Germane Expertise |
 |---|---|---|---|
-| Cluster Management | 🔴 High | Arche GKE module | GKE internals, Fleet enrollment |
-| Service Mesh | 🔴 High | Arche Istio module | mTLS, traffic policy |
-| Gateway Authentication | 🔴 High | Arche Authentik module | Authentik, Istio authentication and authorization policy |
-| Certificate Management | 🔴 High | Arche cert-manager module | PKI chains, issuers |
-| Policy Enforcement | 🟡 Medium | Arche OPA module | Rego, constraint authoring |
-| Observability | 🟡 Medium | Arche Datadog module | Cluster metrics & traces |
+| Cluster Management | <StatusIndicator status="high" /> | Arche GKE module | GKE internals, Fleet enrollment |
+| Service Mesh | <StatusIndicator status="high" /> | Arche Istio module | mTLS, traffic policy |
+| Gateway Authentication | <StatusIndicator status="high" /> | Arche Authentik module | Authentik, Istio authentication and authorization policy |
+| Certificate Management | <StatusIndicator status="high" /> | Arche cert-manager module | PKI chains, issuers |
+| Policy Enforcement | <StatusIndicator status="medium" /> | Arche OPA module | Rego, constraint authoring |
+| Observability | <StatusIndicator status="medium" /> | Arche Datadog module | Cluster metrics & traces |
 
 **Capacity**: Current score is 4 high-complexity domains — above the Team Topologies guideline of 2–3 — and 6 active domains, above the ~4 working-knowledge limit. The target is no more than 3 high-intrinsic and 4 working domains. Arche Kubernetes modules are the primary mitigation: all Helm-based add-on deployment is encapsulated, leaving Pneuma to own configuration and integration rather than implementation. Module coverage reduces implementation toil but does not by itself justify lowering either score.
 
@@ -107,13 +109,13 @@ Cognitive load by domain:
 
 #### Context and Problem Statement
 
-Pneuma operates 6 working domains against the Team Topologies recommended limit of 4, with 4 high-intrinsic domains above the guideline ceiling of 3. This places the team formally at 🔴 over limit in the platform cognitive load table. The structural risk is that an overloaded team becomes a bottleneck, accrues technical debt faster, and is more vulnerable to failure when any single domain demands sustained attention. Acknowledging the overload without a documented mitigation and re-evaluation commitment leaves the risk unmanaged organizationally.
+Pneuma operates 6 working domains against the Team Topologies recommended limit of 4, with 4 high-intrinsic domains above the guideline ceiling of 3. This places the team formally over limit in the platform cognitive load table. The structural risk is that an overloaded team becomes a bottleneck, accrues technical debt faster, and is more vulnerable to failure when any single domain demands sustained attention. Acknowledging the overload without a documented mitigation and re-evaluation commitment leaves the risk unmanaged organizationally.
 
 The six domains — Cluster Management, Service Mesh, Gateway Authentication, Certificate Management, Policy Enforcement, and Observability — cannot be separated without creating artificial coupling problems. cert-manager CRDs must exist before Istio certificate resources; OPA Gatekeeper runs against all workloads on the cluster; gateway authentication enforcement depends on both the mesh and cluster layers. Splitting these concerns across teams would require tight coordination at every upgrade cycle and introduce more extraneous load than the split would remove.
 
 #### Decision
 
-1. **Accept the 🔴 overload state as a managed risk.** The six domains are operationally inseparable at the cluster layer. This is a structural reality of the platform, not a resourcing failure. The risk is acknowledged, documented, and mitigated — not ignored.
+1. **Accept the over-limit state as a managed risk.** The six domains are operationally inseparable at the cluster layer. This is a structural reality of the platform, not a resourcing failure. The risk is acknowledged, documented, and mitigated — not ignored.
 
 2. **Arche Kubernetes modules are the primary load mitigation.** Five of the six domains are covered by a dedicated `pt-arche-kubernetes-*` module (Service Mesh, Gateway Authentication, Certificate Management, Policy Enforcement, Observability); Cluster Management is covered by `pt-arche-google-kubernetes-engine`. Together these encapsulate all Helm chart management and complex resource orchestration across every domain, so Pneuma engineers own configuration and integration, not implementation. This mitigation is load-bearing: if Arche module coverage degrades, Pneuma's effective cognitive load increases proportionally.
 
@@ -126,7 +128,7 @@ The six domains — Cluster Management, Service Mesh, Gateway Authentication, Ce
    - The team drops below minimum headcount (fewer than 2 active engineers)
    - A stream-aligned team reports consistent delays in namespace provisioning or cluster support
 
-5. **Set a measurable target and review progress quarterly.** Reduce the score to no more than 4 working domains and 3 high-intrinsic domains. Review the score and progress every quarter, and whenever any trigger above occurs. Reassess domain boundaries and ownership as well as automation and Arche coverage; do not lower a score solely because implementation has been encapsulated. Keep the current 🔴 score until evidence supports a change.
+5. **Set a measurable target and review progress quarterly.** Reduce the score to no more than 4 working domains and 3 high-intrinsic domains. Review the score and progress every quarter, and whenever any trigger above occurs. Reassess domain boundaries and ownership as well as automation and Arche coverage; do not lower a score solely because implementation has been encapsulated. Keep the current over-limit score until evidence supports a change.
 
 6. **Track the mitigation as prioritized work under [pt-pneuma#225](https://github.com/osinfra-io/pt-pneuma/issues/225):**
    - **P1:** [Inventory Pneuma extraneous-load reduction opportunities](https://github.com/osinfra-io/pt-pneuma/issues/249)
@@ -145,4 +147,4 @@ The six domains — Cluster Management, Service Mesh, Gateway Authentication, Ce
 
 - Arche module coverage is a **load-bearing dependency** for the Pneuma team's capacity. Any PR that removes or degrades an Arche module without a replacement must be evaluated for its impact on Pneuma's cognitive load before merge.
 - Every new domain proposed for Pneuma must be accompanied by a corresponding Arche module that absorbs its implementation complexity, or by an explicit scope trade-off that removes an existing domain.
-- The 🔴 overload state in the platform cognitive load table is a known, managed risk. It must be re-examined at every headcount change, every scope change, and every Arche coverage change.
+- The over-limit state in the platform cognitive load table is a known, managed risk. It must be re-examined at every headcount change, every scope change, and every Arche coverage change.

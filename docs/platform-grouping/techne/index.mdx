@@ -3,6 +3,8 @@ sidebar_label: Techne
 description: The practiced art of making — the disciplined craft through which raw materials of infrastructure are shaped into purposeful, refined platform instruments.
 ---
 
+import StatusIndicator from '@site/src/components/StatusIndicator';
+
 # Techne
 
 Techne is the practiced art of making — the disciplined craft through which raw materials of infrastructure are shaped into purposeful, refined platform instruments.
@@ -52,15 +54,15 @@ Techne's domains are medium and low complexity individually — the craft is in 
 
 | Working Domains | High Intrinsic Domains |
 |---|---|
-| 🟡 3 / 4 | 🟢 0 / 3 |
+| <StatusIndicator status="approaching">3 / 4</StatusIndicator> | <StatusIndicator status="withinLimit">0 / 3</StatusIndicator> |
 
 Cognitive load by domain:
 
 | Domain | Intrinsic | Extraneous Reduced By | Germane Expertise |
 |---|---|---|---|
-| Deployment Automation | 🟡 Medium | Reusable called workflows | GitHub Actions, OIDC patterns |
-| Developer Experience | 🟢 Low | Pre-commit automation | DevX & productivity design |
-| AI Tooling | 🟡 Medium | MCP server abstraction | MCP protocol, schema design, Copilot agent patterns |
+| Deployment Automation | <StatusIndicator status="medium" /> | Reusable called workflows | GitHub Actions, OIDC patterns |
+| Developer Experience | <StatusIndicator status="low" /> | Pre-commit automation | DevX & productivity design |
+| AI Tooling | <StatusIndicator status="medium" /> | MCP server abstraction | MCP protocol, schema design, Copilot agent patterns |
 
 **Capacity**: 0 high-complexity domains (Team Topologies guideline: 2–3); team members hold 3 active domains — within the ~4 working-knowledge limit.
 
