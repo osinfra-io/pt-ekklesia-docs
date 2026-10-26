@@ -2,7 +2,7 @@ import { useState, useMemo, useRef, useEffect, useCallback, useContext } from 'r
 import {
   Alert,
   Autocomplete,
-  Button,
+  ActionIcon,
   Collapse,
   MultiSelect,
   Paper,
@@ -12,7 +12,8 @@ import {
   TextInput,
 } from '@mantine/core';
 import '@mantine/core/styles/Alert.css';
-import '@mantine/core/styles/Button.css';
+import {IconCheck, IconCopy} from '@tabler/icons-react';
+import '@mantine/core/styles/ActionIcon.css';
 import '@mantine/core/styles/CloseButton.css';
 import '@mantine/core/styles/Combobox.css';
 import '@mantine/core/styles/Input.css';
@@ -653,19 +654,19 @@ function PromptBuilderInner() {
       <div className={styles.preview}>
         <div className={styles.previewHeader}>
           <span className={styles.previewTitle}>Generated prompt</span>
-          <Button
+          <ActionIcon
             className={styles.copyBtn}
-            variant="outline"
-            color="yellow"
-            size="xs"
+            variant="transparent"
+            color={copyStatus === 'success' ? 'green' : 'gray'}
+            size="md"
             onClick={handleCopy}
             disabled={hasErrors}
             aria-label="Copy prompt"
             type="button"
-            title={hasErrors ? 'Fix validation errors before copying' : undefined}
+            title={hasErrors ? 'Fix validation errors before copying' : copyStatus === 'success' ? 'Copied' : 'Copy prompt'}
           >
-            {copyStatus === 'success' ? 'Copied' : hasErrors ? 'Fix errors' : 'Copy'}
-          </Button>
+            {copyStatus === 'success' ? <IconCheck size={18} aria-hidden="true" /> : <IconCopy size={18} aria-hidden="true" />}
+          </ActionIcon>
         </div>
         <pre className={styles.previewBody}>{prompt}</pre>
         {copyStatus === 'success' && (

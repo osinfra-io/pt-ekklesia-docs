@@ -198,13 +198,6 @@
 
 .copyBtn {
   flex-shrink: 0;
-  border-color: #777;
-  color: #ffcc4d;
-}
-
-.copyBtn:hover:not(:disabled) {
-  border-color: #ffcc4d;
-  color: #ffcc4d;
 }
 
 .copyAlert {
