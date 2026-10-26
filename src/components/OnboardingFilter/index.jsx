@@ -1,11 +1,11 @@
 import { createContext, useContext, useState } from 'react';
-import {Badge, Button, Group, Switch} from '@mantine/core';
-import '@mantine/core/styles/Badge.css';
+import {Button, Group, Switch, Text} from '@mantine/core';
 import '@mantine/core/styles/UnstyledButton.css';
 import '@mantine/core/styles/Button.css';
 import '@mantine/core/styles/Group.css';
 import '@mantine/core/styles/InlineInput.css';
 import '@mantine/core/styles/Switch.css';
+import '@mantine/core/styles/Text.css';
 
 export const OnboardingFilterContext = createContext(null);
 
@@ -31,7 +31,7 @@ export function FilterBar({ requiredCount, optionalCount }) {
   const { showOptional, setShowOptional } = useOnboardingFilter();
   return (
     <Group gap="md" my="md">
-      <Badge variant="outline" color="gold" size="lg">Required ({requiredCount})</Badge>
+      <Text component="span" size="sm" c="dimmed">Required ({requiredCount})</Text>
       <Switch
         checked={showOptional}
         onChange={event => setShowOptional(event.currentTarget.checked)}
