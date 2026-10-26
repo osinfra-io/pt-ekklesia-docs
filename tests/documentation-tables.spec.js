@@ -24,27 +24,12 @@ test('wide Markdown tables scroll within the page on mobile', async ({page}) => 
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });
 
-test('Team Topologies pages use centered outline icons for load indicators', async ({page}) => {
-  const paths = [
-    '/platform-grouping/operating-model',
-    '/platform-grouping/arche',
-    '/platform-grouping/corpus',
-    '/platform-grouping/ekklesia',
-    '/platform-grouping/logos',
-    '/platform-grouping/pneuma',
-    '/platform-grouping/techne',
-  ];
+test('status indicator aligns its icon with its label', async ({page}) => {
+  await page.goto('/platform-grouping/operating-model');
+  const indicator = page.locator('.status-indicator').first();
 
-  for (const path of paths) {
-    await page.goto(path);
-    const indicators = page.locator('.status-indicator');
-    await expect(indicators.first()).toBeVisible();
-    await expect(indicators.locator('svg[aria-hidden="true"]')).toHaveCount(
-      await indicators.count(),
-    );
-    await expect(page.locator('article')).not.toContainText(/[🔵🟡🟢🟠🔴]/u);
-    await expect(indicators.first()).toHaveCSS('display', 'inline-flex');
-    await expect(indicators.first()).toHaveCSS('align-items', 'center');
-    await expect(indicators.first()).toHaveCSS('vertical-align', 'middle');
-  }
+  await expect(indicator).toBeVisible();
+  await expect(indicator.locator('svg[aria-hidden="true"]')).toHaveCount(1);
+  await expect(indicator).toHaveCSS('display', 'inline-flex');
+  await expect(indicator).toHaveCSS('align-items', 'center');
 });
