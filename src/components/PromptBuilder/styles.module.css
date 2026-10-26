@@ -168,7 +168,7 @@
 
 .preview {
   position: sticky;
-  top: 1rem;
+  top: calc(var(--ifm-navbar-height) + 1rem);
   display: flex;
   flex-direction: column;
   min-width: 0;
