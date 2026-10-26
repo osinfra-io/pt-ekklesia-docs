@@ -27,7 +27,8 @@ test('shared cards preserve headings, descriptions, links, and keyboard activati
     'Onboard Your Team', 'Expose and Protect a Route', 'Glossary',
   ]);
   await expect(cards.first().locator('p')).toContainText('Nomos opens the pull requests.');
-  await expect(cards.first().locator('[aria-hidden="true"]')).toHaveCount(1);
+  await expect(cards.first().locator('svg[aria-hidden="true"]')).toHaveCount(1);
+  await expect(cards.locator('svg.tabler-icon')).toHaveCount(3);
   await expect(cards.first().locator('.mantine-ThemeIcon-root')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
   const link = cards.first().getByRole('link', {name: 'Start onboarding'});
   await expect(link).toHaveAttribute('href', '/onboarding');

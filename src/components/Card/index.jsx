@@ -1,6 +1,7 @@
 import React from 'react';
 import {Card as MantineCard, Group, ThemeIcon} from '@mantine/core';
 import Link from '@docusaurus/Link';
+import CardIcon from '@site/src/components/CardIcon';
 import '@mantine/core/styles/Paper.css';
 import '@mantine/core/styles/Card.css';
 import '@mantine/core/styles/Group.css';
@@ -19,7 +20,7 @@ export default function Card({item}) {
             size={40}
             variant="transparent"
           >
-            {item.icon}
+            <CardIcon name={item.icon} />
           </ThemeIcon>
         )}
         <h3 className={styles.title}>{item.title}</h3>

@@ -4,6 +4,7 @@ import Heading from '@theme/Heading';
 import AgentDemo from '@site/src/components/AgentDemo';
 import Card from '@site/src/components/Card';
 import CardGrid from '@site/src/components/CardGrid';
+import CardIcon from '@site/src/components/CardIcon';
 
 import styles from './index.module.css';
 
@@ -12,39 +13,39 @@ const features = [
     title: 'Guardrails by default',
     description:
       'Platform-managed projects include established security controls, encrypted state, audit logging, and policy enforcement. Your team owns its workload while the platform owns the shared guardrails.',
-    icon: '🔐',
+    icon: 'shieldLock',
   },
   {
     title: 'Built on open standards',
     description:
       'Infrastructure automation and runtime tooling are built on CNCF and Linux Foundation open-source projects — Kubernetes, Istio, cert-manager, OPA Gatekeeper, OpenTofu, OpenBao. No proprietary abstractions, no lock-in, no black boxes.',
-    icon: '📦',
+    icon: 'box',
   },
   {
     title: 'Innersource, not a bottleneck',
     description:
       'Arche, Ekklesia, and Techne run as innersource repositories — any engineer can open a pull request, and platform engineers from staffed teams review. Stream-aligned teams unblock themselves by contributing fixes and new capabilities directly to the platform.',
-    icon: '🤝',
+    icon: 'heartHandshake',
   },
 ];
 
 const cards = [
   {
-    icon: '🚀',
+    icon: 'rocket',
     title: 'Building on the platform',
     note: 'You own a service and want to run it here. One interface, the Nomos Agent, onboards your team and requests everything the platform provides.',
     link: '/getting-started',
     linkText: 'Get started →',
   },
   {
-    icon: '🛠️',
+    icon: 'tools',
     title: 'Building the platform',
     note: 'You own a technical area. Find what each team owns, its interfaces, and the decisions behind them.',
     link: '/platform-grouping',
     linkText: 'See the teams →',
   },
   {
-    icon: '🌐',
+    icon: 'world',
     title: 'Learning from the stack',
     note: 'These docs are the reference implementation: every page describes the live platform, open source end to end.',
     link: '/ecosystem',
@@ -54,22 +55,22 @@ const cards = [
 
 const whatYouGet = [
   {
-    icon: '🏭',
+    icon: 'buildingFactory',
     title: 'Continuous delivery enablement',
     note: 'GitHub teams and repositories, keyless GCP authentication, Artifact Registry, and reusable deployment workflows.',
   },
   {
-    icon: '🏗️',
+    icon: 'buildingSkyscraper',
     title: 'Cloud foundation',
     note: 'CIS-compliant GCP projects across sandbox, non-production, and production, with KMS-encrypted state, shared networking, DNS, and Kubernetes namespaces.',
   },
   {
-    icon: '🔒',
+    icon: 'lock',
     title: 'Security',
     note: 'OpenBao secrets, Istio mTLS, OPA Gatekeeper admission control, Cloud Armor WAF, hardened GKE clusters, and Datadog security monitoring.',
   },
   {
-    icon: '🐶',
+    icon: 'eye',
     title: 'Observability and incident response',
     note: 'Platform-managed Datadog integrations provide cluster telemetry and can enable logs, APM, security features, and cloud-cost visibility where configured.',
   },
@@ -88,7 +89,7 @@ function WhatYouGet() {
         <div className={styles.whatYouGetGrid}>
           {whatYouGet.map((item) => (
             <div key={item.title} className={styles.whatYouGetItem}>
-              <span className={styles.whatYouGetIcon}>{item.icon}</span>
+              <span className={styles.whatYouGetIcon}><CardIcon name={item.icon} /></span>
               <div>
                 <div className={styles.whatYouGetTitle}>{item.title}</div>
                 <div className={styles.whatYouGetNote}>{item.note}</div>
@@ -197,7 +198,7 @@ function Features() {
         <div className={styles.featureGrid}>
           {features.map((feature) => (
             <div key={feature.title} className={styles.featureItem}>
-              <span className={styles.featureIcon}>{feature.icon}</span>
+              <span className={styles.featureIcon}><CardIcon name={feature.icon} size={32} /></span>
               <Heading as="h3" className={styles.featureTitle}>
                 {feature.title}
               </Heading>

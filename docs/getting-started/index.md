@@ -14,9 +14,9 @@ For teams **using** the platform. The platform teams expose one coherent interfa
 <GettingStartedTimeline />
 
 <CardGrid>
-  <Card item={{ icon: '🚀', title: 'Onboard Your Team', note: 'Team, repositories, access, GCP projects, databases, Kubernetes namespaces, and secrets. Nomos opens the pull requests.', link: '/onboarding', linkText: 'Start onboarding →' }} />
-  <Card item={{ icon: '🌐', title: 'Expose and Protect a Route', note: 'Serve a service at your team hostname and choose public, browser SSO, or API JWT authentication.', link: '/getting-started/expose-a-route', linkText: 'Ask for a route →' }} />
-  <Card item={{ icon: '📚', title: 'Glossary', note: 'Terms used across these guides.', link: '/getting-started/glossary', linkText: 'View terms →' }} />
+  <Card item={{ icon: 'rocket', title: 'Onboard Your Team', note: 'Team, repositories, access, GCP projects, databases, Kubernetes namespaces, and secrets. Nomos opens the pull requests.', link: '/onboarding', linkText: 'Start onboarding →' }} />
+  <Card item={{ icon: 'world', title: 'Expose and Protect a Route', note: 'Serve a service at your team hostname and choose public, browser SSO, or API JWT authentication.', link: '/getting-started/expose-a-route', linkText: 'Ask for a route →' }} />
+  <Card item={{ icon: 'book', title: 'Glossary', note: 'Terms used across these guides.', link: '/getting-started/glossary', linkText: 'View terms →' }} />
 </CardGrid>
 
 ## What Each Team Provides

@@ -20,6 +20,8 @@ The site-wide Mantine provider lives in `src/theme/Root/index.jsx`. Import only 
 
 Markdown tables use the shared Mantine table mapping in `src/theme/MDXComponents/`: left-aligned headers, subtle row separators, and native horizontal scrolling on narrow screens. Keep writing ordinary Markdown tables; no per-page JSX is needed.
 
+Cards use named Tabler outline icons from `src/components/CardIcon/` instead of emoji (for example, `icon: 'rocket'`, `icon: 'world'`, or `icon: 'book'`). Keep icons muted and background-free.
+
 For UI changes, run `yarn build` followed by `yarn test:ui`. Install the browser once with `yarn playwright install --with-deps chromium`. The browser checks exercise the production build on a temporary local server and cover responsive layouts, keyboard navigation, schema expansion, prompt generation, clipboard feedback, and invocation instructions.
 
 ## Deployment

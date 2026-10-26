@@ -30,10 +30,10 @@ Soteria is led by the platform's founder, who is accountable for the security of
 ## What Soteria owns
 
 <CardGrid>
-  <Card item={{ icon: '🔐', title: 'Secure by default', note: 'CIS-aligned GCP projects, workload identity federation instead of long-lived keys, encrypted state, and OPA Gatekeeper policy enforcement on every cluster.' }} />
-  <Card item={{ icon: '📌', title: 'Supply-chain integrity', note: 'Every module source and GitHub Action is pinned to a full commit SHA, with Dependabot and pre-commit security hooks keeping dependencies current.' }} />
-  <Card item={{ icon: '🕸️', title: 'Zero-trust networking', note: 'Istio ambient service mesh, mutual TLS, gateway authentication with Authentik, and secrets management with OpenBao.' }} />
-  <Card item={{ icon: '🧪', title: 'Security testing', note: 'End-to-end testing of the platform and the third-party components it integrates, performed only against systems osinfra-io owns and operates.' }} />
+  <Card item={{ icon: 'shieldLock', title: 'Secure by default', note: 'CIS-aligned GCP projects, workload identity federation instead of long-lived keys, encrypted state, and OPA Gatekeeper policy enforcement on every cluster.' }} />
+  <Card item={{ icon: 'pin', title: 'Supply-chain integrity', note: 'Every module source and GitHub Action is pinned to a full commit SHA, with Dependabot and pre-commit security hooks keeping dependencies current.' }} />
+  <Card item={{ icon: 'network', title: 'Zero-trust networking', note: 'Istio ambient service mesh, mutual TLS, gateway authentication with Authentik, and secrets management with OpenBao.' }} />
+  <Card item={{ icon: 'flask', title: 'Security testing', note: 'End-to-end testing of the platform and the third-party components it integrates, performed only against systems osinfra-io owns and operates.' }} />
 </CardGrid>
 
 ## Defensive and offensive functions
@@ -41,10 +41,10 @@ Soteria is led by the platform's founder, who is accountable for the security of
 Soteria combines defensive engineering with offensive testing so that controls are validated by attempting to break them. All activity targets only systems osinfra-io owns and operates.
 
 <CardGrid>
-  <Card item={{ icon: '🛡️', title: 'Blue team — defense', note: 'Designs and maintains preventive and detective controls: IAM and least privilege, policy enforcement, secrets management, hardened pipelines, monitoring and alerting, and incident response.' }} />
-  <Card item={{ icon: '⚔️', title: 'Red team — offense', note: 'Emulates realistic adversaries against our own deployments: attack-path analysis, privilege escalation and lateral-movement testing, and attempts to bypass mesh, gateway, and policy controls.' }} />
-  <Card item={{ icon: '🔍', title: 'Vulnerability research', note: 'Reviews code, OpenTofu, Kubernetes, and CI/CD configuration for misconfigurations and weaknesses, then triages findings by severity and exploitability.' }} />
-  <Card item={{ icon: '🤝', title: 'Purple teaming', note: 'Feeds every offensive finding back into detections, guardrails, and documentation, so each test leaves the platform measurably harder to attack.' }} />
+  <Card item={{ icon: 'shield', title: 'Blue team — defense', note: 'Designs and maintains preventive and detective controls: IAM and least privilege, policy enforcement, secrets management, hardened pipelines, monitoring and alerting, and incident response.' }} />
+  <Card item={{ icon: 'swords', title: 'Red team — offense', note: 'Emulates realistic adversaries against our own deployments: attack-path analysis, privilege escalation and lateral-movement testing, and attempts to bypass mesh, gateway, and policy controls.' }} />
+  <Card item={{ icon: 'search', title: 'Vulnerability research', note: 'Reviews code, OpenTofu, Kubernetes, and CI/CD configuration for misconfigurations and weaknesses, then triages findings by severity and exploitability.' }} />
+  <Card item={{ icon: 'heartHandshake', title: 'Purple teaming', note: 'Feeds every offensive finding back into detections, guardrails, and documentation, so each test leaves the platform measurably harder to attack.' }} />
 </CardGrid>
 
 Offensive work follows defined rules of engagement: it runs only against our own GitHub organization and GCP environments, never against third-party or shared systems, and every finding is fixed and disclosed through the process below.
