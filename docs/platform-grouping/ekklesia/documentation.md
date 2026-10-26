@@ -18,6 +18,8 @@ Built on [Docusaurus 3](https://docusaurus.io/) with the following features enab
 
 The site-wide Mantine provider lives in `src/theme/Root/index.jsx`. Import only the styles needed by each component (including dependency styles such as `Paper.css` for `Card`); do not import Mantine's global reset or full stylesheet, which can override Docusaurus styling. The provider emits the base CSS variables explicitly, so component-only imports retain correct sizing and spacing.
 
+Markdown tables use the shared Mantine table mapping in `src/theme/MDXComponents/`: left-aligned headers, subtle row separators, and native horizontal scrolling on narrow screens. Keep writing ordinary Markdown tables; no per-page JSX is needed.
+
 For UI changes, run `yarn build` followed by `yarn test:ui`. Install the browser once with `yarn playwright install --with-deps chromium`. The browser checks exercise the production build on a temporary local server and cover responsive layouts, keyboard navigation, schema expansion, prompt generation, clipboard feedback, and invocation instructions.
 
 ## Deployment
