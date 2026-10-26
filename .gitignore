@@ -7,8 +7,6 @@ build/
 # Generated files
 .docusaurus/
 .cache-loader/
-playwright-report/
-test-results/
 
 # Misc
 .DS_Store

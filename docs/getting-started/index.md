@@ -31,7 +31,7 @@ For teams **using** the platform. The platform teams expose one coherent interfa
 
 | Need | Go to |
 | --- | --- |
-| Reusable OpenTofu module | [Arche](../platform-grouping/arche/index.md) |
-| Workflows, hooks, dev environment, or agents | [Techne](../platform-grouping/techne/index.md) |
+| Reusable OpenTofu module | [Arche](../platform-grouping/arche/index.mdx) |
+| Workflows, hooks, dev environment, or agents | [Techne](../platform-grouping/techne/index.mdx) |
 | Secrets service or OpenBao policy | [Pneuma](../platform-grouping/pneuma/open-bao.md) |
 | Fix or extend these docs | [Documentation](../platform-grouping/ekklesia/documentation.md) |

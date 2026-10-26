@@ -5,7 +5,6 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "test:ui": "playwright test",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
@@ -30,8 +29,7 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.10.2",
-    "@docusaurus/types": "3.10.2",
-    "@playwright/test": "^1.64.1"
+    "@docusaurus/types": "3.10.2"
   },
   "browserslist": {
     "production": [
