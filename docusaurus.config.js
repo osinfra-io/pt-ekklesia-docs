@@ -1,4 +1,5 @@
 // @ts-check
+import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -104,6 +105,13 @@ const config = {
       footer: {
       },
       prism: {
+        darkTheme: {
+          ...prismThemes.vsDark,
+          plain: {
+            color: '#e0e0e0',
+            backgroundColor: '#232323',
+          },
+        },
         additionalLanguages: ['hcl', 'bash'],
       },
     }),
