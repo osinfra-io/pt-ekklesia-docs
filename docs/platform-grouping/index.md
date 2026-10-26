@@ -5,6 +5,7 @@ description: The platform grouping — the collection of platform teams that tog
 
 import Card from '@site/src/components/Card';
 import CardGrid from '@site/src/components/CardGrid';
+import TeamDependencies from '@site/src/components/TeamDependencies';
 
 # Platform Grouping
 
@@ -29,28 +30,6 @@ Each team owns a distinct context with explicit upstream/downstream relationship
 
 The deployment supply chain is Logos → Corpus → Pneuma. Pneuma supplies runtime and platform services, including secrets, to all teams. Arche, Ekklesia, and Techne are shared capabilities used across the grouping.
 
-```mermaid
-flowchart TD
-    AllTeams(["All Teams"])
-
-    subgraph sk ["Shared services"]
-        direction LR
-        Arche["🧱 Arche"]
-        Ekklesia["📖 Ekklesia"]
-        Techne["🛠️ Techne"]
-    end
-
-    subgraph cs ["Supply chain"]
-        direction LR
-        Logos["🏛️ Logos"] --> Corpus["🌐 Corpus"]
-        Corpus --> Pneuma["☸️ Pneuma"]
-    end
-
-    sk ==> cs
-    Ekklesia ==> AllTeams
-    Techne ==> AllTeams
-    Pneuma --> AllTeams
-```
-
+<TeamDependencies />
 
 Interaction modes, cognitive load, staffing, and the innersource model are in the [Operating Model](./operating-model.md).
