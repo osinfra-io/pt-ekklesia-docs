@@ -22,8 +22,6 @@ Markdown tables use the shared Mantine table mapping in `src/theme/MDXComponents
 
 Cards use named Tabler outline icons from `src/components/CardIcon/` instead of emoji (for example, `icon: 'rocket'`, `icon: 'world'`, or `icon: 'book'`). Keep icons muted and background-free.
 
-For UI changes, run `yarn build` followed by `yarn test:ui`. Install the browser once with `yarn playwright install --with-deps chromium`. The browser checks exercise the production build on a temporary local server and cover responsive layouts, keyboard navigation, schema expansion, prompt generation, clipboard feedback, and invocation instructions.
-
 ## Deployment
 
 - **Pull requests** — a test build runs on every PR to catch broken links and build errors before merge
