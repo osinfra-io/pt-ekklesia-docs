@@ -93,3 +93,20 @@ test('the timeline retains sized Tabler icons and separated bullets after theme 
   const bodyBounds = await body.boundingBox();
   expect(bulletBounds.x + bulletBounds.width).toBeLessThanOrEqual(bodyBounds.x);
 });
+
+test('the route timeline preserves the deployment sequence and fits mobile screens', async ({page}) => {
+  await page.goto('/getting-started/expose-a-route');
+  const timeline = page.getByRole('list', {name: 'Five steps to expose and protect a route'});
+  await expect(timeline.getByRole('listitem')).toHaveCount(5);
+  await expect(timeline.locator('.mantine-Timeline-itemTitle')).toHaveText([
+    'Ask Nomos',
+    'Review the Logos pull request',
+    'Pneuma renders routing and authentication',
+    'The shared gateway enforces access',
+    'Requests reach your service',
+  ]);
+  await expect(timeline.locator('svg[aria-hidden="true"]')).toHaveCount(5);
+  await expect(page.getByRole('heading', {name: 'Choose an Authentication Mode'})).toBeVisible();
+  await page.setViewportSize({width: 390, height: 900});
+  expect(await timeline.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+});

@@ -9,7 +9,7 @@ import '@mantine/core/styles/Timeline.css';
 
 import styles from './styles.module.css';
 
-const steps = [
+const defaultSteps = [
   {
     icon: <IconUserPlus aria-hidden="true" size={18} stroke={1.75} />,
     title: 'Onboard with Nomos',
@@ -32,11 +32,14 @@ const steps = [
   },
 ];
 
-export default function GettingStartedTimeline() {
+export default function GettingStartedTimeline({
+  steps = defaultSteps,
+  label = 'Four steps to use the platform',
+}) {
   return (
     <Timeline
       active={-1}
-      aria-label="Four steps to use the platform"
+      aria-label={label}
       className={styles.timeline}
       bulletSize={30}
       lineWidth={2}
