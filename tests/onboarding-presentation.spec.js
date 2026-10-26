@@ -37,6 +37,10 @@ test('schema maps expand recursively with accessible controls and survive filter
   await sql.click();
   await expect(sql).toHaveAttribute('aria-expanded', 'true');
   await expect(page.locator('main')).toContainText('database_version');
+  const projectFields = project.locator('..').locator(':scope > .mantine-Accordion-panel [class*="children"]').first();
+  const sqlFields = sql.locator('..').locator(':scope > .mantine-Accordion-panel [class*="children"]').first();
+  expect(await projectFields.evaluate(element => getComputedStyle(element).backgroundColor))
+    .not.toBe(await sqlFields.evaluate(element => getComputedStyle(element).backgroundColor));
   await page.getByRole('button', {name: /^github_repositories/}).click();
   await page.getByRole('button', {name: /^pages object/}).click();
   const pageFields = page.locator('.mantine-Accordion-panel').filter({has: page.locator('code').filter({hasText: /^build_type$/})}).last();

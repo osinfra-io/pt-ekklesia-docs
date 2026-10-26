@@ -48,7 +48,7 @@ function SchemaProperty({name, prop}) {
 
   if (!hasChildren) {
     return (
-      <div className={styles.leaf}>
+      <div className={`${styles.property} ${styles.leaf}`}>
         {summary}
         <PropertyDetails prop={prop} />
       </div>
@@ -57,6 +57,7 @@ function SchemaProperty({name, prop}) {
 
   return (
     <Accordion
+      className={styles.property}
       multiple
       variant="default"
       chevronPosition="left"

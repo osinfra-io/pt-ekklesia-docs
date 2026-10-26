@@ -4,14 +4,19 @@
   margin: 1.5rem 0;
   overflow: hidden;
   font-size: 0.875rem;
+  background: #1e1e1e;
 }
 
 .title {
   padding: 0.5rem 1rem;
-  background: var(--ifm-background-surface-color);
+  background: #303030;
   font-family: var(--ifm-font-family-monospace);
   font-weight: 600;
   border-bottom: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.viewer > .property:nth-child(2n) {
+  background: #242424;
 }
 
 .meta {
@@ -101,6 +106,19 @@
 
 .children {
   border-left: 1px solid var(--ifm-color-emphasis-300);
+  background: #292929;
+}
+
+.children .children {
+  background: #303030;
+}
+
+.children .children .children {
+  background: #373737;
+}
+
+.children > .property + .property {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 @media (max-width: 480px) {
