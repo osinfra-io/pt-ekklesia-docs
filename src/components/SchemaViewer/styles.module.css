@@ -3,11 +3,12 @@
   border-radius: 8px;
   margin: 1.5rem 0;
   overflow: hidden;
-  background: var(--ifm-background-surface-color);
+  font-size: 0.875rem;
 }
 
 .title {
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--ifm-background-surface-color);
   font-family: var(--ifm-font-family-monospace);
   font-weight: 600;
   border-bottom: 1px solid var(--ifm-color-emphasis-300);
@@ -17,7 +18,7 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.45rem;
   min-width: 0;
 }
 
@@ -25,6 +26,8 @@
   font-size: 0.875rem;
   font-weight: 600;
   background: none;
+  border: 0;
+  padding: 0;
   color: var(--ifm-heading-color);
   overflow-wrap: anywhere;
   white-space: normal;
@@ -32,10 +35,43 @@
 
 .controlLabel {
   overflow: visible;
+  padding-block: 0;
+}
+
+.control {
+  padding: 0.7rem 1rem 0;
+}
+
+.chevron {
+  margin-inline: 0 0.6rem;
+  color: var(--ifm-color-content-secondary);
+}
+
+.type {
+  text-transform: none;
+  letter-spacing: normal;
+  font-family: var(--ifm-font-family-monospace);
+  font-weight: 500;
+}
+
+.mapKey,
+.required,
+.optional {
+  font-size: 0.7rem;
+  font-weight: 400;
+}
+
+.mapKey,
+.optional {
+  color: var(--ifm-color-content-secondary);
+}
+
+.required {
+  color: var(--mantine-color-green-3);
 }
 
 .leaf {
-  padding: 1rem;
+  padding: 0.7rem 1rem 0.7rem 2.5rem;
   border-bottom: 1px solid var(--ifm-color-emphasis-300);
 }
 
@@ -44,7 +80,7 @@
 }
 
 .details {
-  padding: 0 1rem 0.75rem;
+  padding: 0 1rem 0.7rem 2.5rem;
 }
 
 .leaf .details {
@@ -52,19 +88,19 @@
 }
 
 .description {
-  margin: 0.5rem 0 0;
+  margin: 0.3rem 0 0;
   color: var(--ifm-color-content-secondary);
-  font-size: 0.875rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
   overflow-wrap: anywhere;
 }
 
 .content {
-  padding: 0 0.75rem 0.75rem;
+  padding: 0 0 0 1rem;
 }
 
 .children {
-  border-left: 2px solid var(--ifm-color-primary);
-  background: var(--ifm-background-color);
+  border-left: 1px solid var(--ifm-color-emphasis-300);
 }
 
 @media (max-width: 480px) {

@@ -38,11 +38,11 @@ function SchemaProperty({name, prop}) {
   const summary = (
     <span className={styles.meta}>
       <Code className={styles.name}>{name}</Code>
-      <Badge component="span" color={typeColors[prop.type] ?? 'gray'} variant="light" size="sm">{prop.type}</Badge>
-      {mapProps && <Badge component="span" color="cyan" variant="outline" size="sm">‹key›</Badge>}
-      <Badge component="span" color={prop.required ? 'green' : 'gray'} variant="outline" size="sm">
+      <Badge className={styles.type} component="span" color={typeColors[prop.type] ?? 'gray'} variant="light" size="xs">{prop.type}</Badge>
+      {mapProps && <span className={styles.mapKey} title="Fields apply to each named entry">‹key›</span>}
+      <span className={prop.required ? styles.required : styles.optional}>
         {prop.required ? 'required' : 'optional'}
-      </Badge>
+      </span>
     </span>
   );
 
@@ -56,7 +56,18 @@ function SchemaProperty({name, prop}) {
   }
 
   return (
-    <Accordion multiple variant="default" classNames={{label: styles.controlLabel, content: styles.content}}>
+    <Accordion
+      multiple
+      variant="default"
+      chevronPosition="left"
+      chevronSize={14}
+      classNames={{
+        control: styles.control,
+        chevron: styles.chevron,
+        label: styles.controlLabel,
+        content: styles.content,
+      }}
+    >
       <Accordion.Item value={name}>
         <Accordion.Control>{summary}</Accordion.Control>
         <PropertyDetails prop={prop} />
