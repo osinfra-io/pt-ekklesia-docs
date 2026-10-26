@@ -42,7 +42,7 @@ test('Team Topologies pages use centered outline icons for load indicators', asy
     await expect(indicators.locator('svg[aria-hidden="true"]')).toHaveCount(
       await indicators.count(),
     );
-    await expect(page.locator('article')).not.toContainText(/[🔵🟡🟢🟠🔴]/);
+    await expect(page.locator('article')).not.toContainText(/[🔵🟡🟢🟠🔴]/u);
     await expect(indicators.first()).toHaveCSS('display', 'inline-flex');
     await expect(indicators.first()).toHaveCSS('align-items', 'center');
     await expect(indicators.first()).toHaveCSS('vertical-align', 'middle');
