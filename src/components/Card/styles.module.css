@@ -4,7 +4,7 @@
 
 .card:hover {
   transform: translateY(-0.125rem);
-  box-shadow: 0 0.25rem 0.75rem rgba(255, 180, 0, 0.1);
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.3);
 }
 
 .icon {
