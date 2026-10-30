@@ -95,6 +95,8 @@ Set each non-sensitive `google_oauth_client_id` in the matching `pt-pneuma/regio
 
 The Google source is enabled only when both its client ID and secret are non-empty. Managed application groups require that source to be enabled. An Internal audience controls who can sign in with Google; it does not grant application access or replace group-based authorization.
 
+The Google identity mapping classifies a user as internal only when Google verifies the email, its domain matches the Workspace `hd` claim, and that domain is in the configured internal-domain allowlist (`osinfra.io` for Pneuma). Other Google users remain external. Existing accounts receive the classification on their next Google sign-in. Internal status enables the authentik user interface, not administrative permissions; only Pneuma's declared `authentik-admins` group receives global superuser access. OpenBao's local OIDC mount is visible on the unauthenticated login page so users can select the Google-backed sign-in method.
+
 Deploy Authentik and its gateway routes before applying Authentik Config, which calls the live management API. OAuth credentials do not fix an unavailable Authentik instance in an environment without clusters. Verify configuration with a real internal-user Google browser sign-in and the intended application's authorization checks once the environment is available.
 
 ## Browser Authorization
@@ -115,7 +117,7 @@ Authentik group membership is not yet synchronized from Logos in the released Pn
 
 ### Team-owned application groups
 
-Logos declares per-environment application access through [`authentik_groups`](../logos/team-topology.md#authentik-application-access-declarations). Group names carry the owning team key and preserve application branding, for example `pt-pneuma: agentgateway Admins`. Names contain spaces, so matching must compare whole names.
+Logos declares per-environment application access through [`authentik_groups`](../logos/team-topology.md#authentik-group-declarations). Group names carry the owning team key and preserve application branding, for example `pt-pneuma: agentgateway Admins`. Names contain spaces, so matching must compare whole names.
 
 | Aspect | Behavior |
 |---|---|
