@@ -26,17 +26,11 @@ import '@mantine/core/styles/Switch.css';
 import '@mantine/core/styles/UnstyledButton.css';
 import teamSchema from '@site/src/components/SchemaViewer/team.schema.json';
 import { useOnboardingFilter, FilterBar, OnboardingFilterContext, OnboardingFilterProvider } from '@site/src/components/OnboardingFilter';
+import {parseList, validate, buildPrompt} from './prompt';
 import styles from './styles.module.css';
 
 const schema = teamSchema.properties;
 const defs = teamSchema.$defs;
-
-// Patterns pulled directly from the schema
-const TEAM_KEY_RE    = new RegExp(schema.team_key.pattern);
-const DISPLAY_RE     = new RegExp(schema.display_name.pattern);
-const USERNAME_RE    = new RegExp(defs.usernameList.items.pattern);
-const EMAIL_RE       = new RegExp(defs.emailList.items.pattern);
-const API_RE         = new RegExp(schema.google_project_services.items.pattern);
 
 const SQL_VERSIONS = [
   'POSTGRES_18', 'POSTGRES_17', 'POSTGRES_16', 'POSTGRES_15', 'POSTGRES_14',
@@ -60,129 +54,11 @@ const SQL_REGIONS = ['us-east1', 'us-east4'];
 
 const GKE_ZONES = ['us-east1-b', 'us-east1-c', 'us-east1-d', 'us-east4-a', 'us-east4-b', 'us-east4-c'];
 
-const REQUIRED_COUNT = 5;
+const REQUIRED_COUNT = 8;
 const OPTIONAL_COUNT = 9;
-
-function parseList(raw) {
-  return raw.split(/[\n,]/).map(s => s.trim()).filter(Boolean);
-}
 
 function normalizeTeamKey(raw) {
   return raw.trim().toLowerCase();
-}
-
-function validate(fields, copyAttempted = false) {
-  const errors = {};
-
-  // Required — only surface after a copy attempt
-  if (copyAttempted) {
-    if (!fields.description?.trim())           errors.description = 'Description is required';
-    if (!parseList(fields.maintainers).length) errors.maintainers = 'At least one maintainer is required';
-  }
-
-  // Format errors — always checked when the field has a value
-  if (fields.teamKey && !TEAM_KEY_RE.test(fields.teamKey)) {
-    errors.teamKey = 'Must match pattern: (pt|st|ct|et)-<slug>, e.g. st-fides';
-  }
-
-  if (fields.displayName && !DISPLAY_RE.test(fields.displayName)) {
-    errors.displayName = 'Title Case required, e.g. "Fides" or "Trust and Safety"';
-  }
-
-  if (fields.maintainers) {
-    const bad = parseList(fields.maintainers).filter(u => !USERNAME_RE.test(u));
-    if (bad.length) errors.maintainers = `Invalid username(s): ${bad.join(', ')}`;
-  }
-
-  if (fields.adminEmail && !EMAIL_RE.test(fields.adminEmail.trim())) {
-    errors.adminEmail = 'Must be a valid email address';
-  }
-
-  if (fields.members) {
-    const bad = parseList(fields.members).filter(u => !USERNAME_RE.test(u));
-    if (bad.length) errors.members = `Invalid username(s): ${bad.join(', ')}`;
-  }
-
-  if (fields.githubRepositories) {
-    const REPO_RE = /^[a-z][a-z0-9-]*$/;
-    const bad = parseList(fields.githubRepositories).filter(r => {
-      if (!REPO_RE.test(r)) return true;
-      if (fields.teamKey && r !== fields.teamKey && !r.startsWith(`${fields.teamKey}-`)) return true;
-      return false;
-    });
-    if (bad.length) errors.githubRepositories = fields.teamKey
-      ? `Must start with "${fields.teamKey}-" or equal "${fields.teamKey}": ${bad.join(', ')}`
-      : `Invalid name(s): ${bad.join(', ')} — use lowercase letters, digits, and hyphens`;
-  }
-
-  if (fields.googleProjectServices) {
-    const bad = parseList(fields.googleProjectServices).filter(a => !API_RE.test(a));
-    if (bad.length) errors.googleProjectServices = `Must end in .googleapis.com, e.g. run.googleapis.com`;
-  }
-
-  return errors;
-}
-
-function buildPrompt(f) {
-  const lines = [];
-
-  const heading = f.displayName || f.teamKey;
-  lines.push(heading ? `Onboard a new team — ${heading}.` : 'Onboard a new team.');
-  lines.push('');
-
-  if (f.teamKey)     lines.push(`Team key: ${f.teamKey}`);
-  if (f.displayName) lines.push(`Display name: ${f.displayName}`);
-  if (f.description) lines.push(`Description: ${f.description}`);
-
-  lines.push('');
-
-  const maintainers = parseList(f.maintainers);
-  const members     = parseList(f.members);
-
-  if (maintainers.length) lines.push(`Maintainers: ${maintainers.join(', ')}`);
-  if (members.length) lines.push(`Members: ${members.join(', ')}`);
-
-  if (f.adminEmail) lines.push(`Admin email: ${f.adminEmail.trim()}`);
-
-  const flags = [
-    f.enableGoogleProject      && 'enable_google_project',
-    f.enableWorkflows          && 'enable_workflows',
-    f.enableStateManagement    && 'enable_opentofu_state_management',
-    f.enableProjectDatadog     && 'google_project_enable_datadog',
-  ].filter(Boolean);
-  if (flags.length) {
-    lines.push('');
-    lines.push(`Enable: ${flags.join(', ')}`);
-  }
-
-  const apis = parseList(f.googleProjectServices);
-  if (apis.length) {
-    lines.push(`Additional GCP APIs: ${apis.join(', ')}`);
-  }
-
-  const repos = parseList(f.githubRepositories);
-  if (repos.length) {
-    lines.push('');
-    lines.push('GitHub repositories:');
-    for (const r of repos) lines.push(`- ${r}`);
-  }
-
-  if (f.enableCloudSQL || f.enableKubernetes) {
-    lines.push('');
-    lines.push('Platform-managed project:');
-    if (f.enableCloudSQL) {
-      const regionsStr = f.cloudSqlRegions.length ? f.cloudSqlRegions.join(', ') : '(required)';
-      lines.push(`  Cloud SQL: database_version=${f.cloudSqlVersion || '(required)'}, machine_tier=${f.cloudSqlTier || '(required)'}, regions=${regionsStr}`);
-    }
-    if (f.enableKubernetes) {
-      const zonesStr = f.gkeLocations.length ? f.gkeLocations.join(', ') : '(required)';
-      lines.push(`  Kubernetes Engine: locations=${zonesStr}`);
-      if (f.gkeDnsSubdomain) lines.push(`    dns_subdomain=${f.gkeDnsSubdomain}`);
-      if (f.enableGkeDatadog) lines.push(`    enable_datadog_apm=true`);
-    }
-  }
-
-  return lines.join('\n').trim();
 }
 
 function ApiAutocomplete({ value, onChange }) {
@@ -326,6 +202,12 @@ function PromptBuilderInner() {
   const [maintainers,            setMaintainers]            = useState('');
   const [members,                setMembers]                = useState('');
   const [adminEmail,             setAdminEmail]             = useState('');
+  const [shareChildMaintainers,  setShareChildMaintainers]  = useState(false);
+  const [googleOwners,           setGoogleOwners]           = useState('');
+  const [openbaoAdmins,          setOpenbaoAdmins]          = useState('');
+  const [shareRegistryOwners,    setShareRegistryOwners]    = useState(false);
+  const [authentikAdmins,        setAuthentikAdmins]        = useState('');
+  const [agentgatewayAdmins,     setAgentgatewayAdmins]     = useState('');
   const [enableGoogleProject,    setEnableGoogleProject]    = useState(false);
   const [enableWorkflows,        setEnableWorkflows]        = useState(false);
   const [enableStateManagement,  setEnableStateManagement]  = useState(false);
@@ -351,19 +233,19 @@ function PromptBuilderInner() {
   const fields = {
     teamKey: normalizedKey,
     displayName, description, maintainers, members, adminEmail,
+    shareChildMaintainers, googleOwners, openbaoAdmins, shareRegistryOwners,
+    authentikAdmins, agentgatewayAdmins,
     enableGoogleProject, enableWorkflows, enableStateManagement,
     enableProjectDatadog, googleProjectServices, githubRepositories,
     enableCloudSQL, cloudSqlVersion, cloudSqlTier, cloudSqlRegions,
     enableKubernetes, gkeLocations, gkeDnsSubdomain, enableGkeDatadog,
   };
 
-  const errors = useMemo(() => validate(fields, copyAttempted), [
-    normalizedKey, displayName, description, maintainers, adminEmail, members, githubRepositories, googleProjectServices, copyAttempted,
-  ]);
+  const errors = validate(fields, teamSchema, copyAttempted);
 
   const hasErrors = Object.keys(errors).length > 0;
 
-  const prompt = buildPrompt(fields);
+  const prompt = buildPrompt(fields, teamSchema);
   const promptRef = useRef(prompt);
   promptRef.current = prompt;
 
@@ -373,7 +255,7 @@ function PromptBuilderInner() {
 
   const handleCopy = async () => {
     setCopyAttempted(true);
-    const currentErrors = validate(fields, true);
+    const currentErrors = validate(fields, teamSchema, true);
     if (Object.keys(currentErrors).length > 0) return;
     if (!navigator.clipboard?.writeText) {
       setCopyStatus('unavailable');
@@ -454,6 +336,16 @@ function PromptBuilderInner() {
             />
           </div>
 
+          <div className={styles.section}>
+            <Switch
+              label="Use these maintainers for all four required child teams"
+              description={schema.github_child_teams_memberships.description}
+              checked={shareChildMaintainers}
+              onChange={e => setShareChildMaintainers(e.target.checked)}
+            />
+            {errors.shareChildMaintainers && <p className={styles.fieldError} role="alert">{errors.shareChildMaintainers}</p>}
+          </div>
+
           {showOptional && (
             <>
               <div className={styles.section}>
@@ -480,6 +372,77 @@ function PromptBuilderInner() {
                   value={githubRepositories}
                   onChange={e => setGithubRepositories(e.target.value)}
                   placeholder={normalizedKey ? `${normalizedKey}, ${normalizedKey}-api` : 'st-fides, st-fides-api'}
+                  rows={2}
+                />
+              </div>
+            </>
+          )}
+        </ProductGroup>
+
+        <ProductGroup color="#4285F4" label="Google group ownership">
+          <div className={styles.section}>
+            <Textarea
+              id="pb-google-owners"
+              classNames={{ input: styles.fieldInput, label: styles.label, description: styles.hint, error: styles.fieldError }}
+              label={<>Owners for every basic group in all environments <span className={styles.required}>required</span></>}
+              description={schema.google_basic_groups_env_memberships.description}
+              error={errors.googleOwners}
+              value={googleOwners}
+              onChange={e => setGoogleOwners(e.target.value)}
+              placeholder="owner@example.com"
+              rows={2}
+            />
+          </div>
+          {enableKubernetes && (
+            <div className={styles.section}>
+              <Switch
+                label="Use the Google group owners above for both Artifact Registry groups"
+                description={defs.kubernetesEngine.properties.artifact_registry_groups_memberships.description}
+                checked={shareRegistryOwners}
+                onChange={e => setShareRegistryOwners(e.target.checked)}
+              />
+              {errors.shareRegistryOwners && <p className={styles.fieldError} role="alert">{errors.shareRegistryOwners}</p>}
+            </div>
+          )}
+        </ProductGroup>
+
+        <ProductGroup color="#f0c85a" label="authentik and OpenBao">
+          <div className={styles.section}>
+            <Textarea
+              id="pb-openbao-admins"
+              classNames={{ input: styles.fieldInput, label: styles.label, description: styles.hint, error: styles.fieldError }}
+              label={<>OpenBao administrators in every environment <span className={styles.required}>required</span></>}
+              description={defs.openbaoAdminGroup.description}
+              error={errors.openbaoAdmins}
+              value={openbaoAdmins}
+              onChange={e => setOpenbaoAdmins(e.target.value)}
+              placeholder="admin@example.com"
+              rows={2}
+            />
+          </div>
+          {normalizedKey === 'pt-pneuma' && (
+            <>
+              <div className={styles.section}>
+                <Textarea
+                  id="pb-authentik-admins"
+                  classNames={{ input: styles.fieldInput, label: styles.label, description: styles.hint, error: styles.fieldError }}
+                  label={<>authentik administrators in every environment <span className={styles.required}>required</span></>}
+                  description={defs.requiredAuthentikAdminGroup.description}
+                  error={errors.authentikAdmins}
+                  value={authentikAdmins}
+                  onChange={e => setAuthentikAdmins(e.target.value)}
+                  rows={2}
+                />
+              </div>
+              <div className={styles.section}>
+                <Textarea
+                  id="pb-agentgateway-admins"
+                  classNames={{ input: styles.fieldInput, label: styles.label, description: styles.hint, error: styles.fieldError }}
+                  label="agentgateway administrators in every environment (empty membership allowed)"
+                  description={schema.authentik_groups.description}
+                  error={errors.agentgatewayAdmins}
+                  value={agentgatewayAdmins}
+                  onChange={e => setAgentgatewayAdmins(e.target.value)}
                   rows={2}
                 />
               </div>

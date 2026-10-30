@@ -78,3 +78,19 @@ test('$ref siblings and allOf required fields are preserved without mutating the
   assert.equal(resolved.referenced.description, 'Reference override');
   assert.deepEqual(input, original);
 });
+
+test('conditional requirements are displayed without making them unconditional', () => {
+  const original = structuredClone(schema);
+  const resolved = resolveSchema(schema);
+  assert.deepEqual(resolved.authentik_groups.conditionalRequirements, [{
+    condition: 'team_key is "pt-pneuma"',
+    keys: ['agentgateway-admins', 'authentik-admins'],
+  }]);
+  const registry = resolved.platform_managed_project.properties.kubernetes_engine
+    .properties.artifact_registry_groups_memberships;
+  assert.equal(registry.required, false);
+  assert.deepEqual(registry.requiredWhen, [
+    'platform_managed_project.kubernetes_engine.locations has at least 1 entry',
+  ]);
+  assert.deepEqual(schema, original);
+});

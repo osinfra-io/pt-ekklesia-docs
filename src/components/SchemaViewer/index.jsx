@@ -24,6 +24,12 @@ function PropertyDetails({prop}) {
       {prop.minItems !== undefined && (
         <p className={styles.description}>Minimum items: {prop.minItems}</p>
       )}
+      {prop.requiredWhen?.map(condition => (
+        <p key={condition} className={styles.description}>Required when {condition}.</p>
+      ))}
+      {prop.conditionalRequirements?.map(({condition, keys}) => (
+        <p key={condition} className={styles.description}>When {condition}, required keys: {keys.join(', ')}.</p>
+      ))}
       {prop.enum && (
         <Group gap="xs" mt="xs">
           {prop.enum.map(value => <Code key={value}>&quot;{value}&quot;</Code>)}
@@ -45,8 +51,8 @@ function SchemaProperty({name, prop}) {
       <Code className={styles.name}>{name}</Code>
       <Badge className={styles.type} component="span" color={typeColors[prop.type] ?? 'gray'} variant="light" size="xs">{prop.type}</Badge>
       {mapProps && !namedEntries && <span className={styles.mapKey} title="Fields apply to each named entry">‹key›</span>}
-      <span className={prop.required ? styles.required : styles.optional}>
-        {prop.required ? 'required' : 'optional'}
+      <span className={prop.required || prop.requiredWhen ? styles.required : styles.optional}>
+        {prop.required ? 'required' : prop.requiredWhen ? 'conditionally required' : 'optional'}
       </span>
     </span>
   );

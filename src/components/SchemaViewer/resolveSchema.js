@@ -86,6 +86,37 @@ function inferType(node) {
 // schema fields (the title already communicates the team key).
 const EXCLUDED = new Set(['team_key']);
 
+function describeConditions(node, path = []) {
+  const conditions = [];
+  if (node.const !== undefined) conditions.push(`${path.join('.')} is ${JSON.stringify(node.const)}`);
+  if (node.minProperties !== undefined) {
+    conditions.push(`${path.join('.')} has at least ${node.minProperties} ${node.minProperties === 1 ? 'entry' : 'entries'}`);
+  }
+  for (const [key, value] of Object.entries(node.properties ?? {})) {
+    conditions.push(...describeConditions(value, [...path, key]));
+  }
+  return conditions;
+}
+
+function addConditionalRequirements(branch, properties, condition) {
+  for (const [key, constraints] of Object.entries(branch.properties ?? {})) {
+    const prop = properties[key];
+    if (!prop) continue;
+    if (constraints.required?.length) {
+      prop.conditionalRequirements ??= [];
+      prop.conditionalRequirements.push({condition, keys: constraints.required});
+      for (const requiredKey of constraints.required) {
+        const child = prop.properties?.[requiredKey];
+        if (child) {
+          child.requiredWhen ??= [];
+          child.requiredWhen.push(condition);
+        }
+      }
+    }
+    addConditionalRequirements(constraints, prop.properties ?? {}, condition);
+  }
+}
+
 export default function resolveSchema(jsonSchema) {
   const defs = jsonSchema.$defs ?? {};
   const required = new Set(jsonSchema.required ?? []);
@@ -96,6 +127,12 @@ export default function resolveSchema(jsonSchema) {
     const resolved = resolveNode(v, defs);
     resolved.required = required.has(k);
     result[k] = resolved;
+  }
+
+  for (const rule of jsonSchema.allOf ?? []) {
+    if (!rule.if || !rule.then) continue;
+    const condition = describeConditions(rule.if).join(' and ');
+    if (condition) addConditionalRequirements(rule.then, result, condition);
   }
 
   return result;
