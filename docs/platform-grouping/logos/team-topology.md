@@ -10,7 +10,7 @@ Logos codifies the team structure that all platform tooling — GitHub, GCP, and
 
 - **GitHub teams**: Hierarchical parent/child teams with membership and repository access managed as code; four standard child teams (sandbox-approvers, non-production-approvers, production-approvers, repository-administrators) are created for every team
 - **GitHub repositories**: Repositories are registered in pt-logos and provisioned with standard settings — squash-only merges, repository rulesets enforcing PR reviews and signed commits, Datadog webhooks, and standard repository files (release notes config, security policy)
-- **Datadog teams**: Observability team structure mirrors GitHub teams; every team has at least one Datadog member, and each team gets a service account with a per-team API key and app key stored as GitHub Actions secrets in that team's repositories
+- **Datadog teams**: Observability team structure mirrors GitHub teams; every team has at least one Datadog team admin (ordinary members may be empty), and each team gets a service account with a per-team API key and app key stored as GitHub Actions secrets in that team's repositories
 
 ## Team Configuration Schema
 
@@ -108,5 +108,5 @@ The current [browser policy limitations](../pneuma/gateway-authentication.md#bro
 - Every team definition produces exactly one set of GCP, GitHub, and Datadog resources.
 - Every GitHub parent team and standard or custom child team has at least one maintainer. Parent-team membership does not inherit into children, and parent maintainers cannot manage child-team membership unless they also maintain that child team.
 - Every admin, reader, and writer Google Cloud Identity group has at least one owner in each environment. Teams with a Kubernetes cluster also configure Artifact Registry reader and writer groups, each with at least one owner.
-- Every team has at least one Datadog member and an OpenBao admins group with at least one member in each environment.
+- Every team has at least one Datadog team admin; ordinary Datadog members may be empty. Every team also has an OpenBao admins group with at least one member in each environment.
 - Every provisioned GitHub repository has signed commits required, linear history enforced, and PR review active — the branch ruleset is hardcoded with `enforcement = "active"` and no variable to disable it.

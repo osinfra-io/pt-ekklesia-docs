@@ -66,7 +66,7 @@
       "pattern": "^(pt|st|ct|et)-[a-z][a-z0-9-]*[a-z0-9]$"
     },
     "datadog_team_memberships": {
-      "description": "Datadog team memberships. admins manage the team; members have read-only access.",
+      "description": "Datadog team memberships. At least one team admin is required; admins manage the team. Ordinary members have read-only access and may be empty.",
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -75,11 +75,11 @@
       ],
       "properties": {
         "admins": {
+          "description": "Datadog team admins; at least one admin is required for every team.",
+          "minItems": 1,
           "$ref": "#/$defs/emailList"
         },
         "members": {
-          "description": "Datadog team members; at least one member is required for every team.",
-          "minItems": 1,
           "$ref": "#/$defs/emailList"
         }
       }
