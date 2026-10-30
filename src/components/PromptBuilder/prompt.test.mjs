@@ -8,10 +8,10 @@ const fields = {
   teamKey: 'st-example',
   description: 'Example team',
   maintainers: 'example-owner',
-  adminEmail: 'admin@example.com',
+  adminEmail: 'admin@osinfra.io',
   shareChildMaintainers: true,
-  googleOwners: 'owner@example.com',
-  openbaoAdmins: 'secret-admin@example.com',
+  googleOwners: 'owner@osinfra.io',
+  openbaoAdmins: 'secret-admin@osinfra.io',
   enableKubernetes: false,
 };
 
@@ -34,11 +34,11 @@ test('generated prompts assign every required group without inheriting parent me
   for (const team of schema.properties.github_child_teams_memberships.required) {
     assert.ok(prompt.includes(`GitHub child team ${team}: maintainers=example-owner; members=[]`));
   }
-  assert.ok(prompt.includes('Google basic groups: owners=owner@example.com; managers=[]; members=[]'));
-  assert.ok(prompt.includes('openbao-secret-admins (label: OpenBao Secret Admins) with members=secret-admin@example.com in sandbox, non-production, and production'));
+  assert.ok(prompt.includes('Google basic groups: owners=owner@osinfra.io; managers=[]; members=[]'));
+  assert.ok(prompt.includes('openbao-secret-admins (label: OpenBao Secret Admins) with members=secret-admin@osinfra.io in sandbox, non-production, and production'));
   assert.ok(prompt.includes('openbao-secret-readers'));
   assert.ok(prompt.includes('openbao-secret-writers'));
-  assert.ok(prompt.includes('Datadog admins: admin@example.com; members: []'));
+  assert.ok(prompt.includes('Datadog admins: admin@osinfra.io; members: []'));
   assert.ok(!prompt.includes('authentik-admins'));
 });
 
@@ -48,7 +48,7 @@ test('Kubernetes requires explicit shared registry ownership and includes it in 
   const confirmed = {...kube, shareRegistryOwners: true};
   assert.deepEqual(validate(confirmed, schema, true), {});
   assert.ok(buildPrompt(confirmed, schema).includes(
-    'Artifact Registry readers and writers: owners=owner@example.com; managers=[]; members=[] for both groups.',
+    'Artifact Registry readers and writers: owners=owner@osinfra.io; managers=[]; members=[] for both groups.',
   ));
 });
 
@@ -71,4 +71,17 @@ test('new membership inputs reject malformed, duplicate, or nonlowercase identit
   assert.ok(errors.googleOwners);
   assert.ok(errors.openbaoAdmins);
   assert.ok(validate({...fields, openbaoAdmins: 'a@example.com,a@example.com'}, schema, true).openbaoAdmins);
+});
+
+test('Nomos onboarding rejects external domains for every collected email membership', () => {
+  for (const field of ['adminEmail', 'googleOwners', 'openbaoAdmins', 'authentikAdmins', 'agentgatewayAdmins']) {
+    const errors = validate({
+      ...fields,
+      teamKey: 'pt-pneuma',
+      authentikAdmins: 'brett@osinfra.io',
+      [field]: 'person@example.com',
+    }, schema, true);
+    assert.match(errors[field], /@osinfra\.io/);
+  }
+  assert.ok(validate({...fields, googleOwners: 'person@osinfra.io.example.com'}, schema, true).googleOwners);
 });

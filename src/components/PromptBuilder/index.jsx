@@ -389,7 +389,7 @@ function PromptBuilderInner() {
               error={errors.googleOwners}
               value={googleOwners}
               onChange={e => setGoogleOwners(e.target.value)}
-              placeholder="owner@example.com"
+              placeholder="owner@osinfra.io"
               rows={2}
             />
           </div>
@@ -416,7 +416,7 @@ function PromptBuilderInner() {
               error={errors.openbaoAdmins}
               value={openbaoAdmins}
               onChange={e => setOpenbaoAdmins(e.target.value)}
-              placeholder="admin@example.com"
+              placeholder="admin@osinfra.io"
               rows={2}
             />
           </div>

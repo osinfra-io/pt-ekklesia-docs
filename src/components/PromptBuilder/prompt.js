@@ -35,6 +35,8 @@ export function validate(fields, teamSchema, copyAttempted = false) {
   }
   if (fields.adminEmail && !new RegExp(defs.emailList.items.pattern).test(fields.adminEmail.trim())) {
     errors.adminEmail = 'Must be a valid email address';
+  } else if (fields.adminEmail?.trim() && !fields.adminEmail.trim().endsWith('@osinfra.io')) {
+    errors.adminEmail = 'Nomos onboarding requires an @osinfra.io address';
   }
   const emailPatterns = {
     googleOwners: defs.emailOrServiceAccountList.items.pattern,
@@ -50,6 +52,8 @@ export function validate(fields, teamSchema, copyAttempted = false) {
       errors[field] = 'Use valid email addresses matching the schema';
     } else if (new Set(emails).size !== emails.length) {
       errors[field] = 'Email addresses must be unique';
+    } else if (emails.some(email => !email.endsWith('@osinfra.io'))) {
+      errors[field] = 'Nomos onboarding requires @osinfra.io addresses';
     }
   }
 
