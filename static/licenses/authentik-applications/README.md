@@ -1,6 +1,6 @@
 # Application icons
 
-These SVGs are hosted for the authentik application launcher at `https://docs.osinfra.io/img/applications/`. Artwork is unchanged; trailing newlines are normalized by the repository's formatting hooks.
+These SVGs are hosted for the authentik application launcher at `https://docs.osinfra.io/img/authentik/applications/`. Artwork is unchanged; trailing newlines are normalized by the repository's formatting hooks.
 
 | Asset | Source | License |
 | --- | --- | --- |
