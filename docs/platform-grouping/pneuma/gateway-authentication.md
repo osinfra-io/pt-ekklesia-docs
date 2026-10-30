@@ -95,6 +95,10 @@ Set each non-sensitive `google_oauth_client_id` in the matching `pt-pneuma/regio
 
 The Google source is enabled only when both its client ID and secret are non-empty. Managed application groups require that source to be enabled. An Internal audience controls who can sign in with Google; it does not grant application access or replace group-based authorization.
 
+After the updated Pneuma consumer is deployed and reconciled in the target environment, its Google identity mapping classifies a user as internal only when Google verifies the email, its domain matches the Workspace `hd` claim, and that domain is in the configured internal-domain allowlist (`osinfra.io` for Pneuma). Other Google users remain external. Under that reconciled configuration, internal status enables the authentik user interface, not administrative permissions; only Pneuma's declared `authentik-admins` group receives global superuser access.
+
+These changes are not evidence of live cloud behavior: [Pneuma PR #274](https://github.com/osinfra-io/pt-pneuma/pull/274) pins the released module, but the consumer must still be merged, deployed, and reconciled in each environment. Existing accounts receive the new classification on their next Google sign-in after that reconciliation. Verify real Google sign-in and administrator permissions in the target environment before relying on them. The local OpenBao fixture advertises its OIDC mount on the unauthenticated login page; that local configuration does not establish cloud rollout.
+
 Deploy Authentik and its gateway routes before applying Authentik Config, which calls the live management API. OAuth credentials do not fix an unavailable Authentik instance in an environment without clusters. Verify configuration with a real internal-user Google browser sign-in and the intended application's authorization checks once the environment is available.
 
 ## Browser Authorization
@@ -115,12 +119,12 @@ Authentik group membership is not yet synchronized from Logos in the released Pn
 
 ### Team-owned application groups
 
-Logos declares per-environment application access through [`authentik_groups`](../logos/team-topology.md#authentik-application-access-declarations). Group names carry the owning team key and preserve application branding, for example `pt-pneuma: agentgateway Admins`. Names contain spaces, so matching must compare whole names.
+Logos declares per-environment application access through [`authentik_groups`](../logos/team-topology.md#authentik-group-declarations). Group names carry the owning team key and preserve application branding, for example `pt-pneuma: agentgateway Admins`. Names contain spaces, so matching must compare whole names.
 
 | Aspect | Behavior |
 |---|---|
-| Membership source | The Authentik Google source mapping assigns membership from a verified OAuth email at enrollment and sign-in; configuration deployment reconciles already-verified users. No accounts or passwords are pre-provisioned. |
-| Group type | Non-superuser groups that do not inherit ordinary team membership. |
+| Membership source | Requires deployment of the updated consumer in [Pneuma PR #274](https://github.com/osinfra-io/pt-pneuma/pull/274) and reconciliation in the target environment. Afterward, the authentik Google source mapping assigns membership from a verified OAuth email at enrollment and sign-in; configuration deployment reconciles already-verified users. No accounts or passwords are pre-provisioned. |
+| Group type | Groups do not inherit ordinary team membership. Only after the updated consumer is deployed and reconciled in the target environment does Pneuma's `authentik-admins` grant global authentik superuser access; all other declared groups grant only their application-specific access. A declaration alone grants no live administrative access. |
 | Pending members | `pending_application_members` lists declared identities without verified enrollment. It is sensitive: inspect it only through approved state-access procedures, never in workflow logs or PR comments. An empty list does not prove authorization works. |
 | Post-auth guard | The shared renderer creates a cluster-owned guard only when a browser route requires a managed group. It strips inbound identity headers, authenticates with `ext_authz`, and checks the current declared emails against a dedicated Google-established identity header. An ordinary email header or cached group claim cannot grant managed access. |
 | Membership changes | Deploy Logos, then manually dispatch the Pneuma reconciliation workflows. |
