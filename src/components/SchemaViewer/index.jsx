@@ -21,6 +21,9 @@ function PropertyDetails({prop}) {
   return (
     <div className={styles.details}>
       {prop.description && <p className={styles.description}>{prop.description}</p>}
+      {prop.minItems !== undefined && (
+        <p className={styles.description}>Minimum items: {prop.minItems}</p>
+      )}
       {prop.enum && (
         <Group gap="xs" mt="xs">
           {prop.enum.map(value => <Code key={value}>&quot;{value}&quot;</Code>)}
@@ -31,15 +34,17 @@ function PropertyDetails({prop}) {
 }
 
 function SchemaProperty({name, prop}) {
-  // A map expands straight to its entry fields, not a second object wrapper.
   const mapProps = prop.type === 'map' ? prop.valueSchema?.properties : null;
-  const children = mapProps ?? prop.properties;
+  const namedEntries = prop.type === 'map' && prop.properties;
+  const children = namedEntries
+    ? {...namedEntries, '‹other key›': {...prop.valueSchema, required: false}}
+    : mapProps ?? prop.properties;
   const hasChildren = children && Object.keys(children).length > 0;
   const summary = (
     <span className={styles.meta}>
       <Code className={styles.name}>{name}</Code>
       <Badge className={styles.type} component="span" color={typeColors[prop.type] ?? 'gray'} variant="light" size="xs">{prop.type}</Badge>
-      {mapProps && <span className={styles.mapKey} title="Fields apply to each named entry">‹key›</span>}
+      {mapProps && !namedEntries && <span className={styles.mapKey} title="Fields apply to each named entry">‹key›</span>}
       <span className={prop.required ? styles.required : styles.optional}>
         {prop.required ? 'required' : 'optional'}
       </span>

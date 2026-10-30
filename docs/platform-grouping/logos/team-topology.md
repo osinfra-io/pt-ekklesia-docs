@@ -56,7 +56,7 @@ authentik_groups = {
 
 Member emails are lowercase, unique within each environment, and explicit. An omitted environment has no members. Joining a team never implicitly grants application access. Labels must be unique within the owning team; changing a label requires updating matching route references, while the stable slug remains unchanged.
 
-The `agentgateway-admins` and `authentik-admins` groups are Pneuma-only. `authentik-admins` grants Authentik-wide superuser permissions and must include `brett@osinfra.io` in every environment. Other Authentik application groups do not grant global Authentik administration.
+Pneuma must declare both `agentgateway-admins` and `authentik-admins`; no other team may declare either group. `authentik-admins` grants authentik-wide superuser permissions and must include `brett@osinfra.io` in every environment. Other authentik application groups do not grant global authentik administration.
 
 #### Connecting a group to an application route
 

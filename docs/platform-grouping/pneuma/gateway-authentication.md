@@ -122,7 +122,7 @@ Logos declares per-environment application access through [`authentik_groups`](.
 | Aspect | Behavior |
 |---|---|
 | Membership source | The Authentik Google source mapping assigns membership from a verified OAuth email at enrollment and sign-in; configuration deployment reconciles already-verified users. No accounts or passwords are pre-provisioned. |
-| Group type | Non-superuser groups that do not inherit ordinary team membership. |
+| Group type | Groups do not inherit ordinary team membership. Pneuma's `authentik-admins` grants global authentik superuser access; all other declared groups grant only their application-specific access. |
 | Pending members | `pending_application_members` lists declared identities without verified enrollment. It is sensitive: inspect it only through approved state-access procedures, never in workflow logs or PR comments. An empty list does not prove authorization works. |
 | Post-auth guard | The shared renderer creates a cluster-owned guard only when a browser route requires a managed group. It strips inbound identity headers, authenticates with `ext_authz`, and checks the current declared emails against a dedicated Google-established identity header. An ordinary email header or cached group claim cannot grant managed access. |
 | Membership changes | Deploy Logos, then manually dispatch the Pneuma reconciliation workflows. |

@@ -8,21 +8,52 @@ function resolveRef(ref, defs) {
   return defs[name];
 }
 
-function resolveNode(node, defs) {
-  if (node.$ref) {
-    node = resolveRef(node.$ref, defs);
+function mergeNodes(base, extra) {
+  const merged = {...base, ...extra};
+  if (base.required || extra.required) {
+    merged.required = [...new Set([...(base.required ?? []), ...(extra.required ?? [])])];
   }
+  if (base.properties || extra.properties) {
+    merged.properties = {...base.properties};
+    for (const [key, value] of Object.entries(extra.properties ?? {})) {
+      merged.properties[key] = mergeNodes(merged.properties[key] ?? {}, value);
+    }
+  }
+  return merged;
+}
+
+function expandNode(node, defs) {
+  const {$ref, allOf, ...own} = node;
+  for (const [key, value] of Object.entries(own.properties ?? {})) {
+    own.properties = {...own.properties, [key]: expandNode(value, defs)};
+  }
+  if (own.additionalProperties && typeof own.additionalProperties === 'object') {
+    own.additionalProperties = expandNode(own.additionalProperties, defs);
+  }
+  let expanded = $ref ? expandNode(resolveRef($ref, defs), defs) : {};
+  for (const part of allOf ?? []) {
+    expanded = mergeNodes(expanded, expandNode(part, defs));
+  }
+  return mergeNodes(expanded, own);
+}
+
+function resolveNode(node, defs) {
+  node = expandNode(node, defs);
 
   const type = inferType(node);
   const result = { type };
 
   if (node.description) result.description = node.description;
   if (node.enum) result.enum = node.enum;
+  if (node.minItems !== undefined) result.minItems = node.minItems;
 
-  if (node.properties) {
+  if (node.properties || node.required?.length) {
     const required = new Set(node.required ?? []);
     result.properties = {};
-    for (const [k, v] of Object.entries(node.properties)) {
+    const keys = new Set([...Object.keys(node.properties ?? {}), ...required]);
+    for (const k of keys) {
+      const v = node.properties?.[k] ?? node.additionalProperties;
+      if (!v || typeof v !== 'object') continue;
       const child = resolveNode(v, defs);
       child.required = required.has(k);
       result.properties[k] = child;
