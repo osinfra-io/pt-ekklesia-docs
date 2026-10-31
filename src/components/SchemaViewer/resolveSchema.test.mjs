@@ -20,6 +20,34 @@ test('named OpenBao admin entries retain stricter membership requirements', () =
   assert.equal(groups.valueSchema.properties.members.required, false);
 });
 
+test('Authentik group entries explain access and membership fields', () => {
+  const groups = resolveSchema(schema).authentik_groups;
+  const admins = groups.properties['openbao-secret-admins'];
+  const readers = groups.properties['openbao-secret-readers'];
+  const writers = groups.properties['openbao-secret-writers'];
+  const otherGroup = groups.valueSchema;
+
+  assert.match(admins.description, /administrator group/);
+  assert.match(admins.properties.description.description, /access it grants/);
+  assert.match(admins.properties.label.description, /Human-readable/);
+  assert.match(admins.properties.members.description, /at least one member/);
+  for (const environment of ['non-production', 'production', 'sandbox']) {
+    assert.ok(admins.properties.members.properties[environment].description);
+  }
+  assert.match(readers.description, /read access.*no write access/);
+  assert.match(writers.description, /create and update access.*not delete/);
+  assert.match(otherGroup.description, /Additional team-owned application-access group/);
+
+  for (const group of [readers, writers, otherGroup]) {
+    assert.match(group.properties.description.description, /access it grants/);
+    assert.match(group.properties.label.description, /Human-readable/);
+    assert.match(group.properties.members.description, /Explicit member emails/);
+    for (const environment of ['non-production', 'production', 'sandbox']) {
+      assert.ok(group.properties.members.properties[environment].description);
+    }
+  }
+});
+
 test('required map keys use the generic entry schema when no named schema exists', () => {
   const teams = resolveSchema(schema).github_child_teams_memberships;
   assert.deepEqual(Object.keys(teams.properties), [

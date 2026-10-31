@@ -31,33 +31,19 @@
       "properties": {
         "openbao-secret-admins": {
           "$ref": "#/$defs/openbaoAdminGroup"
+        },
+        "openbao-secret-readers": {
+          "$ref": "#/$defs/openbaoMemberGroup",
+          "description": "OpenBao secret reader group. Grants read access to secret values and list access to paths under the team's prefix; it grants no write access. Membership may be empty in every environment."
+        },
+        "openbao-secret-writers": {
+          "$ref": "#/$defs/openbaoMemberGroup",
+          "description": "OpenBao secret writer group. Grants create and update access to secrets under the team's prefix, but not delete, undelete, destroy, or metadata deletion. Membership may be empty in every environment."
         }
       },
       "additionalProperties": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["description", "label"],
-        "properties": {
-          "description": {
-            "type": "string",
-            "pattern": "\\S"
-          },
-          "label": {
-            "description": "Human-readable application and role label, for example agentgateway Admins. Preserve application branding; labels must be unique within the owning team.",
-            "type": "string",
-            "pattern": "^[A-Za-z][A-Za-z0-9]*( [A-Za-z0-9]+)*$"
-          },
-          "members": {
-            "description": "Explicit member emails per environment. Omitted environments have no members. Google OAuth remains the sign-in mechanism.",
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "non-production": {"$ref": "#/$defs/authentikMemberList"},
-              "production": {"$ref": "#/$defs/authentikMemberList"},
-              "sandbox": {"$ref": "#/$defs/authentikMemberList"}
-            }
-          }
-        }
+        "$ref": "#/$defs/openbaoMemberGroup",
+        "description": "Additional team-owned application-access group. Defines the group's purpose, a unique human-readable label, and optional explicit membership by environment."
       }
     },
     "team_key": {
@@ -410,14 +396,17 @@
       ],
       "properties": {
         "description": {
+          "description": "Purpose of the group and the administrative access it grants; must not be blank.",
           "type": "string",
           "pattern": "\\S"
         },
         "label": {
+          "description": "Human-readable application and role label. Preserve application branding; labels must be unique within the owning team.",
           "type": "string",
           "pattern": "^[A-Za-z][A-Za-z0-9]*( [A-Za-z0-9]+)*$"
         },
         "members": {
+          "description": "Explicit member emails for each deployment environment. Every environment is required and must have at least one member.",
           "type": "object",
           "additionalProperties": false,
           "required": [
@@ -435,6 +424,37 @@
             "sandbox": {
               "$ref": "#/$defs/authentikAdminMemberList"
             }
+          }
+        }
+      }
+    },
+    "openbaoMemberGroup": {
+      "description": "Team-owned application-access group with optional explicit membership by deployment environment.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "description",
+        "label"
+      ],
+      "properties": {
+        "description": {
+          "description": "Purpose of the group and the access it grants; must not be blank.",
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "label": {
+          "description": "Human-readable application and role label. Preserve application branding; labels must be unique within the owning team.",
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9]*( [A-Za-z0-9]+)*$"
+        },
+        "members": {
+          "description": "Explicit member emails by deployment environment. Omit an environment or leave its list empty to grant no access there.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "non-production": {"$ref": "#/$defs/authentikMemberList"},
+            "production": {"$ref": "#/$defs/authentikMemberList"},
+            "sandbox": {"$ref": "#/$defs/authentikMemberList"}
           }
         }
       }
