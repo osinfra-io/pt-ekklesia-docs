@@ -98,9 +98,9 @@ export function buildPrompt(f, teamSchema) {
   }
   const admins = parseList(f.openbaoAdmins);
   if (admins.length) {
-    lines.push(`Declare openbao-secret-admins (label: OpenBao Secret Admins) with members=${admins.join(', ')} in sandbox, non-production, and production.`);
+    lines.push(`Declare openbao-secret-admins with members=${admins.join(', ')} in sandbox, non-production, and production. Logos supplies its fixed label and description.`);
   }
-  lines.push('Declare openbao-secret-readers (label: OpenBao Secret Readers) and openbao-secret-writers (label: OpenBao Secret Writers) with empty memberships in every environment.');
+  lines.push('Declare openbao-secret-readers and openbao-secret-writers with empty memberships in every environment. Logos supplies their fixed labels and descriptions.');
   if (f.teamKey === 'pt-pneuma') {
     lines.push(`Declare authentik-admins (label: authentik Admins) with members=${parseList(f.authentikAdmins).join(', ')} in sandbox, non-production, and production.`);
     lines.push(`Declare agentgateway-admins (label: agentgateway Admins) with members=${JSON.stringify(parseList(f.agentgatewayAdmins))} in sandbox, non-production, and production.`);

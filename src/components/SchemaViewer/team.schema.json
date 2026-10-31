@@ -30,15 +30,16 @@
       },
       "properties": {
         "openbao-secret-admins": {
-          "$ref": "#/$defs/openbaoAdminGroup"
+          "$ref": "#/$defs/openbaoSecretAdminGroup",
+          "description": "OpenBao secret administrator group. Its label and description are fixed by Logos. Membership must include at least one member in each deployment environment."
         },
         "openbao-secret-readers": {
-          "$ref": "#/$defs/openbaoMemberGroup",
-          "description": "OpenBao secret reader group. Grants read access to secret values and list access to paths under the team's prefix; it grants no write access. Membership may be empty in every environment."
+          "$ref": "#/$defs/openbaoSecretMemberGroup",
+          "description": "OpenBao secret reader group. Grants read access to secret values and list access to paths under the team's prefix; it grants no write access. Its label and description are fixed by Logos. Membership may be empty in every environment."
         },
         "openbao-secret-writers": {
-          "$ref": "#/$defs/openbaoMemberGroup",
-          "description": "OpenBao secret writer group. Grants create and update access to secrets under the team's prefix, but not delete, undelete, destroy, or metadata deletion. Membership may be empty in every environment."
+          "$ref": "#/$defs/openbaoSecretMemberGroup",
+          "description": "OpenBao secret writer group. Grants create and update access to secrets under the team's prefix, but not delete, undelete, destroy, or metadata deletion. Its label and description are fixed by Logos. Membership may be empty in every environment."
         }
       },
       "additionalProperties": {
@@ -423,6 +424,60 @@
             },
             "sandbox": {
               "$ref": "#/$defs/authentikAdminMemberList"
+            }
+          }
+        }
+      }
+    },
+    "openbaoSecretAdminGroup": {
+      "description": "OpenBao Secret Admins membership. Logos supplies its fixed label and description.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "members"
+      ],
+      "properties": {
+        "members": {
+          "description": "Explicit member emails for each deployment environment. Every environment is required and must have at least one member.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "non-production",
+            "production",
+            "sandbox"
+          ],
+          "properties": {
+            "non-production": {
+              "$ref": "#/$defs/authentikAdminMemberList"
+            },
+            "production": {
+              "$ref": "#/$defs/authentikAdminMemberList"
+            },
+            "sandbox": {
+              "$ref": "#/$defs/authentikAdminMemberList"
+            }
+          }
+        }
+      }
+    },
+    "openbaoSecretMemberGroup": {
+      "description": "OpenBao reader or writer membership. Logos supplies the group's fixed label and description.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "members": {
+          "description": "Explicit member emails by deployment environment. Omit an environment or leave its list empty to grant no access there.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "non-production": {
+              "$ref": "#/$defs/authentikMemberList"
+            },
+            "production": {
+              "$ref": "#/$defs/authentikMemberList"
+            },
+            "sandbox": {
+              "$ref": "#/$defs/authentikMemberList"
             }
           }
         }
