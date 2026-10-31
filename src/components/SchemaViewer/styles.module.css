@@ -15,6 +15,28 @@
   border-bottom: 1px solid var(--ifm-color-emphasis-300);
 }
 
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+  background: #242424;
+}
+
+.search {
+  flex: 1 1 16rem;
+  max-width: 28rem;
+}
+
+.empty {
+  margin: 0;
+  padding: 1rem;
+  color: var(--ifm-color-content-secondary);
+}
+
 .viewer > .property:nth-child(2n) {
   background: #242424;
 }
@@ -97,6 +119,11 @@
   color: var(--ifm-color-content-secondary);
   font-size: 0.82rem;
   line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.description code {
+  white-space: normal;
   overflow-wrap: anywhere;
 }
 

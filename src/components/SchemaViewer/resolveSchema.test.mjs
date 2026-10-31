@@ -15,9 +15,44 @@ test('named OpenBao admin entries retain stricter membership requirements', () =
     assert.equal(members.required, true);
     assert.equal(members.minItems, 1);
   }
+  assert.equal(admins.properties.description, undefined);
+  assert.equal(admins.properties.label, undefined);
   assert.equal(groups.properties['openbao-secret-readers'].required, true);
   assert.equal(groups.properties['openbao-secret-writers'].required, true);
+  assert.equal(groups.properties['openbao-secret-readers'].properties.label, undefined);
   assert.equal(groups.valueSchema.properties.members.required, false);
+});
+
+test('Authentik group entries explain access and membership fields', () => {
+  const groups = resolveSchema(schema).authentik_groups;
+  const admins = groups.properties['openbao-secret-admins'];
+  const readers = groups.properties['openbao-secret-readers'];
+  const writers = groups.properties['openbao-secret-writers'];
+  const otherGroup = groups.valueSchema;
+
+  assert.match(admins.description, /administrator group/);
+  assert.match(admins.description, /fixed by Logos/);
+  assert.match(admins.properties.members.description, /at least one member/);
+  for (const environment of ['non-production', 'production', 'sandbox']) {
+    assert.ok(admins.properties.members.properties[environment].description);
+  }
+  assert.match(readers.description, /read access.*no write access/);
+  assert.match(writers.description, /create and update access.*not delete/);
+  assert.match(readers.description, /fixed by Logos/);
+  assert.match(writers.description, /fixed by Logos/);
+  assert.match(otherGroup.description, /Additional team-owned application-access group/);
+  for (const group of [readers, writers]) {
+    assert.match(group.properties.members.description, /Explicit member emails/);
+  }
+
+  for (const group of [otherGroup]) {
+    assert.match(group.properties.description.description, /access it grants/);
+    assert.match(group.properties.label.description, /Human-readable/);
+    assert.match(group.properties.members.description, /Explicit member emails/);
+    for (const environment of ['non-production', 'production', 'sandbox']) {
+      assert.ok(group.properties.members.properties[environment].description);
+    }
+  }
 });
 
 test('required map keys use the generic entry schema when no named schema exists', () => {
@@ -93,4 +128,31 @@ test('conditional requirements are displayed without making them unconditional',
     'platform_managed_project.kubernetes_engine.locations has at least 1 entry',
   ]);
   assert.deepEqual(schema, original);
+});
+
+test('defaults and validation constraints are retained for the viewer', () => {
+  const resolved = resolveSchema({
+    properties: {
+      count: {type: 'integer', default: 3, minimum: 1, maximum: 5},
+      names: {
+        type: 'array',
+        minItems: 1,
+        maxItems: 4,
+        uniqueItems: true,
+        items: {type: 'string', minLength: 2, maxLength: 12, pattern: '^[a-z]+$'},
+      },
+    },
+  });
+
+  assert.equal(resolved.count.default, 3);
+  assert.equal(resolved.count.minimum, 1);
+  assert.equal(resolved.count.maximum, 5);
+  assert.equal(resolved.names.minItems, 1);
+  assert.equal(resolved.names.maxItems, 4);
+  assert.equal(resolved.names.uniqueItems, true);
+  assert.deepEqual(resolved.names.itemConstraints, {
+    minLength: 2,
+    maxLength: 12,
+    pattern: '^[a-z]+$',
+  });
 });

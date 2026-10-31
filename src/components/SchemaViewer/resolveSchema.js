@@ -45,7 +45,25 @@ function resolveNode(node, defs) {
 
   if (node.description) result.description = node.description;
   if (node.enum) result.enum = node.enum;
-  if (node.minItems !== undefined) result.minItems = node.minItems;
+  for (const key of [
+    'default',
+    'maxItems',
+    'maxLength',
+    'maximum',
+    'minItems',
+    'minLength',
+    'minimum',
+    'pattern',
+    'uniqueItems',
+  ]) {
+    if (node[key] !== undefined) result[key] = node[key];
+  }
+  if (node.items) {
+    result.itemConstraints = {};
+    for (const key of ['description', 'maxLength', 'minLength', 'pattern']) {
+      if (node.items[key] !== undefined) result.itemConstraints[key] = node.items[key];
+    }
+  }
 
   if (node.properties || node.required?.length) {
     const required = new Set(node.required ?? []);

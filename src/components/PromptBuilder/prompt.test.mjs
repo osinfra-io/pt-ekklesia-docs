@@ -35,7 +35,9 @@ test('generated prompts assign every required group without inheriting parent me
     assert.ok(prompt.includes(`GitHub child team ${team}: maintainers=example-owner; members=[]`));
   }
   assert.ok(prompt.includes('Google basic groups: owners=owner@osinfra.io; managers=[]; members=[]'));
-  assert.ok(prompt.includes('openbao-secret-admins (label: OpenBao Secret Admins) with members=secret-admin@osinfra.io in sandbox, non-production, and production'));
+  assert.ok(prompt.includes('openbao-secret-admins with members=secret-admin@osinfra.io in sandbox, non-production, and production'));
+  assert.ok(prompt.includes('Logos supplies its fixed label and description.'));
+  assert.ok(prompt.includes('Logos supplies their fixed labels and descriptions.'));
   assert.ok(prompt.includes('openbao-secret-readers'));
   assert.ok(prompt.includes('openbao-secret-writers'));
   assert.ok(prompt.includes('Datadog admins: admin@osinfra.io; members: []'));

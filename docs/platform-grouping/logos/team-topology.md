@@ -22,14 +22,11 @@ Each team is defined as an entry in the `teams` map inside a `.tfvars` file unde
 
 `authentik_groups` declares team-owned application-access and OpenBao secret-access groups independently of ordinary team membership. Every team must declare OpenBao Secret Admins, Readers, and Writers. OpenBao admins must have at least one member in sandbox, non-production, and production; reader and writer memberships may be empty. Logos stores the contract; it does not connect to Authentik. Pneuma consumes the declarations through core helpers and owns runtime reconciliation.
 
-Use a stable slug key and a human-readable application/role label. The group name is derived as `<team-key>: <label>`, for example **`pt-pneuma: agentgateway Admins`** or **`st-ethos: Reports Readers`**. Preserve application branding in the label. The `pt-`/`st-` prefix identifies the Team Topologies type.
+Use a stable slug key for each group. The three OpenBao groups have fixed labels and descriptions managed by Logos; declare only their environment memberships. Other application groups require a human-readable label and description. Their name is derived as `<team-key>: <label>`, for example **`pt-pneuma: agentgateway Admins`** or **`st-ethos: Reports Readers`**. Preserve application branding in custom labels. The `pt-`/`st-` prefix identifies the Team Topologies type.
 
 ```hcl
 authentik_groups = {
   openbao-secret-admins = {
-    description = "Manage secrets and versions within the st-example team prefix"
-    label       = "OpenBao Secret Admins"
-
     members = {
       non-production = ["member@example.com"]
       production     = ["member@example.com"]
@@ -38,13 +35,15 @@ authentik_groups = {
   }
 
   openbao-secret-readers = {
-    description = "Read and list secrets within the st-example team prefix"
-    label       = "OpenBao Secret Readers"
+    members = {
+      production = ["member@example.com"]
+    }
   }
 
   openbao-secret-writers = {
-    description = "Create and update secrets within the st-example team prefix"
-    label       = "OpenBao Secret Writers"
+    members = {
+      sandbox = ["member@example.com"]
+    }
   }
 
   reports-admins = {
@@ -54,7 +53,7 @@ authentik_groups = {
 }
 ```
 
-Member emails are lowercase, unique within each environment, and explicit. An omitted environment has no members. Joining a team never implicitly grants application access. Labels must be unique within the owning team; changing a label requires updating matching route references, while the stable slug remains unchanged.
+Member emails are lowercase, unique within each environment, and explicit. An omitted environment has no members. Joining a team never implicitly grants application access. OpenBao group labels are fixed as **OpenBao Secret Admins**, **OpenBao Secret Readers**, and **OpenBao Secret Writers**; their descriptions are generated from the group role and team key. For other application groups, labels must be unique within the owning team; changing a label requires updating matching route references, while the stable slug remains unchanged.
 
 Pneuma must declare both `agentgateway-admins` and `authentik-admins`; no other team may declare either group. `authentik-admins` grants authentik-wide superuser permissions and must include `brett@osinfra.io` in every environment. Other authentik application groups do not grant global authentik administration.
 
