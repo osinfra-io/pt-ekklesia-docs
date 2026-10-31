@@ -32,6 +32,8 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 | `fleet` | GKE Fleet registration for multi-cluster service discovery and ingress |
 | `workload-identity` | Kubernetes-to-GCP service account mapping — pods authenticate to GCP without keys |
 
+Node pools are managed separately from the cluster. The GKE module removes the default pool and omits the deprecated cluster-level `initial_node_count`; initial capacity belongs to each managed node pool.
+
 The zonal Authentik and agentgateway workspaces look up only their selected Pneuma cluster and use a single provider connection per zone. Other teams' clusters are not prerequisites for those workspaces; shared add-ons retain multi-cluster deployment.
 
 ## Sandbox Teardown

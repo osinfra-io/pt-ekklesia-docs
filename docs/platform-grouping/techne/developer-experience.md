@@ -30,8 +30,11 @@ The primary resource is `pre-commit-config` — a `.pre-commit-config.yaml` file
 |---|---|
 | `tofu-fmt` | Rewrites OpenTofu (`.tf`, `.tofu`, `.tfvars`, `.tftest.hcl`) files to canonical format — skips `.terraform/` directories |
 | `tofu-validate` | Checks configuration for syntax errors and internal consistency without accessing remote services |
+| `tofu-lint` | Runs OpenTofu v1.13+ built-in lint rules; warnings are advisory, while initialization and validation errors fail the hook |
 | `tofu-test` | Executes automated tests defined in `.tftest.hcl` files — runs in the root directory only, skips if no test files are found |
 | `tofu-scan` | Checks OpenTofu files against CIS Google Cloud Platform Foundation Benchmark v3.0.0 and CIS GKE Benchmark v1.6.1 using OPA/Rego — supports inline skip comments and a `--warn-only` flag for non-blocking scans |
+
+The lint hook resolves symlinks to canonical files before reporting unused locals or variables. Usage in another configuration loading that same declaration, including partial fixtures, prevents a false unused warning; a same-named declaration in an unrelated file does not. Variable references in test run assertions also count for the selected module in root and default `tests/` test files. Genuinely unused declarations and validation errors remain visible.
 
 ### Local Development Setup
 
