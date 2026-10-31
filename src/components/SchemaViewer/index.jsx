@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Accordion, Badge, Button, Code, Group, TextInput} from '@mantine/core';
 import '@mantine/core/styles/UnstyledButton.css';
 import '@mantine/core/styles/Accordion.css';
@@ -10,6 +10,7 @@ import '@mantine/core/styles/Input.css';
 import {useOnboardingFilter, FilterBar, OnboardingFilterProvider} from '@site/src/components/OnboardingFilter';
 import teamSchema from './team.schema.json';
 import resolveSchema from './resolveSchema';
+import {collectExpandablePaths, getChildren, matchesOwnFields, matchesSearch} from './search';
 import styles from './styles.module.css';
 
 const resolved = resolveSchema(teamSchema);
@@ -19,32 +20,6 @@ const typeColors = {
   string: 'blue', boolean: 'violet', number: 'orange',
   'string[]': 'teal', 'number[]': 'teal', object: 'gold', map: 'cyan',
 };
-
-function getChildren(prop) {
-  const mapProps = prop.type === 'map' ? prop.valueSchema?.properties : null;
-  const namedEntries = prop.type === 'map' && prop.properties;
-  const children = namedEntries
-    ? {...namedEntries, '‹other key›': {...prop.valueSchema, required: false}}
-    : mapProps ?? prop.properties;
-  return children && Object.keys(children).length > 0 ? children : null;
-}
-
-function matchesSearch(name, prop, query) {
-  if (!query) return true;
-  const fields = [
-    name,
-    prop.type,
-    prop.description,
-    prop.default === undefined ? '' : JSON.stringify(prop.default),
-    prop.pattern,
-    prop.enum?.join(' '),
-    prop.itemConstraints?.description,
-    prop.itemConstraints?.pattern,
-  ];
-  if (fields.some(value => value?.toLowerCase().includes(query))) return true;
-  return Object.entries(getChildren(prop) ?? {})
-    .some(([childName, child]) => matchesSearch(childName, child, query));
-}
 
 function PropertyDetails({prop}) {
   const constraints = [];
@@ -97,9 +72,8 @@ function PropertyDetails({prop}) {
 function SchemaProperty({name, prop, path, query, expandedPaths, setExpandedPaths}) {
   const children = getChildren(prop);
   const hasChildren = children !== null;
-  const expandedForSearch = Boolean(query && Object.entries(children ?? {})
-    .some(([childName, child]) => matchesSearch(childName, child, query)));
-  const isExpanded = expandedPaths.has(path) || expandedForSearch;
+  const childQuery = matchesOwnFields(name, prop, query) ? '' : query;
+  const isExpanded = expandedPaths.has(path);
   const summary = (
     <span className={styles.meta}>
       <Code className={styles.name}>{name}</Code>
@@ -151,14 +125,14 @@ function SchemaProperty({name, prop, path, query, expandedPaths, setExpandedPath
         <Accordion.Panel>
           <div className={styles.children}>
             {Object.entries(children)
-              .filter(([childName, child]) => matchesSearch(childName, child, query))
+              .filter(([childName, child]) => matchesSearch(childName, child, childQuery))
               .map(([childName, child]) => (
                 <SchemaProperty
                   key={`${path}.${childName}`}
                   name={childName}
                   prop={child}
                   path={`${path}.${childName}`}
-                  query={query}
+                  query={childQuery}
                   expandedPaths={expandedPaths}
                   setExpandedPaths={setExpandedPaths}
                 />
@@ -168,16 +142,6 @@ function SchemaProperty({name, prop, path, query, expandedPaths, setExpandedPath
       </Accordion.Item>
     </Accordion>
   );
-}
-
-function collectExpandablePaths(properties, query, parentPath = '') {
-  return Object.entries(properties).flatMap(([name, prop]) => {
-    if (!matchesSearch(name, prop, query)) return [];
-    const path = parentPath ? `${parentPath}.${name}` : name;
-    const children = getChildren(prop);
-    if (!children) return [];
-    return [path, ...collectExpandablePaths(children, query, path)];
-  });
 }
 
 function SchemaViewerInner({title}) {
@@ -191,6 +155,13 @@ function SchemaViewerInner({title}) {
       .filter(([name, prop]) => matchesSearch(name, prop, query)),
   );
   const expandablePaths = collectExpandablePaths(properties, query);
+
+  useEffect(() => {
+    const visibleProperties = Object.fromEntries(
+      Object.entries(resolved).filter(([, prop]) => prop.required || showOptional),
+    );
+    setExpandedPaths(new Set(query ? collectExpandablePaths(visibleProperties, query) : []));
+  }, [query, showOptional]);
 
   return (
     <>
