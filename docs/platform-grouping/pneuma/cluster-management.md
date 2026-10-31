@@ -34,6 +34,8 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 The zonal Authentik and agentgateway workspaces look up only their selected Pneuma cluster and use a single provider connection per zone. Other teams' clusters are not prerequisites for those workspaces; shared add-ons retain multi-cluster deployment.
 
+New clusters require GKE `1.36.4-gke.1469000` or later. The GKE module sets `initial_node_count = 0` and omits cluster-level `node_config` and `node_pool` blocks, creating the cluster without a default node pool. Separately managed node pools provide capacity; the deprecated `remove_default_node_pool` bootstrap-and-delete step is not used.
+
 ## Sandbox Teardown
 
 The manually dispatched `Sandbox Destroy` workflow tears down all team clusters in both sandbox zones, including `pt-pneuma-us-east1-b`; it is not a selective cluster pause. It refreshes main state without applying infrastructure changes, then removes agentgateway parameters before its runtime and Authentik configuration before its routes and server releases. Diagnostics are removed before Istio manifests, manifests before their controllers, and all workloads before onboarding namespaces and GKE clusters.
