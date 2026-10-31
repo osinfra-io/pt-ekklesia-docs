@@ -28,10 +28,13 @@ The primary resource is `pre-commit-config` — a `.pre-commit-config.yaml` file
 
 | Component | Description |
 |---|---|
+| `shellcheck` | Checks shell scripts for quoting, expansion, and other shell errors; required in every repository containing shell scripts |
 | `tofu-fmt` | Rewrites OpenTofu (`.tf`, `.tofu`, `.tfvars`, `.tftest.hcl`) files to canonical format — skips `.terraform/` directories |
 | `tofu-validate` | Checks configuration for syntax errors and internal consistency without accessing remote services |
 | `tofu-test` | Executes automated tests defined in `.tftest.hcl` files — runs in the root directory only, skips if no test files are found |
 | `tofu-scan` | Checks OpenTofu files against CIS Google Cloud Platform Foundation Benchmark v3.0.0 and CIS GKE Benchmark v1.6.1 using OPA/Rego — supports inline skip comments and a `--warn-only` flag for non-blocking scans |
+
+Repositories containing shell scripts include the `shellcheck` hook from `shellcheck-py/shellcheck-py`, pinned to a full commit SHA with its version comment. Use `args: ["-x"]` to follow sourced files, and keep source paths resolvable when the hook runs from the repository root. The hook detects shell scripts by file type, including extensionless scripts with shell shebangs.
 
 ### Local Development Setup
 
