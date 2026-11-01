@@ -153,10 +153,6 @@
       "description": "pt-corpus only. Per-environment project creator access for pt-corpus service accounts.",
       "$ref": "#/$defs/envScopedGoogleGroups"
     },
-    "google_project_enable_datadog": {
-      "description": "Enable Datadog Google Cloud integration for the team project.",
-      "type": "boolean"
-    },
     "google_project_services": {
       "description": "Additional GCP API services to enable in the team project.",
       "type": "array",
@@ -181,10 +177,6 @@
           "additionalProperties": {
             "$ref": "#/$defs/cloudSQL"
           }
-        },
-        "enable_datadog": {
-          "description": "Enable Datadog integration for the platform-managed project.",
-          "type": "boolean"
         },
         "kubernetes_engine": {
           "$ref": "#/$defs/kubernetesEngine"
@@ -692,11 +684,7 @@
           "type": "string"
         },
         "enable_datadog_secrets": {
-          "description": "Adds DD_API_KEY and DD_APP_KEY to repository secrets using the team's per-team Datadog service account credentials.",
-          "type": "boolean"
-        },
-        "enable_datadog_webhook": {
-          "description": "Configures a webhook to send repository events to Datadog for deployment tracking and CI visibility. Default: true.",
+          "description": "Adds DD_API_KEY and DD_APP_KEY to repository secrets using the team's per-team Datadog service account credentials. Enable only when the repository's own workflows call the Datadog API, for example to define Datadog monitors, dashboards, or synthetic tests with OpenTofu, or to upload sourcemaps or run static analysis in CI. Default: false.",
           "type": "boolean"
         },
         "enable_google_wif_service_account": {
@@ -852,7 +840,7 @@
       }
     },
     "kubernetesEngine": {
-      "description": "GKE cluster configuration for the team's platform-managed project. Defines cluster locations (zones), node pools, subnet CIDRs, Artifact Registry access, and optional Datadog APM integration.",
+      "description": "GKE cluster configuration for the team's platform-managed project. Defines cluster locations (zones), node pools, subnet CIDRs, Artifact Registry access.",
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -880,10 +868,6 @@
           "description": "DNS subdomain assigned to this team's GKE workloads under the platform's base domain. Must be lowercase letters, digits, and hyphens, starting with a letter.",
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$"
-        },
-        "enable_datadog_apm": {
-          "description": "Enable Datadog APM admission instrumentation on the GKE cluster. When true, the Datadog Operator injects the APM library into matching pods automatically.",
-          "type": "boolean"
         },
         "locations": {
           "description": "Map of GCP zones to GKE cluster configurations. Each entry provisions one cluster in the specified zone. At least one zone is required.",

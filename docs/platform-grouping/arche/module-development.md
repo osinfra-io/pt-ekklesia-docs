@@ -87,12 +87,11 @@ The agent opens pull requests through the GitHub MCP server. Start Copilot CLI w
 1. **Validates your identity** — confirms your GitHub username maps to an `@osinfra.io` email and that you are a member of the `osinfra-io` organization
 2. **Collects module details** — asks for the GCP or Kubernetes resource the module will manage, suggests a repository name following the `pt-arche-{provider}-{resource}` convention, and confirms a description
 3. **Asks about sub-modules** — if the module needs a `regional/` or `zonal/` subdirectory structure, it notes this and points to `pt-arche-google-kubernetes-engine` as a reference (sub-module scaffolding is manual)
-4. **Configures feature flags** — presents the three Logos configuration flags with sensible defaults
+4. **Configures feature flags** — presents the two Logos configuration flags with sensible defaults
 
    | Flag | Default | Purpose |
    |---|---|---|
-   | `enable_datadog_webhook` | `true` | Sends repo events to Datadog |
-   | `enable_datadog_secrets` | `false` | Adds `DD_API_KEY`/`DD_APP_KEY` as repo secrets |
+   | `enable_datadog_secrets` | `false` | Adds `DD_API_KEY`/`DD_APP_KEY` as repo secrets — enable only when the module's workflows call the Datadog API, such as OpenTofu defining Datadog monitors, dashboards, or synthetics |
    | `enable_google_wif_service_account` | `false` | OIDC Workload Identity Federation for GCP deploys |
 
 5. **Shows a preview** — lists exactly what will be created before doing anything; loops back on request

@@ -110,7 +110,6 @@ export function buildPrompt(f, teamSchema) {
     f.enableGoogleProject && 'enable_google_project',
     f.enableWorkflows && 'enable_workflows',
     f.enableStateManagement && 'enable_opentofu_state_management',
-    f.enableProjectDatadog && 'google_project_enable_datadog',
   ].filter(Boolean);
   if (flags.length) lines.push('', `Enable: ${flags.join(', ')}`);
   const apis = parseList(f.googleProjectServices);
@@ -133,7 +132,6 @@ export function buildPrompt(f, teamSchema) {
         lines.push(`    Artifact Registry readers and writers: owners=${owners.join(', ')}; managers=[]; members=[] for both groups.`);
       }
       if (f.gkeDnsSubdomain) lines.push(`    dns_subdomain=${f.gkeDnsSubdomain}`);
-      if (f.enableGkeDatadog) lines.push('    enable_datadog_apm=true');
     }
   }
   return lines.join('\n').trim();
