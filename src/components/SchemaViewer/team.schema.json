@@ -840,7 +840,7 @@
       }
     },
     "kubernetesEngine": {
-      "description": "GKE cluster configuration for the team's platform-managed project. Defines cluster locations (zones), node pools, subnet CIDRs, Artifact Registry access, and optional Datadog APM integration.",
+      "description": "GKE cluster configuration for the team's platform-managed project. Defines cluster locations (zones), node pools, subnet CIDRs, Artifact Registry access.",
       "type": "object",
       "additionalProperties": false,
       "required": [

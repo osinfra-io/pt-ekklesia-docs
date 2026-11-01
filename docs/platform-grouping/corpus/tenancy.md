@@ -8,7 +8,7 @@ Corpus owns the full tenancy lifecycle for every team on the platform. When a te
 
 - **CIS-compliant project creation**: Projects are created with CIS benchmark controls applied by default, including audit logging, OS Login enforcement, and uniform bucket-level access
 - **Standard labels**: All projects inherit a consistent label set from `module.core_helpers.labels`, ensuring cost attribution, environment tagging, and team ownership are always present
-- **Google Cloud project integration**: Every team project and platform-managed project is registered with Datadog automatically; there is no team-facing opt-in.
+- **Google Cloud project integration**: In production, every team project and platform-managed project is registered with Datadog automatically; there is no team-facing opt-in. Sandbox and non-production projects are not registered (gated by Corpus's `datadog_enable`) to avoid host costs.
 - **Centralized log bucket**: The Corpus project holds a single `cis-2-2-logging-sink` log bucket per environment — all projects sink to it; no per-project log storage
 - **Unique per-project sink identities**: Each project gets a dedicated GCP-managed logging service account with `roles/logging.bucketWriter` on the Corpus bucket — no shared sink credentials
 - **CMEK encryption**: The log bucket is encrypted with a KMS key in the Corpus project, with a 90-day automatic rotation schedule
