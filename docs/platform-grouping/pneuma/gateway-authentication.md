@@ -107,7 +107,7 @@ Pneuma renders one Authentik application and proxy provider per gateway host, wi
 
 :::caution Policies are scoped per host
 
-Authentik applications and bindings are scoped to a host, not a path. Two browser routes on one host with different requirements would let a user satisfying either policy reach both, because Authentik uses its `Any` policy-engine mode. Logos rejects conflicting requirements until request-level isolation and existing-session revocation are verified. Tracked in [pt-pneuma#183](https://github.com/osinfra-io/pt-pneuma/issues/183).
+Authentik applications and bindings are scoped to a host, not a path. A host is evaluated against one shared team policy, so two browser routes on one host with different requirements cannot be enforced separately. The platform rejects conflicting requirements until request-level isolation and existing-session revocation are verified. Tracked in [pt-pneuma#183](https://github.com/osinfra-io/pt-pneuma/issues/183).
 
 :::
 
