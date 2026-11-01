@@ -55,7 +55,7 @@ const SQL_REGIONS = ['us-east1', 'us-east4'];
 const GKE_ZONES = ['us-east1-b', 'us-east1-c', 'us-east1-d', 'us-east4-a', 'us-east4-b', 'us-east4-c'];
 
 const REQUIRED_COUNT = 8;
-const OPTIONAL_COUNT = 9;
+const OPTIONAL_COUNT = 8;
 
 function normalizeTeamKey(raw) {
   return raw.trim().toLowerCase();
