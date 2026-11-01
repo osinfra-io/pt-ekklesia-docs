@@ -211,7 +211,6 @@ function PromptBuilderInner() {
   const [enableGoogleProject,    setEnableGoogleProject]    = useState(false);
   const [enableWorkflows,        setEnableWorkflows]        = useState(false);
   const [enableStateManagement,  setEnableStateManagement]  = useState(false);
-  const [enableProjectDatadog,   setEnableProjectDatadog]   = useState(false);
   const [googleProjectServices,  setGoogleProjectServices]  = useState('');
   const [githubRepositories,     setGithubRepositories]     = useState('');
   // platform_managed_project
@@ -222,7 +221,6 @@ function PromptBuilderInner() {
   const [enableKubernetes,       setEnableKubernetes]       = useState(false);
   const [gkeLocations,           setGkeLocations]           = useState([]);
   const [gkeDnsSubdomain,        setGkeDnsSubdomain]        = useState('');
-  const [enableGkeDatadog,       setEnableGkeDatadog]       = useState(false);
   const [copyStatus,             setCopyStatus]             = useState('idle');
   const [copyAttempted,          setCopyAttempted]          = useState(false);
 
@@ -236,9 +234,9 @@ function PromptBuilderInner() {
     shareChildMaintainers, googleOwners, openbaoAdmins, shareRegistryOwners,
     authentikAdmins, agentgatewayAdmins,
     enableGoogleProject, enableWorkflows, enableStateManagement,
-    enableProjectDatadog, googleProjectServices, githubRepositories,
+    googleProjectServices, githubRepositories,
     enableCloudSQL, cloudSqlVersion, cloudSqlTier, cloudSqlRegions,
-    enableKubernetes, gkeLocations, gkeDnsSubdomain, enableGkeDatadog,
+    enableKubernetes, gkeLocations, gkeDnsSubdomain,
   };
 
   const errors = validate(fields, teamSchema, copyAttempted);
@@ -569,12 +567,6 @@ function PromptBuilderInner() {
                       onChange={e => setGkeDnsSubdomain(e.target.value)}
                       placeholder="fides"
                     />
-                    <Switch
-                      label={<code>enable_datadog_apm</code>}
-                      description={defs.kubernetesEngine.properties.enable_datadog_apm.description}
-                      checked={enableGkeDatadog}
-                      onChange={e => setEnableGkeDatadog(e.target.checked)}
-                    />
                   </div>
                 )}
               </Collapse>
@@ -598,19 +590,6 @@ function PromptBuilderInner() {
             />
           </div>
 
-          {showOptional && (
-            <div className={styles.section}>
-              <p className={styles.label}>Features <span className={styles.optional}>optional</span></p>
-              <div className={styles.checkboxGroup}>
-                <Switch
-                  label={<code>google_project_enable_datadog</code>}
-                  description={schema.google_project_enable_datadog.description}
-                  checked={enableProjectDatadog}
-                  onChange={e => setEnableProjectDatadog(e.target.checked)}
-                />
-              </div>
-            </div>
-          )}
         </ProductGroup>
 
       </div>

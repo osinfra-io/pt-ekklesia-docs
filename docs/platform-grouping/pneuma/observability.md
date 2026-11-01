@@ -8,7 +8,7 @@ The Datadog Operator runs on every GKE cluster and manages the Datadog Agent Dae
 
 ## Core Invariants
 
-The Datadog Operator runs on every cluster — no cluster ships without metrics, traces, and logs. The features below are hardcoded enabled in the `DatadogAgent` spec and cannot be disabled by individual teams:
+The Datadog Operator runs on every production cluster — no production cluster ships without metrics, traces, and logs. To avoid per-host costs, sandbox and non-production do not run Datadog. Datadog is not exposed to teams as an option; the only control is a platform-level kill switch: the `datadog_enable` variable (default `false`) in the `regional/datadog` workspaces, set to `true` in the production tfvars. Corpus has the matching `datadog_enable` variable for project-level integrations. The features below are hardcoded enabled in the `DatadogAgent` spec and cannot be disabled by individual teams:
 
 - **Admission Controller**: Mutates application pods at admission time to inject the Datadog library and environment variables, enabling traces, logs, and metrics to reach the agent without code changes
 - **Workload Autoscaling**: Implements the Kubernetes external metrics API so HPAs can scale workloads on Datadog metrics
@@ -19,9 +19,7 @@ The Datadog Operator runs on every cluster — no cluster ships without metrics,
 - **Cloud Security Posture Management (CSPM)**: Evaluates cloud resource configurations against security benchmarks (CIS, PCI-DSS, etc.)
 - **Cloud Workload Security (CWS)**: Detects runtime threats at the OS level using eBPF kernel event monitoring, with network detection also enabled
 
-## Team-opt-in features
-
-These features are disabled by default and enabled per team via the `platform_managed_project.kubernetes_engine.enable_datadog_apm` flag in the Logos team schema:
+The following are also always enabled:
 
 - **APM**: Distributed tracing — collects spans from instrumented services and assembles flame graphs and service maps ($31/host/month annual with Infrastructure Monitoring)
 - **Universal Service Monitoring (USM)**: Automatically detects service-to-service communication via eBPF and generates RED metrics (requests, errors, duration) per service without code changes — enabled automatically alongside APM at no additional cost
