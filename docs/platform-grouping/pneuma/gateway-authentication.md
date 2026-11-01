@@ -60,7 +60,7 @@ flowchart TD
 | Logos `route_auth_policies` | Logos | Source of truth for route-level auth intent. Policies are keyed by an existing route name. |
 | Authentik | Pneuma via Arche | Platform OIDC provider and identity layer deployed on the gateway clusters. |
 | Embedded outpost | Pneuma via Arche | Forward-auth endpoint for browser sessions. Istio registers it as the `authentik` external authorization provider. |
-| Authentik applications and policies | Pneuma via Arche | Per-host application, proxy provider, and policy bindings generated from browser-route group and role requirements. |
+| Authentik applications and policies | Pneuma via Arche | Per-host application and proxy provider, plus one browser-access policy per team shared by that team's hosts, generated from browser-route group and role requirements. |
 | Istio `RequestAuthentication` | Pneuma | Validates bearer JWTs against the Authentik issuer and JWKS. |
 | Istio `AuthorizationPolicy` | Pneuma | Sends browser requests to Authentik or enforces API JWT claims natively. |
 
@@ -107,7 +107,7 @@ Pneuma renders one Authentik application and proxy provider per gateway host, wi
 
 :::caution Policies are scoped per host
 
-Authentik applications and bindings are scoped to a host, not a path. Two browser routes on one host with different requirements would let a user satisfying either policy reach both, because Authentik uses its `Any` policy-engine mode. Logos rejects conflicting requirements until request-level isolation and existing-session revocation are verified. Tracked in [pt-pneuma#183](https://github.com/osinfra-io/pt-pneuma/issues/183).
+Authentik applications and bindings are scoped to a host, not a path. A host is evaluated against one shared team policy, so two browser routes on one host with different requirements cannot be enforced separately. The platform rejects conflicting requirements until request-level isolation and existing-session revocation are verified. Tracked in [pt-pneuma#183](https://github.com/osinfra-io/pt-pneuma/issues/183).
 
 :::
 
@@ -150,7 +150,29 @@ The platform `istio-test` route exposes public probes and a protected diagnostic
 |---|---|
 | `/istio-test/health` or `/istio-test/metadata/cluster-name`, no session | Application response, no redirect. A redirect means the public-path bypass is broken. |
 | `/istio-test/auth`, no session | Redirect to Authentik |
-| `/istio-test/auth`, signed in as a member of `all` | JSON showing the trusted `x-authentik-*` headers the workload received |
+| `/istio-test/auth`, signed in as a member of `all` | JSON with the trusted identity (`username`, `email`, `name`, `uid`, `groups`) plus troubleshooting context, described below |
+
+The authenticated `/istio-test/auth` response also includes:
+
+| Object | Fields |
+|---|---|
+| `authentik` | `application`, `provider`, `outpost`, `version`, `entitlements`, `googleEmail`: which Authentik application and outpost authorized the request |
+| `request` | `host`, `forwardedHost`, `forwardedProto`, `forwardedFor`, `requestId`, `traceparent`, `peerIdentity` (the caller's SPIFFE ID when the gateway forwards `X-Forwarded-Client-Cert`), and `authentikHeaders` (the names, never the values, of the `x-authentik-*` headers received) |
+| `workload` | `pod`, `namespace`, `version` |
+
+Cluster, region, and zone details stay on the public `/istio-test/metadata/*` endpoints. The response never includes tokens, cookies, or the `Authorization` header.
+
+### Application dashboard and policies
+
+Authentik shows an application on a user's dashboard when the user passes its policy bindings and the application is not hidden. Every browser application uses `policy_engine_mode = "all"`, so the dashboard and the forward-auth check use the same decision.
+
+- Each team gets one policy, named `<team-key>-browser-access` (for example `pt-pneuma-browser-access`), shared by every host the team owns. All browser routes in a team therefore must declare identical `required_groups` and `required_roles`. agentgateway has its own `agentgateway-browser-access` policy. Policy names are lowercase kebab-case; the Google source policy is `google-source-authentication-require-sso`. The local fixture uses `local-development-browser-access`.
+- Authentik applications are per host. Each team's apex host has the visible "Istio" tile, which launches `https://<dns-zone>/istio-test/auth`. The zonal hosts (`<zone>.<dns-zone>`) are hidden with `meta_hide`, so teams see the same tiles regardless of region while every host stays protected.
+- Only the paths that Istio sends to the outpost reach these policies. Public paths skip Authentik.
+
+### Headers forwarded to workloads
+
+The gateway forwards an explicit allow-list from the outpost: `x-authentik-username`, `-email`, `-name`, `-uid`, `-groups`, `-entitlements`, `-osinfra-google-email`, and `-meta-app`, `-meta-provider`, `-meta-outpost`, `-meta-version`. The user token (`x-authentik-jwt`) and its JWKS URL are never forwarded.
 
 OAuth callbacks under `/outpost.goauthentik.io` route directly to the embedded outpost on every protected browser host.
 
@@ -158,7 +180,7 @@ OAuth callbacks under `/outpost.goauthentik.io` route directly to the embedded o
 
 For complex browser-auth or gateway changes, use `/platform-grouping:local-integration-testing`. It is optional, not a CI or pre-push requirement. The Kubernetes fixture in `pt-pneuma/tests/integration/` exercises direct Istio routing and the Istio-to-agentgateway-to-workload path using the checked-out modules. Full verification needs real Google sign-in, the trusted identity JSON, public-path bypasses, forged-header denial, and ambient mTLS; a redirect alone proves nothing. See [Module Development](../arche/module-development.md#optional-local-integration-tests) for the fixture convention and cloud-parity limits. Google browser verification and the cloud rollout remain separate requirements.
 
-Pneuma's `regional/authentik-config/authentication` child module owns the sandbox brand, custom flow, stage and policy bindings, and shared identification settings. The cloud root and the local fixture both call it, so local runs exercise the real sandbox configuration. Domain and titles are caller inputs (`authentik.localhost` locally). Custom-flow creation is sandbox-only; other environments keep the default identification stage. Root `moved.tofu` blocks preserve resources during extraction.
+Pneuma's `regional/authentik-config/authentication` child module owns the brand, the `osinfra-authentication-flow` custom flow, stage and policy bindings, and shared identification settings. The cloud root and the local fixture both call it, so local runs exercise the real configuration. Domain and titles are caller inputs: the cloud root derives them from the environment (`authentik.sb.osinfra.io` and `osinfra.io | Sandbox` in sandbox, `authentik.osinfra.io` in production) and the fixture uses `authentik.localhost`. Every environment deploys the same flow, and the brand is the instance default (the built-in brand is imported and demoted).
 
 ## Operational Expectations
 

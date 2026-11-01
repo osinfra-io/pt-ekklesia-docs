@@ -54,7 +54,7 @@ Every browser route on your team host must use the same groups and roles. Logos 
 
 :::
 
-Your workload receives no JWT. After Authentik authorizes the session, the gateway injects trusted headers: `x-authentik-username`, `x-authentik-email`, `x-authentik-name`, `x-authentik-uid`, `x-authentik-groups`, and `x-authentik-entitlements`. Read only what you need; the gateway already enforces the declared groups and roles.
+Your workload receives no JWT. After Authentik authorizes the session, the gateway injects trusted headers: `x-authentik-username`, `x-authentik-email`, `x-authentik-name`, `x-authentik-uid`, `x-authentik-groups`, and `x-authentik-entitlements`, plus `x-authentik-meta-*` headers naming the authorizing application. Read only what you need; the gateway already enforces the declared groups and roles. Browser routes in the same team must declare identical groups and roles, because the team shares one Authentik policy.
 
 ### API JWT Routes
 
