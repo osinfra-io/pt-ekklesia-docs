@@ -58,12 +58,13 @@ Traffic to a member team's host (for example `{team}.sb.osinfra.io`) enters pneu
 
 ### Gateway Certificate
 
-The MCI load balancer terminates TLS with Google-managed certificates named `istio-gateway-mci-<hash>`, one per set of gateway domains. Managed certificate domains are immutable and GCP refuses to delete a certificate the load balancer still references, so adding a team creates a new certificate and the old one must stay attached until the swap completes. For a team with GKE clusters this takes two pt-pneuma changes:
+The MCI load balancer terminates TLS with Google-managed certificates named `istio-gateway-mci-<hash>`, one per set of gateway domains. Managed certificate domains are immutable and GCP refuses to delete a certificate the load balancer still references, so adding a team creates a new certificate and the old one must stay attached until the swap completes. Adding a domain therefore takes three pt-pneuma deployments, each one finishing in every environment before the next starts:
 
-1. The helpers PR registers the team's logos workspace and adds the team to `istio_gateway_pending_teams` in `locals.tofu`. The main workspace creates the new certificate and keeps the previous one, and the regional workspaces attach both.
-2. Once the deployment has finished in every environment, a follow-up PR removes the team from `istio_gateway_pending_teams`. The next deployment deletes the old certificate.
+1. **Retain and attach.** Register the domain (for a team, its logos workspace in the helpers PR) and list it in `istio_gateway_pending_teams` (or `istio_gateway_pending_hosts` for hosts such as agentgateway) in `locals.tofu`. The main workspace creates the new certificate and keeps the previous one, and the regional workspaces attach both.
+2. **Detach.** Once the new certificate is `ACTIVE`, stop attaching the retained certificate (`gateway_attach_retained_certificates = false` on the Arche module). The regional workspaces detach the old certificate while its resource stays in state.
+3. **Delete.** After ingress has reconciled and the load balancer no longer references the old certificate, remove the pending entry. The next deployment deletes the old certificate. Doing this before step 2 fails with a GCP resource-in-use error.
 
-The Nomos Agent adds the team to `istio_gateway_pending_teams` in the helpers PR and reminds you of the follow-up. New managed certificates can take up to an hour to provision; existing hosts keep serving from the old certificate meanwhile.
+The `update-gateway-certificate` skill in `pt-pneuma` walks through these steps, and the Nomos Agent reminds you to run it when onboarding a team with GKE clusters. New managed certificates can take up to an hour to provision; existing hosts keep serving from the old certificate meanwhile.
 
 ### Shared Ingress Policies
 
