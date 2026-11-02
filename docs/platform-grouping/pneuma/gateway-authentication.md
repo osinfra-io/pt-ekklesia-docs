@@ -129,19 +129,6 @@ Logos declares per-environment application access through [`authentik_groups`](.
 | Post-auth guard | The shared renderer creates a cluster-owned guard only when a browser route requires a managed group. It strips inbound identity headers, authenticates with `ext_authz`, and checks the current declared emails against a dedicated Google-established identity header. An ordinary email header or cached group claim cannot grant managed access. |
 | Membership changes | Deploy Logos, then manually dispatch the Pneuma reconciliation workflows. |
 
-### Agentgateway admin endpoint (sandbox only)
-
-| Aspect | Behavior |
-|---|---|
-| Host | `agentgateway.sb.osinfra.io`, a dedicated host in the Corpus environment DNS zone and shared gateway DNS and certificate inputs. No team-apex or zonal hostname. |
-| Backend | The ClusterIP-only `agentgateway-proxy-admin` Service on port `15000`; no public load balancer. |
-| Authorization | All of `/` requires `pt-pneuma: agentgateway Admins`. Only the Authentik outpost callback path bypasses it. |
-| Mesh policy | Only the Istio ingress service account may reach the admin port; all other principals are denied. A separate workload-scoped allow lets the proxy reach its controller on port `9978` under default-deny. |
-| Workspaces | Runtime installs the controller and CRDs after Istio. A separate manifests workspace owns `AgentgatewayParameters` and the admin Service, routes, and policies, and waits for Authentik configuration. Both target only Pneuma-owned sandbox clusters. |
-| Approvals | `Sandbox agentgateway: <zone>` and `Sandbox agentgateway Manifests: <zone>` environments, managed through Logos, with `pt-pneuma-sandbox-approvers` as reviewers. |
-
-Non-production and production hostnames and admin deployments are not enabled. Do not activate differently authorized browser paths on one host until same-host path isolation and existing-session revocation are verified.
-
 ## Verification
 
 The platform `istio-test` route exposes public probes and a protected diagnostic. It uses `mode = "browser"` and `required_groups = ["all"]`, with the health and metadata paths in `public_paths`.
