@@ -136,8 +136,6 @@ client -> shared Istio Gateway -> Authentik browser authorization -> internal Ag
 
 **Version policy:** the module pins the latest stable AgentGateway release proven against the platform's unchanged Istio version. Istio is never downgraded, and an older AgentGateway is never used as a workaround. A release that fails the local ambient compatibility gate blocks rollout until a reproducible upstream issue is filed or linked. Compatibility is exercised with the [local-integration-testing skill](../arche/module-development.md#optional-local-integration-tests), which does not replace sandbox verification.
 
-**Current rollout:** sandbox only. Non-production and production are not enabled.
-
 ## End-to-End Validation
 
 The `istio-test` workspace deploys a lightweight metadata service into each team's prefixed istio-test namespace (`pt-pneuma-istio-test`, etc.). A validation script checks every global and zonal endpoint, confirming the returned cluster name matches the expected team and zone.
