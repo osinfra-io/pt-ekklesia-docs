@@ -56,6 +56,15 @@ External DNS for mesh routes points to pneuma's gateway IPs:
 
 Traffic to a member team's host (for example `{team}.sb.osinfra.io`) enters pneuma's gateway, matches the `HTTPRoute` for that host, and forwards across the mesh to the team's cluster. Member clusters have no public IP.
 
+### Gateway Certificate
+
+The MCI load balancer terminates TLS with Google-managed certificates named `istio-gateway-mci-<hash>`, one per set of gateway domains. Managed certificate domains are immutable and GCP refuses to delete a certificate the load balancer still references, so adding a team creates a new certificate and the old one must stay attached until the swap completes. For a team with GKE clusters this takes two pt-pneuma changes:
+
+1. The helpers PR registers the team's logos workspace and adds the team to `istio_gateway_pending_teams` in `locals.tofu`. The main workspace creates the new certificate and keeps the previous one, and the regional workspaces attach both.
+2. Once the deployment has finished in every environment, a follow-up PR removes the team from `istio_gateway_pending_teams`. The next deployment deletes the old certificate.
+
+The Nomos Agent adds the team to `istio_gateway_pending_teams` in the helpers PR and reminds you of the follow-up. New managed certificates can take up to an hour to provision; existing hosts keep serving from the old certificate meanwhile.
+
 ### Shared Ingress Policies
 
 The Pneuma main workspace owns the Cloud Armor security policy and the SSL policy, both named `shared-ingress`. These are shared ingress infrastructure, not resources owned by the Arche Istio module.
