@@ -53,8 +53,12 @@ External DNS for mesh routes points to pneuma's gateway IPs:
 |---|---|
 | `{team}.{env}.osinfra.io` | MCI global IP (anycast, lowest-latency zone) |
 | `{zone}.{team}.{env}.osinfra.io` | Zonal load balancer in that zone |
+| `authentik.{env}.osinfra.io`, `agentgateway.{env}.osinfra.io` | MCI global IP |
+| `{zone}.authentik.{env}.osinfra.io`, `{zone}.agentgateway.{env}.osinfra.io` | Zonal load balancer in that zone |
 
 Traffic to a member team's host (for example `{team}.sb.osinfra.io`) enters pneuma's gateway, matches the `HTTPRoute` for that host, and forwards across the mesh to the team's cluster. Member clusters have no public IP.
+
+The shared Authentik and agentgateway hosts are also available directly on each regional ingress. For example, non-production exposes `authentik.nonprod.osinfra.io` through MCI and `us-east1-b.authentik.nonprod.osinfra.io` through the `us-east1-b` regional ingress. Production omits the environment label (`us-east1-b.authentik.osinfra.io`). The same pattern applies to agentgateway.
 
 ### Gateway Certificate
 
@@ -135,7 +139,7 @@ AgentGateway is an internal application gateway for ordinary HTTP connectivity. 
 client -> shared Istio Gateway -> Authentik browser authorization -> internal AgentGateway -> workload
 ```
 
-Pneuma owns the AgentGateway integration. Traffic protection and external exposure remain the responsibility of the shared Istio gateway and its authentication policies.
+Pneuma owns the AgentGateway integration. Its environment hostname (`agentgateway.<env>.osinfra.io`, with the environment label omitted in production) resolves to MCI; each gateway zone also has a direct regional hostname (`<zone>.agentgateway.<env>.osinfra.io`). Both hosts use the same route and Authentik browser authorization. Traffic protection and external exposure remain the responsibility of the shared Istio gateway and its authentication policies.
 
 ## End-to-End Validation
 

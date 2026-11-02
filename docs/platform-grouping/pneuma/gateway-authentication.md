@@ -22,7 +22,7 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 Gateway auth runs on the Pneuma gateway data plane (`gateway-istio`). It combines Authentik browser-session enforcement, Istio JWT validation for API clients, and Envoy external authorization so application teams do not need to operate an ingress authentication stack.
 
-Authentik is the platform identity provider. It is available at `authentik.<env>.osinfra.io`; production omits the environment segment. The `pt-pneuma` `authentik` and `authentik-config` workspaces deploy and configure it through `pt-arche-kubernetes-authentik`. Authentik stores persistent data in Cloud SQL PostgreSQL, and its embedded outpost provides the Envoy `ext_authz` endpoint for browser sessions.
+Authentik is the platform identity provider. Its environment hostname (`authentik.<env>.osinfra.io`; production omits the environment segment) resolves to MCI, and each gateway zone exposes the same service directly at `<zone>.authentik.<env>.osinfra.io`. The `pt-pneuma` `authentik` and `authentik-config` workspaces deploy and configure it through `pt-arche-kubernetes-authentik`. Authentik stores persistent data in Cloud SQL PostgreSQL, and its embedded outpost provides the Envoy `ext_authz` endpoint for browser sessions.
 
 Browser identity reaches workloads as gateway-controlled `x-authentik-*` headers, not a bearer JWT. The gateway owns that namespace, so a value supplied by an external client is never a trusted identity source.
 
