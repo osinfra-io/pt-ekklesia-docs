@@ -131,6 +131,8 @@ Pneuma owns the AgentGateway integration. Traffic protection and external exposu
 
 The `istio-test` workspace deploys a lightweight metadata service into each team's prefixed istio-test namespace (`pt-pneuma-istio-test`, etc.). A validation script checks every global and zonal endpoint, confirming the returned cluster name matches the expected team and zone.
 
+Datadog Synthetics are generated for every team with active clusters and owned by the single `us-east1-b` `istio-test` workspace in each environment to prevent duplicates. Each team gets an `Istio Test: Global MCI` check for its global domain, `Istio Test: Regional MCI` checks for regions where it has clusters, and `Istio Test: Regional Ingress` checks for gateway zones in those regions. Domains come from the main workspace's gateway DNS output, and `team`, `region`, and `env` tags identify each check's scope.
+
 ## Core Invariants
 
 - Ambient mTLS is enforced on every cluster via `ztunnel` and `PeerAuthentication` in strict mode — no plaintext traffic between workloads enrolled in the ambient mesh.
