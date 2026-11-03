@@ -190,9 +190,9 @@ Use the [platform-grouping plugin](https://github.com/osinfra-io/pt-ai-plugins/t
 /platform-grouping:release-arche-modules
 ```
 
-Release Core Helpers before its dependent Arche modules, then update Corpus and Pneuma consumers to the released post-merge SHAs.
+Release Core Helpers before its dependent Arche modules. Consumer updates are optional: confirm whether to update Corpus, Pneuma, both, or neither before changing their pins to the released post-merge SHAs.
 
-Consumer updates cover every deployment workspace in Corpus and Pneuma, including regional workspaces and nested add-ons. Edit canonical shared files once so symlinks remain intact.
+For each confirmed consumer, update every deployment workspace, including regional workspaces and nested add-ons. Edit canonical shared files once so symlinks remain intact.
 
 ## Core Invariant
 
