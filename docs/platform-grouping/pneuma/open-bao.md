@@ -128,8 +128,6 @@ Do not place static credentials in source repositories, OpenTofu variables, or C
 
 Pull requests deploy sandbox, merges to `main` deploy non-production, and successful non-production runs promote to production. The zonal OpenBao workspaces deploy in parallel after the cluster runtime is available.
 
-For the dedicated local integration fixture, `tests/integration/openbao/teardown.sh` removes its routing and runtime without requiring an administrative API session. This supports recovery when OpenBao is sealed or its local initialization file is missing. It verifies cluster ownership and namespace tracking, then clears local configuration state and initialization keys only after the OpenBao namespace and its data volumes have been removed.
-
 ## Core invariant
 
 Secrets are delivered through approved OpenBao identities and policies with the shortest practical lifetime and least privilege.

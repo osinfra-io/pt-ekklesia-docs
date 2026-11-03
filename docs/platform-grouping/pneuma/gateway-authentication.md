@@ -95,9 +95,9 @@ Set each non-sensitive `google_oauth_client_id` in the matching `pt-pneuma/regio
 
 The Google source is enabled only when both its client ID and secret are non-empty. Managed application groups require that source to be enabled. An Internal audience controls who can sign in with Google; it does not grant application access or replace group-based authorization.
 
-After the updated Pneuma consumer is deployed and reconciled in the target environment, its Google identity mapping classifies a user as internal only when Google verifies the email, its domain matches the Workspace `hd` claim, and that domain is in the configured internal-domain allowlist (`osinfra.io` for Pneuma). Other Google users remain external. Under that reconciled configuration, internal status enables the authentik user interface, not administrative permissions; only Pneuma's declared `authentik-admins` group receives global superuser access.
+The Google identity mapping classifies a user as internal only when Google verifies the email, its domain matches the Workspace `hd` claim, and that domain is in the configured internal-domain allowlist (`osinfra.io` for Pneuma). Other Google users remain external. Internal status enables the authentik user interface, not administrative permissions; only Pneuma's declared `authentik-admins` group receives global superuser access.
 
-These changes are not evidence of live cloud behavior: [Pneuma PR #274](https://github.com/osinfra-io/pt-pneuma/pull/274) pins the released module, but the consumer must still be merged, deployed, and reconciled in each environment. Existing accounts receive the new classification on their next Google sign-in after that reconciliation. Verify real Google sign-in and administrator permissions in the target environment before relying on them. The local OpenBao fixture advertises its OIDC mount on the unauthenticated login page; that local configuration does not establish cloud rollout.
+After changing identity mappings, reconcile the target environment and verify Google sign-in and administrator permissions. Existing accounts receive updated classification on their next Google sign-in.
 
 Deploy Authentik and its gateway routes before applying Authentik Config, which calls the live management API. OAuth credentials do not fix an unavailable Authentik instance in an environment without clusters. Verify configuration with a real internal-user Google browser sign-in and the intended application's authorization checks once the environment is available.
 
@@ -107,13 +107,7 @@ Pneuma renders one Authentik application and proxy provider per gateway host, wi
 
 :::caution Policies are scoped per host
 
-Authentik applications and bindings are scoped to a host, not a path. A host is evaluated against one shared team policy, so two browser routes on one host with different requirements cannot be enforced separately. The platform rejects conflicting requirements until request-level isolation and existing-session revocation are verified. Tracked in [pt-pneuma#183](https://github.com/osinfra-io/pt-pneuma/issues/183).
-
-:::
-
-:::caution Group membership sync is pending
-
-Authentik group membership is not yet synchronized from Logos in the released Pneuma consumer, so existing unmanaged groups still need direct membership assignment. Merging a declaration alone does not change live access. Tracked in [pt-pneuma#181](https://github.com/osinfra-io/pt-pneuma/issues/181).
+authentik applications and bindings are scoped to a host, not a path. A host is evaluated against one shared team policy, so browser routes on one host must declare identical group and role requirements. The platform rejects conflicting requirements.
 
 :::
 
@@ -123,8 +117,8 @@ Logos declares per-environment application access through [`authentik_groups`](.
 
 | Aspect | Behavior |
 |---|---|
-| Membership source | Requires deployment of the updated consumer in [Pneuma PR #274](https://github.com/osinfra-io/pt-pneuma/pull/274) and reconciliation in the target environment. Afterward, the authentik Google source mapping assigns membership from a verified OAuth email at enrollment and sign-in; configuration deployment reconciles already-verified users. No accounts or passwords are pre-provisioned. |
-| Group type | Groups do not inherit ordinary team membership. Only after the updated consumer is deployed and reconciled in the target environment does Pneuma's `authentik-admins` grant global authentik superuser access; all other declared groups grant only their application-specific access. A declaration alone grants no live administrative access. |
+| Membership source | The authentik Google source mapping assigns membership from a verified OAuth email at enrollment and sign-in; configuration deployment reconciles already-verified users. No accounts or passwords are pre-provisioned. |
+| Group type | Groups do not inherit ordinary team membership. Pneuma's `authentik-admins` grants global authentik superuser access; all other declared groups grant only their application-specific access. |
 | Pending members | `pending_application_members` lists declared identities without verified enrollment. It is sensitive: inspect it only through approved state-access procedures, never in workflow logs or PR comments. An empty list does not prove authorization works. |
 | Post-auth guard | The shared renderer creates a cluster-owned guard only when a browser route requires a managed group. It strips inbound identity headers, authenticates with `ext_authz`, and checks the current declared emails against a dedicated Google-established identity header. An ordinary email header or cached group claim cannot grant managed access. |
 | Membership changes | Deploy Logos, then manually dispatch the Pneuma reconciliation workflows. |
@@ -165,9 +159,7 @@ OAuth callbacks under `/outpost.goauthentik.io` route directly to the embedded o
 
 ### Local integration checks
 
-For complex browser-auth or gateway changes, use `/platform-grouping:local-integration-testing`. It is optional, not a CI or pre-push requirement. The Kubernetes fixture in `pt-pneuma/tests/integration/` exercises direct Istio routing and the Istio-to-agentgateway-to-workload path using the checked-out modules. Full verification needs real Google sign-in, the trusted identity JSON, public-path bypasses, forged-header denial, and ambient mTLS; a redirect alone proves nothing. See [Module Development](../arche/module-development.md#optional-local-integration-tests) for the fixture convention and cloud-parity limits. Google browser verification and the cloud rollout remain separate requirements.
-
-Pneuma's `regional/authentik-config/authentication` child module owns the brand, the `osinfra-authentication-flow` custom flow, stage and policy bindings, and shared identification settings. The cloud root and the local fixture both call it, so local runs exercise the real configuration. Domain and titles are caller inputs: the cloud root derives them from the environment (`authentik.sb.osinfra.io` and `osinfra.io | Sandbox` in sandbox, `authentik.osinfra.io` in production) and the fixture uses `authentik.localhost`. Every environment deploys the same flow, and the brand is the instance default (the built-in brand is imported and demoted).
+For complex browser-auth or gateway changes, use `/platform-grouping:local-integration-testing`. Full verification requires real Google sign-in, authorized and denied requests, public-path bypasses, forged-header denial, and ambient mTLS. See [Module Development](../arche/module-development.md#optional-local-integration-tests) for the optional workflow and its cloud-parity limits.
 
 ## Operational Expectations
 
@@ -236,7 +228,7 @@ Centralize authn/authz at Pneuma gateway clusters. Logos remains the contract wh
 
 Pneuma's `authentik-config` workspace renders one Authentik application and proxy provider per gateway host plus policy bindings for the declared browser principals. Because the embedded outpost authorizes an authenticated session against that host-scoped application rather than re-evaluating application policies for every route request, all browser routes for a team must declare identical `required_groups` and `required_roles`. Logos and Pneuma validate this invariant and reject conflicting route policies instead of silently widening access.
 
-The one remaining manual step — provisioning **Authentik group membership** itself from Logos/Google Identity groups — is out of scope for this decision and is tracked separately as [pt-pneuma#181](https://github.com/osinfra-io/pt-pneuma/issues/181).
+Group membership provisioning is separate from host-policy enforcement; see [Team-owned application groups](#team-owned-application-groups) for the membership contract.
 
 #### Alternatives Considered
 
@@ -251,4 +243,3 @@ The one remaining manual step — provisioning **Authentik group membership** it
 - Teams cannot assign different browser group or role requirements to routes on the same gateway host; they must align the requirements or use another auth mode.
 - Authorized browser identity is forwarded to workloads through trusted `x-authentik-*` headers rather than an application-facing JWT.
 - Adding or changing browser requirements remains a Logos change, but validation prevents configurations that the host-scoped Authentik model cannot enforce safely.
-- Authentik group membership sync remains an open gap ([pt-pneuma#181](https://github.com/osinfra-io/pt-pneuma/issues/181)) — enforcement is only as strong as the manual group assignments behind it until that is resolved.
