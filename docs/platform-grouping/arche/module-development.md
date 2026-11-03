@@ -140,17 +140,11 @@ For complex application configuration changes, developers can choose to exercise
 /platform-grouping:local-integration-testing
 ```
 
-The [platform-grouping plugin](https://github.com/osinfra-io/pt-ai-plugins/tree/main/plugins/platform-grouping) owns the browser sign-in guidance and invokes the suite in `pt-pneuma/tests/integration/`. Because Pneuma composes the modules, all fixtures, the shared gateway and certificate, the hostname list (`shared/hostnames.txt`), and the holistic verifiers live there, with directly runnable `setup.sh`, `verify.sh`, and `teardown.sh` entry points for the whole stack and for each component. Module repositories keep only mocked OpenTofu tests; adding a component host never requires editing another module. Fixtures use checked-out modules so local edits are exercised; generated state and credentials stay in ignored `.work/` directories. Do not maintain parallel Docker Compose fixtures. This workflow is opt-in, not a mandatory pre-push or CI gate, and remains separate from mocked OpenTofu tests.
+The [platform-grouping plugin](https://github.com/osinfra-io/pt-ai-plugins/tree/main/plugins/platform-grouping) owns setup, credentials, browser sign-in, verification, and teardown for `pt-pneuma/tests/integration/`. Fixtures exercise checked-out modules; module repositories keep only mocked OpenTofu tests. This workflow is opt-in, not a mandatory pre-push or CI gate.
 
 The target runtime is a dedicated Docker Desktop Kubernetes cluster using the Kind provisioner. All stack components, including Authentik and PostgreSQL, run in Kubernetes. Setup must reject existing unowned installations rather than overwrite them, and cleanup must not purge shared CRDs. Local PostgreSQL, upstream images, and local TLS replace cloud database, registry, and certificate infrastructure; successful local checks do not validate GCP load balancers, Cloud Armor, Workload Identity, or multi-region behavior.
 
-The Authentik fixture and cloud root both call Pneuma's checked-out `regional/authentik-config/authentication` child module. The brand CSS/assets, custom authentication flow, identification settings, stage order, and conditional password/MFA policies are shared; only the resolved local domain and Development titles differ. The fixture supplies local OAuth, application, and group inputs and discovers built-in Authentik objects locally. Cloud discovery and environment-derived domain and titles stay in the cloud root. Rerun Authentik setup and verification after editing this shared module; no database reset is needed.
-
-Agentgateway modules require an explicit namespace and do not create it. Local fixtures own the `agentgateway` namespace; platform namespaces are declared in the Logos team configuration and created by Pneuma onboarding. Pneuma's `agentgateway` namespace is mesh-enabled, enrolling its workloads in ambient Istio.
-
-Explicit local teardown deletes all fixture-owned namespaces and PostgreSQL data. The next setup starts with fresh users and application configuration. Shared CRDs, cluster system namespaces, and the fixture ownership marker are retained.
-
-Real Google browser sign-in is necessary for a full end-to-end result. Configure the Google web client's `https://localhost/source/oauth/callback/google/` redirect and supply its credentials through the developer environment. Redirect checks alone must be reported as browser verification pending.
+Full end-to-end verification requires real Google browser sign-in; redirect checks alone are insufficient.
 
 ## Repository naming convention
 
@@ -196,9 +190,9 @@ Use the [platform-grouping plugin](https://github.com/osinfra-io/pt-ai-plugins/t
 /platform-grouping:release-arche-modules
 ```
 
-The skill discovers active Arche module repositories, including AgentGateway and Authentik, rather than relying on a fixed inventory. It compares released tag commits with `main`, handles initial `v0.1.0` releases, releases Core Helpers before its dependents, and updates the untagged scaffold. Modules without a Core Helpers dependency still participate in release detection.
+Release Core Helpers before its dependent Arche modules. Consumer updates are optional: confirm whether to update Corpus, Pneuma, both, or neither before changing their pins to the released post-merge SHAs.
 
-Consumer updates require confirmation and cover every deployment workspace in Corpus and Pneuma, including regional workspaces and nested add-ons. Canonical helper files are edited once so symlinks remain intact. Release PRs use existing `dependencies` and `opentofu` labels; signing failures are surfaced without rewriting commits or opening duplicate PRs. Admin merges require explicit authorization, and validation failures require separate approval before bypassing them.
+For each confirmed consumer, update every deployment workspace, including regional workspaces and nested add-ons. Edit canonical shared files once so symlinks remain intact.
 
 ## Core Invariant
 

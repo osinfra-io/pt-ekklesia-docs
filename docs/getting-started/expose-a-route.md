@@ -50,7 +50,7 @@ Public paths must sit under the route path and cannot be `/`, `/*`, or `*`. `/ap
 
 :::caution One policy per host
 
-Every browser route on your team host must use the same groups and roles. Logos rejects conflicts because Authentik bindings are scoped to the host, not the path. Group **membership** is not yet synced from Logos; see [rollout status](../platform-grouping/pneuma/gateway-authentication.md#browser-authorization).
+Every browser route on your team host must use the same groups and roles. Logos rejects conflicts because authentik bindings are scoped to the host, not the path. Declare application group membership through [Logos/Nomos](../platform-grouping/pneuma/gateway-authentication.md#team-owned-application-groups); changes take effect after Pneuma reconciliation.
 
 :::
 

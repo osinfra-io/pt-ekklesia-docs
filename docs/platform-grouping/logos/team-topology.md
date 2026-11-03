@@ -82,15 +82,7 @@ This example requires an `authentik_groups` entry on `st-example` with the label
 
 Pneuma derives the host from the owning team's gateway DNS zone and renders policies for the global and zonal hostnames. The route supplies the path prefix: `/app/admin` includes that path and its descendants, but not `/app/administrator`. After browser authentication, the managed-access guard checks that host and path against the current environment's declared membership. Naming a group after an application does not automatically attach it to any route.
 
-The cloud consumer still rejects different browser group requirements on the same host. The local member/nonmember and existing-session revocation tests have passed, but cloud host-policy restrictions remain until the corresponding consumer changes are deployed and verified.
-
-:::caution Runtime rollout
-
-The declaration and reusable membership module do not by themselves enable new application routes. A consumer must use a released module implementing the contract. After Logos deployment, reconcile the selected environment through Pneuma's existing manually dispatched workflow and environment approvals; a merged Logos PR is not evidence that access has changed.
-
-The current [browser policy limitations](../pneuma/gateway-authentication.md#browser-authorization) remain in force until request-level isolation and existing-session revocation are implemented and verified.
-
-:::
+Browser routes on the same host must declare identical group and role requirements; see [browser policy limitations](../pneuma/gateway-authentication.md#browser-authorization). After deploying Logos membership changes, reconcile the selected environment through Pneuma's manually dispatched workflow and environment approvals.
 
 ## Components
 
