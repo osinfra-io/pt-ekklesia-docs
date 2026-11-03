@@ -43,6 +43,8 @@ Autodiscovery rules are pre-configured for the following cluster components:
 
 ## Components
 
+The manifests workspace also manages Kubernetes alert templates as `DatadogMonitor` resources. Monitors without a warning alert omit the optional warning threshold instead of sending `null`, matching the Kubernetes API's representation and avoiding recurring plan changes. Configured critical and warning thresholds remain managed by OpenTofu.
+
 | Component | Description |
 |---|---|
 | `datadog-operator` | The Kubernetes operator that manages the lifecycle of Datadog Agent deployments |

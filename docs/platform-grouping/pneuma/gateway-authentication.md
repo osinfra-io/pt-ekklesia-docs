@@ -26,6 +26,8 @@ Authentik is the platform identity provider. Its environment hostname (`authenti
 
 Browser identity reaches workloads as gateway-controlled `x-authentik-*` headers, not a bearer JWT. The gateway owns that namespace, so a value supplied by an external client is never a trusted identity source.
 
+The authentication configuration imports authentik's built-in brand and demotes it before making the osinfra.io brand the default. It explicitly preserves the built-in logo and favicon paths; leaving those optional attributes unset makes plans repeatedly attempt to remove the assets returned by the API. The osinfra.io brand keeps its separate custom assets and authentication flow.
+
 ```mermaid
 flowchart TD
     classDef client fill:#5F6368,stroke:#5F6368,color:#fff
