@@ -41,6 +41,15 @@ Autodiscovery rules are pre-configured for the following cluster components:
 - **Envoy ingress gateway**: Scrapes gateway proxy metrics from the Envoy stats endpoint and collects access logs for shared ingress traffic
 - **Ambient mesh telemetry**: Collects `ztunnel` and workload mesh telemetry through the mesh data plane so service-to-service traffic can be correlated without workload sidecars
 
+## Synthetic monitoring
+
+The `regional/istio/test-workload` workspace owns Datadog HTTP synthetics for the platform's public service endpoints. It creates one global check per environment for each service below.
+
+| Service | Endpoint | Health signal |
+| --- | --- | --- |
+| OpenBao | `/v1/sys/health?standbyok=true` on the global OpenBao hostname | Initialized and unsealed; standby instances are accepted |
+| authentik | `/-/health/ready/` on the global authentik hostname | Server is ready and can connect to PostgreSQL |
+
 ## Components
 
 | Component | Description |
