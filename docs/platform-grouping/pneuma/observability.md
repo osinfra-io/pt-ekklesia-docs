@@ -43,7 +43,11 @@ Autodiscovery rules are pre-configured for the following cluster components:
 
 ## Synthetic monitoring
 
-The `regional/istio/test-workload` workspace owns Datadog HTTP synthetics for the platform's public service endpoints. It creates one global check per environment for each service below.
+The **Datadog Config** job manages Datadog API resources from `config/datadog`, independently of the Kubernetes operator and monitoring manifests. It runs once per environment in `datadog-config-{environment}`, after all Istio Test jobs, authentik Config, and OpenBao Config.
+
+Environment-wide API configuration lives under `config/authentik`, `config/datadog`, and `config/openbao`; `regional/` contains zone-scoped cluster deployments.
+
+Each environment gets a synthetic suite and HTTP tests for global, regional, and zonal Istio endpoints, plus one global check for each service below. Tests are live in production and paused in sandbox and non-production. The `regional/istio/test-workload` workspaces deploy only the Kubernetes diagnostic workload, not the Datadog tests.
 
 | Service | Endpoint | Health signal |
 | --- | --- | --- |

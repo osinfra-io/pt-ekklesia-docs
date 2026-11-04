@@ -91,7 +91,7 @@ Pneuma owners configure a separate Google OAuth **Web application** client for e
 | Non-production | `https://authentik.nonprod.osinfra.io/source/oauth/callback/google/` |
 | Production | `https://authentik.osinfra.io/source/oauth/callback/google/` |
 
-Set each non-sensitive `google_oauth_client_id` in the matching `pt-pneuma/regional/authentik-config/environments/{sandbox,non-production,production}.tfvars` file. Keep the client ID, secret, and callback URI paired with the same environment when rotating credentials.
+Set each non-sensitive `google_oauth_client_id` in the matching `pt-pneuma/config/authentik/environments/{sandbox,non-production,production}.tfvars` file. Keep the client ID, secret, and callback URI paired with the same environment when rotating credentials.
 
 The Google source is enabled only when both its client ID and secret are non-empty. Managed application groups require that source to be enabled. An Internal audience controls who can sign in with Google; it does not grant application access or replace group-based authorization.
 
