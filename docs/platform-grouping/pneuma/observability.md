@@ -49,7 +49,6 @@ The `regional/istio/test-workload` workspace owns Datadog HTTP synthetics for th
 | --- | --- | --- |
 | OpenBao | `/v1/sys/health?standbyok=true` on the global OpenBao hostname | Initialized and unsealed; standby instances are accepted |
 | authentik | `/-/health/ready/` on the global authentik hostname | Server is ready and can connect to PostgreSQL |
-| agentgateway | `/` on the global agentgateway hostname | Gateway route is reachable through its authentik sign-in redirect |
 
 ## Components
 
