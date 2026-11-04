@@ -24,6 +24,14 @@ Reusable GitHub Actions called workflows that standardize OpenTofu deployments a
 
 The `plan-and-apply.yml` workflow accepts extra variables through `opentofu_var_json`. Each top-level key becomes `TF_VAR_<key>`: strings are passed without JSON quotes, while other values remain JSON-encoded so OpenTofu can parse structured types. GitHub's multiline environment-file format preserves multiline strings, such as PEM certificates, without interpreting embedded lines as separate environment variables.
 
+## Nuclei vulnerability scanning
+
+Pneuma invokes the reusable Nuclei workflow through three separate workflows in `pt-pneuma`: `nuclei-sandbox.yml`, `nuclei-non-production.yml`, and `nuclei-production.yml`. Each runs weekly on Sunday at 11:00 UTC and supports an independent manual run from GitHub Actions.
+
+Each workflow scans only its environment's targets from `.github/workflows/nuclei/sb.txt`, `nonprod.txt`, or `prod.txt`, respectively. The existing `scripts/update-nuclei-urls.sh` pre-commit hook generates these files from Logos team configurations.
+
+Targets include the global authentik, OpenBao, and agentgateway endpoints and each Kubernetes team's global hostname. Zonal aliases are excluded to avoid repeating application scans; these scans do not cover the distinct direct zonal ingress paths.
+
 ## Core Invariants
 
 - All deployments use short-lived OIDC tokens — no static credentials exist anywhere on the platform.
