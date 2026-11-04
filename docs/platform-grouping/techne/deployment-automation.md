@@ -30,6 +30,8 @@ Pneuma invokes the reusable Nuclei workflow through three separate workflows in 
 
 Each workflow scans only its environment's targets from `.github/workflows/nuclei/sb.txt`, `nonprod.txt`, or `prod.txt`, respectively. The existing `scripts/update-nuclei-urls.sh` pre-commit hook generates these files from Logos team configurations.
 
+Targets include the global authentik, OpenBao, and agentgateway endpoints and each Kubernetes team's global hostname. Zonal aliases are excluded to avoid repeating application scans; these scans do not cover the distinct direct zonal ingress paths.
+
 ## Core Invariants
 
 - All deployments use short-lived OIDC tokens — no static credentials exist anywhere on the platform.
