@@ -32,6 +32,8 @@ Each workflow scans only its environment's targets from `.github/workflows/nucle
 
 Targets include the global authentik, OpenBao, and agentgateway endpoints and each Kubernetes team's global hostname. Zonal aliases are excluded to avoid repeating application scans; these scans do not cover the distinct direct zonal ingress paths.
 
+The Nuclei job summary shows scan status and finding counts by severity, with expandable targets, findings, and scanner output. Failed, cancelled, or skipped scans are marked as incomplete, not clean. The summary displays up to 100 findings and 50,000 characters of output; use the SARIF and JSONL artifact reports and job logs for full details when available.
+
 ## Core Invariants
 
 - All deployments use short-lived OIDC tokens — no static credentials exist anywhere on the platform.
