@@ -34,6 +34,12 @@ This page includes [Architecture Decision Records](#architecture-decision-record
 
 The zonal Authentik and agentgateway workspaces look up only their selected Pneuma cluster and use a single provider connection per zone. Other teams' clusters are not prerequisites for those workspaces; shared add-ons retain multi-cluster deployment.
 
+## Production Single-Node Sizing
+
+Production uses one istiod replica, one ingress gateway replica, and one authentik server per cluster to reduce the single-node footprint. The Istio HPAs are capped at one replica; CPU requests cover baseline work while higher limits allow bursts. Datadog operator limits provide startup and reconciliation headroom without increasing its requests. Security and observability features remain enabled.
+
+This is a capacity trade-off, not a high-availability configuration: pod failures and updates can briefly interrupt ingress or sign-in, and node failure takes down the workloads on that node. Revisit replica counts and HPA caps when expanding capacity. After deploying sizing changes, check node CPU headroom, throttling, liveness failures, restarts, and ingress/sign-in health in Datadog before tuning background collection intervals.
+
 ## Sandbox Teardown
 
 The manually dispatched `Sandbox Destroy` workflow tears down all team clusters in both sandbox zones, including `pt-pneuma-us-east1-b`; it is not a selective cluster pause. It refreshes main state without applying infrastructure changes, then removes agentgateway parameters before its runtime and Authentik configuration before its routes and server releases. Diagnostics are removed before Istio manifests, manifests before their controllers, and all workloads before onboarding namespaces and GKE clusters.
