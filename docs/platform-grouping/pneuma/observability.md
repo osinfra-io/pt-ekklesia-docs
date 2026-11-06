@@ -40,6 +40,9 @@ Autodiscovery rules are pre-configured for the following cluster components:
 - **Cilium**: Scrapes Cilium eBPF dataplane metrics from the agent endpoint using OpenMetrics
 - **Envoy ingress gateway**: Scrapes gateway proxy metrics from the Envoy stats endpoint and collects access logs for shared ingress traffic
 - **Ambient mesh telemetry**: Collects `ztunnel` and workload mesh telemetry through the mesh data plane so service-to-service traffic can be correlated without workload sidecars
+- **Gatekeeper**: The custom Agent image includes the integrations-extras check for Gatekeeper health and metrics
+
+Arche builds `datadog/agent-integrations-extra` and publishes it to the Pneuma standard registry before creating each Datadog Operator module release. Pneuma pulls it through the virtual registry and pins the node Agent image tag to the corresponding module release. Apply the Corpus image-publisher permissions and confirm the image is published before deploying a new tag.
 
 ## Synthetic monitoring
 
