@@ -44,6 +44,16 @@ Autodiscovery rules are pre-configured for the following cluster components:
 
 Arche builds `datadog/agent-integrations-extra` and publishes it to the Pneuma standard registry before creating each Datadog Operator module release. Pneuma pulls it through the virtual registry and pins the node Agent image tag to the corresponding module release. Apply the Corpus image-publisher permissions and confirm the image is published before deploying a new tag.
 
+## GCP log forwarding
+
+Corpus configures each production project's `export-logs-to-datadog` sink to forward GCP logs through Pub/Sub. This is separate from the Agent's container log collection: both paths remain enabled, and duplicate delivery is not assumed.
+
+The export sink excludes exact successful CSI registrar health checks and filestore lease renewals from their `kube-system` containers at INFO severity. These rules apply only to stdout/stderr entries without audit payloads; failures and other messages remain eligible for export. Cloud SQL connection logs and GCP audit generation are unchanged.
+
+The independent `cis-2-2-logging-sink` retains the original GCP entries in the environment's central Corpus logging bucket for 30 days. To inspect excluded messages, use that bucket's log view in GCP Logs Explorer. Datadog index exclusions do not reduce ingestion, and there is no configured Datadog log archive to recover excluded entries from.
+
+Change forwarding exclusions through the integration module and Corpus deployment workflow. Removing an exclusion restores future forwarding but does not automatically replay logs omitted while it was enabled.
+
 ## Synthetic monitoring
 
 The **Datadog Config** job manages Datadog API resources from `config/datadog`, independently of the Kubernetes operator and monitoring manifests. It runs once per environment in `datadog-config-{environment}`, after all Istio Test jobs, authentik Config, and OpenBao Config.
