@@ -46,6 +46,10 @@ ztunnel uses `logLevel: info,access=warn`: successful-connection access logs are
 
 Arche builds `datadog/agent-integrations-extra` and publishes it to the Pneuma standard registry before creating each Datadog Operator module release. Pneuma pulls it through the virtual registry and pins the node Agent image tag to the corresponding module release. Apply the Corpus image-publisher permissions and confirm the image is published before deploying a new tag.
 
+ztunnel uses `info,access=warn`: successful access messages are not emitted, while access warnings/errors and other INFO messages remain enabled. Mesh metrics and traces remain available; logs are not a record of every successful connection.
+
+authentik's Cloud SQL Auth Proxy runs with `--quiet` to suppress routine informational proxy logs while retaining errors. This does not disable database connection logging or authentik's authentication/audit events.
+
 ## Synthetic monitoring
 
 The **Datadog Config** job manages Datadog API resources from `config/datadog`, independently of the Kubernetes operator and monitoring manifests. It runs once per environment in `datadog-config-{environment}`, after all Istio Test jobs, authentik Config, and OpenBao Config.
