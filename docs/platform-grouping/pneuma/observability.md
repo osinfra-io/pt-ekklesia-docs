@@ -6,6 +6,8 @@ sidebar_label: Observability
 
 The Datadog Operator runs on every production GKE cluster and manages the Datadog Agent DaemonSet via a `DatadogAgent` custom resource. The operator authenticates using per-team API and app keys provisioned by Logos and injected as GitHub Actions secrets.
 
+The separate GCP `export-logs-to-datadog` sink filters INFO-only CSI polling, filestore lease renewals, and successful cluster-name metadata requests, and retains 10% of routine Konnectivity connection messages. It also omits the duplicate INFO container stream from `authentik/cloud-sql-proxy`; keep Agent collection enabled for that container. These container exclusions preserve non-INFO logs and audit payloads, and do not change independent GCP logging sinks or their retention.
+
 ## Core Invariants
 
 The Datadog Operator runs on every production cluster — no production cluster ships without metrics, traces, and logs. To avoid per-host costs, sandbox and non-production do not run Datadog. Datadog is not exposed to teams as an option; the only control is a platform-level kill switch: the `datadog_enable` variable (default `false`) in the `regional/datadog` workspaces, set to `true` in the production tfvars. Corpus has the matching `datadog_enable` variable for project-level integrations. The features below are hardcoded enabled in the `DatadogAgent` spec and cannot be disabled by individual teams:
