@@ -42,6 +42,8 @@ Autodiscovery rules are pre-configured for the following cluster components:
 - **Ambient mesh telemetry**: Collects `ztunnel` and workload mesh telemetry through the mesh data plane so service-to-service traffic can be correlated without workload sidecars
 - **Gatekeeper**: The custom Agent image includes the integrations-extras check for Gatekeeper health and metrics
 
+ztunnel uses `logLevel: info,access=warn`: successful-connection access logs are suppressed at the source, while access warnings/errors and other operational INFO messages remain enabled. Metrics collection is unchanged. To collect successful-connection diagnostics, temporarily restore access INFO logging; previously suppressed entries are not available in Datadog or GCP log storage.
+
 Arche builds `datadog/agent-integrations-extra` and publishes it to the Pneuma standard registry before creating each Datadog Operator module release. Pneuma pulls it through the virtual registry and pins the node Agent image tag to the corresponding module release. Apply the Corpus image-publisher permissions and confirm the image is published before deploying a new tag.
 
 ## Synthetic monitoring
