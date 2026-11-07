@@ -145,6 +145,8 @@ Pneuma owns the AgentGateway integration. Its environment hostname (`agentgatewa
 
 The `istio-test` workspace deploys a lightweight metadata service into each team's prefixed istio-test namespace (`pt-pneuma-istio-test`, etc.). A validation script checks every global and zonal endpoint, confirming the returned cluster name matches the expected team and zone.
 
+The [OpenAPI specification](https://github.com/osinfra-io/pt-pneuma-istio-test/blob/main/openapi.yaml) describes the health, metadata, and authenticated identity endpoints. The Datadog Catalog `istio-test` API entity references this specification and is linked to the `istio-test` service.
+
 ## Core Invariants
 
 - Ambient mTLS is enforced on every cluster via `ztunnel` and `PeerAuthentication` in strict mode — no plaintext traffic between workloads enrolled in the ambient mesh.
