@@ -2378,10 +2378,10 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.5.tgz#4fc56c15c580b9adb7dc3c333a134e540b44bfb1"
   integrity sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw==
 
-"@mantine/core@9.7.4":
-  version "9.7.4"
-  resolved "https://registry.yarnpkg.com/@mantine/core/-/core-9.7.4.tgz#9831760ffedf4f07adeb7dd164c30187c0a5ec1c"
-  integrity sha512-c7aTGELNn74CxG9i5/tq9BHGh0lKdKmGGz+9iDF+gR7Ipt4U1TMM286lAmLpRrKL2bR+UEaN4blZ8UJmOuGJ4Q==
+"@mantine/core@9.7.5":
+  version "9.7.5"
+  resolved "https://registry.yarnpkg.com/@mantine/core/-/core-9.7.5.tgz#ba5698e882d377072a74b5ac328f08cd3c16d699"
+  integrity sha512-NiOTHpAZssi1Z5ISZBvcXEA4XDn0BWcxwpmmUthFx/eL0CsJ18FXMn/ydRCJmoeMGcIKmRE+pjt90KM70GOsUw==
   dependencies:
     "@floating-ui/react" "^0.27.20"
     clsx "^2.1.1"
@@ -2389,10 +2389,10 @@
     react-remove-scroll "^2.7.2"
     type-fest "^5.10.0"
 
-"@mantine/hooks@9.7.4":
-  version "9.7.4"
-  resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-9.7.4.tgz#e93edfdd26b2560e637b1eea1a3255086c6cc2ef"
-  integrity sha512-j6Xf9Sc1fhhGEKXg6BZA2geyP/Czqvo6Rsi0IduOCWgwl/MAAJbKRjRc7xe2+9vePLdfqLZqRIAOY5rta88uNA==
+"@mantine/hooks@9.7.5":
+  version "9.7.5"
+  resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-9.7.5.tgz#8918202bff24fdc51c74d9381664886768d66423"
+  integrity sha512-+3cNisLOUkzF77SjRKkG/V+svZii9WDGvcwlaxFH58b14MNohz1zWbV+WfjZt9qfzrIPPUOedks/z6PMo5rAFA==
 
 "@mdx-js/mdx@^3.0.0":
   version "3.1.1"
