@@ -8,6 +8,8 @@ updates:
     # NOTE: The "/" here is for checking for workflow files in .github/workflows
 
     directory: /
+    cooldown:
+      default-days: 7
     schedule:
       interval: daily
     groups:
@@ -17,6 +19,8 @@ updates:
 
   - package-ecosystem: npm
     directory: /
+    cooldown:
+      default-days: 7
     schedule:
       interval: daily
     groups:
