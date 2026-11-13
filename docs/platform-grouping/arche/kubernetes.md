@@ -67,4 +67,20 @@ Kubernetes add-on modules for service mesh, certificate management, policy enfor
       href="https://github.com/osinfra-io/pt-arche-kubernetes-authentik"
     />
   </div>
+  <div className="col col--4 margin-bottom--lg">
+    <ModuleCard
+      image="https://ate.dev/icons/logo_hu_659f38c0fc905d20.webp"
+      title="pt-arche-kubernetes-agent-substrate"
+      description="OpenTofu module for deploying and configuring Agent Substrate on Google Kubernetes Engine."
+      href="https://github.com/osinfra-io/pt-arche-kubernetes-agent-substrate"
+    />
+  </div>
+  <div className="col col--4 margin-bottom--lg">
+    <ModuleCard
+      image="https://kagent.dev/images/kagent-logo-mark.png"
+      title="pt-arche-kubernetes-kagent"
+      description="OpenTofu module for deploying and configuring kagent on Google Kubernetes Engine."
+      href="https://github.com/osinfra-io/pt-arche-kubernetes-kagent"
+    />
+  </div>
 </div>
