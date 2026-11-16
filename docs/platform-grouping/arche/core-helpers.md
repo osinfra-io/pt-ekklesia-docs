@@ -52,9 +52,9 @@ These labels power Datadog's unified service tagging (`env`, `team`), GCP cost a
 
 ## Logos integration
 
-When `logos_workspaces` is provided, the root variant reads Logos remote state from GCS and aggregates team data across all specified workspaces. This gives every root module access to the full platform team registry without independently querying Logos.
+When `logos_workspaces` is provided, the root variant reads the specified Production Logos workspaces for shared team metadata and the current environment's corresponding workspaces for environment-scoped folders and identity groups. This gives every root module access to the full platform team registry without independently querying Logos.
 
-Consumed outputs include the GCP environment folder ID for the current team (used when creating projects) and the project naming prefix derived from the team type (`pt`, `st`, `ct`, `et`).
+Consumed outputs include the current team's folder ID (used when creating projects), the environment root folder ID, and the project naming prefix derived from the team type (`pt`, `st`, `ct`, `et`).
 
 ## Outputs reference
 
@@ -66,7 +66,8 @@ Consumed outputs include the GCP environment folder ID for the current team (use
 | `zone` | both | Deployment zone, e.g. `b`; `null` for regional workspaces |
 | `labels` | root | Standard label map for all GCP resources |
 | `team` | root | Team identifier, e.g. `pt-corpus` |
-| `environment_folder_id` | root | GCP folder ID for the current team and environment from Logos state |
+| `environment_folder_id` | root | Current team's folder ID in the deployment environment |
+| `environment_root_folder_id` | root | GCP environment root folder ID from Logos state |
 | `project_naming` | root | Struct with `prefix` and `description` for project creation |
 | `teams` | root | Full map of all team data aggregated from Logos workspaces |
 
