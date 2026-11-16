@@ -4,7 +4,11 @@ sidebar_label: Deployment Automation
 
 # Deployment Automation
 
-Reusable GitHub Actions called workflows that standardize OpenTofu deployments across all platform teams — handling OIDC authentication, state encryption, and job summaries consistently.
+The [factory floor](https://github.com/osinfra-io/pt-techne-floor) runs OpenTofu through Flux and tofu-controller, with human approval for each apply. Its opt-in [sandbox seed bootstrap](https://github.com/osinfra-io/pt-techne-floor#sandbox-seed-bootstrap) lets the local floor plan the initial GCP project, state bucket, and KMS key using a short-lived token from local gcloud credentials. The initial encrypted state remains in a dedicated local Kubernetes namespace; preserve that state and its encryption key before resetting Docker Desktop. This seed does not create GKE or replace the subsequent Logos/Corpus stages.
+
+## Existing GitHub Actions called workflows
+
+These workflows remain available for deployment repositories not yet moved to the floor:
 
 - **[pt-techne-opentofu-workflows](https://github.com/osinfra-io/pt-techne-opentofu-workflows)**: Called workflows for OpenTofu deployments with OIDC auth, KMS-encrypted state, and structured job summaries — covers sandbox, sandbox destroy, non-production, production, module test, and child module test
 - **[pt-techne-misc-workflows](https://github.com/osinfra-io/pt-techne-misc-workflows)**: Reusable workflows for common repository tasks — Dependabot approve and merge, release automation, GitHub project tracking, container image build and push, and Nuclei vulnerability scanning
@@ -20,7 +24,7 @@ Reusable GitHub Actions called workflows that standardize OpenTofu deployments a
 | `state-backend-config` | The GCS bucket and KMS key configuration injected into each workflow job |
 | `job-summary` | A structured GitHub Actions job summary displaying plan output, drift, and resource counts |
 
-**Key rule:** All OpenTofu state lives in GitHub Actions. Local `tofu apply` against remote state is not permitted.
+**Key rule:** Each workspace has one executor and state owner: its floor or its existing workflow, never both. Local `tofu apply` against remote deployment state is not permitted.
 
 The `plan-and-apply.yml` workflow accepts extra variables through `opentofu_var_json`. Each top-level key becomes `TF_VAR_<key>`: strings are passed without JSON quotes, while other values remain JSON-encoded so OpenTofu can parse structured types. GitHub's multiline environment-file format preserves multiline strings, such as PEM certificates, without interpreting embedded lines as separate environment variables.
 
