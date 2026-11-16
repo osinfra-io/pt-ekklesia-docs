@@ -38,6 +38,8 @@ Targets include the global authentik, OpenBao, and agentgateway endpoints and ea
 
 ## Core Invariants
 
+The following apply to the existing GitHub Actions deployment workflows:
+
 - All deployments use short-lived OIDC tokens — no static credentials exist anywhere on the platform.
 - `tofu fmt -check` always runs before plan — unformatted code is a deployment gate, not a warning.
 - `tofu validate` always runs before plan — invalid configuration cannot be planned or applied.
