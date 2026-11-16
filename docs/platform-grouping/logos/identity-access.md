@@ -11,6 +11,8 @@ Logos manages centralized identity and access control for the platform. Google I
 - **GKE security groups**: An organization-wide security group used for Kubernetes RBAC across all GKE clusters; team identity groups are nested as members
 - **Billing users group**: An organization-wide group that grants the billing user IAM role, used by team service accounts that need to associate projects with the billing account
 
+The dedicated `pt-logos-global` workspace owns the shared billing-users, state-readers, and GKE security groups and publishes their identifiers through `organization_groups`. Environment workspaces own only their environment-specific groups; the Corpus team state alone owns the browser, project-creator, and XPN grants on its environment root. Moving an existing shared group to the global workspace requires an explicit state handoff, not a second apply against empty state. GitHub and Datadog retain their existing Production owners.
+
 ## Components
 
 | Component | Description |
