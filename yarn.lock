@@ -2378,10 +2378,10 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.5.tgz#4fc56c15c580b9adb7dc3c333a134e540b44bfb1"
   integrity sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw==
 
-"@mantine/core@9.8.0":
-  version "9.8.0"
-  resolved "https://registry.yarnpkg.com/@mantine/core/-/core-9.8.0.tgz#105e96e328245368dbde33a1da7fff46ff221f0c"
-  integrity sha512-+2Y+GBM6WvBJgBBb7hrfEvHbyljuRsOqC1GjxNpmX6NcD2SwmDXf9ZVFfquyXvi8fFerMrTpAwYdfb6k2PGAlQ==
+"@mantine/core@9.8.1":
+  version "9.8.1"
+  resolved "https://registry.yarnpkg.com/@mantine/core/-/core-9.8.1.tgz#1195c2d4aa2234d88fb9fd682a7a84f4c0e4fb07"
+  integrity sha512-+ayBTxun7MslJL6x4qaylVy6TyHu3o68+PH22gt70eJSHgy0CHYR/c2q+BYxS8WvORuc4f5mr0xFbi0vzlgHug==
   dependencies:
     "@floating-ui/react" "^0.27.20"
     clsx "^2.1.1"
@@ -2389,10 +2389,10 @@
     react-remove-scroll "^2.7.2"
     type-fest "^5.10.0"
 
-"@mantine/hooks@9.8.0":
-  version "9.8.0"
-  resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-9.8.0.tgz#a73143a749048e4e6056dee37a8e3837f09d225e"
-  integrity sha512-fUA3PS8Ys2kih6VEuozgdEO0UyiGhryTJqx+Bf2lxee1XpXQ0XFXsQY7lNB4f+eBDzYCczYykQjIIuUzyJft7A==
+"@mantine/hooks@9.8.1":
+  version "9.8.1"
+  resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-9.8.1.tgz#482eec0206afe1acdb7bb632a83104b673603c85"
+  integrity sha512-aAbY3zcqrS/n+wbMnKBXMiF5TJ7HZ06sH455Cf4ZkWRXko9Td2FYSe9aONCzXFaW62XqaWHBICyeIsAmUds3uA==
 
 "@mdx-js/mdx@^3.0.0":
   version "3.1.1"
@@ -2876,17 +2876,17 @@
   dependencies:
     defer-to-connect "^2.0.1"
 
-"@tabler/icons-react@3.51.0":
-  version "3.51.0"
-  resolved "https://registry.yarnpkg.com/@tabler/icons-react/-/icons-react-3.51.0.tgz#d6fafa049a74d3b4ad951e3a9e610e6ee36f890a"
-  integrity sha512-F3GGChIUspsCq+HhXtJezc1W9QRcRlEG07Jb4dKUR1TV+mq1uvY7+G46n1fZE02jhQUOVuOoi445Bk1O9mFrDg==
+"@tabler/icons-react@3.52.0":
+  version "3.52.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons-react/-/icons-react-3.52.0.tgz#5ee5945cc0a47d79e8852dd4584991d9b22b7362"
+  integrity sha512-tN22mz4KLVpR+psqu9bAsT4b1IdhKcPGA1fDhyQerIv+8azyowdWzf8e0hWxQSsIxDTfkipGfiL0/uHNmpbvgw==
   dependencies:
-    "@tabler/icons" "3.51.0"
+    "@tabler/icons" "3.52.0"
 
-"@tabler/icons@3.51.0":
-  version "3.51.0"
-  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-3.51.0.tgz#41133efa23cc0d13d4e9b0b5148e0e64746dad48"
-  integrity sha512-0pinvPZz7YeX+OSfxuEAbnEPWbocVXW5iU8h5lh41pYG8sZuQfpWECC980lxOT0clGIcNGn8xsBr+zKaRGdA/g==
+"@tabler/icons@3.52.0":
+  version "3.52.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-3.52.0.tgz#3e8656c1c96f6f035e1258d69d44919a458bda29"
+  integrity sha512-dldKlJNfO/gZnGLcIY0X2EFFKIMGwL/rEvTqglvBgAPFiwj9pZOCN5V3Sf0Gyjq6foX4VQmLdOmsS4w5FdWKAw==
 
 "@tybys/wasm-util@^0.10.0":
   version "0.10.4"
